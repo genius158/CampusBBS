@@ -1,31 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.yan.campusbbs.MainActivity">
+    tools:context="com.yan.campusbbs.module.MainActivity">
 
-    <com.yan.campusbbs.refresh.PtrClassicFrameLayout
-
-        android:id="@+id/store_house_ptr_frame"
+    <FrameLayout
+        android:id="@+id/content_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:ptr_duration_to_close_either="800"
-        app:ptr_keep_header_when_refresh="true"
-        app:ptr_pull_to_fresh="false"
-        app:ptr_ratio_of_header_height_to_refresh="1.0"
-        app:ptr_resistance="1.7">
+        android:layout_height="match_parent"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/home_hot_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:paddingBottom="58dp" />
-
-    </com.yan.campusbbs.refresh.PtrClassicFrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

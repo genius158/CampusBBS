@@ -1,8 +1,10 @@
-package com.yan.campusbbs;
+package com.yan.campusbbs.module;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import com.yan.campusbbs.R;
 
 /**
  * Created by yan on 2017/2/7.

@@ -1,4 +1,4 @@
-package com.yan.campusbbs.refresh;
+package com.yan.campusbbs.widget.refresh;
 
 import android.content.Context;
 import android.content.SharedPreferences;

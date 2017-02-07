@@ -1,4 +1,4 @@
-package com.yan.campusbbs;
+package com.yan.campusbbs.module;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.yan.adapter.CustomAdapter;
 import com.yan.adapter.CustomAdapterItem;
+import com.yan.campusbbs.R;
 
 import java.util.List;
 
