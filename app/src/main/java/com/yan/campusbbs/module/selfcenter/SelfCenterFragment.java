@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.yan.adapter.CustomAdapter;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.module.AdapterHelper;
 import com.yan.campusbbs.widget.refresh.PtrClassicFrameLayout;
 
 import java.util.ArrayList;
@@ -70,7 +69,7 @@ public class SelfCenterFragment extends Fragment implements SelfCenterContract.V
         strings.add("sdfasdf");
         strings.add("sdfasdf");
         strings.add("sdfasdf");
-        adapter = AdapterHelper.getAdapter(getContext(), strings);
+        adapter = SelfCenterAdapterHelper.getAdapter(getContext(), strings);
         homeHotRv.setLayoutManager(new LinearLayoutManager(getContext()));
         homeHotRv.setAdapter(adapter);
         storeHousePtrFrame.setLastUpdateTimeRelateObject(this);

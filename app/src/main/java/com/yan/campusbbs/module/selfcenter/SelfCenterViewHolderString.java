@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module;
+package com.yan.campusbbs.module.selfcenter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,10 +10,10 @@ import com.yan.campusbbs.R;
  * Created by yan on 2017/2/7.
  */
 
-public class ViewHolderString extends RecyclerView.ViewHolder {
+public class SelfCenterViewHolderString extends RecyclerView.ViewHolder {
     public TextView textView;
 
-    public ViewHolderString(View itemView) {
+    public SelfCenterViewHolderString(View itemView) {
         super(itemView);
         textView = (TextView) itemView.findViewById(R.id.tv_string);
     }
