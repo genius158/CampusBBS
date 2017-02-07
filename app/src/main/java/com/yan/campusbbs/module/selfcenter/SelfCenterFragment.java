@@ -74,7 +74,8 @@ public class SelfCenterFragment extends Fragment implements SelfCenterContract.V
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        if (mPresenter != null)
+            mPresenter.start();
     }
 
     public static SelfCenterFragment newInstance() {

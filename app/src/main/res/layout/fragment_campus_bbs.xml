@@ -5,24 +5,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.yan.campusbbs.widget.refresh.PtrClassicFrameLayout
-
-        android:id="@+id/store_house_ptr_frame"
-        app:ptr_duration_to_close_either="800"
-        app:ptr_keep_header_when_refresh="true"
-        app:ptr_pull_to_fresh="false"
-        app:ptr_ratio_of_header_height_to_refresh="1.0"
-        app:ptr_resistance="1.7"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="@color/crFFFFFF"
+        app:tabIndicatorHeight="0dp"
+        app:tabBackground="@color/colorPrimary"
+        app:tabTextColor="@color/crDEDEDE"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:paddingBottom="58dp" />
-
-    </com.yan.campusbbs.widget.refresh.PtrClassicFrameLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 </LinearLayout>
