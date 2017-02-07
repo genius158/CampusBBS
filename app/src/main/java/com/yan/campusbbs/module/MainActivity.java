@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
-import com.yan.campusbbs.App;
+import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.selfcenter.DaggerSelfCenterComponent;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         DaggerSelfCenterComponent.builder()
                 .selfCenterPresenterModule(new SelfCenterPresenterModule(selfCenterFragment))
-                .applicationComponent(((App) getApplication()).getApplicationComponent())
+                .applicationComponent(((ApplicationCampusBBS) getApplication()).getApplicationComponent())
                 .build()
                 .inject(this);
     }

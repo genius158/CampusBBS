@@ -2,7 +2,7 @@ package com.yan.campusbbs;
 
 import android.app.Application;
 
-public class App extends Application {
+public class ApplicationCampusBBS extends Application {
 
     private ApplicationComponent applicationComponent;
 
