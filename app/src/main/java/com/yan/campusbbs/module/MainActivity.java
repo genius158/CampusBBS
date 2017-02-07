@@ -115,24 +115,31 @@ public class MainActivity extends AppCompatActivity {
             new BottomNavigationBar.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(int position) {
+                    bottomNavigationBar.show();
                     switch (position) {
                         case 0:
                             getSupportFragmentManager().beginTransaction().show(fragments[0])
                                     .hide(fragments[1])
                                     .hide(fragments[2])
                                     .commit();
+
+                            bottomNavigationBar.setAutoHideEnabled(true);
                             break;
                         case 1:
                             getSupportFragmentManager().beginTransaction().show(fragments[1])
                                     .hide(fragments[0])
                                     .hide(fragments[2])
                                     .commit();
+
+                            bottomNavigationBar.setAutoHideEnabled(false);
                             break;
                         case 2:
                             getSupportFragmentManager().beginTransaction().show(fragments[2])
                                     .hide(fragments[0])
                                     .hide(fragments[1])
                                     .commit();
+
+                            bottomNavigationBar.setAutoHideEnabled(false);
                             break;
                     }
 
