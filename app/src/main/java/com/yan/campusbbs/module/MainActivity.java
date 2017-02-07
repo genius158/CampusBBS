@@ -66,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
                 .setText("5");
 
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "Home")
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "个人中心")
                         .setBadgeItem(numberBadgeItem))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "Books"))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "Music"))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "学园论坛"))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "资源中心"))
                 .setActiveColor(R.color.cr8B8B8B)
                 .setInActiveColor(R.color.cr999999)
                 .setFirstSelectedPosition(0)
