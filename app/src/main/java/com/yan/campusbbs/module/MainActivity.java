@@ -1,6 +1,8 @@
 package com.yan.campusbbs.module;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
@@ -9,11 +11,15 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.module.selfcenter.DaggerSelfCenterComponent;
+import com.yan.campusbbs.module.campusbbs.CampusBBSFragment;
+import com.yan.campusbbs.module.campusbbs.CampusBBSPresenter;
+import com.yan.campusbbs.module.campusbbs.CampusBBSPresenterModule;
+import com.yan.campusbbs.module.filemanager.FileManagerFragment;
+import com.yan.campusbbs.module.filemanager.FileManagerPresenter;
+import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenter;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
-import com.yan.campusbbs.util.ActivityUtils;
 
 import javax.inject.Inject;
 
@@ -27,8 +33,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     SelfCenterPresenter selfCenterPresenter;
+
+    @Inject
+    CampusBBSPresenter campusBBSPresenter;
+
+    @Inject
+    FileManagerPresenter fileManagerPresenter;
+
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
+
+    Fragment[] fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,20 +51,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        SelfCenterFragment selfCenterFragment = (SelfCenterFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.content_layout);
-        if (selfCenterFragment == null) {
-            selfCenterFragment = SelfCenterFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    selfCenterFragment, R.id.content_layout);
-        }
+        initFragment();
+        initNavigationBar();
 
-        DaggerSelfCenterComponent.builder()
-                .selfCenterPresenterModule(new SelfCenterPresenterModule(selfCenterFragment))
-                .applicationComponent(((ApplicationCampusBBS) getApplication()).getApplicationComponent())
-                .build()
-                .inject(this);
+    }
 
+    private void initNavigationBar() {
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
 
@@ -70,23 +77,75 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationBar.setAnimationDuration(100);
         bottomNavigationBar.setTabSelectedListener(onTabSelectedListener);
+    }
+
+    private void initFragment() {
+        fragments = new Fragment[3];
+        fragments[0] = getSupportFragmentManager().findFragmentById(R.id.content_layout);
+        fragments[1] = getSupportFragmentManager().findFragmentById(R.id.content_layout);
+        fragments[2] = getSupportFragmentManager().findFragmentById(R.id.content_layout);
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        if (fragments[0] == null) {
+            fragments[0] = SelfCenterFragment.newInstance();
+            fragmentTransaction.add(R.id.content_layout, fragments[0]).show(fragments[0]);
+        }
+
+        if (fragments[1] == null) {
+            fragments[1] = CampusBBSFragment.newInstance();
+            fragmentTransaction.add(R.id.content_layout, fragments[1]).hide(fragments[1]);
+        }
+        if (fragments[2] == null) {
+            fragments[2] = FileManagerFragment.newInstance();
+            fragmentTransaction.add(R.id.content_layout, fragments[2]).hide(fragments[2]);
+        }
+        fragmentTransaction.commit();
+
+        DaggerModuleComponent.builder().applicationComponent(
+                ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
+                .selfCenterPresenterModule(new SelfCenterPresenterModule((SelfCenterFragment) fragments[0]))
+                .campusBBSPresenterModule(new CampusBBSPresenterModule((CampusBBSFragment) fragments[1]))
+                .fileManagerPresenterModule(new FileManagerPresenterModule((FileManagerFragment) fragments[2]))
+                .build().inject(this);
 
     }
 
-    BottomNavigationBar.OnTabSelectedListener onTabSelectedListener = new BottomNavigationBar.OnTabSelectedListener() {
-        @Override
-        public void onTabSelected(int position) {
+    private BottomNavigationBar.OnTabSelectedListener onTabSelectedListener =
+            new BottomNavigationBar.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(int position) {
+                    switch (position) {
+                        case 0:
+                            getSupportFragmentManager().beginTransaction().show(fragments[0])
+                                    .hide(fragments[1])
+                                    .hide(fragments[2])
+                                    .commit();
+                            break;
+                        case 1:
+                            getSupportFragmentManager().beginTransaction().show(fragments[1])
+                                    .hide(fragments[0])
+                                    .hide(fragments[2])
+                                    .commit();
+                            break;
+                        case 2:
+                            getSupportFragmentManager().beginTransaction().show(fragments[2])
+                                    .hide(fragments[0])
+                                    .hide(fragments[1])
+                                    .commit();
+                            break;
+                    }
 
-        }
+                }
 
-        @Override
-        public void onTabUnselected(int position) {
+                @Override
+                public void onTabUnselected(int position) {
 
-        }
+                }
 
-        @Override
-        public void onTabReselected(int position) {
+                @Override
+                public void onTabReselected(int position) {
 
-        }
-    };
+                }
+            };
 }

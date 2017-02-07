@@ -191,14 +191,14 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
             return;
         }
         if (mViewPager != null) {
-            mViewPager.setOnPageChangeListener(null);
+            mViewPager.addOnPageChangeListener(null);
         }
         final PagerAdapter adapter = view.getAdapter();
         if (adapter == null) {
             throw new IllegalStateException("ViewPager does not have adapter instance.");
         }
         mViewPager = view;
-        view.setOnPageChangeListener(this);
+        view.addOnPageChangeListener(this);
         notifyDataSetChanged();
     }
 
@@ -254,7 +254,7 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
     }
 
     @Override
-    public void setOnPageChangeListener(OnPageChangeListener listener) {
+    public void addOnPageChangeListener(OnPageChangeListener listener) {
         mListener = listener;
     }
 

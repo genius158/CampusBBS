@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.selfcenter;
+package com.yan.campusbbs.module.campusbbs;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,7 +27,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class SelfCenterFragment extends Fragment implements SelfCenterContract.View {
+public class CampusBBSFragment extends Fragment implements CampusBBSContract.View {
     List<String> strings;
     CustomAdapter adapter;
     @BindView(R.id.recycler_view)
@@ -35,12 +35,12 @@ public class SelfCenterFragment extends Fragment implements SelfCenterContract.V
     @BindView(R.id.store_house_ptr_frame)
     PtrClassicFrameLayout storeHousePtrFrame;
 
-    private SelfCenterContract.Presenter mPresenter;
+    private CampusBBSContract.Presenter mPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_self_center, container, false);
+        View root = inflater.inflate(R.layout.fragment_campus_bbs, container, false);
         ButterKnife.bind(this, root);
         return root;
     }
@@ -49,13 +49,11 @@ public class SelfCenterFragment extends Fragment implements SelfCenterContract.V
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         strings = new ArrayList<>();
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
+        strings.add("sdfasdf");
+        strings.add("sdfasdf");
+        strings.add("sdfasdf");
+        strings.add("sdfasdf");
+        strings.add("sdfasdf");
         adapter = SelfCenterAdapterHelper.getAdapter(getContext(), strings);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
@@ -77,28 +75,28 @@ public class SelfCenterFragment extends Fragment implements SelfCenterContract.V
         mPresenter.start();
     }
 
-    public static SelfCenterFragment newInstance() {
-        return new SelfCenterFragment();
+    public static CampusBBSFragment newInstance() {
+        return new CampusBBSFragment();
     }
 
-    public SelfCenterFragment() {
+    public CampusBBSFragment() {
     }
 
     @Override
-    public void setPresenter(@NonNull SelfCenterContract.Presenter presenter) {
+    public void setPresenter(@NonNull CampusBBSContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 
     PtrClassicFrameLayout.PtrDefaultHandler defaultHandler = new PtrClassicFrameLayout.PtrDefaultHandler() {
         public void onRefreshBegin(PtrFrameLayout frame) {
             strings.clear();
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
+            strings.add("sdfsdf1111111111111111111111111");
+            strings.add("sdfsdf1111111111111111111111111");
+            strings.add("sdfsdf1111111111111111111111111");
+            strings.add("sdfsdf1111111111111111111111111");
+            strings.add("sdfsdf1111111111111111111111111");
+            strings.add("sdfsdf1111111111111111111111111");
+            strings.add("sdfsdf1111111111111111111111111");
             adapter.notifyDataSetChanged();
             storeHousePtrFrame.refreshFinish();
         }
