@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.selfcenter;
+package com.yan.campusbbs.module.selfcenter.adapterholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

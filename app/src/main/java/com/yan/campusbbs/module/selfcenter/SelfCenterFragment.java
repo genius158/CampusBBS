@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.yan.adapter.CustomAdapter;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
 import com.yan.campusbbs.widget.refresh.PtrClassicFrameLayout;
 
 import java.util.ArrayList;
