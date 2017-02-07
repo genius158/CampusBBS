@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "学园论坛"))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "资源中心"))
                 .setActiveColor(R.color.cr8B8B8B)
-                .setInActiveColor(R.color.cr999999)
+                .setInActiveColor(R.color.crABABAB)
                 .setFirstSelectedPosition(0)
                 .initialise();
 
@@ -86,12 +86,10 @@ public class MainActivity extends AppCompatActivity {
         fragments[2] = getSupportFragmentManager().findFragmentById(R.id.content_layout);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
         if (fragments[0] == null) {
             fragments[0] = SelfCenterFragment.newInstance();
             fragmentTransaction.add(R.id.content_layout, fragments[0]).show(fragments[0]);
         }
-
         if (fragments[1] == null) {
             fragments[1] = CampusBBSFragment.newInstance();
             fragmentTransaction.add(R.id.content_layout, fragments[1]).hide(fragments[1]);
