@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.yan.campusbbs.module;
+package com.yan.campusbbs.base;
 
 public interface BasePresenter {
     void start();

@@ -16,8 +16,8 @@
 
 package com.yan.campusbbs.module.campusbbs.study;
 
-import com.yan.campusbbs.module.BasePresenter;
-import com.yan.campusbbs.module.BaseView;
+import com.yan.campusbbs.base.BasePresenter;
+import com.yan.campusbbs.base.BaseView;
 
 /**
  * This specifies the contract between the view and the presenter.
