@@ -1,4 +1,4 @@
-package com.yan.campusbbs.util;
+package com.yan.campusbbs.base;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

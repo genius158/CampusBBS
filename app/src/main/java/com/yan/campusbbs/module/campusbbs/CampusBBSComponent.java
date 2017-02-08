@@ -2,7 +2,7 @@ package com.yan.campusbbs.module.campusbbs;
 
 import com.yan.campusbbs.ApplicationComponent;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
-import com.yan.campusbbs.util.FragmentScoped;
+import com.yan.campusbbs.base.FragmentScoped;
 
 import dagger.Component;
 
