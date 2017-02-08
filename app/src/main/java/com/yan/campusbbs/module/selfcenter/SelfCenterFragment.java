@@ -1,6 +1,5 @@
 package com.yan.campusbbs.module.selfcenter;
 
-import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,12 +15,17 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.yan.adapter.CustomAdapter;
+import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.StatedFragment;
+import com.yan.campusbbs.module.AppBarHelper;
+import com.yan.campusbbs.module.AppBarHelperModule;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,14 +55,10 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     private List<String> strings;
     private CustomAdapter adapter;
 
-    private int during = 200;
-    private ObjectAnimator objectAnimatorShow;
-    private ObjectAnimator objectAnimatorHide;
-
-    private float barPosition;
-    private boolean isShow = true;
-
     private SelfCenterContract.Presenter mPresenter;
+
+    @Inject
+    AppBarHelper appBarHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +67,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
             root = inflater.inflate(R.layout.fragment_self_center, container, false);
             ButterKnife.bind(this, root);
             init();
+            daggerInject();
         } else {
             if (root.getParent() != null) {
                 ((ViewGroup) root.getParent()).removeView(root);
@@ -74,6 +75,13 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         }
         ButterKnife.bind(this, root);
         return root;
+    }
+
+    private void daggerInject() {
+        DaggerSelfCenterComponent.builder().applicationComponent(
+                ((ApplicationCampusBBS) getActivity().getApplication()).getApplicationComponent()
+        ).appBarHelperModule(new AppBarHelperModule(appBar))
+                .build().inject(this);
     }
 
     @Override
@@ -177,7 +185,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            offset(dy);
+            appBarHelper.offset(dy);
             offsetDy += dy;
             float alphaTrigger = 0.9f;
             float alpha = Math.min(offsetDy / actionBarPinHeight, alphaTrigger);
@@ -197,48 +205,4 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         }
     };
 
-    private void offset(int dy) {
-        if (dy < 0) {
-            show();
-        } else if (dy > 0) {
-            hide();
-        }
-    }
-
-
-    protected void show() {
-        if (isShow) return;
-        if (objectAnimatorShow == null) {
-            objectAnimatorShow = ObjectAnimator.ofFloat(appBar, "y", barPosition, 0)
-                    .setDuration(during);
-            objectAnimatorShow.addUpdateListener(valueAnimator -> {
-                barPosition = (float) valueAnimator.getAnimatedValue();
-            });
-        }
-        objectAnimatorShow.setFloatValues(barPosition, 0);
-        if (objectAnimatorHide != null) {
-            objectAnimatorHide.cancel();
-        }
-        objectAnimatorShow.start();
-        isShow = true;
-    }
-
-    protected void hide() {
-        if (!isShow) return;
-        if (objectAnimatorHide == null) {
-            objectAnimatorHide = ObjectAnimator.ofFloat(appBar, "y", barPosition
-                    , -getResources().getDimension(R.dimen.action_bar_height))
-                    .setDuration(during);
-            objectAnimatorHide.addUpdateListener(valueAnimator -> {
-                barPosition = (float) valueAnimator.getAnimatedValue();
-            });
-        }
-        objectAnimatorHide.setFloatValues(barPosition
-                , -getResources().getDimension(R.dimen.action_bar_height));
-        if (objectAnimatorShow != null) {
-            objectAnimatorShow.cancel();
-        }
-        objectAnimatorHide.start();
-        isShow = false;
-    }
 }

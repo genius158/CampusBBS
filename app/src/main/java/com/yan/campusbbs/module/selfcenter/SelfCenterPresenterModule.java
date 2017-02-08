@@ -20,5 +20,4 @@ public class SelfCenterPresenterModule {
     SelfCenterContract.View provideSelfCenterContractView() {
         return mView;
     }
-
 }
