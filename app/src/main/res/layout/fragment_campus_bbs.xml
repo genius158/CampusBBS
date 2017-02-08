@@ -28,6 +28,6 @@
             app:tabIndicatorHeight="0dp"
             app:tabSelectedTextColor="@color/crFFFFFF"
             app:tabTextAppearance="@style/TabLayoutTextAppearance"
-            app:tabTextColor="@color/crC1FFFFFF" />
+            app:tabTextColor="@color/crAFFFFFFF" />
     </android.support.v7.widget.CardView>
 </android.support.design.widget.CoordinatorLayout>
