@@ -17,6 +17,8 @@ import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenter;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
+import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
+import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case 1:
                             bottomNavigationBar.setAutoHideEnabled(false);
+                            RxBus.getInstance().post(new ActionPagerToCampusBBS());
                             break;
                         case 2:
                             bottomNavigationBar.setAutoHideEnabled(false);

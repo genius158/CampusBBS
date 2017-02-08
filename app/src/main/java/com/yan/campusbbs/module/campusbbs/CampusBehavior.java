@@ -7,13 +7,22 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.rxbusaction.ActionCampusBBSFragmentFinish;
+import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
+import com.yan.campusbbs.util.RxBus;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yan on 2017/2/8.
  */
 
 public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
-    Context context;
+    private Context context;
+    private View child;
+
     private int during = 200;
     private ObjectAnimator objectAnimatorShow;
     private ObjectAnimator objectAnimatorHide;
@@ -22,9 +31,30 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
 
     private boolean isShow = true;
 
+    private CompositeDisposable compositeDisposable;
+
     public CampusBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        initRxBusAction();
+    }
+
+    private void initRxBusAction() {
+        compositeDisposable = new CompositeDisposable();
+        compositeDisposable.add(RxBus.getInstance()
+                .getEvent(ActionPagerToCampusBBS.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(pagerToCampusBBS -> {
+                    show();
+                }));
+        compositeDisposable.add(RxBus.getInstance()
+                .getEvent(ActionCampusBBSFragmentFinish.class)
+                .observeOn(Schedulers.io())
+                .subscribe(pagerToCampusBBS -> {
+                    if (!compositeDisposable.isDisposed()) {
+                        compositeDisposable.dispose();
+                    }
+                }));
     }
 
     @Override
@@ -34,20 +64,21 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
 
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        offset(child, dyConsumed);
+        this.child = child;
+        offset(dyConsumed);
     }
 
-    public void offset(View child, int dy) {
+    public void offset(int dy) {
         if (dy < 0) {
             if (!isShow)
-                show(child);
+                show();
         } else if (dy > 0) {
             if (isShow)
-                hide(child);
+                hide();
         }
     }
 
-    private void show(View child) {
+    private void show() {
         if (isShow) return;
         if (objectAnimatorShow == null) {
             objectAnimatorShow = ObjectAnimator.ofFloat(child, "y", barPosition, 0)
@@ -64,7 +95,7 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
         isShow = true;
     }
 
-    private void hide(View child) {
+    private void hide() {
         if (!isShow) return;
         if (objectAnimatorHide == null) {
             objectAnimatorHide = ObjectAnimator.ofFloat(child, "y", barPosition

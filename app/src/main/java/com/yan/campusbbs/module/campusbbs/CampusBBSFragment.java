@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
@@ -17,6 +16,8 @@ import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
+import com.yan.campusbbs.rxbusaction.ActionCampusBBSFragmentFinish;
+import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,13 @@ public class CampusBBSFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        RxBus.getInstance().post(new ActionCampusBBSFragmentFinish());
+        super.onDestroy();
+
     }
 
     @Override
