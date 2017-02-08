@@ -17,8 +17,9 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             app:tabIndicatorHeight="0dp"
+            app:tabTextAppearance="@style/TabLayoutTextAppearance"
             app:tabSelectedTextColor="@color/crFFFFFF"
-            app:tabTextColor="@color/crDEDEDE" />
+            app:tabTextColor="@color/crC1FFFFFF" />
     </FrameLayout>
 
     <android.support.v4.view.ViewPager

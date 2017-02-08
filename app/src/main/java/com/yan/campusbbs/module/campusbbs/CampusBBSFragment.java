@@ -12,6 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.CommonPagerAdapter;
+import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,8 +46,12 @@ public class CampusBBSFragment extends Fragment implements CampusBBSContract.Vie
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        FragmentPagerAdapter adapter = new CampusBBSAdapter(getChildFragmentManager(), CONTENT);
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(SelfCenterFragment.newInstance());
+        fragments.add(SelfCenterFragment.newInstance());
+        fragments.add(SelfCenterFragment.newInstance());
+        fragments.add(SelfCenterFragment.newInstance());
+        CommonPagerAdapter adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, CONTENT);
         viewPager.setAdapter(adapter);
         indicator.setupWithViewPager(viewPager);
 
