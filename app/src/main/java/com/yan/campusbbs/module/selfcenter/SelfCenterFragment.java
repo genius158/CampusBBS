@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.selfcenter;
 
+import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,11 +8,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.yan.adapter.CustomAdapter;
@@ -39,6 +40,10 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     View appBarBackground;
     @BindView(R.id.app_bar_title)
     TextView appBarTitle;
+    @BindView(R.id.app_bar)
+    FrameLayout appBar;
+
+    private View root;
 
     private int actionBarPinHeight;
     private float offsetDy;
@@ -46,9 +51,14 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     private List<String> strings;
     private CustomAdapter adapter;
 
-    private SelfCenterContract.Presenter mPresenter;
+    private int during = 200;
+    private ObjectAnimator objectAnimatorShow;
+    private ObjectAnimator objectAnimatorHide;
 
-    private View root;
+    private float barPosition;
+    private boolean isShow = true;
+
+    private SelfCenterContract.Presenter mPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +72,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
                 ((ViewGroup) root.getParent()).removeView(root);
             }
         }
+        ButterKnife.bind(this, root);
         return root;
     }
 
@@ -166,6 +177,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            offset(dy);
             offsetDy += dy;
             float alphaTrigger = 0.9f;
             float alpha = Math.min(offsetDy / actionBarPinHeight, alphaTrigger);
@@ -184,4 +196,49 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
 
         }
     };
+
+    private void offset(int dy) {
+        if (dy < 0) {
+            show();
+        } else if (dy > 0) {
+            hide();
+        }
+    }
+
+
+    protected void show() {
+        if (isShow) return;
+        if (objectAnimatorShow == null) {
+            objectAnimatorShow = ObjectAnimator.ofFloat(appBar, "y", barPosition, 0)
+                    .setDuration(during);
+            objectAnimatorShow.addUpdateListener(valueAnimator -> {
+                barPosition = (float) valueAnimator.getAnimatedValue();
+            });
+        }
+        objectAnimatorShow.setFloatValues(barPosition, 0);
+        if (objectAnimatorHide != null) {
+            objectAnimatorHide.cancel();
+        }
+        objectAnimatorShow.start();
+        isShow = true;
+    }
+
+    protected void hide() {
+        if (!isShow) return;
+        if (objectAnimatorHide == null) {
+            objectAnimatorHide = ObjectAnimator.ofFloat(appBar, "y", barPosition
+                    , -getResources().getDimension(R.dimen.action_bar_height))
+                    .setDuration(during);
+            objectAnimatorHide.addUpdateListener(valueAnimator -> {
+                barPosition = (float) valueAnimator.getAnimatedValue();
+            });
+        }
+        objectAnimatorHide.setFloatValues(barPosition
+                , -getResources().getDimension(R.dimen.action_bar_height));
+        if (objectAnimatorShow != null) {
+            objectAnimatorShow.cancel();
+        }
+        objectAnimatorHide.start();
+        isShow = false;
+    }
 }
