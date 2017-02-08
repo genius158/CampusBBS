@@ -6,10 +6,13 @@ import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.rxbusaction.ActionCampusBBSFragmentFinish;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
 import com.yan.campusbbs.util.RxBus;
+
+import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -31,23 +34,32 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
 
     private boolean isShow = true;
 
+    @Inject
+    RxBus rxBus;
+
     private CompositeDisposable compositeDisposable;
 
     public CampusBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+
+        DaggerCampusBehaviorComponent.builder()
+                .applicationComponent(((ApplicationCampusBBS) context.getApplicationContext())
+                        .getApplicationComponent())
+                .build().inject(this);
+
         initRxBusDisposable();
     }
 
     private void initRxBusDisposable() {
         compositeDisposable = new CompositeDisposable();
-        compositeDisposable.add(RxBus.getInstance()
+        compositeDisposable.add(rxBus
                 .getEvent(ActionPagerToCampusBBS.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(pagerToCampusBBS -> {
                     show();
                 }));
-        compositeDisposable.add(RxBus.getInstance()
+        compositeDisposable.add(rxBus
                 .getEvent(ActionCampusBBSFragmentFinish.class)
                 .observeOn(Schedulers.io())
                 .subscribe(pagerToCampusBBS -> {

@@ -1,5 +1,7 @@
 package com.yan.campusbbs.util;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
@@ -9,25 +11,11 @@ import io.reactivex.subjects.Subject;
  */
 
 public final class RxBus {
-    private static RxBus instance;
-
     private Subject<Object> bus;
 
-    public static RxBus getInstance() {
-        if (instance == null) {
-            instance = new RxBus();
-        }
-        return instance;
-    }
-
-    private RxBus() {
-        if (bus == null) {
-            synchronized (RxBus.class) {
-                if (bus == null) {
-                    bus = PublishSubject.create().toSerialized();
-                }
-            }
-        }
+    @Inject
+    public RxBus() {
+        bus = PublishSubject.create().toSerialized();
     }
 
     public void post(Object event) {
@@ -37,6 +25,5 @@ public final class RxBus {
     public <T> Observable<T> getEvent(Class<T> eventType) {
         return bus.toSerialized().ofType(eventType);
     }
-
 
 }

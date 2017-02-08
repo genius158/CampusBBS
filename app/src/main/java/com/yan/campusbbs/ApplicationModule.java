@@ -2,6 +2,11 @@ package com.yan.campusbbs;
 
 import android.content.Context;
 
+import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.ToastUtil;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -11,7 +16,6 @@ import dagger.Provides;
  */
 @Module
 public final class ApplicationModule {
-
     private final Context mContext;
 
     ApplicationModule(Context context) {
@@ -21,5 +25,17 @@ public final class ApplicationModule {
     @Provides
     Context provideContext() {
         return mContext;
+    }
+
+    @Singleton
+    @Provides
+    ToastUtil provideToastUtil() {
+        return new ToastUtil(mContext);
+    }
+
+    @Singleton
+    @Provides
+    RxBus provideRxBus() {
+        return new RxBus();
     }
 }

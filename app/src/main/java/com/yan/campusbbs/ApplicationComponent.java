@@ -2,6 +2,9 @@ package com.yan.campusbbs;
 
 import android.content.Context;
 
+import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.ToastUtil;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -10,4 +13,8 @@ import dagger.Component;
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
     Context getContext();
+
+    RxBus getRxBus();
+
+    ToastUtil getToastUtil();
 }

@@ -40,6 +40,8 @@ public class CampusBBSFragment extends BaseFragment {
     ViewPager viewPager;
 
     @Inject
+    RxBus rxBus;
+    @Inject
     StudyPresenter studyPresenter;
 
     @Override
@@ -81,7 +83,7 @@ public class CampusBBSFragment extends BaseFragment {
 
     @Override
     public void onDestroy() {
-        RxBus.getInstance().post(new ActionCampusBBSFragmentFinish());
+        rxBus.post(new ActionCampusBBSFragmentFinish());
         super.onDestroy();
 
     }

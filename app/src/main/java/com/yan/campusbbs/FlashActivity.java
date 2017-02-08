@@ -10,14 +10,25 @@ import com.yan.campusbbs.util.RxBus;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 
 public class FlashActivity extends BaseActivity {
+
+    @Inject
+    RxBus rxBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flash);
+
+        DaggerFlashComponent.builder()
+                .applicationComponent(((ApplicationCampusBBS) getApplication())
+                        .getApplicationComponent())
+                .build().inject(this);
+
         initRxBusDisposable();
     }
 
@@ -27,7 +38,7 @@ public class FlashActivity extends BaseActivity {
                     startActivity(new Intent(FlashActivity.this, MainActivity.class));
                 }));
 
-        addDisposable(RxBus.getInstance().getEvent(ActionMainActivityShowComplete.class)
+        addDisposable(rxBus.getEvent(ActionMainActivityShowComplete.class)
                 .subscribe(actionMainActivityShowComplete -> {
                     finish();
                 }));

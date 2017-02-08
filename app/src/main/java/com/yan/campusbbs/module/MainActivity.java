@@ -36,6 +36,9 @@ public class MainActivity extends BaseActivity {
     @Inject
     FileManagerPresenter fileManagerPresenter;
 
+    @Inject
+    RxBus rxBus;
+
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
 
@@ -53,7 +56,7 @@ public class MainActivity extends BaseActivity {
         initFragment();
         initNavigationBar();
 
-        RxBus.getInstance().post(new ActionMainActivityShowComplete());
+        rxBus.post(new ActionMainActivityShowComplete());
     }
 
     private void initNavigationBar() {
@@ -107,7 +110,7 @@ public class MainActivity extends BaseActivity {
                             break;
                         case 1:
                             bottomNavigationBar.setAutoHideEnabled(false);
-                            RxBus.getInstance().post(new ActionPagerToCampusBBS());
+                            rxBus.post(new ActionPagerToCampusBBS());
                             break;
                         case 2:
                             bottomNavigationBar.setAutoHideEnabled(false);
