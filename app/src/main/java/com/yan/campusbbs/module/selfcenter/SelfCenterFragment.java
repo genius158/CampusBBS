@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.selfcenter;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -166,13 +167,21 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             offsetDy += dy;
-            float alpha = Math.min(offsetDy / actionBarPinHeight, 0.5f);
+            float alphaTrigger = 0.9f;
+            float alpha = Math.min(offsetDy / actionBarPinHeight, alphaTrigger);
 
-            Log.e("dy", dy + "  " + offsetDy + "    " + alpha);
-
-            if (alpha < 0.5) {
+            if (alpha < alphaTrigger) {
                 appBarBackground.setAlpha(alpha);
+                appBarTitle.setTextColor(
+                        Color.argb(
+                                255
+                                , (int) (255 * (1 - alpha / 9 * 8))
+                                , (int) (255 * (1 - alpha / 9 * 8))
+                                , (int) (255 * (1 - alpha / 9 * 8))
+                        )
+                );
             }
+
         }
     };
 }
