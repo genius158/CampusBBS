@@ -2,10 +2,8 @@ package com.yan.campusbbs.module;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.FrameLayout;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -13,8 +11,6 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.CampusBBSFragment;
-import com.yan.campusbbs.module.campusbbs.CampusBBSPresenter;
-import com.yan.campusbbs.module.campusbbs.CampusBBSPresenterModule;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenter;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
@@ -33,9 +29,6 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     @Inject
     SelfCenterPresenter selfCenterPresenter;
-
-    @Inject
-    CampusBBSPresenter campusBBSPresenter;
 
     @Inject
     FileManagerPresenter fileManagerPresenter;
@@ -91,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         DaggerModuleComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
                 .selfCenterPresenterModule(new SelfCenterPresenterModule((SelfCenterFragment) fragments.get(0)))
-                .campusBBSPresenterModule(new CampusBBSPresenterModule((CampusBBSFragment) fragments.get(1)))
                 .fileManagerPresenterModule(new FileManagerPresenterModule((FileManagerFragment) fragments.get(2)))
                 .build().inject(this);
 

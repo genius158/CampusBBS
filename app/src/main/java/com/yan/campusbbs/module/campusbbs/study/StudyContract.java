@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.yan.campusbbs.module.campusbbs;
+package com.yan.campusbbs.module.campusbbs.study;
 
 import com.yan.campusbbs.module.BasePresenter;
 import com.yan.campusbbs.module.BaseView;
@@ -22,7 +22,7 @@ import com.yan.campusbbs.module.BaseView;
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface CampusBBSContract {
+public interface StudyContract {
 
     interface View extends BaseView<Presenter> {
     }

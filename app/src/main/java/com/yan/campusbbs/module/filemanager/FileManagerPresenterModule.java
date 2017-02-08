@@ -17,7 +17,7 @@ public class FileManagerPresenterModule {
     }
 
     @Provides
-    FileManagerContract.View provideSelfCenterContractView() {
+    FileManagerContract.View provideFileManagerContractView() {
         return mView;
     }
 

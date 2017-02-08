@@ -1,39 +1,43 @@
 package com.yan.campusbbs.module.campusbbs;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.CommonPagerAdapter;
+import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
+import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
+import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBSFragment extends Fragment implements CampusBBSContract.View {
+public class CampusBBSFragment extends Fragment {
     private final String[] CONTENT = new String[]{"学习", "生活", "工作", "更多"};
 
     @BindView(R.id.tabs)
     TabLayout indicator;
     @BindView(R.id.pager)
     ViewPager viewPager;
-    private CampusBBSContract.Presenter mPresenter;
+
+    @Inject
+    StudyPresenter studyPresenter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,10 +51,18 @@ public class CampusBBSFragment extends Fragment implements CampusBBSContract.Vie
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         List<Fragment> fragments = new ArrayList<>();
+        fragments.add(StudyFragment.newInstance());
         fragments.add(SelfCenterFragment.newInstance());
         fragments.add(SelfCenterFragment.newInstance());
         fragments.add(SelfCenterFragment.newInstance());
-        fragments.add(SelfCenterFragment.newInstance());
+
+        DaggerCampusBBSComponent.builder()
+                .applicationComponent(((ApplicationCampusBBS) getActivity()
+                        .getApplication())
+                        .getApplicationComponent())
+                .studyPresenterModule(new StudyPresenterModule((StudyFragment) fragments.get(0)))
+                .build().inject(this);
+
         CommonPagerAdapter adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, CONTENT);
         viewPager.setAdapter(adapter);
         indicator.setupWithViewPager(viewPager);
@@ -67,7 +79,6 @@ public class CampusBBSFragment extends Fragment implements CampusBBSContract.Vie
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
     }
 
     public static CampusBBSFragment newInstance() {
@@ -77,9 +88,5 @@ public class CampusBBSFragment extends Fragment implements CampusBBSContract.Vie
     public CampusBBSFragment() {
     }
 
-    @Override
-    public void setPresenter(@NonNull CampusBBSContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
-    }
 
 }
