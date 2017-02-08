@@ -69,7 +69,6 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getContext(), R.color.crFEFEFE)
         );
-        setHasOptionsMenu(true);
         setRetainInstance(true);
     }
 

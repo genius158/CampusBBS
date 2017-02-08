@@ -69,7 +69,6 @@ public class SelfCenterFragment extends BaseFragment implements SelfCenterContra
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getContext(), R.color.crFEFEFE)
         );
-        setHasOptionsMenu(true);
         setRetainInstance(true);
     }
 

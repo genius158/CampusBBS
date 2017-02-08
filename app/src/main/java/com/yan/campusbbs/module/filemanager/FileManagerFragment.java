@@ -69,7 +69,6 @@ public class FileManagerFragment extends BaseFragment implements FileManagerCont
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getContext(), R.color.crFEFEFE)
         );
-        setHasOptionsMenu(true);
         setRetainInstance(true);
     }
 

@@ -31,7 +31,6 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
     private ObjectAnimator objectAnimatorHide;
 
     private float barPosition;
-
     private boolean isShow = true;
 
     @Inject
@@ -42,13 +41,15 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
     public CampusBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        daggerInject();
+        initRxBusDisposable();
+    }
 
+    private void daggerInject() {
         DaggerCampusBehaviorComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) context.getApplicationContext())
                         .getApplicationComponent())
                 .build().inject(this);
-
-        initRxBusDisposable();
     }
 
     private void initRxBusDisposable() {
@@ -64,7 +65,7 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
                 .observeOn(Schedulers.io())
                 .subscribe(pagerToCampusBBS -> {
                     if (!compositeDisposable.isDisposed()) {
-                        compositeDisposable.dispose();
+                        compositeDisposable.clear();
                     }
                 }));
     }
@@ -123,5 +124,4 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
         objectAnimatorHide.start();
         isShow = false;
     }
-
 }

@@ -2,6 +2,7 @@ package com.yan.campusbbs;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.MainActivity;
@@ -23,13 +24,15 @@ public class FlashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flash);
+        daggerInject();
+        initRxBusDisposable();
+    }
 
+    public void daggerInject() {
         DaggerFlashComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getApplication())
                         .getApplicationComponent())
                 .build().inject(this);
-
-        initRxBusDisposable();
     }
 
     private void initRxBusDisposable() {

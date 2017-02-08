@@ -72,7 +72,6 @@ public class CampusBBSFragment extends BaseFragment {
         viewPager.setAdapter(adapter);
         indicator.setupWithViewPager(viewPager);
 
-        setHasOptionsMenu(true);
         setRetainInstance(true);
     }
 
