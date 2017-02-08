@@ -3,13 +3,13 @@ package com.yan.campusbbs.module;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.campusbbs.CampusBBSFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenter;
@@ -17,6 +17,7 @@ import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenter;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
+import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
 import com.yan.campusbbs.util.RxBus;
 
@@ -28,7 +29,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     @Inject
     SelfCenterPresenter selfCenterPresenter;
 
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         initFragment();
         initNavigationBar();
 
+        RxBus.getInstance().post(new ActionMainActivityShowComplete());
     }
 
     private void initNavigationBar() {
@@ -91,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setAdapter(new CommonPagerAdapter(getSupportFragmentManager(), fragments));
         viewPager.addOnPageChangeListener(pageChangeListener);
-
     }
 
     private BottomNavigationBar.OnTabSelectedListener onTabSelectedListener =

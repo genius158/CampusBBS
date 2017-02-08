@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.base.BaseFragment;
 import com.yan.campusbbs.module.CommonPagerAdapter;
 import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
@@ -30,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBSFragment extends Fragment {
+public class CampusBBSFragment extends BaseFragment {
     private final String[] CONTENT = new String[]{"学习", "生活", "工作", "更多"};
 
     @BindView(R.id.tabs)

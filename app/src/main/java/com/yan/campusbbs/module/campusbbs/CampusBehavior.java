@@ -36,10 +36,10 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
     public CampusBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        initRxBusAction();
+        initRxBusDisposable();
     }
 
-    private void initRxBusAction() {
+    private void initRxBusDisposable() {
         compositeDisposable = new CompositeDisposable();
         compositeDisposable.add(RxBus.getInstance()
                 .getEvent(ActionPagerToCampusBBS.class)

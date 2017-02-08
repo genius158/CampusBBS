@@ -3,7 +3,6 @@ package com.yan.campusbbs.module.filemanager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +13,9 @@ import android.view.ViewGroup;
 
 import com.yan.adapter.CustomAdapter;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.base.BaseFragment;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class FileManagerFragment extends Fragment implements FileManagerContract.View {
+public class FileManagerFragment extends BaseFragment implements FileManagerContract.View {
     List<String> strings;
     CustomAdapter adapter;
     @BindView(R.id.recycler_view)
