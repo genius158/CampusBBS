@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,14 +15,12 @@ import android.view.ViewGroup;
 import com.yan.adapter.CustomAdapter;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
-import com.yan.campusbbs.widget.refresh.PtrClassicFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import in.srain.cube.views.ptr.PtrFrameLayout;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -33,7 +33,7 @@ public class StudyFragment extends Fragment implements StudyContract.View {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
-    PtrClassicFrameLayout storeHousePtrFrame;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private StudyContract.Presenter mPresenter;
 
@@ -59,8 +59,16 @@ public class StudyFragment extends Fragment implements StudyContract.View {
         adapter = SelfCenterAdapterHelper.getAdapter(getContext(), strings);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        storeHousePtrFrame.setLastUpdateTimeRelateObject(this);
-        storeHousePtrFrame.setPtrHandler(defaultHandler);
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+        swipeRefreshLayout.setProgressViewOffset(true,
+                (int) getResources().getDimension(R.dimen.action_bar_height)
+                , (int) getResources().getDimension(R.dimen.action_bar_height) * 2);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(getContext(), R.color.colorAccent)
+        );
+        swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(getContext(), R.color.crFEFEFE)
+        );
         setHasOptionsMenu(true);
         setRetainInstance(true);
     }
@@ -89,8 +97,10 @@ public class StudyFragment extends Fragment implements StudyContract.View {
         mPresenter = checkNotNull(presenter);
     }
 
-    PtrClassicFrameLayout.PtrDefaultHandler defaultHandler = new PtrClassicFrameLayout.PtrDefaultHandler() {
-        public void onRefreshBegin(PtrFrameLayout frame) {
+
+    SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
             strings.clear();
             strings.add("学习学习学习学习");
             strings.add("学习学习学习学习");
@@ -100,7 +110,8 @@ public class StudyFragment extends Fragment implements StudyContract.View {
             strings.add("学习学习学习学习");
             strings.add("学习学习学习学习");
             adapter.notifyDataSetChanged();
-            storeHousePtrFrame.refreshFinish();
+            swipeRefreshLayout.setRefreshing(false);
         }
     };
+
 }
