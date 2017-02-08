@@ -15,6 +15,12 @@ import com.yan.campusbbs.R;
 public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
     Context context;
     private int during = 200;
+    private ObjectAnimator objectAnimatorShow;
+    private ObjectAnimator objectAnimatorHide;
+
+    private float barPosition;
+
+    private boolean isShow = true;
 
     public CampusBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -31,8 +37,6 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
         offset(child, dyConsumed);
     }
 
-    private boolean isShow = true;
-
     public void offset(View child, int dy) {
         if (dy < 0) {
             if (!isShow)
@@ -42,11 +46,6 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
                 hide(child);
         }
     }
-
-    private ObjectAnimator objectAnimatorShow;
-    private ObjectAnimator objectAnimatorHide;
-
-    private float barPosition;
 
     private void show(View child) {
         if (isShow) return;
