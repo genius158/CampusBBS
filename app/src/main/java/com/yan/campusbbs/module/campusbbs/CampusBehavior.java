@@ -70,11 +70,9 @@ public class CampusBehavior extends CoordinatorLayout.Behavior<View> {
 
     public void offset(int dy) {
         if (dy < 0) {
-            if (!isShow)
-                show();
+            show();
         } else if (dy > 0) {
-            if (isShow)
-                hide();
+            hide();
         }
     }
 
