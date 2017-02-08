@@ -13,9 +13,7 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:paddingTop="@dimen/action_bar_height" />
+            android:overScrollMode="never" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

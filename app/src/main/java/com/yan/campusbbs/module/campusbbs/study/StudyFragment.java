@@ -37,17 +37,25 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
 
     private StudyContract.Presenter mPresenter;
 
+
+    private View root;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_file_manager_study, container, false);
-        ButterKnife.bind(this, root);
+        if (root == null) {
+            root = inflater.inflate(R.layout.fragment_file_manager_study, container, false);
+            ButterKnife.bind(this, root);
+            init();
+        } else {
+            if (root.getParent() != null) {
+                ((ViewGroup) root.getParent()).removeView(root);
+            }
+        }
         return root;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    private void init() {
         strings = new ArrayList<>();
         strings.add("学习");
         strings.add("学习");
@@ -69,13 +77,6 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getContext(), R.color.crFEFEFE)
         );
-        setRetainInstance(true);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override

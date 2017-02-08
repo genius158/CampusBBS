@@ -2,7 +2,6 @@ package com.yan.campusbbs.module.filemanager;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,17 +36,25 @@ public class FileManagerFragment extends BaseFragment implements FileManagerCont
 
     private FileManagerContract.Presenter mPresenter;
 
+
+    private View root;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_file_manager, container, false);
-        ButterKnife.bind(this, root);
+        if (root == null) {
+            root = inflater.inflate(R.layout.fragment_file_manager, container, false);
+            ButterKnife.bind(this, root);
+            init();
+        } else {
+            if (root.getParent() != null) {
+                ((ViewGroup) root.getParent()).removeView(root);
+            }
+        }
         return root;
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    private void init() {
         strings = new ArrayList<>();
         strings.add("文件管理");
         strings.add("文件管理");
@@ -69,14 +76,8 @@ public class FileManagerFragment extends BaseFragment implements FileManagerCont
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getContext(), R.color.crFEFEFE)
         );
-        setRetainInstance(true);
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-    }
 
     @Override
     public void onResume() {

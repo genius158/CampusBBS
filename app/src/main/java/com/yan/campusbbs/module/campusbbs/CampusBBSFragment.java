@@ -44,17 +44,36 @@ public class CampusBBSFragment extends BaseFragment {
     @Inject
     StudyPresenter studyPresenter;
 
+    private View root;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_campus_bbs, container, false);
-        ButterKnife.bind(this, root);
+        if (root == null) {
+            root = inflater.inflate(R.layout.fragment_campus_bbs, container, false);
+            ButterKnife.bind(this, root);
+            init();
+        } else {
+            if (root.getParent() != null) {
+                ((ViewGroup) root.getParent()).removeView(root);
+            }
+        }
         return root;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        rxBus.post(new ActionCampusBBSFragmentFinish());
+        super.onDestroy();
+
+    }
+
+    private void init() {
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(StudyFragment.newInstance());
         fragments.add(SelfCenterFragment.newInstance());
@@ -71,25 +90,6 @@ public class CampusBBSFragment extends BaseFragment {
         CommonPagerAdapter adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, CONTENT);
         viewPager.setAdapter(adapter);
         indicator.setupWithViewPager(viewPager);
-
-        setRetainInstance(true);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onDestroy() {
-        rxBus.post(new ActionCampusBBSFragmentFinish());
-        super.onDestroy();
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     public static CampusBBSFragment newInstance() {
@@ -98,6 +98,5 @@ public class CampusBBSFragment extends BaseFragment {
 
     public CampusBBSFragment() {
     }
-
 
 }
