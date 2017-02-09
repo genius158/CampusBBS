@@ -1,10 +1,11 @@
 package com.yan.campusbbs.module.campusbbs;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,14 @@ import android.view.ViewGroup;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
+import com.yan.campusbbs.module.AppBarBehavior;
 import com.yan.campusbbs.module.CommonPagerAdapter;
 import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 import com.yan.campusbbs.rxbusaction.ActionCampusBBSFragmentFinish;
+import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
@@ -43,8 +47,11 @@ public class CampusBBSFragment extends BaseFragment {
     RxBus rxBus;
     @Inject
     StudyPresenter studyPresenter;
+    @BindView(R.id.tab_container)
+    CardView tabContainer;
 
     private View root;
+    private CoordinatorLayout.Behavior behavior;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,19 +65,15 @@ public class CampusBBSFragment extends BaseFragment {
                 ((ViewGroup) root.getParent()).removeView(root);
             }
         }
-        return root;
-    }
+        ButterKnife.bind(this, root);
 
-    @Override
-    public void onResume() {
-        super.onResume();
+        return root;
     }
 
     @Override
     public void onDestroy() {
         rxBus.post(new ActionCampusBBSFragmentFinish());
         super.onDestroy();
-
     }
 
     private void init() {
@@ -80,16 +83,37 @@ public class CampusBBSFragment extends BaseFragment {
         fragments.add(SelfCenterFragment.newInstance());
         fragments.add(SelfCenterFragment.newInstance());
 
+        daggerInject(fragments);
+
+        CommonPagerAdapter adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, CONTENT);
+        viewPager.setAdapter(adapter);
+        indicator.setupWithViewPager(viewPager);
+
+        initRxBusAction();
+    }
+
+
+    private void daggerInject(List<Fragment> fragments) {
         DaggerCampusBBSComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
                 .studyPresenterModule(new StudyPresenterModule((StudyFragment) fragments.get(0)))
                 .build().inject(this);
+    }
 
-        CommonPagerAdapter adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, CONTENT);
-        viewPager.setAdapter(adapter);
-        indicator.setupWithViewPager(viewPager);
+    public void initRxBusAction() {
+        addDisposable(rxBus.getEvent(ActionPagerToCampusBBS.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(pagerToCampusBBS -> {
+                            if (behavior == null) {
+                                CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)
+                                        tabContainer.getLayoutParams();
+                                behavior = lp.getBehavior();
+                            }
+                            ((AppBarBehavior) behavior).show();
+                        }
+                ));
     }
 
     public static CampusBBSFragment newInstance() {
