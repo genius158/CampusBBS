@@ -12,25 +12,22 @@ import io.reactivex.disposables.Disposable;
  */
 
 public class BaseFragment extends Fragment {
-    private CompositeDisposable compositeDisposable;
-
-    public synchronized void addDisposable(Disposable disposable) {
-        if (compositeDisposable == null) {
-            compositeDisposable = new CompositeDisposable();
-        }
-        compositeDisposable.add(disposable);
-    }
+    protected CompositeDisposable compositeDisposable;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        compositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void onDestroy() {
-        if (compositeDisposable != null) {
-            compositeDisposable.clear();
-        }
+        compositeDisposable.clear();
         super.onDestroy();
     }
+
+    public void addDisposable(Disposable disposable) {
+        compositeDisposable.add(disposable);
+    }
+
 }

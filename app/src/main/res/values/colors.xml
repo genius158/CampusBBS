@@ -4,6 +4,10 @@
     <color name="colorPrimaryDark">#0181FD</color>
     <color name="colorAccent">#4ca7ff</color>
 
+    <color name="colorPrimary2">#F97396</color>
+    <color name="colorPrimaryDark2">#F97396</color>
+    <color name="colorAccent2">#f991ac</color>
+
     <color name="crFF0000">#ff0000</color>
     <color name="crFFFFFF">#ffffff</color>
     <color name="crDEDEDE">#dedede</color>

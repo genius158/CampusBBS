@@ -1,7 +1,9 @@
 package com.yan.campusbbs.module;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
@@ -17,23 +19,32 @@ import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenter;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
+import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
+import com.yan.campusbbs.util.ChangeSkinHelper;
+import com.yan.campusbbs.util.ChangeSkinModule;
+import com.yan.campusbbs.util.IChangeSkin;
 import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements IChangeSkin {
     @Inject
     SelfCenterPresenter selfCenterPresenter;
 
     @Inject
     FileManagerPresenter fileManagerPresenter;
+
+    @Inject
+    ChangeSkinHelper changeSkinHelper;
 
     @Inject
     RxBus rxBus;
@@ -55,7 +66,15 @@ public class MainActivity extends BaseActivity {
         initFragment();
         initNavigationBar();
 
+        skinInit();
+
         rxBus.post(new ActionMainActivityShowComplete());
+    }
+
+    protected void skinInit() {
+        changeSkin(new ActionChangeSkin(
+                SPUtils.getInt(getBaseContext(), MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 0)
+        ));
     }
 
     private void initNavigationBar() {
@@ -91,6 +110,7 @@ public class MainActivity extends BaseActivity {
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
                 .selfCenterPresenterModule(new SelfCenterPresenterModule((SelfCenterFragment) fragments.get(0)))
                 .fileManagerPresenterModule(new FileManagerPresenterModule((FileManagerFragment) fragments.get(2)))
+                .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
                 .build().inject(this);
 
         viewPager.setAdapter(new CommonPagerAdapter(getSupportFragmentManager(), fragments));
@@ -137,6 +157,10 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onPageSelected(int position) {
             bottomNavigationBar.selectTab(position);
+            if (position == 1) {
+                SPUtils.putInt(getBaseContext(), MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 1);
+                rxBus.post(new ActionChangeSkin(1));
+            }
         }
 
         @Override
@@ -144,4 +168,13 @@ public class MainActivity extends BaseActivity {
 
         }
     };
+
+    @Override
+    public void changeSkin(ActionChangeSkin actionChangeSkin) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(
+                    ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryDarkId())
+            );
+        }
+    }
 }

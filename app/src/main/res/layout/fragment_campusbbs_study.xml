@@ -33,14 +33,16 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/action_bar_height"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="45dp"
+            android:layout_marginRight="40dp"
             android:overScrollMode="never" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:id="@+id/arrow_more"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="20dp"
-            android:src="@color/crAFFFFFFF" />
+            android:layout_marginRight="2dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_expand_more" />
     </FrameLayout>
 </FrameLayout>

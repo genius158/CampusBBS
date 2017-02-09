@@ -4,6 +4,7 @@ import com.yan.campusbbs.ApplicationComponent;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
 import com.yan.campusbbs.base.FragmentScoped;
+import com.yan.campusbbs.util.ChangeSkinModule;
 
 import dagger.Component;
 
@@ -13,6 +14,8 @@ import dagger.Component;
         , modules = {
         FileManagerPresenterModule.class
         , SelfCenterPresenterModule.class
+        , ChangeSkinModule.class
+
 }
 )
 public interface ModuleComponent {

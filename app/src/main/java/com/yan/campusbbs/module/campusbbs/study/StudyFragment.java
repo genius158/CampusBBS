@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import com.yan.adapter.CustomAdapter;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
-import com.yan.campusbbs.module.campusbbs.FollowViewsAdd;
+import com.yan.campusbbs.module.campusbbs.IFollowViewsAdd;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
 
     private StudyContract.Presenter mPresenter;
 
-    private FollowViewsAdd followView;
+    private IFollowViewsAdd followView;
 
     private View root;
 
@@ -130,7 +130,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
         }
     };
 
-    public void setFollowView(FollowViewsAdd followView) {
+    public void setFollowView(IFollowViewsAdd followView) {
         this.followView = followView;
     }
 }

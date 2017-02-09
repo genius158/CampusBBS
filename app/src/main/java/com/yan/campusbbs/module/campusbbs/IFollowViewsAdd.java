@@ -5,6 +5,6 @@ import android.view.View;
 /**
  * Created by yan on 2017/2/9.
  */
-public interface FollowViewsAdd {
+public interface IFollowViewsAdd {
     void addFollowView(View followView);
 }
