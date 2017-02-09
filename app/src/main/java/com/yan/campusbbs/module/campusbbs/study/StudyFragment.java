@@ -50,7 +50,6 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
     FrameLayout appBar;
     @BindView(R.id.pager_bar_recycler)
     RecyclerView pagerBarRecycler;
-    private View root;
 
     @Inject
     RxBus rxBus;
@@ -62,20 +61,19 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
     private IFollowViewsAdd followView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        if (root == null) {
-            root = inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
-            ButterKnife.bind(this, root);
-            daggerInject();
-            init();
-            skinInit();
-        } else {
-            if (root.getParent() != null) {
-                ((ViewGroup) root.getParent()).removeView(root);
-            }
-        }
-        return root;
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
+        ButterKnife.bind(this, view);
+        daggerInject();
+        init();
+        skinInit();
+        return view;
     }
 
     private void daggerInject() {
@@ -120,12 +118,6 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
 
         if (followView != null)
             followView.addFollowView(appBar);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.start();
     }
 
     protected void skinInit() {

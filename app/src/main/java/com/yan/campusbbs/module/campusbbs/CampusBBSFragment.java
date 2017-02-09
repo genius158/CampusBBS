@@ -59,31 +59,24 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
 
     @BindView(R.id.tab_campus_container)
     CardView tabContainer;
-    private View root;
+
     private CampusAppBarBehavior behavior;
 
     private List<View> followViews;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        if (root == null) {
-            root = inflater.inflate(R.layout.fragment_campus_bbs, container, false);
-            ButterKnife.bind(this, root);
-            init();
-            skinInit();
-        } else {
-            if (root.getParent() != null) {
-                ((ViewGroup) root.getParent()).removeView(root);
-            }
-        }
-        return root;
-    }
-
-    @Override
     public void onDestroy() {
         rxBus.post(new ActionCampusBBSFragmentFinish());
         super.onDestroy();
+    }
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_campus_bbs, container, false);
+        ButterKnife.bind(this, view);
+        init();
+        skinInit();
+        return view;
     }
 
     protected void skinInit() {

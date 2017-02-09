@@ -53,9 +53,6 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     @BindView(R.id.app_bar)
     FrameLayout appBar;
 
-
-    private View root;
-
     private int actionBarPinHeight;
     private float offsetDy;
 
@@ -71,20 +68,20 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     ChangeSkinHelper changeSkinHelper;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        if (root == null) {
-            root = inflater.inflate(R.layout.fragment_self_center, container, false);
-            ButterKnife.bind(this, root);
-            init();
-            daggerInject();
-            skinInit();
-        } else {
-            if (root.getParent() != null) {
-                ((ViewGroup) root.getParent()).removeView(root);
-            }
-        }
-        return root;
+    public void onResume() {
+        super.onResume();
+        if (mPresenter != null)
+            mPresenter.start();
+    }
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_self_center, container, false);
+        ButterKnife.bind(this, view);
+        init();
+        daggerInject();
+        skinInit();
+        return view;
     }
 
     protected void skinInit() {
@@ -99,13 +96,6 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         ).appBarHelperModule(new AppBarHelperModule(appBar))
                 .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
                 .build().inject(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mPresenter != null)
-            mPresenter.start();
     }
 
     private void init() {
@@ -216,7 +206,6 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
                         )
                 );
             }
-
         }
     };
 

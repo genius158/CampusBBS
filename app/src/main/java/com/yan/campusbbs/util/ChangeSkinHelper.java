@@ -29,7 +29,7 @@ public class ChangeSkinHelper {
     }
 
 
-    protected void initRxSkinAction() {
+    private void initRxSkinAction() {
         compositeDisposable.add(rxBus.getEvent(ActionChangeSkin.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(actionChangeSkin -> {

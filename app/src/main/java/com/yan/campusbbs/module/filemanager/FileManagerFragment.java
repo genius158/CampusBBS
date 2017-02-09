@@ -51,30 +51,21 @@ public class FileManagerFragment extends BaseFragment implements FileManagerCont
     @Inject
     ChangeSkinHelper changeSkinHelper;
 
-    private View root;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        if (root == null) {
-            root = inflater.inflate(R.layout.fragment_file_manager, container, false);
-            ButterKnife.bind(this, root);
-            init();
-            daggerInject();
-            skinInit();
-        } else {
-            if (root.getParent() != null) {
-                ((ViewGroup) root.getParent()).removeView(root);
-            }
-        }
-        ButterKnife.bind(this, root);
-        return root;
-    }
 
     @Override
     public void onResume() {
         super.onResume();
         mPresenter.start();
+    }
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_file_manager, container, false);
+        ButterKnife.bind(this, view);
+        init();
+        daggerInject();
+        skinInit();
+        return view;
     }
 
     private void daggerInject() {

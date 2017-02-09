@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-public class StatedFragment extends BaseFragment {
+public abstract class StatedFragment extends BaseFragment {
 
     private Bundle savedState;
     private Bundle mainBundle;
