@@ -111,8 +111,8 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         recyclerView.addOnScrollListener(onScrollListener);
         swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         swipeRefreshLayout.setProgressViewOffset(true,
-                (int) getResources().getDimension(R.dimen.action_bar_height)
-                , (int) getResources().getDimension(R.dimen.action_bar_height) * 2);
+                (int) (  getResources().getDimension(R.dimen.action_bar_height)* 1.5)
+                , (int) getResources().getDimension(R.dimen.action_bar_height) * 3);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(getContext(), R.color.colorAccent)
         );
