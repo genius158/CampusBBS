@@ -2,7 +2,6 @@ package com.yan.campusbbs.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
 public class StatedFragment extends BaseFragment {
@@ -17,7 +16,6 @@ public class StatedFragment extends BaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.e("savedInstanceState", savedInstanceState + "");
         if (!reStated(savedInstanceState)) {
             onFirstTimeLaunched();
         }

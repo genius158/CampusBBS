@@ -22,9 +22,9 @@
     <FrameLayout
         android:id="@+id/pager_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:paddingTop="@dimen/action_bar_height"
+        android:layout_height="@dimen/double_action_bar_height"
         android:background="@color/colorAccent">
-
     </FrameLayout>
 
 </FrameLayout>

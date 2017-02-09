@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
@@ -124,7 +125,6 @@ public class CampusBBSFragment extends BaseFragment implements FollowViewsAdd {
 
     public CampusBBSFragment() {
     }
-
 
     @Override
     public void addFollowView(View followView) {

@@ -1,8 +1,8 @@
 <resources>
-    <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="action_bar_height">44dp</dimen>
+    <dimen name="double_action_bar_height">88dp</dimen>
     <dimen name="action_bar_height_with_elevation">45dp</dimen>
     <dimen name="tab_height">48dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
