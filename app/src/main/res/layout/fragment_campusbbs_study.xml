@@ -25,11 +25,21 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/double_action_bar_height"
         android:background="@color/crE9E9E9"
+
         android:paddingTop="@dimen/action_bar_height">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/pager_bar_recycler"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/action_bar_height" />
+            android:layout_height="@dimen/action_bar_height"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="45dp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="20dp"
+            android:src="@color/crAFFFFFFF" />
     </FrameLayout>
 </FrameLayout>
