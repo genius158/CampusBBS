@@ -1,5 +1,9 @@
 package com.yan.campusbbs.util;
 
+import android.app.Activity;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 
 import javax.inject.Inject;
@@ -31,5 +35,14 @@ public class ChangeSkinHelper {
                 .subscribe(actionChangeSkin -> {
                     changeSkin.changeSkin(actionChangeSkin);
                 }, Throwable::printStackTrace));
+    }
+
+    public void statusBarColorChange(Activity activity, ActionChangeSkin actionChangeSkin) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            activity.getWindow().setStatusBarColor(
+                    ContextCompat.getColor(activity.getBaseContext()
+                            , actionChangeSkin.getColorPrimaryDarkId())
+            );
+        }
     }
 }

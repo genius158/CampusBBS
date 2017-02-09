@@ -1,9 +1,7 @@
 package com.yan.campusbbs.module;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
@@ -167,13 +165,9 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(
-                    ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryDarkId())
-            );
-        }
-        bottomNavigationBar.clearAll();
+        changeSkinHelper.statusBarColorChange(this, actionChangeSkin);
 
+        bottomNavigationBar.clearAll();
         BadgeItem numberBadgeItem = new BadgeItem()
                 .setBorderWidth(4)
                 .setBackgroundColorResource(R.color.crFF0000)

@@ -43,7 +43,10 @@ public class SelfCenterAdapterHelper {
                     public RecyclerView.ViewHolder viewHolder(ViewGroup parent) {
                         StringViewHolderString holderString = new StringViewHolderString(
                                 LayoutInflater.from(context).inflate(R.layout.string_data, parent, false));
-                        holderString.textView.setBackgroundResource(R.color.colorPrimary);
+                        holderString.textView.setBackgroundResource(R.mipmap.ic_launcher);
+                        ViewGroup.LayoutParams layoutParams = holderString.textView.getLayoutParams();
+                        layoutParams.height = 800;
+                        holderString.textView.setLayoutParams(layoutParams);
 
                         return holderString;
                     }

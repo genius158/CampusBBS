@@ -112,6 +112,7 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
                 (CoordinatorLayout.LayoutParams) tabContainer.getLayoutParams();
         behavior = (CampusAppBarBehavior) lp.getBehavior();
         studyFragment.setFollowView(this);
+
         initRxBusAction();
     }
 

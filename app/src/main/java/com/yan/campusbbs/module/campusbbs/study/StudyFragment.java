@@ -50,6 +50,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
     FrameLayout appBar;
     @BindView(R.id.pager_bar_recycler)
     RecyclerView pagerBarRecycler;
+    private View root;
 
     @Inject
     RxBus rxBus;
@@ -58,10 +59,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
     ChangeSkinHelper changeSkinHelper;
 
     private StudyContract.Presenter mPresenter;
-
     private IFollowViewsAdd followView;
-
-    private View root;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,10 +115,11 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         pagerBarRecycler.setLayoutManager(linearLayoutManager);
-        CustomAdapter adapter2 = StudyPagerTabAdapterHelper.getAdapter(getContext(), strings,rxBus);
+        CustomAdapter adapter2 = StudyPagerTabAdapterHelper.getAdapter(getContext(), strings, rxBus);
         pagerBarRecycler.setAdapter(adapter2);
 
-        followView.addFollowView(appBar);
+        if (followView != null)
+            followView.addFollowView(appBar);
     }
 
     @Override

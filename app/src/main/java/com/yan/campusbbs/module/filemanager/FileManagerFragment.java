@@ -100,11 +100,9 @@ public class FileManagerFragment extends BaseFragment implements FileManagerCont
         recyclerView.setAdapter(adapter);
         swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         swipeRefreshLayout.setProgressViewOffset(true,
-                (int) (  getResources().getDimension(R.dimen.action_bar_height)* 1.5)
+                (int) (getResources().getDimension(R.dimen.action_bar_height) * 1.5)
                 , (int) getResources().getDimension(R.dimen.action_bar_height) * 3);
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
-                ContextCompat.getColor(getContext(), R.color.colorAccent)
-        );
+
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getContext(), R.color.crFEFEFE)
         );
