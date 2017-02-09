@@ -9,7 +9,7 @@ import com.yan.adapter.CustomAdapter;
 import com.yan.adapter.CustomAdapterItem;
 import com.yan.adapter.StateAdapterItem;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterViewHolderString;
+import com.yan.campusbbs.module.selfcenter.adapterholder.StringViewHolderString;
 
 import java.util.List;
 
@@ -21,33 +21,24 @@ public class StudyPagerTabAdapterHelper {
 
     public static CustomAdapter getAdapter(final Context context, List<String> data) {
         return new CustomAdapter(data)
-                .addAdapterItem(new CustomAdapterItem<SelfCenterViewHolderString, String>() {
+                .addAdapterItem(new CustomAdapterItem<StringViewHolderString, String>() {
                     @Override
                     public Class dataType() {
                         return String.class;
                     }
 
                     @Override
-                    public SelfCenterViewHolderString viewHolder(ViewGroup parent) {
-                        return new SelfCenterViewHolderString(
-                                LayoutInflater.from(context).inflate(R.layout.string_data, parent, false)
+                    public StringViewHolderString viewHolder(ViewGroup parent) {
+                        return new StringViewHolderString(
+                                LayoutInflater.from(context).inflate(R.layout.study_pager_tab_item, parent, false)
                         );
                     }
 
                     @Override
-                    public void bindData(SelfCenterViewHolderString holder, String item, int position) {
+                    public void bindData(StringViewHolderString holder, String item, int position) {
                         holder.textView.setText(item);
                     }
                 })
-                .addAdapterItem(new StateAdapterItem(StateAdapterItem.HEADER) {
-                    @Override
-                    public RecyclerView.ViewHolder viewHolder(ViewGroup parent) {
-                        SelfCenterViewHolderString holderString = new SelfCenterViewHolderString(
-                                LayoutInflater.from(context).inflate(R.layout.string_data, parent, false));
-                        holderString.textView.setBackgroundResource(R.color.colorPrimary);
-
-                        return holderString;
-                    }
-                });
+                ;
     }
 }

@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/crE9E9E9"
     android:orientation="vertical">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -19,15 +20,16 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-
-    <android.support.v7.widget.RecyclerView
+    <FrameLayout
         android:id="@+id/pager_bar"
         android:layout_width="match_parent"
-        android:background="@color/crFFFFFF"
         android:layout_height="@dimen/double_action_bar_height"
+        android:background="@color/crE9E9E9"
         android:paddingTop="@dimen/action_bar_height">
 
-    </android.support.v7.widget.RecyclerView>
-
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/pager_bar_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar_height" />
+    </FrameLayout>
 </FrameLayout>

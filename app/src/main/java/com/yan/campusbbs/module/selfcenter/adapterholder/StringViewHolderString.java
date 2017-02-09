@@ -10,10 +10,10 @@ import com.yan.campusbbs.R;
  * Created by yan on 2017/2/7.
  */
 
-public class SelfCenterViewHolderString extends RecyclerView.ViewHolder {
+public class StringViewHolderString extends RecyclerView.ViewHolder {
     public TextView textView;
 
-    public SelfCenterViewHolderString(View itemView) {
+    public StringViewHolderString(View itemView) {
         super(itemView);
         textView = (TextView) itemView.findViewById(R.id.tv_string);
     }

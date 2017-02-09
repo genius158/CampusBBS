@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:id="@+id/service_container"
+        android:id="@+id/tv_string"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_margin="3dp"
