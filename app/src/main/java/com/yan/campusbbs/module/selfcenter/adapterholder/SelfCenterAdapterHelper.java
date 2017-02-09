@@ -9,6 +9,7 @@ import com.yan.adapter.CustomAdapter;
 import com.yan.adapter.CustomAdapterItem;
 import com.yan.adapter.StateAdapterItem;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.StringViewHolder;
 
 import java.util.List;
 
@@ -20,28 +21,28 @@ public class SelfCenterAdapterHelper {
 
     public static CustomAdapter getAdapter(final Context context, List<String> data) {
         return new CustomAdapter(data)
-                .addAdapterItem(new CustomAdapterItem<StringViewHolderString, String>() {
+                .addAdapterItem(new CustomAdapterItem<StringViewHolder, String>() {
                     @Override
                     public Class dataType() {
                         return String.class;
                     }
 
                     @Override
-                    public StringViewHolderString viewHolder(ViewGroup parent) {
-                        return new StringViewHolderString(
+                    public StringViewHolder viewHolder(ViewGroup parent) {
+                        return new StringViewHolder(
                                 LayoutInflater.from(context).inflate(R.layout.string_data, parent, false)
                         );
                     }
 
                     @Override
-                    public void bindData(StringViewHolderString holder, String item, int position) {
+                    public void bindData(StringViewHolder holder, String item, int position) {
                         holder.textView.setText(item);
                     }
                 })
                 .addAdapterItem(new StateAdapterItem(StateAdapterItem.HEADER) {
                     @Override
                     public RecyclerView.ViewHolder viewHolder(ViewGroup parent) {
-                        StringViewHolderString holderString = new StringViewHolderString(
+                        StringViewHolder holderString = new StringViewHolder(
                                 LayoutInflater.from(context).inflate(R.layout.string_data, parent, false));
                         holderString.textView.setBackgroundResource(R.mipmap.ic_launcher);
                         ViewGroup.LayoutParams layoutParams = holderString.textView.getLayoutParams();

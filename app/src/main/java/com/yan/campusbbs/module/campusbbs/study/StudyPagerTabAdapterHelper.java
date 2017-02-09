@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.yan.adapter.CustomAdapter;
 import com.yan.adapter.CustomAdapterItem;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.module.selfcenter.adapterholder.StringViewHolderString;
+import com.yan.campusbbs.module.StringViewHolder;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
@@ -24,21 +24,21 @@ public class StudyPagerTabAdapterHelper {
 
     public static CustomAdapter getAdapter(final Context context, List<String> data, RxBus rxBus) {
         return new CustomAdapter(data)
-                .addAdapterItem(new CustomAdapterItem<StringViewHolderString, String>() {
+                .addAdapterItem(new CustomAdapterItem<StringViewHolder, String>() {
                     @Override
                     public Class dataType() {
                         return String.class;
                     }
 
                     @Override
-                    public StringViewHolderString viewHolder(ViewGroup parent) {
-                        return new StringViewHolderString(
+                    public StringViewHolder viewHolder(ViewGroup parent) {
+                        return new StringViewHolder(
                                 LayoutInflater.from(context).inflate(R.layout.study_pager_tab_item, parent, false)
                         );
                     }
 
                     @Override
-                    public void bindData(StringViewHolderString holder, String item, int position) {
+                    public void bindData(StringViewHolder holder, String item, int position) {
                         holder.textView.setText(item);
                         holder.textView.setOnClickListener(view -> {
                             if (position == 0) {
