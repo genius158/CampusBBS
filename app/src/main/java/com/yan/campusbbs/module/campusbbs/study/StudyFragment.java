@@ -17,6 +17,7 @@ import com.yan.adapter.CustomAdapter;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
+import com.yan.campusbbs.util.FragmentSort;
 import com.yan.campusbbs.module.campusbbs.IFollowViewsAdd;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterHelper;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
@@ -41,7 +42,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class StudyFragment extends BaseFragment implements StudyContract.View, IChangeSkin {
+public class StudyFragment extends BaseFragment implements StudyContract.View, IChangeSkin,FragmentSort {
     List<String> strings;
     CustomAdapter adapter;
     @BindView(R.id.recycler_view)
@@ -174,5 +175,10 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(getContext(), actionChangeSkin.getColorAccentId())
         );
+    }
+
+    @Override
+    public int getIndex() {
+        return 0;
     }
 }

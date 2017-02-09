@@ -19,6 +19,7 @@ import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
+import com.yan.campusbbs.util.FragmentSort;
 import com.yan.campusbbs.util.IChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -36,7 +37,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class FileManagerFragment extends BaseFragment implements FileManagerContract.View, IChangeSkin {
+public class FileManagerFragment extends BaseFragment implements FileManagerContract.View, IChangeSkin, FragmentSort {
     List<String> strings;
     CustomAdapter adapter;
     @BindView(R.id.recycler_view)
@@ -141,5 +142,10 @@ public class FileManagerFragment extends BaseFragment implements FileManagerCont
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(getContext(), actionChangeSkin.getColorAccentId())
         );
+    }
+
+    @Override
+    public int getIndex() {
+        return 2;
     }
 }

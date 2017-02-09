@@ -11,6 +11,10 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.campusbbs.CampusBBSFragment;
+import com.yan.campusbbs.module.campusbbs.job.JobFragment;
+import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
+import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
+import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenter;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
@@ -22,6 +26,8 @@ import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
+import com.yan.campusbbs.util.FragmentSort;
+import com.yan.campusbbs.util.FragmentSortUtils;
 import com.yan.campusbbs.util.IChangeSkin;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
@@ -106,7 +112,11 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
             fragments.add(FileManagerFragment.newInstance());
         } else {
             fragments = getSupportFragmentManager().getFragments();
+            if (fragments.size() < 3) {
+                resetFragments();
+            }
         }
+        FragmentSortUtils.fragmentsSort(fragments);
 
         DaggerModuleComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
@@ -186,5 +196,37 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
                 .setInActiveColor(R.color.crABABAB)
                 .setFirstSelectedPosition(viewPager.getCurrentItem())
                 .initialise();
+    }
+
+
+    private void resetFragments() {
+
+        boolean[] fragmentNullIndex = new boolean[3];
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof SelfCenterFragment) {
+                fragmentNullIndex[0] = true;
+            } else if (fragment instanceof CampusBBSFragment) {
+                fragmentNullIndex[1] = true;
+            } else if (fragment instanceof FileManagerFragment) {
+                fragmentNullIndex[2] = true;
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            if (!fragmentNullIndex[i]) {
+                switch (i) {
+                    case 0:
+                        fragments.add(SelfCenterFragment.newInstance());
+                        break;
+                    case 1:
+                        fragments.add(CampusBBSFragment.newInstance());
+                        break;
+                    case 2:
+                        fragments.add(FileManagerFragment.newInstance());
+                        break;
+
+                }
+            }
+        }
+
     }
 }

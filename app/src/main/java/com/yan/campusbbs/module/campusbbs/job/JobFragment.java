@@ -17,9 +17,9 @@ import com.yan.adapter.CustomAdapter;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
+import com.yan.campusbbs.util.FragmentSort;
 import com.yan.campusbbs.module.campusbbs.IFollowViewsAdd;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterHelper;
-import com.yan.campusbbs.module.campusbbs.study.DaggerStudyComponent;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
@@ -42,7 +42,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class JobFragment extends BaseFragment implements JobContract.View, IChangeSkin {
+public class JobFragment extends BaseFragment implements JobContract.View, IChangeSkin, FragmentSort {
     List<String> strings;
     CustomAdapter adapter;
     @BindView(R.id.recycler_view)
@@ -95,13 +95,13 @@ public class JobFragment extends BaseFragment implements JobContract.View, IChan
 
     private void init() {
         strings = new ArrayList<>();
-        strings.add("学习");
-        strings.add("学习");
-        strings.add("学习");
-        strings.add("学习");
-        strings.add("学习");
-        strings.add("学习");
-        strings.add("学习");
+        strings.add("工作");
+        strings.add("工作");
+        strings.add("工作");
+        strings.add("工作");
+        strings.add("工作");
+        strings.add("工作");
+        strings.add("工作");
         adapter = SelfCenterAdapterHelper.getAdapter(getContext(), strings);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
@@ -175,5 +175,10 @@ public class JobFragment extends BaseFragment implements JobContract.View, IChan
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(getContext(), actionChangeSkin.getColorAccentId())
         );
+    }
+
+    @Override
+    public int getIndex() {
+        return 2;
     }
 }

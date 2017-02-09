@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,17 +26,19 @@ import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
-import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 import com.yan.campusbbs.rxbusaction.ActionCampusBBSFragmentFinish;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
+import com.yan.campusbbs.util.FragmentSort;
+import com.yan.campusbbs.util.FragmentSortUtils;
 import com.yan.campusbbs.util.IChangeSkin;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -51,7 +52,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, IChangeSkin {
+public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, IChangeSkin,FragmentSort {
     private final String[] CONTENT = new String[]{"学习", "生活", "工作", "更多"};
 
     @BindView(R.id.tabs)
@@ -116,7 +117,11 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
             fragments.add(OthersFragment.newInstance());
         } else {
             fragments = getChildFragmentManager().getFragments();
+            if (fragments.size() < 4) {
+                resetFragments();
+            }
         }
+        FragmentSortUtils.fragmentsSort(fragments);
 
         daggerInject(fragments);
         ((StudyFragment) fragments.get(0)).setFollowAdd(this);
@@ -132,6 +137,8 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
         behavior = (CampusAppBarBehavior) lp.getBehavior();
 
     }
+
+
 
     private void daggerInject(List<Fragment> fragments) {
         DaggerCampusBBSComponent.builder()
@@ -172,5 +179,42 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
         tabContainer.setCardBackgroundColor(
                 ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
         );
+    }
+    private void resetFragments() {
+        boolean[] fragmentNullIndex = new boolean[4];
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof StudyFragment) {
+                fragmentNullIndex[0] = true;
+            } else if (fragment instanceof LifeFragment) {
+                fragmentNullIndex[1] = true;
+            } else if (fragment instanceof JobFragment) {
+                fragmentNullIndex[2] = true;
+            } else if (fragment instanceof OthersFragment) {
+                fragmentNullIndex[3] = true;
+            }
+        }
+        for (int i = 0; i < 4; i++) {
+            if (!fragmentNullIndex[i]) {
+                switch (i) {
+                    case 0:
+                        fragments.add(StudyFragment.newInstance());
+                        break;
+                    case 1:
+                        fragments.add(LifeFragment.newInstance());
+                        break;
+                    case 2:
+                        fragments.add(JobFragment.newInstance());
+                        break;
+                    case 3:
+                        fragments.add(OthersFragment.newInstance());
+                        break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public int getIndex() {
+        return 1;
     }
 }

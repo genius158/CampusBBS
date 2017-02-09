@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
+import com.yan.campusbbs.util.FragmentSort;
 
 import butterknife.ButterKnife;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class OthersFragment extends BaseFragment {
+public class OthersFragment extends BaseFragment implements FragmentSort {
 
     @Override
     public void onResume() {
@@ -45,4 +46,8 @@ public class OthersFragment extends BaseFragment {
     public OthersFragment() {
     }
 
+    @Override
+    public int getIndex() {
+        return 3;
+    }
 }

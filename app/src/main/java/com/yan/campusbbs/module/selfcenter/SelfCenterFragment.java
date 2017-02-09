@@ -26,6 +26,7 @@ import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
+import com.yan.campusbbs.util.FragmentSort;
 import com.yan.campusbbs.util.IChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -43,7 +44,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class SelfCenterFragment extends StatedFragment implements SelfCenterContract.View, IChangeSkin {
+public class SelfCenterFragment extends StatedFragment implements SelfCenterContract.View, IChangeSkin, FragmentSort {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -113,7 +114,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         adapter = SelfCenterAdapterHelper.getAdapter(getContext(), strings);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(onScrollListener);
+        recyclerView.setOnScrollListener(onScrollListener);
         swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         swipeRefreshLayout.setProgressViewOffset(true,
                 (int) (getResources().getDimension(R.dimen.action_bar_height) * 1.5)
@@ -222,5 +223,10 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(getContext(), actionChangeSkin.getColorAccentId())
         );
+    }
+
+    @Override
+    public int getIndex() {
+        return 0;
     }
 }
