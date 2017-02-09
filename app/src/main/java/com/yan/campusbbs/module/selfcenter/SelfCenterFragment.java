@@ -3,6 +3,7 @@ package com.yan.campusbbs.module.selfcenter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -76,12 +77,16 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_self_center, container, false);
+        return inflater.inflate(R.layout.fragment_self_center, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         init();
         daggerInject();
         skinInit();
-        return view;
     }
 
     protected void skinInit() {

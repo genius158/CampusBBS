@@ -2,6 +2,7 @@ package com.yan.campusbbs.module.campusbbs.study;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -68,12 +69,16 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
+        return inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        daggerInject();
         init();
+        daggerInject();
         skinInit();
-        return view;
     }
 
     private void daggerInject() {
@@ -116,8 +121,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
         CustomAdapter adapter2 = StudyPagerTabAdapterHelper.getAdapter(getContext(), strings, rxBus);
         pagerBarRecycler.setAdapter(adapter2);
 
-        if (followView != null)
-            followView.addFollowView(appBar);
+        followView.addFollowView(appBar);
     }
 
     protected void skinInit() {
