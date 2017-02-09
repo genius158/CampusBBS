@@ -7,6 +7,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.MainActivity;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
@@ -54,7 +55,9 @@ public class FlashActivity extends BaseActivity implements IChangeSkin {
 
     protected void skinInit() {
         changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getBaseContext(), MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 0)
+                SPUtils.getInt(getBaseContext()
+                        , MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.SKIN_INDEX, 0)
         ));
     }
 

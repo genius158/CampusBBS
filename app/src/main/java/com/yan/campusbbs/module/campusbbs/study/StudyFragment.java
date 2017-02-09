@@ -17,6 +17,7 @@ import com.yan.adapter.CustomAdapter;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
+import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.util.FragmentSort;
 import com.yan.campusbbs.module.campusbbs.IFollowViewsAdd;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterHelper;
@@ -132,7 +133,9 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
 
     protected void skinInit() {
         changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getContext(), MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 0)
+                SPUtils.getInt(getContext(), MODE_PRIVATE
+                        , SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.SKIN_INDEX, 0)
         ));
     }
 

@@ -20,6 +20,7 @@ import com.yan.adapter.CustomAdapter;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.StatedFragment;
+import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
@@ -72,6 +73,15 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     ChangeSkinHelper changeSkinHelper;
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        init();
+        daggerInject();
+        skinInit();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (mPresenter != null)
@@ -83,18 +93,11 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         return inflater.inflate(R.layout.fragment_self_center, container, false);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
-        init();
-        daggerInject();
-        skinInit();
-    }
-
     protected void skinInit() {
         changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getContext(), MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 0)
+                SPUtils.getInt(getContext(), MODE_PRIVATE
+                        , SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.SKIN_INDEX, 0)
         ));
     }
 

@@ -14,9 +14,6 @@ import java.util.Set;
  */
 public class SPUtils {
 
-    public static final String SHARED_PREFERENCE = "shared_preference";
-    public static final String SKIN_INDEX = "SkinIndex";
-
     private SPUtils() {
     }
 

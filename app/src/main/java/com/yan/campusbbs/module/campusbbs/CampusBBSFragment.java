@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
+import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.CommonPagerAdapter;
 import com.yan.campusbbs.module.campusbbs.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
@@ -79,6 +80,16 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
     private List<View> followViews;
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        init();
+        initRxBusAction();
+        skinInit();
+        setRetainInstance(true);
+    }
+
+    @Override
     public void onDestroy() {
         rxBus.post(new ActionCampusBBSFragmentFinish());
         super.onDestroy();
@@ -89,19 +100,11 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
         return inflater.inflate(R.layout.fragment_campus_bbs, container, false);
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
-        init();
-        initRxBusAction();
-        skinInit();
-        setRetainInstance(true);
-    }
-
     protected void skinInit() {
         changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getContext(), MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 0)
+                SPUtils.getInt(getContext(), MODE_PRIVATE
+                        , SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.SKIN_INDEX, 0)
         ));
     }
 

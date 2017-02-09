@@ -10,6 +10,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.CampusBBSFragment;
 import com.yan.campusbbs.module.campusbbs.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
@@ -77,7 +78,9 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
 
     protected void skinInit() {
         changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getBaseContext(), MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 0)
+                SPUtils.getInt(getBaseContext()
+                        , MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.SKIN_INDEX, 0)
         ));
     }
 

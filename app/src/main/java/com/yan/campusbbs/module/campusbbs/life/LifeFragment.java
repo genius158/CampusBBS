@@ -17,6 +17,7 @@ import com.yan.adapter.CustomAdapter;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
+import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.util.FragmentSort;
 import com.yan.campusbbs.module.campusbbs.IFollowViewsAdd;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterHelper;
@@ -65,17 +66,6 @@ public class LifeFragment extends BaseFragment implements LifeContract.View, ICh
     private volatile IFollowViewsAdd iFollowViewsAdd;
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mPresenter.start();
-    }
-
-    @Override
-    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_campusbbs_life, container, false);
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
@@ -84,6 +74,17 @@ public class LifeFragment extends BaseFragment implements LifeContract.View, ICh
         skinInit();
         setRetainInstance(true);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+    @Override
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_campusbbs_life, container, false);
     }
 
     private void daggerInject() {
@@ -131,7 +132,9 @@ public class LifeFragment extends BaseFragment implements LifeContract.View, ICh
 
     protected void skinInit() {
         changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getContext(), MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 0)
+                SPUtils.getInt(getContext(), MODE_PRIVATE
+                        , SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.SKIN_INDEX, 0)
         ));
     }
 

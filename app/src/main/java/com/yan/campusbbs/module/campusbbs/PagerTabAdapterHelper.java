@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.yan.adapter.CustomAdapter;
 import com.yan.adapter.CustomAdapterItem;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.StringViewHolder;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.RxBus;
@@ -44,16 +45,16 @@ public class PagerTabAdapterHelper {
                         holder.textView.setOnClickListener(view -> {
                             Log.e("rxbus", rxBus + "");
                             if (position == 0) {
-                                SPUtils.putInt(context, MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 0);
+                                SPUtils.putInt(context, MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 0);
                                 rxBus.post(new ActionChangeSkin(0));
                             } else if (position == 1) {
-                                SPUtils.putInt(context, MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 1);
+                                SPUtils.putInt(context, MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 1);
                                 rxBus.post(new ActionChangeSkin(1));
                             } else if (position == 2) {
-                                SPUtils.putInt(context, MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 2);
+                                SPUtils.putInt(context, MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 2);
                                 rxBus.post(new ActionChangeSkin(2));
                             } else if (position == 3) {
-                                SPUtils.putInt(context, MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 3);
+                                SPUtils.putInt(context, MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 3);
                                 rxBus.post(new ActionChangeSkin(3));
                             }
                         });
