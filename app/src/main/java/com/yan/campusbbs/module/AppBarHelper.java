@@ -6,6 +6,8 @@ import android.view.View;
 
 import com.yan.campusbbs.R;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
@@ -21,10 +23,22 @@ public class AppBarHelper {
 
     private float barPosition;
     private boolean isShow = true;
+    private List<View> followViews;
 
     @Inject
     public AppBarHelper(Context context, View appBar) {
         this.context = context;
+        this.appBar = appBar;
+    }
+
+    public AppBarHelper() {
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public void setAppBar(View appBar) {
         this.appBar = appBar;
     }
 
@@ -36,7 +50,6 @@ public class AppBarHelper {
         }
     }
 
-
     public void show() {
         if (isShow) return;
         if (objectAnimatorShow == null) {
@@ -44,6 +57,11 @@ public class AppBarHelper {
                     .setDuration(during);
             objectAnimatorShow.addUpdateListener(valueAnimator -> {
                 barPosition = (float) valueAnimator.getAnimatedValue();
+                if (followViews != null) {
+                    for (View view : followViews) {
+                        view.setY(barPosition);
+                    }
+                }
             });
         }
         objectAnimatorShow.setFloatValues(barPosition, 0);
@@ -62,6 +80,11 @@ public class AppBarHelper {
                     .setDuration(during);
             objectAnimatorHide.addUpdateListener(valueAnimator -> {
                 barPosition = (float) valueAnimator.getAnimatedValue();
+                if (followViews != null) {
+                    for (View view : followViews) {
+                        view.setY(barPosition);
+                    }
+                }
             });
         }
         objectAnimatorHide.setFloatValues(barPosition
@@ -71,5 +94,10 @@ public class AppBarHelper {
         }
         objectAnimatorHide.start();
         isShow = false;
+    }
+
+
+    public void setViewList(List<View> followViews) {
+        this.followViews = followViews;
     }
 }

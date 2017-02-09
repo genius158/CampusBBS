@@ -2,7 +2,6 @@ package com.yan.campusbbs.module.campusbbs.study;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.yan.adapter.CustomAdapter;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
+import com.yan.campusbbs.module.campusbbs.FollowViewsAdd;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
 
 import java.util.ArrayList;
@@ -35,8 +36,12 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
     @BindView(R.id.store_house_ptr_frame)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @BindView(R.id.pager_bar)
+    FrameLayout pagerBar;
+
     private StudyContract.Presenter mPresenter;
 
+    private FollowViewsAdd followView;
 
     private View root;
 
@@ -44,7 +49,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (root == null) {
-            root = inflater.inflate(R.layout.fragment_file_manager_study, container, false);
+            root = inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
             ButterKnife.bind(this, root);
             init();
         } else {
@@ -52,6 +57,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
                 ((ViewGroup) root.getParent()).removeView(root);
             }
         }
+        ButterKnife.bind(this, root);
         return root;
     }
 
@@ -77,6 +83,8 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getContext(), R.color.crFEFEFE)
         );
+
+        followView.addFollowView(pagerBar);
     }
 
     @Override
@@ -114,4 +122,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
         }
     };
 
+    public void setFollowView(FollowViewsAdd followView) {
+        this.followView = followView;
+    }
 }
