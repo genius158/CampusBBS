@@ -37,7 +37,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
     SwipeRefreshLayout swipeRefreshLayout;
 
     @BindView(R.id.pager_bar)
-    FrameLayout pagerBar;
+    RecyclerView recyclerPagerBar;
 
     private StudyContract.Presenter mPresenter;
 
@@ -84,7 +84,13 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
                 ContextCompat.getColor(getContext(), R.color.crFEFEFE)
         );
 
-        followView.addFollowView(pagerBar);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerPagerBar.setLayoutManager(linearLayoutManager);
+        CustomAdapter adapter2 = SelfCenterAdapterHelper.getAdapter(getContext(), strings);
+        recyclerPagerBar.setAdapter(adapter2);
+
+        followView.addFollowView(recyclerPagerBar);
     }
 
     @Override

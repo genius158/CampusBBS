@@ -19,12 +19,15 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <FrameLayout
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/pager_bar"
         android:layout_width="match_parent"
-        android:paddingTop="@dimen/action_bar_height"
+        android:background="@color/crFFFFFF"
         android:layout_height="@dimen/double_action_bar_height"
-        android:background="@color/colorAccent">
-    </FrameLayout>
+        android:paddingTop="@dimen/action_bar_height">
+
+    </android.support.v7.widget.RecyclerView>
+
 
 </FrameLayout>
