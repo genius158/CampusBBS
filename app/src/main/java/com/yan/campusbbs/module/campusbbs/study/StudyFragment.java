@@ -82,6 +82,8 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
         init();
         daggerInject();
         skinInit();
+        setRetainInstance(true);
+
     }
 
     private void daggerInject() {

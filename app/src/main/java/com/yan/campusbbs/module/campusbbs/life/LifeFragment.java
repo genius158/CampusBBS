@@ -82,6 +82,8 @@ public class LifeFragment extends BaseFragment implements LifeContract.View, ICh
         init();
         daggerInject();
         skinInit();
+        setRetainInstance(true);
+
     }
 
     private void daggerInject() {

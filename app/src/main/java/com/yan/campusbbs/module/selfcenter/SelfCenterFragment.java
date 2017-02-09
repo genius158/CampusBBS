@@ -58,6 +58,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
 
     private int actionBarPinHeight;
     private float offsetDy;
+    private boolean isNeedAdjustBar;
 
     private List<String> strings;
     private CustomAdapter adapter;
@@ -200,18 +201,28 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             appBarHelper.offset(dy);
-            offsetDy += dy;
-            float alphaTrigger = 0.9f;
+            offsetDy += (float) dy;
+            float alphaTrigger = 0.8f;
             float alpha = Math.min(offsetDy / actionBarPinHeight, alphaTrigger);
 
-            if (alpha < alphaTrigger) {
+            if (alpha <= alphaTrigger) {
+                isNeedAdjustBar = true;
                 appBarBackground.setAlpha(alpha);
                 appBarTitle.setTextColor(
-                        Color.argb(
-                                255
-                                , (int) (255 * (1 - alpha / 9 * 8))
-                                , (int) (255 * (1 - alpha / 9 * 8))
-                                , (int) (255 * (1 - alpha / 9 * 8))
+                        Color.argb(255
+                                , (int) (255 * (1 - alpha / 8 * 6))
+                                , (int) (255 * (1 - alpha / 8 * 6))
+                                , (int) (255 * (1 - alpha / 8 * 6))
+                        )
+                );
+            } else if (isNeedAdjustBar) {
+                isNeedAdjustBar = false;
+                appBarBackground.setAlpha(alphaTrigger);
+                appBarTitle.setTextColor(
+                        Color.argb(255
+                                , (int) (255 * alphaTrigger / 8 * 6)
+                                , (int) (255 * alphaTrigger / 8 * 6)
+                                , (int) (255 * alphaTrigger / 8 * 6)
                         )
                 );
             }

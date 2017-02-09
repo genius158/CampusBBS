@@ -82,6 +82,7 @@ public class JobFragment extends BaseFragment implements JobContract.View, IChan
         init();
         daggerInject();
         skinInit();
+        setRetainInstance(true);
     }
 
     private void daggerInject() {

@@ -32,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="1dp"
+                android:alpha="0.9"
                 app:cardBackgroundColor="@color/crFFFFFF"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="1sp" />
@@ -42,8 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="@dimen/app_bar_text_size"
-            android:text="个人中心" />
+            android:text="个人中心"
+            android:textSize="@dimen/app_bar_text_size" />
 
     </FrameLayout>
 

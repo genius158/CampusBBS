@@ -52,7 +52,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, IChangeSkin,FragmentSort {
+public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, IChangeSkin, FragmentSort {
     private final String[] CONTENT = new String[]{"学习", "生活", "工作", "更多"};
 
     @BindView(R.id.tabs)
@@ -96,6 +96,7 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
         init();
         initRxBusAction();
         skinInit();
+        setRetainInstance(true);
     }
 
     protected void skinInit() {
@@ -132,12 +133,13 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
         viewPager.setAdapter(adapter);
         indicator.setupWithViewPager(viewPager);
 
+        viewPager.addOnPageChangeListener(onPageChangeListener);
+
         CoordinatorLayout.LayoutParams lp =
                 (CoordinatorLayout.LayoutParams) tabContainer.getLayoutParams();
         behavior = (CampusAppBarBehavior) lp.getBehavior();
 
     }
-
 
 
     private void daggerInject(List<Fragment> fragments) {
@@ -180,6 +182,7 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
                 ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
         );
     }
+
     private void resetFragments() {
         boolean[] fragmentNullIndex = new boolean[4];
         for (Fragment fragment : fragments) {
@@ -217,4 +220,21 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
     public int getIndex() {
         return 1;
     }
+
+    ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            behavior.show();
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 }
