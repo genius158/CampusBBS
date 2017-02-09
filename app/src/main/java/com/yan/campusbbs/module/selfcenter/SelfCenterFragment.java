@@ -21,6 +21,10 @@ import com.yan.campusbbs.base.StatedFragment;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
+import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.ChangeSkinHelper;
+import com.yan.campusbbs.util.ChangeSkinModule;
+import com.yan.campusbbs.util.IChangeSkin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +39,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class SelfCenterFragment extends StatedFragment implements SelfCenterContract.View {
+public class SelfCenterFragment extends StatedFragment implements SelfCenterContract.View, IChangeSkin {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -46,6 +50,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     TextView appBarTitle;
     @BindView(R.id.app_bar)
     FrameLayout appBar;
+
 
     private View root;
 
@@ -60,6 +65,9 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     @Inject
     AppBarHelper appBarHelper;
 
+    @Inject
+    ChangeSkinHelper changeSkinHelper;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,7 +81,6 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
                 ((ViewGroup) root.getParent()).removeView(root);
             }
         }
-        ButterKnife.bind(this, root);
         return root;
     }
 
@@ -81,6 +88,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         DaggerSelfCenterComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getActivity().getApplication()).getApplicationComponent()
         ).appBarHelperModule(new AppBarHelperModule(appBar))
+                .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
                 .build().inject(this);
     }
 
@@ -205,4 +213,10 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         }
     };
 
+    @Override
+    public void changeSkin(ActionChangeSkin actionChangeSkin) {
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(getContext(), actionChangeSkin.getColorAccentId())
+        );
+    }
 }

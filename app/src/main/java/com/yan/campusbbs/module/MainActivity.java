@@ -176,5 +176,21 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
                     ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryDarkId())
             );
         }
+        bottomNavigationBar.clearAll();
+
+        BadgeItem numberBadgeItem = new BadgeItem()
+                .setBorderWidth(4)
+                .setBackgroundColorResource(R.color.crFF0000)
+                .setText("5");
+
+        bottomNavigationBar
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "个人中心")
+                        .setBadgeItem(numberBadgeItem))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "学园论坛"))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "资源中心"))
+                .setActiveColor(actionChangeSkin.getColorPrimaryId())
+                .setInActiveColor(R.color.crABABAB)
+                .setFirstSelectedPosition(viewPager.getCurrentItem())
+                .initialise();
     }
 }

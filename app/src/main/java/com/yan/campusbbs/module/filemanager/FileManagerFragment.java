@@ -110,7 +110,6 @@ public class FileManagerFragment extends BaseFragment implements FileManagerCont
         );
     }
 
-
     public static FileManagerFragment newInstance() {
         return new FileManagerFragment();
     }
@@ -147,6 +146,11 @@ public class FileManagerFragment extends BaseFragment implements FileManagerCont
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
-        appBarBackground.setCardBackgroundColor(actionChangeSkin.getColorPrimaryId());
+        appBarBackground.setCardBackgroundColor(
+                ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
+        );
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(getContext(), actionChangeSkin.getColorAccentId())
+        );
     }
 }

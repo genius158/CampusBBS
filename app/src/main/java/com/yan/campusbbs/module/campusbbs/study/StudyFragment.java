@@ -12,13 +12,20 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.yan.adapter.CustomAdapter;
+import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
 import com.yan.campusbbs.module.campusbbs.IFollowViewsAdd;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
+import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.ChangeSkinHelper;
+import com.yan.campusbbs.util.ChangeSkinModule;
+import com.yan.campusbbs.util.IChangeSkin;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +35,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class StudyFragment extends BaseFragment implements StudyContract.View {
+public class StudyFragment extends BaseFragment implements StudyContract.View, IChangeSkin {
     List<String> strings;
     CustomAdapter adapter;
     @BindView(R.id.recycler_view)
@@ -40,6 +47,9 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
     FrameLayout appBar;
     @BindView(R.id.pager_bar_recycler)
     RecyclerView pagerBarRecycler;
+
+    @Inject
+    ChangeSkinHelper changeSkinHelper;
 
     private StudyContract.Presenter mPresenter;
 
@@ -54,13 +64,22 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
             root = inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
             ButterKnife.bind(this, root);
             init();
+            daggerInject();
         } else {
             if (root.getParent() != null) {
                 ((ViewGroup) root.getParent()).removeView(root);
             }
         }
-        ButterKnife.bind(this, root);
         return root;
+    }
+
+    private void daggerInject() {
+        DaggerStudyComponent.builder()
+                .applicationComponent(((ApplicationCampusBBS) getActivity()
+                        .getApplication())
+                        .getApplicationComponent())
+                .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
+                .build().inject(this);
     }
 
     private void init() {
@@ -132,5 +151,13 @@ public class StudyFragment extends BaseFragment implements StudyContract.View {
 
     public void setFollowView(IFollowViewsAdd followView) {
         this.followView = followView;
+    }
+
+
+    @Override
+    public void changeSkin(ActionChangeSkin actionChangeSkin) {
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
+                ContextCompat.getColor(getContext(), actionChangeSkin.getColorAccentId())
+        );
     }
 }
