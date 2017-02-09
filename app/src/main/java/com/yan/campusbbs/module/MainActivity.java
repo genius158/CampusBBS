@@ -157,10 +157,6 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
         @Override
         public void onPageSelected(int position) {
             bottomNavigationBar.selectTab(position);
-            if (position == 1) {
-                SPUtils.putInt(getBaseContext(), MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 1);
-                rxBus.post(new ActionChangeSkin(1));
-            }
         }
 
         @Override

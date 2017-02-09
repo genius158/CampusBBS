@@ -21,6 +21,8 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
 import com.yan.campusbbs.util.IChangeSkin;
+import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.Context.MODE_PRIVATE;
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
@@ -49,6 +52,9 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
     RecyclerView pagerBarRecycler;
 
     @Inject
+    RxBus rxBus;
+
+    @Inject
     ChangeSkinHelper changeSkinHelper;
 
     private StudyContract.Presenter mPresenter;
@@ -63,8 +69,9 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
         if (root == null) {
             root = inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
             ButterKnife.bind(this, root);
-            init();
             daggerInject();
+            init();
+            skinInit();
         } else {
             if (root.getParent() != null) {
                 ((ViewGroup) root.getParent()).removeView(root);
@@ -96,7 +103,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
         recyclerView.setAdapter(adapter);
         swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         swipeRefreshLayout.setProgressViewOffset(true,
-                (int) (  getResources().getDimension(R.dimen.action_bar_height)* 1.5)
+                (int) (getResources().getDimension(R.dimen.action_bar_height) * 1.5)
                 , (int) getResources().getDimension(R.dimen.action_bar_height) * 3);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(getContext(), R.color.colorAccent)
@@ -105,10 +112,12 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
                 ContextCompat.getColor(getContext(), R.color.crFEFEFE)
         );
 
+
+        //----------------------
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         pagerBarRecycler.setLayoutManager(linearLayoutManager);
-        CustomAdapter adapter2 = StudyPagerTabAdapterHelper.getAdapter(getContext(), strings);
+        CustomAdapter adapter2 = StudyPagerTabAdapterHelper.getAdapter(getContext(), strings,rxBus);
         pagerBarRecycler.setAdapter(adapter2);
 
         followView.addFollowView(appBar);
@@ -118,6 +127,12 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
     public void onResume() {
         super.onResume();
         mPresenter.start();
+    }
+
+    protected void skinInit() {
+        changeSkin(new ActionChangeSkin(
+                SPUtils.getInt(getContext(), MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 0)
+        ));
     }
 
     public static StudyFragment newInstance() {

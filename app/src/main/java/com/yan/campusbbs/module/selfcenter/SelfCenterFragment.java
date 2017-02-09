@@ -25,6 +25,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
 import com.yan.campusbbs.util.IChangeSkin;
+import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.Context.MODE_PRIVATE;
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
@@ -76,12 +78,19 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
             ButterKnife.bind(this, root);
             init();
             daggerInject();
+            skinInit();
         } else {
             if (root.getParent() != null) {
                 ((ViewGroup) root.getParent()).removeView(root);
             }
         }
         return root;
+    }
+
+    protected void skinInit() {
+        changeSkin(new ActionChangeSkin(
+                SPUtils.getInt(getContext(), MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 0)
+        ));
     }
 
     private void daggerInject() {
@@ -111,7 +120,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         recyclerView.addOnScrollListener(onScrollListener);
         swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         swipeRefreshLayout.setProgressViewOffset(true,
-                (int) (  getResources().getDimension(R.dimen.action_bar_height)* 1.5)
+                (int) (getResources().getDimension(R.dimen.action_bar_height) * 1.5)
                 , (int) getResources().getDimension(R.dimen.action_bar_height) * 3);
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
                 ContextCompat.getColor(getContext(), R.color.colorAccent)
