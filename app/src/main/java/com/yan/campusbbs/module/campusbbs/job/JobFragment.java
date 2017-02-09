@@ -79,8 +79,8 @@ public class JobFragment extends BaseFragment implements JobContract.View, IChan
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        init();
         daggerInject();
+        init();
         skinInit();
         setRetainInstance(true);
     }
@@ -125,7 +125,6 @@ public class JobFragment extends BaseFragment implements JobContract.View, IChan
         CustomAdapter adapter2 = PagerTabAdapterHelper.getAdapter(getContext(), strings, rxBus);
         pagerBarRecycler.setAdapter(adapter2);
 
-        Log.e("iFollowViewsAdd2", " followView: " + iFollowViewsAdd + " appBar:  " + appBar);
         iFollowViewsAdd.addFollowView(appBar);
     }
 
@@ -166,8 +165,6 @@ public class JobFragment extends BaseFragment implements JobContract.View, IChan
 
     public void setFollowAdd(IFollowViewsAdd followView) {
         this.iFollowViewsAdd = followView;
-        Log.e("iFollowViewsAdd1", " followView: " + followView + "  " + this.iFollowViewsAdd);
-
     }
 
 

@@ -3,26 +3,14 @@ package com.yan.campusbbs.rxbusaction;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.yan.campusbbs.R;
+import com.yan.campusbbs.config.AppSkinConfig;
 
 /**
  * Created by yan on 2017/2/8.
  */
 
 public class ActionChangeSkin implements Parcelable {
-    public static final int[] colorPrimaryId = new int[]{
-            R.color.colorPrimary,
-            R.color.colorPrimary2
-    };
 
-    public static final int[] colorPrimaryDarkId = new int[]{
-            R.color.colorPrimaryDark,
-            R.color.colorPrimaryDark2
-    };
-    public static final int[] colorAccentId = new int[]{
-            R.color.colorAccent,
-            R.color.colorAccent2
-    };
 
     private int skinIndex = 0;
 
@@ -31,15 +19,15 @@ public class ActionChangeSkin implements Parcelable {
     }
 
     public int getColorPrimaryId() {
-        return colorPrimaryId[skinIndex];
+        return AppSkinConfig.COLOR_PRIMARY_ID[skinIndex];
     }
 
     public int getColorPrimaryDarkId() {
-        return colorPrimaryDarkId[skinIndex];
+        return AppSkinConfig.COLOR_PRIMARY_DARK_ID[skinIndex];
     }
 
     public int getColorAccentId() {
-        return colorAccentId[skinIndex];
+        return AppSkinConfig.COLOR_ACCENT_ID[skinIndex];
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.yan.campusbbs.module.campusbbs;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -41,12 +42,19 @@ public class PagerTabAdapterHelper {
                     public void bindData(StringViewHolder holder, String item, int position) {
                         holder.textView.setText(item);
                         holder.textView.setOnClickListener(view -> {
+                            Log.e("rxbus", rxBus + "");
                             if (position == 0) {
                                 SPUtils.putInt(context, MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 0);
                                 rxBus.post(new ActionChangeSkin(0));
                             } else if (position == 1) {
                                 SPUtils.putInt(context, MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 1);
                                 rxBus.post(new ActionChangeSkin(1));
+                            } else if (position == 2) {
+                                SPUtils.putInt(context, MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 2);
+                                rxBus.post(new ActionChangeSkin(2));
+                            } else if (position == 3) {
+                                SPUtils.putInt(context, MODE_PRIVATE, SPUtils.SHARED_PREFERENCE, SPUtils.SKIN_INDEX, 3);
+                                rxBus.post(new ActionChangeSkin(3));
                             }
                         });
                     }

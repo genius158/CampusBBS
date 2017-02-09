@@ -42,7 +42,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class StudyFragment extends BaseFragment implements StudyContract.View, IChangeSkin,FragmentSort {
+public class StudyFragment extends BaseFragment implements StudyContract.View, IChangeSkin, FragmentSort {
     List<String> strings;
     CustomAdapter adapter;
     @BindView(R.id.recycler_view)
@@ -79,8 +79,8 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        init();
         daggerInject();
+        init();
         skinInit();
         setRetainInstance(true);
 
@@ -124,9 +124,9 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         pagerBarRecycler.setLayoutManager(linearLayoutManager);
         CustomAdapter adapter2 = PagerTabAdapterHelper.getAdapter(getContext(), strings, rxBus);
+        Log.e("RxBus", rxBus + "");
         pagerBarRecycler.setAdapter(adapter2);
 
-        Log.e("iFollowViewsAdd2", " followView: " + iFollowViewsAdd + " appBar:  " + appBar);
         iFollowViewsAdd.addFollowView(appBar);
     }
 
@@ -167,8 +167,6 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
 
     public void setFollowAdd(IFollowViewsAdd followView) {
         this.iFollowViewsAdd = followView;
-        Log.e("iFollowViewsAdd1", " followView: " + followView + "  " + this.iFollowViewsAdd);
-
     }
 
 
