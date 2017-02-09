@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,13 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
 import com.yan.campusbbs.module.CommonPagerAdapter;
+import com.yan.campusbbs.module.campusbbs.job.JobFragment;
+import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
+import com.yan.campusbbs.module.campusbbs.job.JobPresenterModule;
+import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
+import com.yan.campusbbs.module.campusbbs.life.LifePresenter;
+import com.yan.campusbbs.module.campusbbs.life.LifePresenterModule;
+import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
@@ -56,6 +64,10 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
     @Inject
     StudyPresenter studyPresenter;
     @Inject
+    LifePresenter lifePresenter;
+    @Inject
+    JobPresenter jobPresenter;
+    @Inject
     ChangeSkinHelper changeSkinHelper;
 
     @BindView(R.id.tab_campus_container)
@@ -81,6 +93,7 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         init();
+        initRxBusAction();
         skinInit();
     }
 
@@ -90,17 +103,25 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
         ));
     }
 
+    List<Fragment> fragments;
+
     private void init() {
         followViews = new ArrayList<>();
 
-        List<Fragment> fragments = new ArrayList<>();
-        StudyFragment studyFragment = StudyFragment.newInstance();
-        fragments.add(studyFragment);
-        fragments.add(SelfCenterFragment.newInstance());
-        fragments.add(SelfCenterFragment.newInstance());
-        fragments.add(SelfCenterFragment.newInstance());
+        if (getChildFragmentManager().getFragments() == null) {
+            fragments = new ArrayList<>();
+            fragments.add(StudyFragment.newInstance());
+            fragments.add(LifeFragment.newInstance());
+            fragments.add(JobFragment.newInstance());
+            fragments.add(OthersFragment.newInstance());
+        } else {
+            fragments = getChildFragmentManager().getFragments();
+        }
 
         daggerInject(fragments);
+        ((StudyFragment) fragments.get(0)).setFollowAdd(this);
+        ((LifeFragment) fragments.get(1)).setFollowAdd(this);
+        ((JobFragment) fragments.get(2)).setFollowAdd(this);
 
         CommonPagerAdapter adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, CONTENT);
         viewPager.setAdapter(adapter);
@@ -109,9 +130,7 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
         CoordinatorLayout.LayoutParams lp =
                 (CoordinatorLayout.LayoutParams) tabContainer.getLayoutParams();
         behavior = (CampusAppBarBehavior) lp.getBehavior();
-        studyFragment.setFollowView(this);
 
-        initRxBusAction();
     }
 
     private void daggerInject(List<Fragment> fragments) {
@@ -120,6 +139,8 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
                         .getApplication())
                         .getApplicationComponent())
                 .studyPresenterModule(new StudyPresenterModule((StudyFragment) fragments.get(0)))
+                .lifePresenterModule(new LifePresenterModule((LifeFragment) fragments.get(1)))
+                .jobPresenterModule(new JobPresenterModule((JobFragment) fragments.get(2)))
                 .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
                 .build().inject(this);
     }

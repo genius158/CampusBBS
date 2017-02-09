@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.campusbbs.study;
+package com.yan.campusbbs.module.campusbbs;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -20,7 +20,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by yan on 2017/2/7.
  */
 
-public class StudyPagerTabAdapterHelper {
+public class PagerTabAdapterHelper {
 
     public static CustomAdapter getAdapter(final Context context, List<String> data, RxBus rxBus) {
         return new CustomAdapter(data)

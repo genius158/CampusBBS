@@ -99,10 +99,14 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
     }
 
     private void initFragment() {
-        fragments = new ArrayList<>();
-        fragments.add(SelfCenterFragment.newInstance());
-        fragments.add(CampusBBSFragment.newInstance());
-        fragments.add(FileManagerFragment.newInstance());
+        if (getSupportFragmentManager().getFragments() == null) {
+            fragments = new ArrayList<>();
+            fragments.add(SelfCenterFragment.newInstance());
+            fragments.add(CampusBBSFragment.newInstance());
+            fragments.add(FileManagerFragment.newInstance());
+        } else {
+            fragments = getSupportFragmentManager().getFragments();
+        }
 
         DaggerModuleComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent())

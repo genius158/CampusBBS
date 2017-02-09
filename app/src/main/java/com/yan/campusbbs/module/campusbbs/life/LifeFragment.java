@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.campusbbs.study;
+package com.yan.campusbbs.module.campusbbs.life;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +19,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
 import com.yan.campusbbs.module.campusbbs.IFollowViewsAdd;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterHelper;
+import com.yan.campusbbs.module.campusbbs.study.DaggerStudyComponent;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
@@ -41,7 +42,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class StudyFragment extends BaseFragment implements StudyContract.View, IChangeSkin {
+public class LifeFragment extends BaseFragment implements LifeContract.View, IChangeSkin {
     List<String> strings;
     CustomAdapter adapter;
     @BindView(R.id.recycler_view)
@@ -60,7 +61,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
     @Inject
     ChangeSkinHelper changeSkinHelper;
 
-    private StudyContract.Presenter mPresenter;
+    private LifeContract.Presenter mPresenter;
     private volatile IFollowViewsAdd iFollowViewsAdd;
 
     @Override
@@ -71,7 +72,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
+        return inflater.inflate(R.layout.fragment_campusbbs_life, container, false);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
     }
 
     private void daggerInject() {
-        DaggerStudyComponent.builder()
+        DaggerLifeComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
@@ -133,15 +134,15 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
         ));
     }
 
-    public static StudyFragment newInstance() {
-        return new StudyFragment();
+    public static LifeFragment newInstance() {
+        return new LifeFragment();
     }
 
-    public StudyFragment() {
+    public LifeFragment() {
     }
 
     @Override
-    public void setPresenter(@NonNull StudyContract.Presenter presenter) {
+    public void setPresenter(@NonNull LifeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 
