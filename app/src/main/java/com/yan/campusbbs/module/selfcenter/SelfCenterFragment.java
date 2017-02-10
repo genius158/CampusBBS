@@ -127,6 +127,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
+        recyclerView.clearOnScrollListeners();
         recyclerView.addOnScrollListener(onScrollListener);
     }
 
@@ -173,7 +174,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
 
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
