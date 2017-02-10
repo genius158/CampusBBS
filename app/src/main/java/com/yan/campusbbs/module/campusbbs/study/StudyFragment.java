@@ -123,7 +123,6 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(multiItemAdapter);
-
     }
 
     private void daggerInject() {
@@ -137,9 +136,8 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
                 .build().inject(this);
 
         attach(swipeRefreshLayout, pagerBarRecycler, pagerTabAdapter, appBar);
-        setPagerTabItemOnClick(onRecyclerViewItemClickListener);
+        setPagerTabItemOnClick(getOnRecyclerViewItemClickListener());
     }
-
 
     private void init() {
     }
@@ -172,21 +170,21 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
         return 0;
     }
 
-
-    private BaseQuickAdapter.OnRecyclerViewItemClickListener onRecyclerViewItemClickListener =
-            (view, position) -> {
-                if (position == 0) {
-                    SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 0);
-                    rxBus.post(new ActionChangeSkin(0));
-                } else if (position == 1) {
-                    SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 1);
-                    rxBus.post(new ActionChangeSkin(1));
-                } else if (position == 2) {
-                    SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 2);
-                    rxBus.post(new ActionChangeSkin(2));
-                } else if (position == 3) {
-                    SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 3);
-                    rxBus.post(new ActionChangeSkin(3));
-                }
-            };
+    private BaseQuickAdapter.OnRecyclerViewItemClickListener getOnRecyclerViewItemClickListener() {
+        return (view, position) -> {
+            if (position == 0) {
+                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 0);
+                rxBus.post(new ActionChangeSkin(0));
+            } else if (position == 1) {
+                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 1);
+                rxBus.post(new ActionChangeSkin(1));
+            } else if (position == 2) {
+                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 2);
+                rxBus.post(new ActionChangeSkin(2));
+            } else if (position == 3) {
+                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 3);
+                rxBus.post(new ActionChangeSkin(3));
+            }
+        };
+    }
 }

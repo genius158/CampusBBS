@@ -21,48 +21,52 @@ import java.util.List;
  */
 
 public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implements ChangeSkin, SwipeRefreshLayout.OnRefreshListener {
-    protected List<PagerTabAdapter.PagerTabItem> pagerTabItem;
+    protected final List<PagerTabAdapter.PagerTabItem> pagerTabItem;
     protected FollowViewsAdd followViewsAdd;
     private PagerTabAdapter pagerTabAdapter;
+    private RecyclerView pagerBarRecycler;
+    private LinearLayoutManager linearLayoutManager;
     private BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int tabSelectPosition = 0;
+
+    protected RefreshTabPagerFragment() {
         pagerTabItem = new ArrayList<>();
     }
 
     public void attach(SwipeRefreshLayout swipeRefreshLayout, RecyclerView pagerBarRecycler, PagerTabAdapter pagerTabAdapter, View appBar) {
         super.attach(swipeRefreshLayout);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        pagerBarRecycler.setLayoutManager(linearLayoutManager);
-        pagerBarRecycler.setAdapter(pagerTabAdapter);
+        this.pagerBarRecycler = pagerBarRecycler;
         this.pagerTabAdapter = pagerTabAdapter;
-        pagerTabAdapter.setOnRecyclerViewItemClickListener(onRecyclerViewItemClickListener);
-        Log.e("followView2", "followViewsAdd:" + followViewsAdd);
 
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        this.pagerBarRecycler.setLayoutManager(linearLayoutManager);
+        this.pagerBarRecycler.setAdapter(this.pagerTabAdapter);
+        this.pagerTabAdapter.setOnRecyclerViewItemClickListener(getItemClickListener());
         followViewsAdd.addFollowView(appBar);
     }
 
     public void setFollowAdd(FollowViewsAdd followView) {
-        Log.e("followView1", "followView:" + followView);
         this.followViewsAdd = followView;
     }
 
-    private BaseQuickAdapter.OnRecyclerViewItemClickListener onRecyclerViewItemClickListener = (view, position) -> {
-        if (pagerTabItemOnClick != null) {
-            pagerTabItemOnClick.onItemClick(view, position);
-        }
-        for (int i = 0; i < pagerTabItem.size(); i++) {
-            if (i == position) {
-                pagerTabItem.get(i).isSelect = true;
-            } else {
-                pagerTabItem.get(i).isSelect = false;
+    private BaseQuickAdapter.OnRecyclerViewItemClickListener getItemClickListener() {
+        return (view, position) -> {
+            tabSelectPosition = position;
+            if (pagerTabItemOnClick != null) {
+                pagerTabItemOnClick.onItemClick(view, position);
             }
-        }
-        pagerTabAdapter.notifyDataSetChanged();
-    };
+            for (int i = 0; i < pagerTabItem.size(); i++) {
+                if (i == position) {
+                    pagerTabItem.get(i).isSelect = true;
+                } else {
+                    pagerTabItem.get(i).isSelect = false;
+                }
+            }
+            pagerTabAdapter.notifyDataSetChanged();
+        };
+    }
 
     public void setPagerTabItemOnClick(BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick) {
         this.pagerTabItemOnClick = pagerTabItemOnClick;
@@ -72,5 +76,18 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
         pagerTabAdapter.changeSkin(actionChangeSkin);
+    }
+
+    @Override
+    protected void onSaveArguments(Bundle bundle) {
+        bundle.putInt("tabSelectPosition", tabSelectPosition);
+    }
+
+    @Override
+    protected void onReloadArguments(Bundle bundle) {
+        tabSelectPosition = bundle.getInt("tabSelectPosition");
+        pagerBarRecycler.scrollToPosition(tabSelectPosition);
+        pagerTabItem.get(tabSelectPosition).isSelect = true;
+        pagerTabAdapter.notifyDataSetChanged();
     }
 }

@@ -46,7 +46,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  * Main UI for the add task screen. Users can enter a task title and description.
  */
 public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAdd, FragmentSort {
-    private String[] pagerTitles;
+    private final String[] pagerTitles;
 
     @BindView(R.id.tabs)
     TabLayout indicator;
@@ -68,10 +68,10 @@ public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAd
     CardView tabContainer;
 
     private CampusAppBarBehavior behavior;
-
-    private List<View> followViews;
-    private List<Fragment> fragments;
     private CommonPagerAdapter adapter;
+
+    private final List<View> followViews;
+    private List<Fragment> fragments;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,16 +83,16 @@ public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAd
         return view;
     }
 
+    public CampusBBSFragment() {
+        pagerTitles = new String[4];
+        followViews = new ArrayList<>();
+    }
 
     private void init() {
-        pagerTitles = new String[]{
-                getString(R.string.campus_bbs_study)
-                , getString(R.string.campus_bbs_life)
-                , getString(R.string.campus_bbs_job)
-                , getString(R.string.campus_bbs_more)
-        };
-
-        followViews = new ArrayList<>();
+        pagerTitles[0] = getString(R.string.campus_bbs_study);
+        pagerTitles[1] = getString(R.string.campus_bbs_life);
+        pagerTitles[2] = getString(R.string.campus_bbs_job);
+        pagerTitles[3] = getString(R.string.campus_bbs_more);
 
         if (getChildFragmentManager().getFragments() == null) {
             fragments = new ArrayList<>();
@@ -118,7 +118,7 @@ public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAd
         viewPager.setAdapter(adapter);
         indicator.setupWithViewPager(viewPager);
 
-        viewPager.addOnPageChangeListener(onPageChangeListener);
+        viewPager.addOnPageChangeListener(getOnPageChangeListener());
 
         CoordinatorLayout.LayoutParams lp =
                 (CoordinatorLayout.LayoutParams) tabContainer.getLayoutParams();
@@ -204,20 +204,22 @@ public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAd
         return 1;
     }
 
-    ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    private ViewPager.OnPageChangeListener getOnPageChangeListener() {
+        return new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        }
+            }
 
-        @Override
-        public void onPageSelected(int position) {
-            behavior.show();
-        }
+            @Override
+            public void onPageSelected(int position) {
+                behavior.show();
+            }
 
-        @Override
-        public void onPageScrollStateChanged(int state) {
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
-        }
-    };
+            }
+        };
+    }
 }

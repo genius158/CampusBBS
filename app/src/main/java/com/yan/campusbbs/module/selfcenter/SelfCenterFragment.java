@@ -50,23 +50,20 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @BindView(R.id.app_bar)
     FrameLayout appBar;
 
-    private int actionBarPinHeight;
-    private boolean isNeedAdjustBar;
-
-
-    private SelfCenterContract.Presenter mPresenter;
-
-    @Inject
-    AppBarHelper appBarHelper;
-
-    @Inject
-    SelfCenterMultiItemAdapter adapter;
-
-    @Inject
-    List<DataMultiItem> dataMultiItems;
 
     @Inject
     ChangeSkinHelper changeSkinHelper;
+    @Inject
+    AppBarHelper appBarHelper;
+
+    private int actionBarPinHeight;
+    private boolean isNeedAdjustBar;
+
+    private SelfCenterMultiItemAdapter adapter;
+
+    private final List<DataMultiItem> dataMultiItems;
+    private SelfCenterContract.Presenter mPresenter;
+
 
     @Override
     public void onResume() {
@@ -84,6 +81,10 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         dataInit();
         skinInit();
         return view;
+    }
+
+    public SelfCenterFragment() {
+        dataMultiItems = new ArrayList<>();
     }
 
     private void daggerInject() {
@@ -123,6 +124,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
                         , new String("说说")));
 
+        adapter = new SelfCenterMultiItemAdapter(dataMultiItems, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.clearOnScrollListeners();
@@ -133,9 +135,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         SelfCenterFragment selfCenterFragment = new SelfCenterFragment();
         selfCenterFragment.setArguments(new Bundle());
         return new SelfCenterFragment();
-    }
-
-    public SelfCenterFragment() {
     }
 
     @Override

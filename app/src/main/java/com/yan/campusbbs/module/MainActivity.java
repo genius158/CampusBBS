@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity implements ChangeSkin {
                 .initialise();
 
         bottomNavigationBar.setAnimationDuration(100);
-        bottomNavigationBar.setTabSelectedListener(onTabSelectedListener);
+        bottomNavigationBar.setTabSelectedListener(getOnTabSelectedListener());
     }
 
     private void initFragment() {
@@ -133,56 +133,59 @@ public class MainActivity extends BaseActivity implements ChangeSkin {
         commonPagerAdapter = new CommonPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(commonPagerAdapter);
         viewPager.clearOnPageChangeListeners();
-        viewPager.addOnPageChangeListener(pageChangeListener);
+        viewPager.addOnPageChangeListener(getPageChangeListener());
     }
 
-    private BottomNavigationBar.OnTabSelectedListener onTabSelectedListener =
-            new BottomNavigationBar.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(int position) {
-                    bottomNavigationBar.show();
-                    viewPager.setCurrentItem(position);
-                    switch (position) {
-                        case 0:
-                            bottomNavigationBar.setAutoHideEnabled(true);
-                            break;
-                        case 1:
-                            bottomNavigationBar.setAutoHideEnabled(false);
-                            rxBus.post(new ActionPagerToCampusBBS());
-                            break;
-                        case 2:
-                            bottomNavigationBar.setAutoHideEnabled(false);
-                            break;
-                    }
+    private BottomNavigationBar.OnTabSelectedListener getOnTabSelectedListener() {
+        return new BottomNavigationBar.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+                bottomNavigationBar.show();
+                viewPager.setCurrentItem(position);
+                switch (position) {
+                    case 0:
+                        bottomNavigationBar.setAutoHideEnabled(true);
+                        break;
+                    case 1:
+                        bottomNavigationBar.setAutoHideEnabled(false);
+                        rxBus.post(new ActionPagerToCampusBBS());
+                        break;
+                    case 2:
+                        bottomNavigationBar.setAutoHideEnabled(false);
+                        break;
                 }
+            }
 
-                @Override
-                public void onTabUnselected(int position) {
+            @Override
+            public void onTabUnselected(int position) {
 
-                }
+            }
 
-                @Override
-                public void onTabReselected(int position) {
+            @Override
+            public void onTabReselected(int position) {
 
-                }
-            };
+            }
+        };
+    }
 
-    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    private ViewPager.OnPageChangeListener getPageChangeListener() {
+        return new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        }
+            }
 
-        @Override
-        public void onPageSelected(int position) {
-            bottomNavigationBar.selectTab(position);
-        }
+            @Override
+            public void onPageSelected(int position) {
+                bottomNavigationBar.selectTab(position);
+            }
 
-        @Override
-        public void onPageScrollStateChanged(int state) {
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
-        }
-    };
+            }
+        };
+    }
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
@@ -205,9 +208,7 @@ public class MainActivity extends BaseActivity implements ChangeSkin {
                 .initialise();
     }
 
-
     private void resetFragments() {
-
         boolean[] fragmentNullIndex = new boolean[3];
         for (Fragment fragment : fragments) {
             if (fragment instanceof SelfCenterFragment) {
