@@ -16,13 +16,15 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.yan.adapter.CustomAdapter;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.StatedFragment;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
+import com.yan.campusbbs.module.selfcenter.adapterholder.DataMultiItem;
+import com.yan.campusbbs.module.selfcenter.adapterholder.MultiItemAdapter;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
@@ -61,8 +63,8 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     private float offsetDy;
     private boolean isNeedAdjustBar;
 
-    private List<String> strings;
-    private CustomAdapter adapter;
+    private List<DataMultiItem> dataMultiItems;
+    private MultiItemAdapter adapter;
 
     private SelfCenterContract.Presenter mPresenter;
 
@@ -115,7 +117,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
                         , 100
                         , getResources().getDisplayMetrics());
         dataInit();
-        adapter = SelfCenterAdapterHelper.getAdapter(getContext(), strings);
+        adapter = new MultiItemAdapter(dataMultiItems, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.setOnScrollListener(onScrollListener);
@@ -130,19 +132,14 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     }
 
     private void dataInit() {
-        strings = new ArrayList<>();
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
-        strings.add("个人中心");
+        dataMultiItems = new ArrayList<>();
+        dataMultiItems.add(
+                new DataMultiItem(MultiItemAdapter.ITEM_TYPE_SELF_HEADER
+                        , new String("个人中心")));
+        dataMultiItems.add(
+                new DataMultiItem(MultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+
     }
 
     @Override
@@ -174,21 +171,14 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            strings.clear();
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
-            strings.add("个人中心个人中心个人中心个人中心");
+            dataMultiItems.clear();
+            dataMultiItems.add(
+                    new DataMultiItem(MultiItemAdapter.ITEM_TYPE_SELF_HEADER
+                            , new String("个人中心")));
+            dataMultiItems.add(
+                    new DataMultiItem(MultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                            , new String("发布说说")));
+
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
         }
