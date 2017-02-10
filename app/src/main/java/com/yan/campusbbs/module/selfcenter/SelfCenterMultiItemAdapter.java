@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.selfcenter.adapterholder;
+package com.yan.campusbbs.module.selfcenter;
 
 import android.content.Context;
 import android.view.ViewGroup;

@@ -3,6 +3,7 @@ package com.yan.campusbbs.module.campusbbs.study;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
+import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.FragmentSort;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -22,6 +25,8 @@ import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -51,6 +56,10 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     PagerTabAdapter pagerTabAdapter;
     @Inject
     ChangeSkinHelper changeSkinHelper;
+    @Inject
+    List<DataMultiItem> dataMultiItems;
+    @Inject
+    SelfCenterMultiItemAdapter multiItemAdapter;
 
     private StudyContract.Presenter mPresenter;
 
@@ -81,8 +90,41 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
-
         pagerTabAdapter.notifyDataSetChanged();
+
+        //-----------------------------------------------------------------
+
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(multiItemAdapter);
+
     }
 
     private void daggerInject() {

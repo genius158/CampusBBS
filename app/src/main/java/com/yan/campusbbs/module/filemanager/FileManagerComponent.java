@@ -2,8 +2,6 @@ package com.yan.campusbbs.module.filemanager;
 
 import com.yan.campusbbs.ApplicationComponent;
 import com.yan.campusbbs.base.FragmentScoped;
-import com.yan.campusbbs.module.AppBarHelperModule;
-import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 import com.yan.campusbbs.util.ChangeSkinModule;
 
 import dagger.Component;
