@@ -2,7 +2,6 @@ package com.yan.campusbbs.module.campusbbs.study;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,17 +51,6 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     private StudyContract.Presenter mPresenter;
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
-        init();
-        daggerInject();
-        dataInit();
-        skinInit();
-        setRetainInstance(true);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         mPresenter.start();
@@ -70,17 +58,26 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
+        View view =inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
+        ButterKnife.bind(this, view);
+        init();
+        daggerInject();
+        dataInit();
+        skinInit();
+        setRetainInstance(true);
+        return view;
     }
 
     private void dataInit() {
-        pagerTabTitle.add("学习");
-        pagerTabTitle.add("学习");
-        pagerTabTitle.add("学习");
-        pagerTabTitle.add("学习");
-        pagerTabTitle.add("学习");
-        pagerTabTitle.add("学习");
-        pagerTabTitle.add("学习");
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
+
         pagerTabAdapter.notifyDataSetChanged();
     }
 
@@ -91,7 +88,7 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
                         .getApplicationComponent())
                 .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
                 .studyFragmentModule(new StudyFragmentModule())
-                .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabTitle))
+                .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
         attach(swipeRefreshLayout, pagerBarRecycler, pagerTabAdapter, appBar);

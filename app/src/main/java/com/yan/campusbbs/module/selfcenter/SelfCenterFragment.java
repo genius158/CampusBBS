@@ -34,6 +34,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
@@ -69,16 +70,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     ChangeSkinHelper changeSkinHelper;
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
-        init();
-        daggerInject();
-        dataInit();
-        skinInit();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         if (mPresenter != null)
@@ -87,7 +78,13 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_self_center, container, false);
+        View view = inflater.inflate(R.layout.fragment_self_center, container, false);
+        ButterKnife.bind(this, view);
+        init();
+        daggerInject();
+        dataInit();
+        skinInit();
+        return view;
     }
 
     private void daggerInject() {
@@ -186,6 +183,14 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
             }
         }
     };
+
+    @Override
+    protected void onSaveArguments(Bundle bundle) {
+    }
+
+    @Override
+    protected void onReloadArguments(Bundle bundle) {
+    }
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {

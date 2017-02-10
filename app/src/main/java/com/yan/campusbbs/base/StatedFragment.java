@@ -1,10 +1,9 @@
 package com.yan.campusbbs.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.View;
+import android.support.v4.app.Fragment;
 
-public abstract class StatedFragment extends BaseFragment {
+public abstract class StatedFragment extends Fragment {
 
     private Bundle savedState;
     private Bundle mainBundle;
@@ -21,17 +20,12 @@ public abstract class StatedFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
     private boolean reStated(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             mainBundle = savedInstanceState;
             savedState = savedInstanceState.getBundle("STATEDFRAGMENT");
             if (savedState != null) {
-                reLoadArguments(savedState);
+                onReloadArguments(savedState);
                 return true;
             }
         } else {
@@ -41,7 +35,7 @@ public abstract class StatedFragment extends BaseFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public final void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mainBundle = outState;
         saveStatedArguments();
@@ -59,7 +53,7 @@ public abstract class StatedFragment extends BaseFragment {
         saveStatedArguments();
     }
 
-    protected void reLoadArguments(Bundle bundle) {
+    protected void onReloadArguments(Bundle bundle) {
 
     }
 

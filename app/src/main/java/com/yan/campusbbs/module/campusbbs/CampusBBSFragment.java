@@ -75,16 +75,6 @@ public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAd
     private List<Fragment> fragments;
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
-        init();
-        initRxBusAction();
-        skinInit();
-        setRetainInstance(true);
-    }
-
-    @Override
     public void onDestroy() {
         rxBus.post(new ActionCampusBBSFragmentFinish());
         super.onDestroy();
@@ -92,7 +82,13 @@ public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAd
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_campus_bbs, container, false);
+        View view = inflater.inflate(R.layout.fragment_campus_bbs, container, false);
+        ButterKnife.bind(this, view);
+        init();
+        initRxBusAction();
+        skinInit();
+        setRetainInstance(true);
+        return view;
     }
 
 

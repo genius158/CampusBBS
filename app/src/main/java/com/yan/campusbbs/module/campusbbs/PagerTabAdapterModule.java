@@ -23,8 +23,8 @@ public class PagerTabAdapterModule {
     }
 
     @Provides
-    PagerTabAdapter provideStudyContractView(Context context, RxBus rxBus) {
-        return new PagerTabAdapter(data, context, rxBus);
+    PagerTabAdapter provideStudyContractView(Context context) {
+        return new PagerTabAdapter(data, context);
     }
 
 }

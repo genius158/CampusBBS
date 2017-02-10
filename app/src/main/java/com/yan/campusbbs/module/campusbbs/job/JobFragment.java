@@ -2,7 +2,6 @@ package com.yan.campusbbs.module.campusbbs.job;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,8 +19,6 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
 import com.yan.campusbbs.util.RxBus;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -53,36 +50,34 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     private JobContract.Presenter mPresenter;
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
-        init();
-        daggerInject();
-        dataInit();
-        skinInit();
-        setRetainInstance(true);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         mPresenter.start();
     }
 
     private void dataInit() {
-        pagerTabTitle.add("工作");
-        pagerTabTitle.add("工作");
-        pagerTabTitle.add("工作");
-        pagerTabTitle.add("工作");
-        pagerTabTitle.add("工作");
-        pagerTabTitle.add("工作");
-        pagerTabTitle.add("工作");
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+
         pagerTabAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_campusbbs_job, container, false);
+        View view = inflater.inflate(R.layout.fragment_campusbbs_job, container, false);
+        ButterKnife.bind(this, view);
+        init();
+        daggerInject();
+        dataInit();
+        skinInit();
+        setRetainInstance(true);
+        return view;
     }
 
     private void daggerInject() {
@@ -92,7 +87,7 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
                         .getApplicationComponent())
                 .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
                 .jobFragmentModule(new JobFragmentModule())
-                .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabTitle))
+                .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
         attach(swipeRefreshLayout, pagerBarRecycler, pagerTabAdapter, appBar);

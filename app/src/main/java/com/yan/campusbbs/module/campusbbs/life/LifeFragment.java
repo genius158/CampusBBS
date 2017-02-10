@@ -2,7 +2,6 @@ package com.yan.campusbbs.module.campusbbs.life;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,8 +21,6 @@ import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -57,36 +54,33 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
     private LifeContract.Presenter mPresenter;
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
-        init();
-        daggerInject();
-        dataInit();
-        skinInit();
-        setRetainInstance(true);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         mPresenter.start();
     }
 
     private void dataInit() {
-        pagerTabTitle.add("生活");
-        pagerTabTitle.add("生活");
-        pagerTabTitle.add("生活");
-        pagerTabTitle.add("生活");
-        pagerTabTitle.add("生活");
-        pagerTabTitle.add("生活");
-        pagerTabTitle.add("生活");
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
         pagerTabAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_campusbbs_life, container, false);
+        View view = inflater.inflate(R.layout.fragment_campusbbs_life, container, false);
+        ButterKnife.bind(this, view);
+        init();
+        daggerInject();
+        dataInit();
+        skinInit();
+        setRetainInstance(true);
+        return view;
     }
 
     private void daggerInject() {
@@ -96,7 +90,7 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
                         .getApplicationComponent())
                 .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
                 .lifeFragmentModule(new LifeFragmentModule())
-                .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabTitle))
+                .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
         attach(swipeRefreshLayout, pagerBarRecycler, pagerTabAdapter, appBar);

@@ -20,7 +20,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by Administrator on 2017/2/8.
  */
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends StatedFragment {
     protected CompositeDisposable compositeDisposable;
     private View root;
 
