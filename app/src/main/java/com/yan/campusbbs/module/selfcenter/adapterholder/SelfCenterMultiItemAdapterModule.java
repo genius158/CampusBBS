@@ -2,8 +2,8 @@ package com.yan.campusbbs.module.selfcenter.adapterholder;
 
 import android.content.Context;
 
-import com.yan.campusbbs.module.selfcenter.SelfCenterContract;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenter;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
 
 import java.util.List;
 

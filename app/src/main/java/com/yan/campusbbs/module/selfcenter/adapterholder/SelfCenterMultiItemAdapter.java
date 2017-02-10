@@ -1,13 +1,14 @@
 package com.yan.campusbbs.module.selfcenter.adapterholder;
 
 import android.content.Context;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.util.FrescoDisplay;
 import com.yan.campusbbs.util.SizeUtils;
 
 import java.util.List;
@@ -35,10 +36,14 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
     protected void convert(BaseViewHolder holder, DataMultiItem multiItem) {
         switch (holder.getItemViewType()) {
             case ITEM_TYPE_SELF_HEADER:
-                View imageView = holder.getView(R.id.self_part_one_img);
+                SimpleDraweeView imageView = holder.getView(R.id.self_part_one_img);
                 ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
                 layoutParams.height = (int) SizeUtils.getFullScreenWidth(context);
                 imageView.setLayoutParams(layoutParams);
+                FrescoDisplay.display(context, imageView
+                        , (String) multiItem.data
+                        , R.drawable.sample_footer_loading
+                        , FrescoDisplay.CENTER_CROP);
                 break;
             case ITEM_TYPE_SELF_PUSH_WARD:
                 holder.setText(R.id.tv_string, (String) multiItem.data);

@@ -3,7 +3,6 @@ package com.yan.campusbbs.module.selfcenter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,9 +18,9 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
-import com.yan.campusbbs.module.selfcenter.adapterholder.DataMultiItem;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterMultiItemAdapterModule;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
@@ -109,7 +108,19 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     private void dataInit() {
         dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("个人中心")));
+                        , new String("http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1212/27/c0/16922662_1356570706978.jpg")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("说说")));
         dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
                         , new String("说说")));
@@ -138,7 +149,22 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         dataMultiItems.clear();
         dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("个人中心")));
+                        , new String("http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1212/27/c0/16922662_1356570706971.jpg")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("发布说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("发布说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("发布说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("发布说说")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("发布说说")));
         dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
                         , new String("发布说说")));

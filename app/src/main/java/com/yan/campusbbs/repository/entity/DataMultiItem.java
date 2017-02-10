@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.selfcenter.adapterholder;
+package com.yan.campusbbs.repository.entity;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 

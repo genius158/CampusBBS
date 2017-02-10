@@ -5,18 +5,17 @@
     android:background="@color/crE9E9E9"
     android:orientation="vertical">
 
-   <ImageView
-       android:layout_width="match_parent"
-       android:src="@mipmap/ic_launcher"
-       android:id="@+id/self_part_one_img"
-       android:scaleType="fitCenter"
-       android:layout_height="100dp" />
-   <FrameLayout
-       android:layout_width="match_parent"
-       android:layout_gravity="bottom"
-       android:layout_height="wrap_content" >
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/self_part_one_img"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
 
 
-   </FrameLayout>
+    </FrameLayout>
 
 </FrameLayout>

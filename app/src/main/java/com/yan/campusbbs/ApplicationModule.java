@@ -1,7 +1,10 @@
 package com.yan.campusbbs;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.yan.campusbbs.util.AppRetrofit;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.ToastUtils;
 
@@ -20,6 +23,7 @@ public final class ApplicationModule {
 
     ApplicationModule(Context context) {
         mContext = context;
+        Fresco.initialize(context);
     }
 
     @Provides
@@ -37,5 +41,11 @@ public final class ApplicationModule {
     @Provides
     RxBus provideRxBus() {
         return new RxBus();
+    }
+
+    @Singleton
+    @Provides
+    AppRetrofit provideAppRetrofit() {
+        return new AppRetrofit();
     }
 }
