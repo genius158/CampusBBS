@@ -39,7 +39,6 @@ import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -54,7 +53,11 @@ import static android.content.Context.MODE_PRIVATE;
  * Main UI for the add task screen. Users can enter a task title and description.
  */
 public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, IChangeSkin, FragmentSort {
-    private final String[] CONTENT = new String[]{"学习", "生活", "工作", "更多"};
+    private final String[] CONTENT = new String[]{getString(
+            R.string.campus_bbs_study)
+            , getString(R.string.campus_bbs_life)
+            , getString(R.string.campus_bbs_job)
+            , getString(R.string.campus_bbs_more)};
 
     @BindView(R.id.tabs)
     TabLayout indicator;
@@ -78,6 +81,7 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
     private CampusAppBarBehavior behavior;
 
     private List<View> followViews;
+    private List<Fragment> fragments;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -107,8 +111,6 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
                         , SharedPreferenceConfig.SKIN_INDEX, 0)
         ));
     }
-
-    List<Fragment> fragments;
 
     private void init() {
         followViews = new ArrayList<>();

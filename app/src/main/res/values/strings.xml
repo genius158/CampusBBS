@@ -2,16 +2,15 @@
     <string name="app_name">CampusBBS</string>
 
     <string name="action_settings">Settings</string>
-    <!--Pull To Refresh-->
-    <string name="jw_ptr_hours_ago"> 小时之前</string>
-    <string name="jw_ptr_last_update">上次刷新: </string>
-    <string name="jw_ptr_minutes_ago"> 分钟之前</string>
-    <string name="jw_ptr_pull_down">下拉</string>
-    <string name="jw_ptr_pull_down_to_refresh">下拉搜索</string>
-    <string name="jw_ptr_refresh_complete">刷新完成.</string>
-    <string name="jw_ptr_refreshing">正在努力刷新...</string>
-    <string name="jw_ptr_release_to_refresh">释放刷新</string>
-    <string name="jw_ptr_seconds_ago"> 秒之前</string>
+    <!--mainActivity-->
+    <string name="self_center">个人中心</string>
+    <string name="campus_bbs">学园论坛</string>
+    <string name="file_center">资源中心</string>
+    <string name="more_pressed_exit">再按一次退出程序</string>
 
-    <string name="empty_task_message">TO DOs cannot be empty</string>
+    <!--campusBBSFragment-->
+    <string name="campus_bbs_study">学习</string>
+    <string name="campus_bbs_life">生活</string>
+    <string name="campus_bbs_job">工作</string>
+    <string name="campus_bbs_more">更多</string>
 </resources>

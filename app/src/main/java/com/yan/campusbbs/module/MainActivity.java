@@ -32,6 +32,7 @@ import com.yan.campusbbs.util.FragmentSortUtils;
 import com.yan.campusbbs.util.IChangeSkin;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,9 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
 
     @Inject
     RxBus rxBus;
+
+    @Inject
+    ToastUtil toastUtil;
 
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
@@ -94,10 +98,10 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
                 .setText("5");
 
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "个人中心")
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.self_center))
                         .setBadgeItem(numberBadgeItem))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "学园论坛"))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "资源中心"))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.campus_bbs)))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.file_center)))
                 .setActiveColor(R.color.colorPrimary)
                 .setInActiveColor(R.color.crABABAB)
                 .setFirstSelectedPosition(0)
@@ -191,10 +195,10 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
                 .setText("5");
 
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "个人中心")
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.self_center))
                         .setBadgeItem(numberBadgeItem))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "学园论坛"))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, "资源中心"))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.campus_bbs)))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.file_center)))
                 .setActiveColor(actionChangeSkin.getColorPrimaryId())
                 .setInActiveColor(R.color.crABABAB)
                 .setFirstSelectedPosition(viewPager.getCurrentItem())
@@ -230,6 +234,17 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
                 }
             }
         }
+    }
 
+    long lastBackPressedTime;
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - lastBackPressedTime < 1000) {
+            super.onBackPressed();
+        } else {
+            lastBackPressedTime = System.currentTimeMillis();
+            toastUtil.showShort(getString(R.string.more_pressed_exit));
+        }
     }
 }
