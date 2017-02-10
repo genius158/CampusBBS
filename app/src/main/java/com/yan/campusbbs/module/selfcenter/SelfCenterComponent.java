@@ -3,8 +3,7 @@ package com.yan.campusbbs.module.selfcenter;
 import com.yan.campusbbs.ApplicationComponent;
 import com.yan.campusbbs.base.FragmentScoped;
 import com.yan.campusbbs.module.AppBarHelperModule;
-import com.yan.campusbbs.util.imagecontrol.ImageShowControlModule;
-import com.yan.campusbbs.util.skin.ChangeSkinModule;
+import com.yan.campusbbs.util.setting.SettingModule;
 
 import dagger.Component;
 
@@ -14,8 +13,7 @@ import dagger.Component;
         , modules = {
         AppBarHelperModule.class,
         SelfCenterModule.class,
-        ImageShowControlModule.class,
-        ChangeSkinModule.class
+        SettingModule.class,
 }
 )
 public interface SelfCenterComponent {

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,8 @@ import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
-import com.yan.campusbbs.util.skin.ChangeSkinHelper;
-import com.yan.campusbbs.util.skin.ChangeSkinModule;
+import com.yan.campusbbs.util.setting.SettingHelper;
+import com.yan.campusbbs.util.setting.SettingModule;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 import com.yan.campusbbs.util.fragmentsort.FragmentSortUtils;
 import com.yan.campusbbs.util.RxBus;
@@ -62,7 +63,7 @@ public class CampusBBSFragment extends BaseSettingFragment implements FollowView
     @Inject
     JobPresenter jobPresenter;
     @Inject
-    ChangeSkinHelper changeSkinHelper;
+    SettingHelper changeSkinHelper;
 
     @BindView(R.id.tab_campus_container)
     CardView tabContainer;
@@ -133,8 +134,9 @@ public class CampusBBSFragment extends BaseSettingFragment implements FollowView
                 .studyPresenterModule(new StudyPresenterModule((StudyFragment) fragments.get(0)))
                 .lifePresenterModule(new LifePresenterModule((LifeFragment) fragments.get(1)))
                 .jobPresenterModule(new JobPresenterModule((JobFragment) fragments.get(2)))
-                .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
+                .settingModule(new SettingModule(this,  compositeDisposable))
                 .build().inject(this);
+
     }
 
     public void initRxBusAction() {
@@ -158,6 +160,7 @@ public class CampusBBSFragment extends BaseSettingFragment implements FollowView
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
+        Log.e("changeSkinHelper", changeSkinHelper + "");
         tabContainer.setCardBackgroundColor(
                 ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
         );

@@ -13,11 +13,11 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
+import com.yan.campusbbs.util.setting.SettingHelper;
+import com.yan.campusbbs.util.setting.SettingModule;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.skin.ChangeSkinHelper;
-import com.yan.campusbbs.util.skin.ChangeSkinModule;
 import com.yan.campusbbs.util.RxBus;
 
 import javax.inject.Inject;
@@ -46,7 +46,7 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
     @Inject
     PagerTabAdapter pagerTabAdapter;
     @Inject
-    ChangeSkinHelper changeSkinHelper;
+    SettingHelper changeSkinHelper;
 
     private LifeContract.Presenter mPresenter;
 
@@ -84,7 +84,7 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
-                .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
+                .settingModule(new SettingModule(this,  compositeDisposable))
                 .lifeFragmentModule(new LifeFragmentModule())
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);

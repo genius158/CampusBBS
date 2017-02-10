@@ -3,8 +3,7 @@ package com.yan.campusbbs.base;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionImageControl;
-import com.yan.campusbbs.util.imagecontrol.ImageShowControl;
-import com.yan.campusbbs.util.skin.ChangeSkin;
+import com.yan.campusbbs.util.setting.SystemSetting;
 import com.yan.campusbbs.util.SPUtils;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -13,7 +12,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by Administrator on 2017/2/8.
  */
 
-public abstract class BaseSettingFragment extends BaseFragment implements ChangeSkin, ImageShowControl {
+public abstract class BaseSettingFragment extends BaseFragment implements SystemSetting {
 
     protected final void settingInit() {
         skinInit();

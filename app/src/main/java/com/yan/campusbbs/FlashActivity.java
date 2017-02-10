@@ -8,9 +8,8 @@ import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.MainActivity;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
-import com.yan.campusbbs.util.skin.ChangeSkinHelper;
-import com.yan.campusbbs.util.skin.ChangeSkinModule;
-import com.yan.campusbbs.util.skin.ChangeSkin;
+import com.yan.campusbbs.util.setting.SettingHelper;
+import com.yan.campusbbs.util.setting.SettingModule;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.concurrent.TimeUnit;
@@ -21,13 +20,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 
-public class FlashActivity extends BaseActivity implements ChangeSkin {
+public class FlashActivity extends BaseActivity {
 
     @Inject
     RxBus rxBus;
 
     @Inject
-    ChangeSkinHelper changeSkinHelper;
+    SettingHelper settingHelper;
     @BindView(R.id.activity_flash)
     CoordinatorLayout activityFlash;
 
@@ -45,7 +44,7 @@ public class FlashActivity extends BaseActivity implements ChangeSkin {
         DaggerFlashComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getApplication())
                         .getApplicationComponent())
-                .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
+                .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
     }
 

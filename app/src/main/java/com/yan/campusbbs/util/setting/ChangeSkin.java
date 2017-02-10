@@ -1,9 +1,9 @@
-package com.yan.campusbbs.util.skin;
+package com.yan.campusbbs.util.setting;
 
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 
 /**
- * Created by yan on 2017/2/9.
+ * Created by Administrator on 2017/2/11.
  */
 
 public interface ChangeSkin {

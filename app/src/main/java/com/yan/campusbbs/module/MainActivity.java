@@ -3,7 +3,6 @@ package com.yan.campusbbs.module;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -11,7 +10,6 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.CampusBBSFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenter;
@@ -22,11 +20,10 @@ import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
-import com.yan.campusbbs.util.skin.ChangeSkinHelper;
-import com.yan.campusbbs.util.skin.ChangeSkinModule;
+import com.yan.campusbbs.util.setting.SettingHelper;
+import com.yan.campusbbs.util.setting.SettingModule;
 import com.yan.campusbbs.util.fragmentsort.FragmentSortUtils;
 import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.ArrayList;
@@ -45,7 +42,7 @@ public class MainActivity extends BaseActivity {
     FileManagerPresenter fileManagerPresenter;
 
     @Inject
-    ChangeSkinHelper changeSkinHelper;
+    SettingHelper changeSkinHelper;
 
     @Inject
     RxBus rxBus;
@@ -117,7 +114,7 @@ public class MainActivity extends BaseActivity {
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
                 .selfCenterPresenterModule(new SelfCenterPresenterModule((SelfCenterFragment) fragments.get(0)))
                 .fileManagerPresenterModule(new FileManagerPresenterModule((FileManagerFragment) fragments.get(2)))
-                .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
+                .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
         commonPagerAdapter = new CommonPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(commonPagerAdapter);

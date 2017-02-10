@@ -18,11 +18,11 @@ import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.util.setting.SettingHelper;
+import com.yan.campusbbs.util.setting.SettingModule;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.skin.ChangeSkinHelper;
-import com.yan.campusbbs.util.skin.ChangeSkinModule;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -55,7 +55,7 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     @Inject
     PagerTabAdapter pagerTabAdapter;
     @Inject
-    ChangeSkinHelper changeSkinHelper;
+    SettingHelper changeSkinHelper;
     @Inject
     List<DataMultiItem> dataMultiItems;
     @Inject
@@ -130,7 +130,7 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
-                .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
+                .settingModule(new SettingModule(  this, compositeDisposable))
                 .studyFragmentModule(new StudyFragmentModule())
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);

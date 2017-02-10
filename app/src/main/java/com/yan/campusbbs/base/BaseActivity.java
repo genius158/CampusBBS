@@ -11,8 +11,7 @@ import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionImageControl;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.imagecontrol.ImageShowControl;
-import com.yan.campusbbs.util.skin.ChangeSkin;
+import com.yan.campusbbs.util.setting.SystemSetting;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -21,7 +20,7 @@ import io.reactivex.disposables.Disposable;
  * Created by Administrator on 2017/2/8.
  */
 
-public class BaseActivity extends AppCompatActivity implements ImageShowControl, ChangeSkin {
+public class BaseActivity extends AppCompatActivity implements SystemSetting{
     protected CompositeDisposable compositeDisposable;
 
     public void addDisposable(Disposable disposable) {

@@ -21,10 +21,8 @@ import com.yan.campusbbs.module.AppBarHelperModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionImageControl;
-import com.yan.campusbbs.util.imagecontrol.ImageShowControlHelper;
-import com.yan.campusbbs.util.imagecontrol.ImageShowControlModule;
-import com.yan.campusbbs.util.skin.ChangeSkinHelper;
-import com.yan.campusbbs.util.skin.ChangeSkinModule;
+import com.yan.campusbbs.util.setting.SettingHelper;
+import com.yan.campusbbs.util.setting.SettingModule;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 
 import java.util.ArrayList;
@@ -53,11 +51,9 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     FrameLayout appBar;
 
     @Inject
-    ChangeSkinHelper changeSkinHelper;
+    SettingHelper changeSkinHelper;
     @Inject
     AppBarHelper appBarHelper;
-    @Inject
-    ImageShowControlHelper imageShowControlHelper;
 
     private int actionBarPinHeight;
     private boolean isNeedAdjustBar;
@@ -95,8 +91,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication()).getApplicationComponent())
                 .appBarHelperModule(new AppBarHelperModule(appBar))
-                .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
-                .imageShowControlModule(new ImageShowControlModule(this, compositeDisposable))
+                .settingModule(new SettingModule(this,  compositeDisposable))
                 .selfCenterModule(new SelfCenterModule())
                 .build().inject(this);
     }

@@ -9,7 +9,6 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.skin.ChangeSkin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
  * Created by Administrator on 2017/2/8.
  */
 
-public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implements ChangeSkin, SwipeRefreshLayout.OnRefreshListener {
+public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implements SwipeRefreshLayout.OnRefreshListener {
     protected final List<PagerTabAdapter.PagerTabItem> pagerTabItem;
     protected FollowViewsAdd followViewsAdd;
     private PagerTabAdapter pagerTabAdapter;
