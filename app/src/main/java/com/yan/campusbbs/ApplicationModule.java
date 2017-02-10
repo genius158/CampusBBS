@@ -3,7 +3,7 @@ package com.yan.campusbbs;
 import android.content.Context;
 
 import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.ToastUtil;
+import com.yan.campusbbs.util.ToastUtils;
 
 import javax.inject.Singleton;
 
@@ -29,8 +29,8 @@ public final class ApplicationModule {
 
     @Singleton
     @Provides
-    ToastUtil provideToastUtil() {
-        return new ToastUtil(mContext);
+    ToastUtils provideToastUtil() {
+        return new ToastUtils(mContext);
     }
 
     @Singleton

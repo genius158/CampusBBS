@@ -9,12 +9,12 @@ import javax.inject.Inject;
  * Created by Administrator on 2017/2/8.
  */
 
-public class ToastUtil {
+public class ToastUtils {
     private Toast toast;
     private Context context;
 
     @Inject
-    public ToastUtil(Context context) {
+    public ToastUtils(Context context) {
         this.context = context;
         toast = Toast.makeText(context, "", Toast.LENGTH_SHORT);
     }

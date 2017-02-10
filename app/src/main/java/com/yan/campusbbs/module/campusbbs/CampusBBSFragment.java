@@ -34,7 +34,7 @@ import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
 import com.yan.campusbbs.util.FragmentSort;
 import com.yan.campusbbs.util.FragmentSortUtils;
-import com.yan.campusbbs.util.IChangeSkin;
+import com.yan.campusbbs.util.ChangeSkin;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -52,7 +52,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, IChangeSkin, FragmentSort {
+public class CampusBBSFragment extends BaseFragment implements FollowViewsAdd, ChangeSkin, FragmentSort {
     private String[] pagerTitles;
 
     @BindView(R.id.tabs)

@@ -17,11 +17,11 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class ChangeSkinHelper {
     private RxBus rxBus;
-    private IChangeSkin changeSkin;
+    private ChangeSkin changeSkin;
     private CompositeDisposable compositeDisposable;
 
     @Inject
-    public ChangeSkinHelper(RxBus rxBus, IChangeSkin changeSkin, CompositeDisposable compositeDisposable) {
+    public ChangeSkinHelper(RxBus rxBus, ChangeSkin changeSkin, CompositeDisposable compositeDisposable) {
         this.changeSkin = changeSkin;
         this.rxBus = rxBus;
         this.compositeDisposable = compositeDisposable;

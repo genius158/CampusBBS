@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +18,13 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.util.FragmentSort;
-import com.yan.campusbbs.module.campusbbs.IFollowViewsAdd;
+import com.yan.campusbbs.module.campusbbs.FollowViewsAdd;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterHelper;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
-import com.yan.campusbbs.util.IChangeSkin;
+import com.yan.campusbbs.util.ChangeSkin;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -43,7 +42,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class LifeFragment extends BaseFragment implements LifeContract.View, IChangeSkin,FragmentSort {
+public class LifeFragment extends BaseFragment implements LifeContract.View, ChangeSkin,FragmentSort {
     List<String> strings;
     CustomAdapter adapter;
     @BindView(R.id.recycler_view)
@@ -63,7 +62,7 @@ public class LifeFragment extends BaseFragment implements LifeContract.View, ICh
     ChangeSkinHelper changeSkinHelper;
 
     private LifeContract.Presenter mPresenter;
-    private volatile IFollowViewsAdd iFollowViewsAdd;
+    private volatile FollowViewsAdd followViewsAdd;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -127,7 +126,7 @@ public class LifeFragment extends BaseFragment implements LifeContract.View, ICh
         CustomAdapter adapter2 = PagerTabAdapterHelper.getAdapter(getContext(), strings, rxBus);
         pagerBarRecycler.setAdapter(adapter2);
 
-        iFollowViewsAdd.addFollowView(appBar);
+        followViewsAdd.addFollowView(appBar);
     }
 
     protected void skinInit() {
@@ -167,8 +166,8 @@ public class LifeFragment extends BaseFragment implements LifeContract.View, ICh
         }
     };
 
-    public void setFollowAdd(IFollowViewsAdd followView) {
-        this.iFollowViewsAdd = followView;
+    public void setFollowAdd(FollowViewsAdd followView) {
+        this.followViewsAdd = followView;
     }
 
 

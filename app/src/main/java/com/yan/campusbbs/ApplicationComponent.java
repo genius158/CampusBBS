@@ -3,7 +3,7 @@ package com.yan.campusbbs;
 import android.content.Context;
 
 import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.ToastUtil;
+import com.yan.campusbbs.util.ToastUtils;
 
 import javax.inject.Singleton;
 
@@ -16,5 +16,5 @@ public interface ApplicationComponent {
 
     RxBus getRxBus();
 
-    ToastUtil getToastUtil();
+    ToastUtils getToastUtil();
 }

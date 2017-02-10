@@ -19,13 +19,13 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.util.FragmentSort;
-import com.yan.campusbbs.module.campusbbs.IFollowViewsAdd;
+import com.yan.campusbbs.module.campusbbs.FollowViewsAdd;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterHelper;
 import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterAdapterHelper;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
-import com.yan.campusbbs.util.IChangeSkin;
+import com.yan.campusbbs.util.ChangeSkin;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -43,7 +43,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class StudyFragment extends BaseFragment implements StudyContract.View, IChangeSkin, FragmentSort {
+public class StudyFragment extends BaseFragment implements StudyContract.View, ChangeSkin, FragmentSort {
     List<String> strings;
     CustomAdapter adapter;
     @BindView(R.id.recycler_view)
@@ -63,7 +63,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
     ChangeSkinHelper changeSkinHelper;
 
     private StudyContract.Presenter mPresenter;
-    private volatile IFollowViewsAdd iFollowViewsAdd;
+    private volatile FollowViewsAdd followViewsAdd;
 
     @Override
     public void onResume() {
@@ -128,7 +128,7 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
         Log.e("RxBus", rxBus + "");
         pagerBarRecycler.setAdapter(adapter2);
 
-        iFollowViewsAdd.addFollowView(appBar);
+        followViewsAdd.addFollowView(appBar);
     }
 
     protected void skinInit() {
@@ -168,8 +168,8 @@ public class StudyFragment extends BaseFragment implements StudyContract.View, I
         }
     };
 
-    public void setFollowAdd(IFollowViewsAdd followView) {
-        this.iFollowViewsAdd = followView;
+    public void setFollowAdd(FollowViewsAdd followView) {
+        this.followViewsAdd = followView;
     }
 
 

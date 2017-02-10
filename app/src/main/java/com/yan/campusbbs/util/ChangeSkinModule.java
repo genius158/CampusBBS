@@ -1,7 +1,5 @@
 package com.yan.campusbbs.util;
 
-import android.view.View;
-
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.disposables.CompositeDisposable;
@@ -12,17 +10,17 @@ import io.reactivex.disposables.CompositeDisposable;
 
 @Module
 public class ChangeSkinModule {
-    private final IChangeSkin iChangeSkin;
+    private final ChangeSkin changeSkin;
     private CompositeDisposable compositeDisposable;
 
-    public ChangeSkinModule(IChangeSkin iChangeSkin, CompositeDisposable compositeDisposable) {
-        this.iChangeSkin = iChangeSkin;
+    public ChangeSkinModule(ChangeSkin changeSkin, CompositeDisposable compositeDisposable) {
+        this.changeSkin = changeSkin;
         this.compositeDisposable = compositeDisposable;
     }
 
     @Provides
     ChangeSkinHelper provideChangeSkinHelper(RxBus rxBus) {
-        return new ChangeSkinHelper(rxBus, iChangeSkin, compositeDisposable);
+        return new ChangeSkinHelper(rxBus, changeSkin, compositeDisposable);
     }
 }
 

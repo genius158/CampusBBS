@@ -21,7 +21,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
 import com.yan.campusbbs.util.FragmentSort;
-import com.yan.campusbbs.util.IChangeSkin;
+import com.yan.campusbbs.util.ChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class FileManagerFragment extends BaseFragment implements FileManagerContract.View, IChangeSkin, FragmentSort {
+public class FileManagerFragment extends BaseFragment implements FileManagerContract.View, ChangeSkin, FragmentSort {
     List<String> strings;
     CustomAdapter adapter;
     @BindView(R.id.recycler_view)

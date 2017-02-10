@@ -12,10 +12,6 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.CampusBBSFragment;
-import com.yan.campusbbs.module.campusbbs.job.JobFragment;
-import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
-import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
-import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenter;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
@@ -27,12 +23,11 @@ import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
-import com.yan.campusbbs.util.FragmentSort;
 import com.yan.campusbbs.util.FragmentSortUtils;
-import com.yan.campusbbs.util.IChangeSkin;
+import com.yan.campusbbs.util.ChangeSkin;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.ToastUtil;
+import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +37,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements IChangeSkin {
+public class MainActivity extends BaseActivity implements ChangeSkin {
     @Inject
     SelfCenterPresenter selfCenterPresenter;
 
@@ -56,7 +51,7 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
     RxBus rxBus;
 
     @Inject
-    ToastUtil toastUtil;
+    ToastUtils toastUtils;
 
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
@@ -244,7 +239,7 @@ public class MainActivity extends BaseActivity implements IChangeSkin {
             super.onBackPressed();
         } else {
             lastBackPressedTime = System.currentTimeMillis();
-            toastUtil.showShort(getString(R.string.more_pressed_exit));
+            toastUtils.showShort(getString(R.string.more_pressed_exit));
         }
     }
 }

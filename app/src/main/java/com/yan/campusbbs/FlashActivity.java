@@ -1,7 +1,6 @@
 package com.yan.campusbbs;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
@@ -13,7 +12,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
-import com.yan.campusbbs.util.IChangeSkin;
+import com.yan.campusbbs.util.ChangeSkin;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -25,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 
-public class FlashActivity extends BaseActivity implements IChangeSkin {
+public class FlashActivity extends BaseActivity implements ChangeSkin {
 
     @Inject
     RxBus rxBus;
