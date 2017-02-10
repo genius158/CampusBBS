@@ -18,6 +18,7 @@ import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.rxbusaction.ActionImageControl;
 import com.yan.campusbbs.util.setting.SettingHelper;
 import com.yan.campusbbs.util.setting.SettingModule;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
@@ -130,7 +131,7 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
-                .settingModule(new SettingModule(  this, compositeDisposable))
+                .settingModule(new SettingModule(this, compositeDisposable))
                 .studyFragmentModule(new StudyFragmentModule())
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
@@ -173,17 +174,34 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     private BaseQuickAdapter.OnRecyclerViewItemClickListener getOnRecyclerViewItemClickListener() {
         return (view, position) -> {
             if (position == 0) {
-                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 0);
+                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.SKIN_INDEX, 0);
                 rxBus.post(new ActionChangeSkin(0));
+
             } else if (position == 1) {
-                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 1);
+                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.SKIN_INDEX, 1);
                 rxBus.post(new ActionChangeSkin(1));
+
             } else if (position == 2) {
-                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 2);
+                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.SKIN_INDEX, 2);
                 rxBus.post(new ActionChangeSkin(2));
+
             } else if (position == 3) {
-                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 3);
+                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.SKIN_INDEX, 3);
                 rxBus.post(new ActionChangeSkin(3));
+
+            } else if (position == 4) {
+                SPUtils.putBoolean(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.CAN_IMAGE_SHOW, false);
+                rxBus.post(new ActionImageControl(false));
+
+            } else if (position == 5) {
+                SPUtils.putBoolean(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.CAN_IMAGE_SHOW, true);
+                rxBus.post(new ActionImageControl(true));
             }
         };
     }

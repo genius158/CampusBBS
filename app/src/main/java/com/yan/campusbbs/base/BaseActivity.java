@@ -1,6 +1,5 @@
 package com.yan.campusbbs.base;
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +19,7 @@ import io.reactivex.disposables.Disposable;
  * Created by Administrator on 2017/2/8.
  */
 
-public class BaseActivity extends AppCompatActivity implements SystemSetting{
+public class BaseActivity extends AppCompatActivity implements SystemSetting {
     protected CompositeDisposable compositeDisposable;
 
     public void addDisposable(Disposable disposable) {

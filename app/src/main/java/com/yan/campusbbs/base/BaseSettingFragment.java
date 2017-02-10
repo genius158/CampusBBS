@@ -19,24 +19,33 @@ public abstract class BaseSettingFragment extends BaseFragment implements System
         imgShowControlInit();
     }
 
-    private final void skinInit() {
+    private void skinInit() {
         changeSkin(new ActionChangeSkin(
                 SPUtils.getInt(getContext()
-                        , MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.SKIN_INDEX, 0)
+                        , MODE_PRIVATE
+                        , SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.SKIN_INDEX
+                        , 0)
         ));
     }
 
-    private final void imgShowControlInit() {
+    private void imgShowControlInit() {
         imageShow(new ActionImageControl(
                 SPUtils.getBoolean(getContext()
-                        , MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.CAN_IMAGE_SHOW, true)
+                        , MODE_PRIVATE
+                        , SharedPreferenceConfig.SHARED_PREFERENCE
+                        , SharedPreferenceConfig.CAN_IMAGE_SHOW
+                        , true)
         ));
     }
 
     @Override
     public void imageShow(ActionImageControl actionImageControl) {
+
+    }
+
+    @Override
+    public void changeSkin(ActionChangeSkin actionChangeSkin) {
 
     }
 }
