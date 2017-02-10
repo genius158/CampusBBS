@@ -1,5 +1,8 @@
 package com.yan.campusbbs.module.campusbbs.study;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dagger.Module;
 import dagger.Provides;
 

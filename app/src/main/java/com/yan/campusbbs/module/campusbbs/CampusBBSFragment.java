@@ -14,8 +14,7 @@ import android.view.ViewGroup;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.base.BaseFragment;
-import com.yan.campusbbs.config.SharedPreferenceConfig;
+import com.yan.campusbbs.base.BaseSkinFragment;
 import com.yan.campusbbs.module.CommonPagerAdapter;
 import com.yan.campusbbs.module.campusbbs.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
@@ -34,9 +33,7 @@ import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
 import com.yan.campusbbs.util.FragmentSort;
 import com.yan.campusbbs.util.FragmentSortUtils;
-import com.yan.campusbbs.util.ChangeSkin;
 import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +44,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-import static android.content.Context.MODE_PRIVATE;
-
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBSFragment extends BaseFragment implements FollowViewsAdd, ChangeSkin, FragmentSort {
+public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAdd, FragmentSort {
     private String[] pagerTitles;
 
     @BindView(R.id.tabs)
@@ -100,13 +95,6 @@ public class CampusBBSFragment extends BaseFragment implements FollowViewsAdd, C
         return inflater.inflate(R.layout.fragment_campus_bbs, container, false);
     }
 
-    protected void skinInit() {
-        changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getContext(), MODE_PRIVATE
-                        , SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.SKIN_INDEX, 0)
-        ));
-    }
 
     private void init() {
         pagerTitles = new String[]{

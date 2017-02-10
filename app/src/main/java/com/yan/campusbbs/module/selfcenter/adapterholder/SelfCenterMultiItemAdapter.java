@@ -12,17 +12,19 @@ import com.yan.campusbbs.util.SizeUtils;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by yan on 2017/2/7.
  */
-public class MultiItemAdapter extends BaseMultiItemQuickAdapter<DataMultiItem> {
+public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMultiItem> {
 
     public static final int ITEM_TYPE_SELF_HEADER = 1;
     public static final int ITEM_TYPE_SELF_PUSH_WARD = 2;
     private Context context;
 
-
-    public MultiItemAdapter(List<DataMultiItem> data, Context context) {
+    @Inject
+    public SelfCenterMultiItemAdapter(List<DataMultiItem> data, Context context) {
         super(data);
         addItemType(ITEM_TYPE_SELF_HEADER, R.layout.fragment_self_center_part_one);
         addItemType(ITEM_TYPE_SELF_PUSH_WARD, R.layout.string_data);

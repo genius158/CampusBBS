@@ -4,11 +4,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,21 +14,18 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.base.StatedFragment;
-import com.yan.campusbbs.config.SharedPreferenceConfig;
+import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
 import com.yan.campusbbs.module.selfcenter.adapterholder.DataMultiItem;
-import com.yan.campusbbs.module.selfcenter.adapterholder.MultiItemAdapter;
+import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterMultiItemAdapter;
+import com.yan.campusbbs.module.selfcenter.adapterholder.SelfCenterMultiItemAdapterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
 import com.yan.campusbbs.util.FragmentSort;
-import com.yan.campusbbs.util.ChangeSkin;
-import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,14 +34,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.content.Context.MODE_PRIVATE;
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class SelfCenterFragment extends StatedFragment implements SelfCenterContract.View, ChangeSkin, FragmentSort {
+public class SelfCenterFragment extends BaseRefreshFragment implements SelfCenterContract.View, FragmentSort {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -63,12 +56,14 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
     private boolean isNeedAdjustBar;
 
     private List<DataMultiItem> dataMultiItems;
-    private MultiItemAdapter adapter;
 
     private SelfCenterContract.Presenter mPresenter;
 
     @Inject
     AppBarHelper appBarHelper;
+
+    @Inject
+    SelfCenterMultiItemAdapter adapter;
 
     @Inject
     ChangeSkinHelper changeSkinHelper;
@@ -79,6 +74,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         ButterKnife.bind(this, view);
         init();
         daggerInject();
+        dataInit();
         skinInit();
     }
 
@@ -94,63 +90,36 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         return inflater.inflate(R.layout.fragment_self_center, container, false);
     }
 
-    protected void skinInit() {
-        changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getContext(), MODE_PRIVATE
-                        , SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.SKIN_INDEX, 0)
-        ));
-    }
-
     private void daggerInject() {
-        DaggerSelfCenterComponent.builder().applicationComponent(
-                ((ApplicationCampusBBS) getActivity().getApplication()).getApplicationComponent()
-        ).appBarHelperModule(new AppBarHelperModule(appBar))
+        DaggerSelfCenterComponent.builder()
+                .applicationComponent(((ApplicationCampusBBS) getActivity()
+                        .getApplication()).getApplicationComponent())
+                .appBarHelperModule(new AppBarHelperModule(appBar))
                 .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
+                .selfCenterMultiItemAdapterModule(new SelfCenterMultiItemAdapterModule(dataMultiItems))
                 .build().inject(this);
     }
 
     private void init() {
-        actionBarPinHeight =
-                (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP
-                        , 100
-                        , getResources().getDisplayMetrics());
-        dataInit();
-        adapter = new MultiItemAdapter(dataMultiItems, getContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
-        recyclerView.setOnScrollListener(onScrollListener);
-        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
-        swipeRefreshLayout.setProgressViewOffset(true,
-                (int) (getResources().getDimension(R.dimen.action_bar_height) * 1.5)
-                , (int) getResources().getDimension(R.dimen.action_bar_height) * 3);
+        dataMultiItems = new ArrayList<>();
 
-        swipeRefreshLayout.setColorSchemeColors(
-                ContextCompat.getColor(getContext(), R.color.crFEFEFE)
-        );
+        actionBarPinHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100
+                , getResources().getDisplayMetrics());
+
+        attach(swipeRefreshLayout);
     }
 
     private void dataInit() {
-        dataMultiItems = new ArrayList<>();
         dataMultiItems.add(
-                new DataMultiItem(MultiItemAdapter.ITEM_TYPE_SELF_HEADER
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
                         , new String("个人中心")));
         dataMultiItems.add(
-                new DataMultiItem(MultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
                         , new String("说说")));
 
-    }
-
-    @Override
-    protected void onSaveArguments(Bundle bundle) {
-        bundle.putFloat("offsetDy", offsetDy);
-    }
-
-    @Override
-    protected void reLoadArguments(Bundle bundle) {
-        offsetDy = bundle.getFloat("offsetDy");
-        Log.d("reLoadArguments", "reLoadArguments: " + offsetDy);
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(onScrollListener);
     }
 
     public static SelfCenterFragment newInstance() {
@@ -167,22 +136,19 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
         mPresenter = checkNotNull(presenter);
     }
 
-    SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
-        @Override
-        public void onRefresh() {
-            dataMultiItems.clear();
-            dataMultiItems.add(
-                    new DataMultiItem(MultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                            , new String("个人中心")));
-            dataMultiItems.add(
-                    new DataMultiItem(MultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                            , new String("发布说说")));
+    @Override
+    public void onRefresh() {
+        dataMultiItems.clear();
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
+                        , new String("个人中心")));
+        dataMultiItems.add(
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                        , new String("发布说说")));
 
-            adapter.notifyDataSetChanged();
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    };
-
+        adapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
+    }
 
     RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
 
@@ -223,9 +189,7 @@ public class SelfCenterFragment extends StatedFragment implements SelfCenterCont
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
-        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(
-                ContextCompat.getColor(getContext(), actionChangeSkin.getColorAccentId())
-        );
+        super.changeSkin(actionChangeSkin);
     }
 
     @Override

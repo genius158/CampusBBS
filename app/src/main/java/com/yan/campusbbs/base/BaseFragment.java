@@ -7,8 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yan.campusbbs.config.SharedPreferenceConfig;
+import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.SPUtils;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Administrator on 2017/2/8.
@@ -48,5 +54,6 @@ public abstract class BaseFragment extends Fragment {
     public void addDisposable(Disposable disposable) {
         compositeDisposable.add(disposable);
     }
+
 
 }
