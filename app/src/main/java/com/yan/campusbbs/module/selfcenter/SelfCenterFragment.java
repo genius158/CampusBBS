@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     FrameLayout appBar;
 
     private int actionBarPinHeight;
-    private float offsetDy;
     private boolean isNeedAdjustBar;
 
 
@@ -97,8 +97,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     }
 
     private void init() {
-        dataMultiItems = new ArrayList<>();
-
         actionBarPinHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100
                 , getResources().getDisplayMetrics());
 
@@ -108,7 +106,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     private void dataInit() {
         dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1212/27/c0/16922662_1356570706978.jpg")));
+                        , new String("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg")));
         dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
                         , new String("说说")));
@@ -150,7 +148,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         dataMultiItems.clear();
         dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("http://img.pconline.com.cn/images/upload/upc/tx/wallpaper/1212/27/c0/16922662_1356570706971.jpg")));
+                        , new String("http://img3.imgtn.bdimg.com/it/u=2681925759,1488026640&fm=23&gp=0.jpg")));
         dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
                         , new String("发布说说")));
@@ -183,9 +181,9 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             appBarHelper.offset(dy);
-            offsetDy += (float) dy;
+
             float alphaTrigger = 0.8f;
-            float alpha = Math.min(offsetDy / actionBarPinHeight, alphaTrigger);
+            float alpha = Math.min(getScrollYDistance() / actionBarPinHeight, alphaTrigger);
 
             if (alpha <= alphaTrigger) {
                 isNeedAdjustBar = true;
@@ -222,6 +220,14 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
+    }
+
+    public float getScrollYDistance() {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        int position = layoutManager.findFirstVisibleItemPosition();
+        View firstVisibleChildView = layoutManager.findViewByPosition(position);
+        int itemHeight = firstVisibleChildView.getHeight();
+        return (position) * itemHeight - firstVisibleChildView.getTop();
     }
 
     @Override

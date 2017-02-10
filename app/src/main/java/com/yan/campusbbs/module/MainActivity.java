@@ -3,6 +3,7 @@ package com.yan.campusbbs.module;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -61,6 +62,7 @@ public class MainActivity extends BaseActivity implements ChangeSkin {
     ViewPager viewPager;
 
     List<Fragment> fragments;
+    CommonPagerAdapter commonPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +117,7 @@ public class MainActivity extends BaseActivity implements ChangeSkin {
             fragments.add(FileManagerFragment.newInstance());
         } else {
             fragments = getSupportFragmentManager().getFragments();
+            Log.e("fragmentsSize", fragments.size() + "");
             if (fragments.size() < 3) {
                 resetFragments();
             }
@@ -127,8 +130,9 @@ public class MainActivity extends BaseActivity implements ChangeSkin {
                 .fileManagerPresenterModule(new FileManagerPresenterModule((FileManagerFragment) fragments.get(2)))
                 .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
                 .build().inject(this);
-
-        viewPager.setAdapter(new CommonPagerAdapter(getSupportFragmentManager(), fragments));
+        commonPagerAdapter = new CommonPagerAdapter(getSupportFragmentManager(), fragments);
+        viewPager.setAdapter(commonPagerAdapter);
+        viewPager.clearOnPageChangeListeners();
         viewPager.addOnPageChangeListener(pageChangeListener);
     }
 
@@ -163,7 +167,7 @@ public class MainActivity extends BaseActivity implements ChangeSkin {
                 }
             };
 
-    ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+    private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -226,9 +230,11 @@ public class MainActivity extends BaseActivity implements ChangeSkin {
                     case 2:
                         fragments.add(FileManagerFragment.newInstance());
                         break;
-
                 }
             }
+        }
+        if (viewPager.getAdapter() != null) {
+            viewPager.getAdapter().notifyDataSetChanged();
         }
     }
 

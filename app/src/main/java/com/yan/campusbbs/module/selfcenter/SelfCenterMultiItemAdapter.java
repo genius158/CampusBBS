@@ -38,7 +38,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
             case ITEM_TYPE_SELF_HEADER:
                 SimpleDraweeView imageView = holder.getView(R.id.self_part_one_img);
                 ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
-                layoutParams.height = (int) SizeUtils.getFullScreenWidth(context);
+                layoutParams.height = (int) (SizeUtils.getFullScreenWidth(context)/3*2);
                 imageView.setLayoutParams(layoutParams);
                 FrescoDisplay.display(context, imageView
                         , (String) multiItem.data

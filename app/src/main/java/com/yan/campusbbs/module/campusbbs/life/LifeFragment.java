@@ -79,7 +79,6 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
         daggerInject();
         dataInit();
         skinInit();
-        setRetainInstance(true);
         return view;
     }
 
@@ -97,14 +96,6 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
     }
 
     private void init() {
-    }
-
-    protected void skinInit() {
-        changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getContext(), MODE_PRIVATE
-                        , SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.SKIN_INDEX, 0)
-        ));
     }
 
     public static LifeFragment newInstance() {

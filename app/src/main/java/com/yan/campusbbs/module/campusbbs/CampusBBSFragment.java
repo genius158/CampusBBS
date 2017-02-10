@@ -1,7 +1,6 @@
 package com.yan.campusbbs.module.campusbbs;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -26,7 +25,6 @@ import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
-import com.yan.campusbbs.rxbusaction.ActionCampusBBSFragmentFinish;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
 import com.yan.campusbbs.util.ChangeSkinHelper;
@@ -73,12 +71,7 @@ public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAd
 
     private List<View> followViews;
     private List<Fragment> fragments;
-
-    @Override
-    public void onDestroy() {
-        rxBus.post(new ActionCampusBBSFragmentFinish());
-        super.onDestroy();
-    }
+    private CommonPagerAdapter adapter;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,7 +80,6 @@ public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAd
         init();
         initRxBusAction();
         skinInit();
-        setRetainInstance(true);
         return view;
     }
 
@@ -117,11 +109,12 @@ public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAd
         FragmentSortUtils.fragmentsSort(fragments);
 
         daggerInject(fragments);
+
         ((StudyFragment) fragments.get(0)).setFollowAdd(this);
         ((LifeFragment) fragments.get(1)).setFollowAdd(this);
         ((JobFragment) fragments.get(2)).setFollowAdd(this);
 
-        CommonPagerAdapter adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, pagerTitles);
+        adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, pagerTitles);
         viewPager.setAdapter(adapter);
         indicator.setupWithViewPager(viewPager);
 
@@ -200,6 +193,9 @@ public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAd
                         break;
                 }
             }
+        }
+        if (viewPager.getAdapter() != null) {
+            viewPager.getAdapter().notifyDataSetChanged();
         }
     }
 

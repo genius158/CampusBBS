@@ -76,7 +76,6 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
         daggerInject();
         dataInit();
         skinInit();
-        setRetainInstance(true);
         return view;
     }
 
@@ -117,6 +116,7 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
+        pagerTabAdapter.changeSkin(actionChangeSkin);
     }
 
     @Override

@@ -5,10 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yan.campusbbs.base.BaseRefreshFragment;
+import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkin;
 
 import java.util.ArrayList;
@@ -38,10 +40,13 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
         pagerBarRecycler.setAdapter(pagerTabAdapter);
         this.pagerTabAdapter = pagerTabAdapter;
         pagerTabAdapter.setOnRecyclerViewItemClickListener(onRecyclerViewItemClickListener);
+        Log.e("followView2", "followViewsAdd:" + followViewsAdd);
+
         followViewsAdd.addFollowView(appBar);
     }
 
     public void setFollowAdd(FollowViewsAdd followView) {
+        Log.e("followView1", "followView:" + followView);
         this.followViewsAdd = followView;
     }
 
@@ -61,5 +66,11 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
 
     public void setPagerTabItemOnClick(BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick) {
         this.pagerTabItemOnClick = pagerTabItemOnClick;
+    }
+
+    @Override
+    public void changeSkin(ActionChangeSkin actionChangeSkin) {
+        super.changeSkin(actionChangeSkin);
+        pagerTabAdapter.changeSkin(actionChangeSkin);
     }
 }

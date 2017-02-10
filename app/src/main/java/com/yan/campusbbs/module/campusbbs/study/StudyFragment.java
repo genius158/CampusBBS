@@ -77,7 +77,6 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
         daggerInject();
         dataInit();
         skinInit();
-        setRetainInstance(true);
         return view;
     }
 
@@ -166,7 +165,6 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        pagerTabAdapter.changeSkin(actionChangeSkin);
     }
 
     @Override
