@@ -1,7 +1,6 @@
 package com.yan.campusbbs.module.selfcenter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
