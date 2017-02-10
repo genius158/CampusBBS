@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +20,12 @@ import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.ChangeSkinHelper;
-import com.yan.campusbbs.util.ChangeSkinModule;
-import com.yan.campusbbs.util.FragmentSort;
+import com.yan.campusbbs.rxbusaction.ActionImageControl;
+import com.yan.campusbbs.util.imagecontrol.ImageShowControlHelper;
+import com.yan.campusbbs.util.imagecontrol.ImageShowControlModule;
+import com.yan.campusbbs.util.skin.ChangeSkinHelper;
+import com.yan.campusbbs.util.skin.ChangeSkinModule;
+import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +52,12 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @BindView(R.id.app_bar)
     FrameLayout appBar;
 
-
     @Inject
     ChangeSkinHelper changeSkinHelper;
     @Inject
     AppBarHelper appBarHelper;
+    @Inject
+    ImageShowControlHelper imageShowControlHelper;
 
     private int actionBarPinHeight;
     private boolean isNeedAdjustBar;
@@ -79,7 +82,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         init();
         daggerInject();
         dataInit();
-        skinInit();
+        settingInit();
         return view;
     }
 
@@ -93,6 +96,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                         .getApplication()).getApplicationComponent())
                 .appBarHelperModule(new AppBarHelperModule(appBar))
                 .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
+                .imageShowControlModule(new ImageShowControlModule(this, compositeDisposable))
                 .selfCenterModule(new SelfCenterModule())
                 .build().inject(this);
     }
@@ -216,11 +220,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     protected void onReloadArguments(Bundle bundle) {
     }
 
-    @Override
-    public void changeSkin(ActionChangeSkin actionChangeSkin) {
-        super.changeSkin(actionChangeSkin);
-    }
-
     public float getScrollYDistance() {
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         int position = layoutManager.findFirstVisibleItemPosition();
@@ -232,5 +231,17 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @Override
     public int getIndex() {
         return 0;
+    }
+
+
+    @Override
+    public void changeSkin(ActionChangeSkin actionChangeSkin) {
+        super.changeSkin(actionChangeSkin);
+    }
+
+    @Override
+    public void imageShow(ActionImageControl actionImageControl) {
+        super.imageShow(actionImageControl);
+        adapter.imageShow(actionImageControl);
     }
 }

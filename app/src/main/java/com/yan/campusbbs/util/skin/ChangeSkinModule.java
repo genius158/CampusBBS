@@ -1,4 +1,6 @@
-package com.yan.campusbbs.util;
+package com.yan.campusbbs.util.skin;
+
+import com.yan.campusbbs.util.RxBus;
 
 import dagger.Module;
 import dagger.Provides;

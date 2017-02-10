@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
-import com.yan.campusbbs.util.FragmentSort;
+import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 
 import butterknife.ButterKnife;
 

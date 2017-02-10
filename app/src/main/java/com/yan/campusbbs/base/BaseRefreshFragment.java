@@ -6,7 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.ChangeSkin;
+import com.yan.campusbbs.util.skin.ChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -15,7 +15,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by Administrator on 2017/2/8.
  */
 
-public abstract class BaseRefreshFragment extends BaseSkinFragment implements ChangeSkin, SwipeRefreshLayout.OnRefreshListener {
+public abstract class BaseRefreshFragment extends BaseSettingFragment implements ChangeSkin, SwipeRefreshLayout.OnRefreshListener {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     public void attach(SwipeRefreshLayout swipeRefreshLayout) {
@@ -48,14 +48,5 @@ public abstract class BaseRefreshFragment extends BaseSkinFragment implements Ch
     @Override
     public void onRefresh() {
 
-    }
-
-    @Override
-    protected void skinInit() {
-        changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getContext()
-                        , MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.SKIN_INDEX, 0)
-        ));
     }
 }

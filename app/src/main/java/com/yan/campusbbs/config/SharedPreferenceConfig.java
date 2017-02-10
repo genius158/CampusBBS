@@ -6,5 +6,6 @@ package com.yan.campusbbs.config;
 
 public class SharedPreferenceConfig {
     public static final String SHARED_PREFERENCE = "shared_preference";
-    public static final String SKIN_INDEX = "SkinIndex";
+    public static final String SKIN_INDEX = "skinIndex";
+    public static final String CAN_IMAGE_SHOW = "canImageShow";
 }

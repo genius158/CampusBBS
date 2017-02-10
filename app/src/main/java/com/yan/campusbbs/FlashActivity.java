@@ -3,18 +3,15 @@ package com.yan.campusbbs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.content.ContextCompat;
 
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.MainActivity;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
-import com.yan.campusbbs.util.ChangeSkinHelper;
-import com.yan.campusbbs.util.ChangeSkinModule;
-import com.yan.campusbbs.util.ChangeSkin;
+import com.yan.campusbbs.util.skin.ChangeSkinHelper;
+import com.yan.campusbbs.util.skin.ChangeSkinModule;
+import com.yan.campusbbs.util.skin.ChangeSkin;
 import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SPUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -41,7 +38,7 @@ public class FlashActivity extends BaseActivity implements ChangeSkin {
         ButterKnife.bind(this);
         daggerInject();
         initRxBusDisposable();
-        skinInit();
+        settingInit();
     }
 
     public void daggerInject() {
@@ -50,14 +47,6 @@ public class FlashActivity extends BaseActivity implements ChangeSkin {
                         .getApplicationComponent())
                 .changeSkinModule(new ChangeSkinModule(this, compositeDisposable))
                 .build().inject(this);
-    }
-
-    protected void skinInit() {
-        changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getBaseContext()
-                        , MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.SKIN_INDEX, 0)
-        ));
     }
 
     private void initRxBusDisposable() {
@@ -72,10 +61,9 @@ public class FlashActivity extends BaseActivity implements ChangeSkin {
                 }));
     }
 
-
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
-        changeSkinHelper.statusBarColorChange(this, actionChangeSkin);
+        super.changeSkin(actionChangeSkin);
         activityFlash.setBackgroundResource(actionChangeSkin.getColorPrimaryId());
     }
 }

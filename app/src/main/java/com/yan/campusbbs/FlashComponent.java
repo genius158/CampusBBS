@@ -1,7 +1,7 @@
 package com.yan.campusbbs;
 
 import com.yan.campusbbs.base.ActivityScoped;
-import com.yan.campusbbs.util.ChangeSkinModule;
+import com.yan.campusbbs.util.skin.ChangeSkinModule;
 
 import dagger.Component;
 

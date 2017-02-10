@@ -1,4 +1,4 @@
-package com.yan.campusbbs.util;
+package com.yan.campusbbs.util.fragmentsort;
 
 import android.support.v4.app.Fragment;
 

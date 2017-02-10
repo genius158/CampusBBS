@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.base.BaseSkinFragment;
+import com.yan.campusbbs.base.BaseSettingFragment;
 import com.yan.campusbbs.module.CommonPagerAdapter;
 import com.yan.campusbbs.module.campusbbs.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
@@ -27,10 +27,10 @@ import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
-import com.yan.campusbbs.util.ChangeSkinHelper;
-import com.yan.campusbbs.util.ChangeSkinModule;
-import com.yan.campusbbs.util.FragmentSort;
-import com.yan.campusbbs.util.FragmentSortUtils;
+import com.yan.campusbbs.util.skin.ChangeSkinHelper;
+import com.yan.campusbbs.util.skin.ChangeSkinModule;
+import com.yan.campusbbs.util.fragmentsort.FragmentSort;
+import com.yan.campusbbs.util.fragmentsort.FragmentSortUtils;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAdd, FragmentSort {
+public class CampusBBSFragment extends BaseSettingFragment implements FollowViewsAdd, FragmentSort {
     private final String[] pagerTitles;
 
     @BindView(R.id.tabs)
@@ -79,7 +79,7 @@ public class CampusBBSFragment extends BaseSkinFragment implements FollowViewsAd
         ButterKnife.bind(this, view);
         init();
         initRxBusAction();
-        skinInit();
+        settingInit();
         return view;
     }
 

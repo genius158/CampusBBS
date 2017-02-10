@@ -3,7 +3,7 @@ package com.yan.campusbbs.module.campusbbs.life;
 import com.yan.campusbbs.ApplicationComponent;
 import com.yan.campusbbs.base.FragmentScoped;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
-import com.yan.campusbbs.util.ChangeSkinModule;
+import com.yan.campusbbs.util.skin.ChangeSkinModule;
 
 import dagger.Component;
 

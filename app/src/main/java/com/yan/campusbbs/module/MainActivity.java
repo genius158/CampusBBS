@@ -8,7 +8,6 @@ import android.util.Log;
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
@@ -23,10 +22,9 @@ import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
-import com.yan.campusbbs.util.ChangeSkinHelper;
-import com.yan.campusbbs.util.ChangeSkinModule;
-import com.yan.campusbbs.util.FragmentSortUtils;
-import com.yan.campusbbs.util.ChangeSkin;
+import com.yan.campusbbs.util.skin.ChangeSkinHelper;
+import com.yan.campusbbs.util.skin.ChangeSkinModule;
+import com.yan.campusbbs.util.fragmentsort.FragmentSortUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -39,7 +37,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements ChangeSkin {
+public class MainActivity extends BaseActivity {
     @Inject
     SelfCenterPresenter selfCenterPresenter;
 
@@ -73,17 +71,9 @@ public class MainActivity extends BaseActivity implements ChangeSkin {
         initFragment();
         initNavigationBar();
 
-        skinInit();
+        settingInit();
 
         rxBus.post(new ActionMainActivityShowComplete());
-    }
-
-    protected void skinInit() {
-        changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getBaseContext()
-                        , MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.SKIN_INDEX, 0)
-        ));
     }
 
     private void initNavigationBar() {
@@ -117,7 +107,6 @@ public class MainActivity extends BaseActivity implements ChangeSkin {
             fragments.add(FileManagerFragment.newInstance());
         } else {
             fragments = getSupportFragmentManager().getFragments();
-            Log.e("fragmentsSize", fragments.size() + "");
             if (fragments.size() < 3) {
                 resetFragments();
             }
@@ -189,7 +178,7 @@ public class MainActivity extends BaseActivity implements ChangeSkin {
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
-        changeSkinHelper.statusBarColorChange(this, actionChangeSkin);
+        super.changeSkin(actionChangeSkin);
 
         bottomNavigationBar.clearAll();
         BadgeItem numberBadgeItem = new BadgeItem()
