@@ -26,4 +26,17 @@ public class AppSkinConfig {
             , R.color.colorAccent3
             , R.color.colorAccent4
     };
+    public static final int[] PAGER_TAB_BG = new int[]{
+            R.drawable.study_pager_tab_item_bg
+            , R.drawable.study_pager_tab_item_bg2
+            , R.drawable.study_pager_tab_item_bg3
+            , R.drawable.study_pager_tab_item_bg4
+    };
+
+    public static final int[] PAGER_TAB_TEXT_COLOR = new int[]{
+            R.color.campus_pager_tab_title_color
+            , R.color.campus_pager_tab_title_color2
+            , R.color.campus_pager_tab_title_color3
+            , R.color.campus_pager_tab_title_color4
+    };
 }

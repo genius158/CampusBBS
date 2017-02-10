@@ -22,6 +22,14 @@ public class ActionChangeSkin implements Parcelable {
         return AppSkinConfig.COLOR_PRIMARY_ID[skinIndex];
     }
 
+    public int getPagerTabBgId() {
+        return AppSkinConfig.PAGER_TAB_BG[skinIndex];
+    }
+
+    public int getPagerTabTextColorId() {
+        return AppSkinConfig.PAGER_TAB_TEXT_COLOR[skinIndex];
+    }
+
     public int getColorPrimaryDarkId() {
         return AppSkinConfig.COLOR_PRIMARY_DARK_ID[skinIndex];
     }

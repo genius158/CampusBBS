@@ -22,6 +22,7 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
     protected List<PagerTabAdapter.PagerTabItem> pagerTabItem;
     protected FollowViewsAdd followViewsAdd;
     private PagerTabAdapter pagerTabAdapter;
+    private BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +46,9 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
     }
 
     private BaseQuickAdapter.OnRecyclerViewItemClickListener onRecyclerViewItemClickListener = (view, position) -> {
+        if (pagerTabItemOnClick != null) {
+            pagerTabItemOnClick.onItemClick(view, position);
+        }
         for (int i = 0; i < pagerTabItem.size(); i++) {
             if (i == position) {
                 pagerTabItem.get(i).isSelect = true;
@@ -54,4 +58,8 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
         }
         pagerTabAdapter.notifyDataSetChanged();
     };
+
+    public void setPagerTabItemOnClick(BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick) {
+        this.pagerTabItemOnClick = pagerTabItemOnClick;
+    }
 }

@@ -9,8 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
 import com.yan.campusbbs.util.FragmentSort;
@@ -19,12 +21,14 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ChangeSkinHelper;
 import com.yan.campusbbs.util.ChangeSkinModule;
 import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.SPUtils;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.Context.MODE_PRIVATE;
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
@@ -58,7 +62,7 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view =inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
+        View view = inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
         ButterKnife.bind(this, view);
         init();
         daggerInject();
@@ -92,7 +96,9 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
                 .build().inject(this);
 
         attach(swipeRefreshLayout, pagerBarRecycler, pagerTabAdapter, appBar);
+        setPagerTabItemOnClick(onRecyclerViewItemClickListener);
     }
+
 
     private void init() {
     }
@@ -118,10 +124,29 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
+        pagerTabAdapter.changeSkin(actionChangeSkin);
     }
 
     @Override
     public int getIndex() {
         return 0;
     }
+
+
+    private BaseQuickAdapter.OnRecyclerViewItemClickListener onRecyclerViewItemClickListener =
+            (view, position) -> {
+                if (position == 0) {
+                    SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 0);
+                    rxBus.post(new ActionChangeSkin(0));
+                } else if (position == 1) {
+                    SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 1);
+                    rxBus.post(new ActionChangeSkin(1));
+                } else if (position == 2) {
+                    SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 2);
+                    rxBus.post(new ActionChangeSkin(2));
+                } else if (position == 3) {
+                    SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SKIN_INDEX, 3);
+                    rxBus.post(new ActionChangeSkin(3));
+                }
+            };
 }
