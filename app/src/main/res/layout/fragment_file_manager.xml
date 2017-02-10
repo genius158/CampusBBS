@@ -42,9 +42,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:textSize="@dimen/app_bar_text_size"
+            android:text="@string/file_center"
             android:textColor="@color/crFEFEFE"
-            android:text="文件中心" />
+            android:textSize="@dimen/app_bar_text_size" />
 
     </FrameLayout>
 

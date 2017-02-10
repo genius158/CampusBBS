@@ -53,11 +53,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Main UI for the add task screen. Users can enter a task title and description.
  */
 public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, IChangeSkin, FragmentSort {
-    private final String[] CONTENT = new String[]{getString(
-            R.string.campus_bbs_study)
-            , getString(R.string.campus_bbs_life)
-            , getString(R.string.campus_bbs_job)
-            , getString(R.string.campus_bbs_more)};
+    private String[] pagerTitles;
 
     @BindView(R.id.tabs)
     TabLayout indicator;
@@ -113,6 +109,13 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
     }
 
     private void init() {
+        pagerTitles = new String[]{
+                getString(R.string.campus_bbs_study)
+                , getString(R.string.campus_bbs_life)
+                , getString(R.string.campus_bbs_job)
+                , getString(R.string.campus_bbs_more)
+        };
+
         followViews = new ArrayList<>();
 
         if (getChildFragmentManager().getFragments() == null) {
@@ -134,7 +137,7 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
         ((LifeFragment) fragments.get(1)).setFollowAdd(this);
         ((JobFragment) fragments.get(2)).setFollowAdd(this);
 
-        CommonPagerAdapter adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, CONTENT);
+        CommonPagerAdapter adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, pagerTitles);
         viewPager.setAdapter(adapter);
         indicator.setupWithViewPager(viewPager);
 
@@ -143,9 +146,7 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
         CoordinatorLayout.LayoutParams lp =
                 (CoordinatorLayout.LayoutParams) tabContainer.getLayoutParams();
         behavior = (CampusAppBarBehavior) lp.getBehavior();
-
     }
-
 
     private void daggerInject(List<Fragment> fragments) {
         DaggerCampusBBSComponent.builder()
@@ -170,9 +171,6 @@ public class CampusBBSFragment extends BaseFragment implements IFollowViewsAdd, 
 
     public static CampusBBSFragment newInstance() {
         return new CampusBBSFragment();
-    }
-
-    public CampusBBSFragment() {
     }
 
     @Override
