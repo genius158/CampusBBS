@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.selfcenter;
 
+
 import dagger.Module;
 
 /**

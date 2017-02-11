@@ -194,12 +194,12 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
 
             } else if (position == 4) {
                 SPUtils.putBoolean(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.CAN_IMAGE_SHOW, false);
+                        , SharedPreferenceConfig.IMAGE_SHOW_ABLE, false);
                 rxBus.post(new ActionImageControl(false));
 
             } else if (position == 5) {
                 SPUtils.putBoolean(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.CAN_IMAGE_SHOW, true);
+                        , SharedPreferenceConfig.IMAGE_SHOW_ABLE, true);
                 rxBus.post(new ActionImageControl(true));
             }
         };

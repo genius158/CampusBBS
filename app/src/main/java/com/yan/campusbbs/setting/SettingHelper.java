@@ -1,7 +1,6 @@
 package com.yan.campusbbs.setting;
 
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.rxbusaction.ActionImageControl;
 import com.yan.campusbbs.util.RxBus;
 
 import javax.inject.Inject;
@@ -15,31 +14,22 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class SettingHelper {
     private RxBus rxBus;
-    private SystemSetting systemSetting;
+    private SettingControl settingControl;
     private CompositeDisposable compositeDisposable;
 
     @Inject
-    public SettingHelper(RxBus rxBus, SystemSetting systemSetting, CompositeDisposable compositeDisposable) {
-        this.systemSetting = systemSetting;
+    public SettingHelper(RxBus rxBus, SettingControl settingControl, CompositeDisposable compositeDisposable) {
+        this.settingControl = settingControl;
         this.rxBus = rxBus;
         this.compositeDisposable = compositeDisposable;
-        initRxImageControl();
         initRxSkinAction();
-    }
-
-    private void initRxImageControl() {
-        compositeDisposable.add(rxBus.getEvent(ActionImageControl.class)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(actionImageControl -> {
-                    systemSetting.imageShow(actionImageControl);
-                }, Throwable::printStackTrace));
     }
 
     private void initRxSkinAction() {
         compositeDisposable.add(rxBus.getEvent(ActionChangeSkin.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(actionChangeSkin -> {
-                    systemSetting.changeSkin(actionChangeSkin);
+                    settingControl.changeSkin(actionChangeSkin);
                 }, Throwable::printStackTrace));
     }
 }

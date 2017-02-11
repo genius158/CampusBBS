@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.setting.ChangeSkin;
+import com.yan.campusbbs.setting.SkinControl;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import javax.inject.Inject;
  * Created by yan on 2017/2/7.
  */
 
-public class PagerTabAdapter extends BaseQuickAdapter<PagerTabAdapter.PagerTabItem> implements ChangeSkin {
+public class PagerTabAdapter extends BaseQuickAdapter<PagerTabAdapter.PagerTabItem> implements SkinControl {
     private ActionChangeSkin actionChangeSkin;
     private Context context;
 

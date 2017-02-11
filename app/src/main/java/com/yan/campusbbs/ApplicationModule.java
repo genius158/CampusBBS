@@ -1,9 +1,8 @@
 package com.yan.campusbbs;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
+import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.util.AppRetrofit;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.ToastUtils;
@@ -23,7 +22,8 @@ public final class ApplicationModule {
 
     ApplicationModule(Context context) {
         mContext = context;
-        Fresco.initialize(context);
+        ImageControl.getInstance().frescoInit(context);
+
     }
 
     @Provides

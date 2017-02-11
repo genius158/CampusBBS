@@ -12,18 +12,18 @@ import io.reactivex.disposables.CompositeDisposable;
 
 @Module
 public class SettingModule {
-    private SystemSetting systemSetting;
+    private SettingControl settingControl;
     private CompositeDisposable compositeDisposable;
 
-    public SettingModule(SystemSetting systemSetting
+    public SettingModule(SettingControl settingControl
             , CompositeDisposable compositeDisposable) {
-        this.systemSetting = systemSetting;
+        this.settingControl = settingControl;
         this.compositeDisposable = compositeDisposable;
     }
 
     @Provides
     SettingHelper provideSettingHelper(RxBus rxBus) {
-        return new SettingHelper(rxBus, systemSetting, compositeDisposable);
+        return new SettingHelper(rxBus, settingControl, compositeDisposable);
     }
 
 }

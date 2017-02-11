@@ -8,9 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.rxbusaction.ActionImageControl;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.setting.SystemSetting;
+import com.yan.campusbbs.setting.SettingControl;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -19,7 +18,7 @@ import io.reactivex.disposables.Disposable;
  * Created by Administrator on 2017/2/8.
  */
 
-public class BaseActivity extends AppCompatActivity implements SystemSetting {
+public class BaseActivity extends AppCompatActivity implements SettingControl {
     protected CompositeDisposable compositeDisposable;
 
     public void addDisposable(Disposable disposable) {
@@ -38,10 +37,8 @@ public class BaseActivity extends AppCompatActivity implements SystemSetting {
         super.onDestroy();
     }
 
-
     protected final void settingInit() {
         skinInit();
-        imgShowControlInit();
     }
 
     private final void skinInit() {
@@ -50,19 +47,6 @@ public class BaseActivity extends AppCompatActivity implements SystemSetting {
                         , MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                         , SharedPreferenceConfig.SKIN_INDEX, 0)
         ));
-    }
-
-    private final void imgShowControlInit() {
-        imageShow(new ActionImageControl(
-                SPUtils.getBoolean(this
-                        , MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.CAN_IMAGE_SHOW, true)
-        ));
-    }
-
-    @Override
-    public void imageShow(ActionImageControl actionImageControl) {
-
     }
 
     @Override

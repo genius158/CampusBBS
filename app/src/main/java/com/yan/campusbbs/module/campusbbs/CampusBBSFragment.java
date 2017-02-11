@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.base.BaseSettingFragment;
+import com.yan.campusbbs.base.BaseSettingControlFragment;
 import com.yan.campusbbs.module.CommonPagerAdapter;
 import com.yan.campusbbs.module.campusbbs.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
@@ -46,7 +46,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBSFragment extends BaseSettingFragment implements FollowViewsAdd, FragmentSort {
+public class CampusBBSFragment extends BaseSettingControlFragment implements FollowViewsAdd, FragmentSort {
     private final String[] pagerTitles;
 
     @BindView(R.id.tabs)

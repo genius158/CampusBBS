@@ -10,7 +10,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
  * Created by Administrator on 2017/2/8.
  */
 
-public abstract class BaseRefreshFragment extends BaseSettingFragment implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class BaseRefreshFragment extends BaseSettingControlFragment implements SwipeRefreshLayout.OnRefreshListener {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     public void attach(SwipeRefreshLayout swipeRefreshLayout) {
