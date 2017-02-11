@@ -1,27 +1,25 @@
-package com.yan.campusbbs.module.filemanager;
+package com.yan.campusbbs.module.campusbbs.job;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.base.BaseRefreshFragment;
-import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
+import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.fragmentsort.FragmentSort;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.yan.campusbbs.util.sort.Sort;
+import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
+import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.RxBus;
 
 import javax.inject.Inject;
 
@@ -33,23 +31,26 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class FileManagerFragment extends BaseRefreshFragment implements FileManagerContract.View, FragmentSort {
-    List<String> strings;
+public class Job extends RefreshTabPagerFragment implements JobContract.View, Sort {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
     SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.app_bar_background)
-    CardView appBarBackground;
-
-    private FileManagerContract.Presenter mPresenter;
+    @BindView(R.id.pager_bar)
+    FrameLayout appBar;
+    @BindView(R.id.pager_bar_recycler)
+    RecyclerView pagerBarRecycler;
 
     @Inject
-    SettingHelper settingHelper;
-
+    RxBus rxBus;
+    @Inject
+    PagerTabAdapter pagerTabAdapter;
     @Inject
     SPUtils spUtils;
+    @Inject
+    SettingHelper changeSkinHelper;
 
+    private JobContract.Presenter mPresenter;
 
     @Override
     public void onResume() {
@@ -57,62 +58,55 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
         mPresenter.start();
     }
 
+    private void dataInit() {
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+
+        pagerTabAdapter.notifyDataSetChanged();
+    }
+
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_file_manager, container, false);
+        View view = inflater.inflate(R.layout.fragment_campusbbs_job, container, false);
         ButterKnife.bind(this, view);
         init();
         daggerInject();
+        dataInit();
         return view;
     }
 
-    @Override
-    protected void onLoadLazy() {
-        Log.e("onLoadLazy", "FileManagerLoadLazy");
-    }
-
-    @Override
-    protected void onSaveArguments(Bundle bundle) {
-        super.onSaveArguments(bundle);
-
-    }
-
-    @Override
-    protected void onReloadArguments(Bundle bundle) {
-        super.onReloadArguments(bundle);
-        Log.e("onReload", "FileManagerReload");
-    }
     private void daggerInject() {
-        DaggerFileManagerComponent.builder()
+        DaggerJobComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
+                .jobFragmentModule(new JobFragmentModule())
+                .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
+        attach(pagerBarRecycler, pagerTabAdapter, appBar);
     }
 
     private void init() {
-        strings = new ArrayList<>();
-        strings.add("文件管理");
-        strings.add("文件管理");
-        strings.add("文件管理");
-        strings.add("文件管理");
-        strings.add("文件管理");
-        strings.add("文件管理");
-        strings.add("文件管理");
 
     }
 
-    public static FileManagerFragment newInstance() {
-        return new FileManagerFragment();
+    public static Job newInstance() {
+        return new Job();
     }
 
-    public FileManagerFragment() {
+    public Job() {
     }
 
     @Override
-    public void setPresenter(@NonNull FileManagerContract.Presenter presenter) {
+    public void setPresenter(@NonNull JobContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 
@@ -134,9 +128,7 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        appBarBackground.setCardBackgroundColor(
-                ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
-        );
+        pagerTabAdapter.changeSkin(actionChangeSkin);
     }
 
     @Override

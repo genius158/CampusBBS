@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.campusbbs.job;
+package com.yan.campusbbs.module.campusbbs.life;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +16,7 @@ import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.fragmentsort.FragmentSort;
+import com.yan.campusbbs.util.sort.Sort;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.RxBus;
@@ -31,7 +31,8 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class JobFragment extends RefreshTabPagerFragment implements JobContract.View, FragmentSort {
+public class Life extends RefreshTabPagerFragment implements LifeContract.View, Sort {
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -46,11 +47,12 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     @Inject
     PagerTabAdapter pagerTabAdapter;
     @Inject
-    SPUtils spUtils;
-    @Inject
     SettingHelper changeSkinHelper;
 
-    private JobContract.Presenter mPresenter;
+    @Inject
+    SPUtils spUtils;
+
+    private LifeContract.Presenter mPresenter;
 
     @Override
     public void onResume() {
@@ -59,21 +61,20 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     }
 
     private void dataInit() {
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
         pagerTabAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_campusbbs_job, container, false);
+        View view = inflater.inflate(R.layout.fragment_campusbbs_life, container, false);
         ButterKnife.bind(this, view);
         init();
         daggerInject();
@@ -82,31 +83,30 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     }
 
     private void daggerInject() {
-        DaggerJobComponent.builder()
+        DaggerLifeComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
-                .settingModule(new SettingModule(this, compositeDisposable))
-                .jobFragmentModule(new JobFragmentModule())
+                .settingModule(new SettingModule(this,  compositeDisposable))
+                .lifeFragmentModule(new LifeFragmentModule())
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
-        attach(pagerBarRecycler, pagerTabAdapter, appBar);
+        attach(  pagerBarRecycler, pagerTabAdapter, appBar);
     }
 
     private void init() {
-
     }
 
-    public static JobFragment newInstance() {
-        return new JobFragment();
+    public static Life newInstance() {
+        return new Life();
     }
 
-    public JobFragment() {
+    public Life() {
     }
 
     @Override
-    public void setPresenter(@NonNull JobContract.Presenter presenter) {
+    public void setPresenter(@NonNull LifeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
 
@@ -128,11 +128,10 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        pagerTabAdapter.changeSkin(actionChangeSkin);
     }
 
     @Override
     public int getIndex() {
-        return 2;
+        return 1;
     }
 }

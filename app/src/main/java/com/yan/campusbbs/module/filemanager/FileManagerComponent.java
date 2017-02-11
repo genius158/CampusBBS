@@ -14,5 +14,5 @@ import dagger.Component;
 }
 )
 public interface FileManagerComponent {
-    void inject(FileManagerFragment fileManagerFragment);
+    void inject(FileManager fileManagerFragment);
 }

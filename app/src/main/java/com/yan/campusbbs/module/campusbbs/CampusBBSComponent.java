@@ -20,5 +20,5 @@ import dagger.Component;
 }
 )
 public interface CampusBBSComponent {
-    void inject(CampusBBSFragment campusBBSFragment);
+    void inject(CampusBBS campusBBSFragment);
 }

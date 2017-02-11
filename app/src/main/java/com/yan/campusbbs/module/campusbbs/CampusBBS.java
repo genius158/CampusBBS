@@ -16,14 +16,14 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseSettingControlFragment;
 import com.yan.campusbbs.module.CommonPagerAdapter;
-import com.yan.campusbbs.module.campusbbs.job.JobFragment;
+import com.yan.campusbbs.module.campusbbs.job.Job;
 import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
 import com.yan.campusbbs.module.campusbbs.job.JobPresenterModule;
-import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
+import com.yan.campusbbs.module.campusbbs.life.Life;
 import com.yan.campusbbs.module.campusbbs.life.LifePresenter;
 import com.yan.campusbbs.module.campusbbs.life.LifePresenterModule;
-import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
-import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
+import com.yan.campusbbs.module.campusbbs.other.Others;
+import com.yan.campusbbs.module.campusbbs.study.Study;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -31,8 +31,8 @@ import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.fragmentsort.FragmentSort;
-import com.yan.campusbbs.util.fragmentsort.FragmentSortUtils;
+import com.yan.campusbbs.util.sort.Sort;
+import com.yan.campusbbs.util.sort.SortUtils;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBSFragment extends BaseSettingControlFragment implements FollowViewsAdd, FragmentSort {
+public class CampusBBS extends BaseSettingControlFragment implements FollowViewsAdd, Sort {
     private final String[] pagerTitles;
 
     @BindView(R.id.tabs)
@@ -102,7 +102,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
 
     }
 
-    public CampusBBSFragment() {
+    public CampusBBS() {
         pagerTitles = new String[4];
     }
 
@@ -114,23 +114,23 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
 
         if (getChildFragmentManager().getFragments() == null) {
             fragments = new ArrayList<>();
-            fragments.add(StudyFragment.newInstance());
-            fragments.add(LifeFragment.newInstance());
-            fragments.add(JobFragment.newInstance());
-            fragments.add(OthersFragment.newInstance());
+            fragments.add(Study.newInstance());
+            fragments.add(Life.newInstance());
+            fragments.add(Job.newInstance());
+            fragments.add(Others.newInstance());
         } else {
             fragments = getChildFragmentManager().getFragments();
             if (fragments.size() < 4) {
                 resetFragments();
             }
         }
-        FragmentSortUtils.fragmentsSort(fragments);
+        SortUtils.sort(fragments);
 
         daggerInject(fragments);
 
-        ((StudyFragment) fragments.get(0)).setFollowAdd(this);
-        ((LifeFragment) fragments.get(1)).setFollowAdd(this);
-        ((JobFragment) fragments.get(2)).setFollowAdd(this);
+        ((Study) fragments.get(0)).setFollowAdd(this);
+        ((Life) fragments.get(1)).setFollowAdd(this);
+        ((Job) fragments.get(2)).setFollowAdd(this);
 
         adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, pagerTitles);
         viewPager.setAdapter(adapter);
@@ -148,9 +148,9 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
-                .studyPresenterModule(new StudyPresenterModule((StudyFragment) fragments.get(0)))
-                .lifePresenterModule(new LifePresenterModule((LifeFragment) fragments.get(1)))
-                .jobPresenterModule(new JobPresenterModule((JobFragment) fragments.get(2)))
+                .studyPresenterModule(new StudyPresenterModule((Study) fragments.get(0)))
+                .lifePresenterModule(new LifePresenterModule((Life) fragments.get(1)))
+                .jobPresenterModule(new JobPresenterModule((Job) fragments.get(2)))
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
     }
@@ -164,8 +164,8 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
                 ));
     }
 
-    public static CampusBBSFragment newInstance() {
-        return new CampusBBSFragment();
+    public static CampusBBS newInstance() {
+        return new CampusBBS();
     }
 
     @Override
@@ -189,13 +189,13 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
     private void resetFragments() {
         boolean[] fragmentNullIndex = new boolean[4];
         for (Fragment fragment : fragments) {
-            if (fragment instanceof StudyFragment) {
+            if (fragment instanceof Study) {
                 fragmentNullIndex[0] = true;
-            } else if (fragment instanceof LifeFragment) {
+            } else if (fragment instanceof Life) {
                 fragmentNullIndex[1] = true;
-            } else if (fragment instanceof JobFragment) {
+            } else if (fragment instanceof Job) {
                 fragmentNullIndex[2] = true;
-            } else if (fragment instanceof OthersFragment) {
+            } else if (fragment instanceof Others) {
                 fragmentNullIndex[3] = true;
             }
         }
@@ -203,16 +203,16 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
             if (!fragmentNullIndex[i]) {
                 switch (i) {
                     case 0:
-                        fragments.add(StudyFragment.newInstance());
+                        fragments.add(Study.newInstance());
                         break;
                     case 1:
-                        fragments.add(LifeFragment.newInstance());
+                        fragments.add(Life.newInstance());
                         break;
                     case 2:
-                        fragments.add(JobFragment.newInstance());
+                        fragments.add(Job.newInstance());
                         break;
                     case 3:
-                        fragments.add(OthersFragment.newInstance());
+                        fragments.add(Others.newInstance());
                         break;
                 }
             }

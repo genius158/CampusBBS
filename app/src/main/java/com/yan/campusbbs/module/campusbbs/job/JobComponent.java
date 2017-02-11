@@ -17,5 +17,5 @@ import dagger.Component;
 }
 )
 public interface JobComponent {
-    void inject(JobFragment jobFragment);
+    void inject(Job jobFragment);
 }

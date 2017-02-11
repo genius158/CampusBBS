@@ -42,7 +42,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 imageView.setLayoutParams(layoutParams);
                 FrescoDisplay.display(context, imageView
                         , (String) multiItem.data
-                        , R.drawable.sample_footer_loading
+                        , R.drawable.tansparent_default
                         , FrescoDisplay.CENTER_CROP);
                 break;
             case ITEM_TYPE_SELF_PUSH_WARD:

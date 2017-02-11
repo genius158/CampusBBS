@@ -10,11 +10,11 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.module.campusbbs.CampusBBSFragment;
-import com.yan.campusbbs.module.filemanager.FileManagerFragment;
+import com.yan.campusbbs.module.campusbbs.CampusBBS;
+import com.yan.campusbbs.module.filemanager.FileManager;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenter;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
-import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
+import com.yan.campusbbs.module.selfcenter.SelfCenter;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenter;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -24,7 +24,7 @@ import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.fragmentsort.FragmentSortUtils;
+import com.yan.campusbbs.util.sort.SortUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.ToastUtils;
 
@@ -112,21 +112,21 @@ public class MainActivity extends BaseActivity {
     private void initFragment() {
         if (getSupportFragmentManager().getFragments() == null) {
             fragments = new ArrayList<>();
-            fragments.add(SelfCenterFragment.newInstance());
-            fragments.add(CampusBBSFragment.newInstance());
-            fragments.add(FileManagerFragment.newInstance());
+            fragments.add(SelfCenter.newInstance());
+            fragments.add(CampusBBS.newInstance());
+            fragments.add(FileManager.newInstance());
         } else {
             fragments = getSupportFragmentManager().getFragments();
             if (fragments.size() < 3) {
                 resetFragments();
             }
         }
-        FragmentSortUtils.fragmentsSort(fragments);
+        SortUtils.sort(fragments);
 
         DaggerModuleComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
-                .selfCenterPresenterModule(new SelfCenterPresenterModule((SelfCenterFragment) fragments.get(0)))
-                .fileManagerPresenterModule(new FileManagerPresenterModule((FileManagerFragment) fragments.get(2)))
+                .selfCenterPresenterModule(new SelfCenterPresenterModule((SelfCenter) fragments.get(0)))
+                .fileManagerPresenterModule(new FileManagerPresenterModule((FileManager) fragments.get(2)))
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
         commonPagerAdapter = new CommonPagerAdapter(getSupportFragmentManager(), fragments);
@@ -210,11 +210,11 @@ public class MainActivity extends BaseActivity {
     private void resetFragments() {
         boolean[] fragmentNullIndex = new boolean[3];
         for (Fragment fragment : fragments) {
-            if (fragment instanceof SelfCenterFragment) {
+            if (fragment instanceof SelfCenter) {
                 fragmentNullIndex[0] = true;
-            } else if (fragment instanceof CampusBBSFragment) {
+            } else if (fragment instanceof CampusBBS) {
                 fragmentNullIndex[1] = true;
-            } else if (fragment instanceof FileManagerFragment) {
+            } else if (fragment instanceof FileManager) {
                 fragmentNullIndex[2] = true;
             }
         }
@@ -222,13 +222,13 @@ public class MainActivity extends BaseActivity {
             if (!fragmentNullIndex[i]) {
                 switch (i) {
                     case 0:
-                        fragments.add(SelfCenterFragment.newInstance());
+                        fragments.add(SelfCenter.newInstance());
                         break;
                     case 1:
-                        fragments.add(CampusBBSFragment.newInstance());
+                        fragments.add(CampusBBS.newInstance());
                         break;
                     case 2:
-                        fragments.add(FileManagerFragment.newInstance());
+                        fragments.add(FileManager.newInstance());
                         break;
                 }
             }

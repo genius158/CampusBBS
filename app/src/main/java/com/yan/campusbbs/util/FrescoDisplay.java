@@ -85,9 +85,9 @@ public class FrescoDisplay {
                 .setFailureImageScaleType(getScaleType(fitType))
                 .setPlaceholderImageScaleType(getScaleType(fitType))
                 .setActualImageScaleType(getScaleType(fitType))
-
                 // .setDesiredAspectRatio(2)
                 .setRoundingParams(roundingParams)
+                .setFadeDuration(200)
                 .build();
 
         (simpleDraweeView).setHierarchy(hierarchy);

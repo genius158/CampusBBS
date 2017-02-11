@@ -21,7 +21,7 @@ import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
-import com.yan.campusbbs.util.fragmentsort.FragmentSort;
+import com.yan.campusbbs.util.sort.Sort;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.RxBus;
@@ -40,7 +40,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class StudyFragment extends RefreshTabPagerFragment implements StudyContract.View, FragmentSort {
+public class Study extends RefreshTabPagerFragment implements StudyContract.View, Sort {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -147,11 +147,11 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     }
 
 
-    public static StudyFragment newInstance() {
-        return new StudyFragment();
+    public static Study newInstance() {
+        return new Study();
     }
 
-    public StudyFragment() {
+    public Study() {
     }
 
     @Override

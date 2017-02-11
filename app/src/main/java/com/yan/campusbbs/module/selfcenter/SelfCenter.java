@@ -25,7 +25,7 @@ import com.yan.campusbbs.setting.AdapterImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.fragmentsort.FragmentSort;
+import com.yan.campusbbs.util.sort.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class SelfCenterFragment extends BaseRefreshFragment implements SelfCenterContract.View, FragmentSort {
+public class SelfCenter extends BaseRefreshFragment implements SelfCenterContract.View, Sort {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -87,7 +87,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         return view;
     }
 
-    public SelfCenterFragment() {
+    public SelfCenter() {
         dataMultiItems = new ArrayList<>();
     }
 
@@ -153,10 +153,10 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         adapter.notifyDataSetChanged();
     }
 
-    public static SelfCenterFragment newInstance() {
-        SelfCenterFragment selfCenterFragment = new SelfCenterFragment();
+    public static SelfCenter newInstance() {
+        SelfCenter selfCenterFragment = new SelfCenter();
         selfCenterFragment.setArguments(new Bundle());
-        return new SelfCenterFragment();
+        return new SelfCenter();
     }
 
     @Override

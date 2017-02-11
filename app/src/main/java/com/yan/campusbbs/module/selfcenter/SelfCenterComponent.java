@@ -17,5 +17,5 @@ import dagger.Component;
 }
 )
 public interface SelfCenterComponent {
-    void inject(SelfCenterFragment selfCenterFragment);
+    void inject(SelfCenter selfCenterFragment);
 }

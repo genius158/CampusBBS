@@ -17,5 +17,5 @@ import dagger.Component;
 }
 )
 public interface LifeComponent {
-    void inject(LifeFragment lifeFragment);
+    void inject(Life lifeFragment);
 }
