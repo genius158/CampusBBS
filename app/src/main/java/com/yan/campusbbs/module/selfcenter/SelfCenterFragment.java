@@ -121,8 +121,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     }
 
     private void init() {
-        customEdgeEffect(R.color.colorAccent2);
-
         actionBarPinHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100
                 , getResources().getDisplayMetrics());
 
@@ -281,16 +279,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-    }
-    void customEdgeEffect(  int brandColor) {
-        //glow
-        int glowDrawableId =getResources().getIdentifier("overscroll_glow", "drawable", "android");
-        Drawable androidGlow =getResources().getDrawable(glowDrawableId);
-        androidGlow.setColorFilter(brandColor, PorterDuff.Mode.MULTIPLY);
-        //edge
-        int edgeDrawableId =getResources().getIdentifier("overscroll_edge", "drawable", "android");
-        Drawable androidEdge =getResources().getDrawable(edgeDrawableId);
-        androidEdge.setColorFilter(brandColor, PorterDuff.Mode.MULTIPLY);
     }
 
 }
