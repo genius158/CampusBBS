@@ -12,6 +12,7 @@ import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.SPUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,6 +28,9 @@ public class FlashActivity extends BaseActivity {
     RxBus rxBus;
 
     @Inject
+    SPUtils spUtils;
+
+    @Inject
     ImageControl imageControl;
 
     @Inject
@@ -40,10 +44,15 @@ public class FlashActivity extends BaseActivity {
         setContentView(R.layout.activity_flash);
         ButterKnife.bind(this);
         daggerInject();
-        imageControl.frescoInit(this);
+        imageControl.frescoInit();
 
         initRxBusDisposable();
         settingInit();
+    }
+
+    @Override
+    protected SPUtils attachUtil() {
+        return spUtils;
     }
 
     public void daggerInject() {

@@ -17,6 +17,7 @@ import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
+import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 
 import java.util.ArrayList;
@@ -45,6 +46,9 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
 
     @Inject
     SettingHelper settingHelper;
+
+    @Inject
+    SPUtils spUtils;
 
 
     @Override
@@ -118,6 +122,10 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
         swipeRefreshLayout.setRefreshing(false);
     }
 
+    @Override
+    protected SPUtils attachUtil() {
+        return spUtils;
+    }
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);

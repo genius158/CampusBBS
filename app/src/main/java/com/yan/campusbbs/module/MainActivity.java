@@ -22,6 +22,7 @@ import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
+import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.fragmentsort.FragmentSortUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.ToastUtils;
@@ -43,6 +44,8 @@ public class MainActivity extends BaseActivity {
 
     @Inject
     SettingHelper changeSkinHelper;
+    @Inject
+    SPUtils spUtils;
 
     @Inject
     RxBus rxBus;
@@ -71,6 +74,11 @@ public class MainActivity extends BaseActivity {
         settingInit();
 
         rxBus.post(new ActionMainActivityShowComplete());
+    }
+
+    @Override
+    protected SPUtils attachUtil() {
+        return spUtils;
     }
 
     private void initNavigationBar() {

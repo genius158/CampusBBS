@@ -18,8 +18,9 @@ import io.reactivex.disposables.Disposable;
  * Created by Administrator on 2017/2/8.
  */
 
-public class BaseActivity extends AppCompatActivity implements SettingControl {
+public abstract class BaseActivity extends AppCompatActivity implements SettingControl {
     protected CompositeDisposable compositeDisposable;
+
 
     public void addDisposable(Disposable disposable) {
         compositeDisposable.add(disposable);
@@ -43,11 +44,12 @@ public class BaseActivity extends AppCompatActivity implements SettingControl {
 
     private final void skinInit() {
         changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(this
-                        , MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                attachUtil().getInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                         , SharedPreferenceConfig.SKIN_INDEX, 0)
         ));
     }
+
+    protected abstract SPUtils attachUtil();
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {

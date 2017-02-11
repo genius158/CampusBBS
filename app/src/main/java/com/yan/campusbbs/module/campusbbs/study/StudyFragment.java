@@ -54,6 +54,8 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     @Inject
     RxBus rxBus;
     @Inject
+    SPUtils spUtils;
+    @Inject
     PagerTabAdapter pagerTabAdapter;
     @Inject
     SettingHelper changeSkinHelper;
@@ -163,6 +165,11 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     }
 
     @Override
+    protected SPUtils attachUtil() {
+        return spUtils;
+    }
+
+    @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
     }
@@ -175,31 +182,31 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     private BaseQuickAdapter.OnRecyclerViewItemClickListener getOnRecyclerViewItemClickListener() {
         return (view, position) -> {
             if (position == 0) {
-                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                         , SharedPreferenceConfig.SKIN_INDEX, 0);
                 rxBus.post(new ActionChangeSkin(0));
 
             } else if (position == 1) {
-                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                         , SharedPreferenceConfig.SKIN_INDEX, 1);
                 rxBus.post(new ActionChangeSkin(1));
 
             } else if (position == 2) {
-                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                         , SharedPreferenceConfig.SKIN_INDEX, 2);
                 rxBus.post(new ActionChangeSkin(2));
 
             } else if (position == 3) {
-                SPUtils.putInt(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                         , SharedPreferenceConfig.SKIN_INDEX, 3);
                 rxBus.post(new ActionChangeSkin(3));
 
             } else if (position == 4) {
-                imageControl.setImageShowAble(getContext(), false);
+                imageControl.setImageShowAble(false);
 
 
             } else if (position == 5) {
-                imageControl.setImageShowAble(getContext(), true);
+                imageControl.setImageShowAble(true);
             }
         };
     }

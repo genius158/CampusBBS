@@ -6,6 +6,7 @@ import com.yan.campusbbs.setting.AdapterImageControl;
 import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.util.AppRetrofit;
 import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
 import javax.inject.Singleton;
@@ -20,11 +21,13 @@ import dagger.Provides;
 @Module
 public final class ApplicationModule {
     private final Context mContext;
+    private final SPUtils spUtils;
     private final ImageControl imageControl;
 
     ApplicationModule(Context context) {
         mContext = context;
-        imageControl = new ImageControl();
+        spUtils = new SPUtils(context);
+        imageControl = new ImageControl(spUtils, context);
     }
 
     @Provides
@@ -59,5 +62,10 @@ public final class ApplicationModule {
     @Provides
     ImageControl provideImageControl() {
         return imageControl;
+    }
+
+    @Provides
+    SPUtils provideSPUtils() {
+        return spUtils;
     }
 }

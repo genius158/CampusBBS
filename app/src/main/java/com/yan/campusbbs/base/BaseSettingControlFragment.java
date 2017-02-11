@@ -25,13 +25,15 @@ public abstract class BaseSettingControlFragment extends BaseFragment implements
 
     private void skinInit() {
         changeSkin(new ActionChangeSkin(
-                SPUtils.getInt(getContext()
-                        , MODE_PRIVATE
+                attachUtil().getInt(MODE_PRIVATE
                         , SharedPreferenceConfig.SHARED_PREFERENCE
                         , SharedPreferenceConfig.SKIN_INDEX
                         , 0)
         ));
     }
+
+
+    protected abstract SPUtils attachUtil();
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {

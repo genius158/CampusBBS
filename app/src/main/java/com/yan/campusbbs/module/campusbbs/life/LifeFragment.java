@@ -15,6 +15,7 @@ import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
+import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -47,6 +48,9 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
     PagerTabAdapter pagerTabAdapter;
     @Inject
     SettingHelper changeSkinHelper;
+
+    @Inject
+    SPUtils spUtils;
 
     private LifeContract.Presenter mPresenter;
 
@@ -109,6 +113,11 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    protected SPUtils attachUtil() {
+        return spUtils;
     }
 
     @Override

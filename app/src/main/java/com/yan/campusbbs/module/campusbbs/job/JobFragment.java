@@ -15,6 +15,7 @@ import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
+import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -44,6 +45,8 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     RxBus rxBus;
     @Inject
     PagerTabAdapter pagerTabAdapter;
+    @Inject
+    SPUtils spUtils;
     @Inject
     SettingHelper changeSkinHelper;
 
@@ -110,6 +113,11 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    protected SPUtils attachUtil() {
+        return spUtils;
     }
 
     @Override

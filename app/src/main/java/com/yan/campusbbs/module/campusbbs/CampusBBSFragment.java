@@ -30,6 +30,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
+import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 import com.yan.campusbbs.util.fragmentsort.FragmentSortUtils;
 import com.yan.campusbbs.util.RxBus;
@@ -56,6 +57,8 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
 
     @Inject
     RxBus rxBus;
+    @Inject
+    SPUtils spUtils;
     @Inject
     StudyPresenter studyPresenter;
     @Inject
@@ -172,6 +175,11 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
     public void addFollowView(View followView) {
         followViews.add(followView);
         behavior.setViewList(followViews);
+    }
+
+    @Override
+    protected SPUtils attachUtil() {
+        return spUtils;
     }
 
     @Override

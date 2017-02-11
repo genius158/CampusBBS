@@ -24,6 +24,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.setting.AdapterImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
+import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 
 import java.util.ArrayList;
@@ -57,6 +58,8 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     AdapterImageControl adapterImageControl;
     @Inject
     AppBarHelper appBarHelper;
+    @Inject
+    SPUtils spUtils;
 
     private int actionBarPinHeight;
     private boolean isNeedAdjustBar;
@@ -262,6 +265,11 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         return 0;
     }
 
+
+    @Override
+    protected SPUtils attachUtil() {
+        return spUtils;
+    }
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {

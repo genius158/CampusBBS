@@ -18,21 +18,24 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class ImageControl {
     private boolean imageShowAble;
+    private final SPUtils spUtils;
+    private final Context context;
 
-    public void setImageShowAble(Context context, boolean imageShowAble) {
+    public void setImageShowAble(boolean imageShowAble) {
         this.imageShowAble = imageShowAble;
         if (!imageShowAble) {
             Fresco.getImagePipeline().pause();
         } else {
             Fresco.getImagePipeline().resume();
         }
-        SPUtils.putBoolean(context, MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+        spUtils.putBoolean(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                 , SharedPreferenceConfig.IMAGE_SHOW_ABLE, imageShowAble);
     }
 
     @Inject
-    public ImageControl() {
-
+    public ImageControl(SPUtils spUtils, Context context) {
+        this.spUtils = spUtils;
+        this.context = context;
     }
 
     public void imagePause() {
@@ -47,15 +50,13 @@ public class ImageControl {
         }
     }
 
-    public void frescoInit(Context context) {
+    public void frescoInit() {
         Fresco.initialize(context);
 
-        imageShowAble = SPUtils.getBoolean(context
-                , Context.MODE_PRIVATE
+        imageShowAble = spUtils.getBoolean(Context.MODE_PRIVATE
                 , SharedPreferenceConfig.SHARED_PREFERENCE
                 , SharedPreferenceConfig.IMAGE_SHOW_ABLE, true);
 
-        Log.e("imageShowAble", imageShowAble + "");
         if (!imageShowAble) {
             Fresco.getImagePipeline().pause();
         }
