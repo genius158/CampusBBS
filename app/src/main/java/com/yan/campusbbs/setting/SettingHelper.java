@@ -1,4 +1,4 @@
-package com.yan.campusbbs.util.setting;
+package com.yan.campusbbs.setting;
 
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionImageControl;

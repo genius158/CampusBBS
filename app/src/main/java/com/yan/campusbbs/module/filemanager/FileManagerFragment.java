@@ -15,8 +15,8 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.setting.SettingHelper;
-import com.yan.campusbbs.util.setting.SettingModule;
+import com.yan.campusbbs.setting.SettingHelper;
+import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 
 import java.util.ArrayList;

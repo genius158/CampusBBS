@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.setting.ChangeSkin;
+import com.yan.campusbbs.setting.ChangeSkin;
 
 import java.util.List;
 

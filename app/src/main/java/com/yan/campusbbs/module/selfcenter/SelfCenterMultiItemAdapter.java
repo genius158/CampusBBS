@@ -11,7 +11,7 @@ import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionImageControl;
 import com.yan.campusbbs.util.FrescoDisplay;
 import com.yan.campusbbs.util.SizeUtils;
-import com.yan.campusbbs.util.setting.ImageShowControl;
+import com.yan.campusbbs.setting.ImageShowControl;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import com.yan.campusbbs.ApplicationComponent;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
 import com.yan.campusbbs.base.FragmentScoped;
-import com.yan.campusbbs.util.setting.SettingModule;
+import com.yan.campusbbs.setting.SettingModule;
 
 import dagger.Component;
 

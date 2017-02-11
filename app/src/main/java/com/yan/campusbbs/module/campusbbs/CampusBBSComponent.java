@@ -5,7 +5,7 @@ import com.yan.campusbbs.module.campusbbs.job.JobPresenterModule;
 import com.yan.campusbbs.module.campusbbs.life.LifePresenterModule;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
 import com.yan.campusbbs.base.FragmentScoped;
-import com.yan.campusbbs.util.setting.SettingModule;
+import com.yan.campusbbs.setting.SettingModule;
 
 import dagger.Component;
 

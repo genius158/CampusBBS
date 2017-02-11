@@ -22,8 +22,8 @@ import com.yan.campusbbs.module.AppBarHelperModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionImageControl;
-import com.yan.campusbbs.util.setting.SettingHelper;
-import com.yan.campusbbs.util.setting.SettingModule;
+import com.yan.campusbbs.setting.SettingHelper;
+import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
 
 import java.util.ArrayList;

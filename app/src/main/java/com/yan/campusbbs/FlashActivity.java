@@ -8,8 +8,8 @@ import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.MainActivity;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
-import com.yan.campusbbs.util.setting.SettingHelper;
-import com.yan.campusbbs.util.setting.SettingModule;
+import com.yan.campusbbs.setting.SettingHelper;
+import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.concurrent.TimeUnit;

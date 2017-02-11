@@ -10,7 +10,7 @@ import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionImageControl;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.setting.SystemSetting;
+import com.yan.campusbbs.setting.SystemSetting;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
