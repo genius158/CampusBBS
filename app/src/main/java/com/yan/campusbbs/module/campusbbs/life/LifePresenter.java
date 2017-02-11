@@ -12,7 +12,6 @@ public final class LifePresenter implements LifeContract.Presenter {
     LifePresenter(Context context, LifeContract.View view) {
         this.view = view;
         this.context = context;
-        this.view.setPresenter(this);
     }
 
 

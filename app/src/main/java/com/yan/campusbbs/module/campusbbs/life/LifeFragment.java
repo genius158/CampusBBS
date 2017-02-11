@@ -13,6 +13,7 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
+import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
@@ -41,6 +42,8 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
     FrameLayout appBar;
     @BindView(R.id.pager_bar_recycler)
     RecyclerView pagerBarRecycler;
+    @Inject
+    LifePresenter mPresenter;
 
     @Inject
     RxBus rxBus;
@@ -52,7 +55,6 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
     @Inject
     SPUtils spUtils;
 
-    private LifeContract.Presenter mPresenter;
 
     @Override
     public void onResume() {
@@ -88,7 +90,7 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
                         .getApplication())
                         .getApplicationComponent())
                 .settingModule(new SettingModule(this,  compositeDisposable))
-                .lifeFragmentModule(new LifeFragmentModule())
+                .lifeFragmentModule(new LifeFragmentModule(this))
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
@@ -103,11 +105,6 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
     }
 
     public LifeFragment() {
-    }
-
-    @Override
-    public void setPresenter(@NonNull LifeContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
     }
 
     @Override

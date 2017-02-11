@@ -12,7 +12,6 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
     SelfCenterPresenter(Context context, SelfCenterContract.View view) {
         this.view = view;
         this.context = context;
-        this.view.setPresenter(this);
     }
 
 

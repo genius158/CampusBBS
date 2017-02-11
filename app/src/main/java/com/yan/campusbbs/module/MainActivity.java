@@ -12,11 +12,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.campusbbs.CampusBBSFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
-import com.yan.campusbbs.module.filemanager.FileManagerPresenter;
-import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
-import com.yan.campusbbs.module.selfcenter.SelfCenterPresenter;
-import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
@@ -24,7 +20,6 @@ import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.sort.SortUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.ToastUtils;
 
@@ -37,12 +32,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
-    @Inject
-    SelfCenterPresenter selfCenterPresenter;
-
-    @Inject
-    FileManagerPresenter fileManagerPresenter;
-
     @Inject
     SettingHelper changeSkinHelper;
     @Inject
@@ -63,7 +52,6 @@ public class MainActivity extends BaseActivity {
     ViewPager viewPager;
 
     List<Fragment> fragments;
-    CommonPagerAdapter commonPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,27 +98,20 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initFragment() {
-        if (getSupportFragmentManager().getFragments() == null) {
-            fragments = new ArrayList<>();
-            fragments.add(SelfCenterFragment.newInstance());
-            fragments.add(CampusBBSFragment.newInstance());
-            fragments.add(FileManagerFragment.newInstance());
-        } else {
-            fragments = getSupportFragmentManager().getFragments();
-            if (fragments.size() < 3) {
-                resetFragments();
-            }
-        }
-        SortUtils.sort(fragments);
+        fragments = new ArrayList<>();
+        fragments.add(SelfCenterFragment.newInstance());
+        fragments.add(CampusBBSFragment.newInstance());
+        fragments.add(FileManagerFragment.newInstance());
 
         DaggerModuleComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
-                .selfCenterPresenterModule(new SelfCenterPresenterModule((SelfCenterFragment) fragments.get(0)))
-                .fileManagerPresenterModule(new FileManagerPresenterModule((FileManagerFragment) fragments.get(2)))
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
-        commonPagerAdapter = new CommonPagerAdapter(getSupportFragmentManager(), fragments);
+
+        CommonPagerAdapter commonPagerAdapter =
+                new CommonPagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(commonPagerAdapter);
+        commonPagerAdapter.notifyDataSetChanged();
         viewPager.clearOnPageChangeListeners();
         viewPager.addOnPageChangeListener(getPageChangeListener());
     }
@@ -207,38 +188,7 @@ public class MainActivity extends BaseActivity {
                 .initialise();
     }
 
-    private void resetFragments() {
-        boolean[] fragmentNullIndex = new boolean[3];
-        for (Fragment fragment : fragments) {
-            if (fragment instanceof SelfCenterFragment) {
-                fragmentNullIndex[0] = true;
-            } else if (fragment instanceof CampusBBSFragment) {
-                fragmentNullIndex[1] = true;
-            } else if (fragment instanceof FileManagerFragment) {
-                fragmentNullIndex[2] = true;
-            }
-        }
-        for (int i = 0; i < 3; i++) {
-            if (!fragmentNullIndex[i]) {
-                switch (i) {
-                    case 0:
-                        fragments.add(SelfCenterFragment.newInstance());
-                        break;
-                    case 1:
-                        fragments.add(CampusBBSFragment.newInstance());
-                        break;
-                    case 2:
-                        fragments.add(FileManagerFragment.newInstance());
-                        break;
-                }
-            }
-        }
-        if (viewPager.getAdapter() != null) {
-            viewPager.getAdapter().notifyDataSetChanged();
-        }
-    }
-
-    long lastBackPressedTime;
+    private long lastBackPressedTime;
 
     @Override
     public void onBackPressed() {

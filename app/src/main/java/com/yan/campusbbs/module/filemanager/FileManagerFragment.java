@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
+import com.yan.campusbbs.module.selfcenter.SelfCenterPresenter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
@@ -42,14 +43,14 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     @BindView(R.id.app_bar_background)
     CardView appBarBackground;
 
-    private FileManagerContract.Presenter mPresenter;
+    @Inject
+    FileManagerPresenter mPresenter;
 
     @Inject
     SettingHelper settingHelper;
 
     @Inject
     SPUtils spUtils;
-
 
     @Override
     public void onResume() {
@@ -82,12 +83,14 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
         super.onReloadArguments(bundle);
         Log.e("onReload", "FileManagerReload");
     }
+
     private void daggerInject() {
         DaggerFileManagerComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
+                .fileManagerModule(new FileManagerModule(this))
                 .build().inject(this);
 
     }
@@ -109,11 +112,6 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     }
 
     public FileManagerFragment() {
-    }
-
-    @Override
-    public void setPresenter(@NonNull FileManagerContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
     }
 
     @Override

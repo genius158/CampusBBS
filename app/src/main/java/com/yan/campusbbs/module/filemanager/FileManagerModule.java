@@ -1,5 +1,7 @@
 package com.yan.campusbbs.module.filemanager;
 
+import android.content.Context;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -8,17 +10,17 @@ import dagger.Provides;
  * {@link FileManagerPresenter}.
  */
 @Module
-public class FileManagerPresenterModule {
+public class FileManagerModule {
 
     private final FileManagerContract.View mView;
 
-    public FileManagerPresenterModule(FileManagerContract.View view ) {
+    public FileManagerModule(FileManagerContract.View view) {
         mView = view;
     }
 
     @Provides
-    FileManagerContract.View provideFileManagerContractView() {
-        return mView;
+    FileManagerPresenter provideFileManagerPresenter(Context context) {
+        return new FileManagerPresenter(context, mView);
     }
 
 }

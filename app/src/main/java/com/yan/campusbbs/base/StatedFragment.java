@@ -8,16 +8,22 @@ public abstract class StatedFragment extends Fragment {
     private Bundle savedState;
     private Bundle mainBundle;
 
-    public StatedFragment() {
-        super();
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (!reStated(savedInstanceState)) {
             onFirstTimeLaunched();
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        saveStatedArguments();
+    }
+
+    public StatedFragment() {
+        super();
     }
 
     private boolean reStated(Bundle savedInstanceState) {
@@ -35,22 +41,18 @@ public abstract class StatedFragment extends Fragment {
     }
 
     @Override
-    public final void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mainBundle = outState;
         saveStatedArguments();
     }
 
     private void saveStatedArguments() {
-        onSaveArguments(savedState);
+        if (savedState != null) {
+            onSaveArguments(savedState);
+        }
         if (mainBundle != null)
             mainBundle.putBundle(STATED_FRAGMENT, savedState);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        saveStatedArguments();
     }
 
     protected void onReloadArguments(Bundle bundle) {

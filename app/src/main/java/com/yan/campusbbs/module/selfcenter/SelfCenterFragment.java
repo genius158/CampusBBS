@@ -1,10 +1,7 @@
 package com.yan.campusbbs.module.selfcenter;
 
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,8 +34,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static dagger.internal.Preconditions.checkNotNull;
-
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
@@ -63,13 +58,15 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @Inject
     SPUtils spUtils;
 
+    @Inject
+    SelfCenterPresenter mPresenter;
+
     private int actionBarPinHeight;
     private boolean isNeedAdjustBar;
 
     private SelfCenterMultiItemAdapter adapter;
 
     private final List<DataMultiItem> dataMultiItems;
-    private SelfCenterContract.Presenter mPresenter;
 
 
     @Override
@@ -99,7 +96,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                         .getApplication()).getApplicationComponent())
                 .appBarHelperModule(new AppBarHelperModule(appBar))
                 .settingModule(new SettingModule(this, compositeDisposable))
-                .selfCenterModule(new SelfCenterModule())
+                .selfCenterModule(new SelfCenterModule(this))
                 .build().inject(this);
     }
 
@@ -112,12 +109,14 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
 
+        bundle.putFloat("getScrollYDistance", getScrollYDistance());
+        Log.e("getScrollYDistance", getScrollYDistance() + "");
     }
 
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
-
+        Log.e("getScrollYDistance", "onReloadArguments" + bundle.getFloat("getScrollYDistance") + "");
     }
 
     private void init() {
@@ -159,11 +158,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         SelfCenterFragment selfCenterFragment = new SelfCenterFragment();
         selfCenterFragment.setArguments(new Bundle());
         return new SelfCenterFragment();
-    }
-
-    @Override
-    public void setPresenter(@NonNull SelfCenterContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
     }
 
     @Override

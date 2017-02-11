@@ -17,22 +17,15 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseSettingControlFragment;
 import com.yan.campusbbs.module.CommonPagerAdapter;
 import com.yan.campusbbs.module.campusbbs.job.JobFragment;
-import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
-import com.yan.campusbbs.module.campusbbs.job.JobPresenterModule;
 import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
-import com.yan.campusbbs.module.campusbbs.life.LifePresenter;
-import com.yan.campusbbs.module.campusbbs.life.LifePresenterModule;
 import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
-import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
-import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.sort.Sort;
-import com.yan.campusbbs.util.sort.SortUtils;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
@@ -60,27 +53,22 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
     @Inject
     SPUtils spUtils;
     @Inject
-    StudyPresenter studyPresenter;
-    @Inject
-    LifePresenter lifePresenter;
-    @Inject
-    JobPresenter jobPresenter;
-    @Inject
     SettingHelper changeSkinHelper;
 
     @BindView(R.id.tab_campus_container)
     CardView tabContainer;
 
     private CampusAppBarBehavior behavior;
-    private CommonPagerAdapter adapter;
 
     private List<Fragment> fragments;
+
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_campus_bbs, container, false);
         ButterKnife.bind(this, view);
         init();
+        daggerInject();
         initRxBusAction();
         return view;
     }
@@ -112,30 +100,24 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
         pagerTitles[2] = getString(R.string.campus_bbs_job);
         pagerTitles[3] = getString(R.string.campus_bbs_more);
 
-        if (getChildFragmentManager().getFragments() == null) {
-            fragments = new ArrayList<>();
-            fragments.add(StudyFragment.newInstance());
-            fragments.add(LifeFragment.newInstance());
-            fragments.add(JobFragment.newInstance());
-            fragments.add(OthersFragment.newInstance());
-        } else {
-            fragments = getChildFragmentManager().getFragments();
-            if (fragments.size() < 4) {
-                resetFragments();
-            }
-        }
-        SortUtils.sort(fragments);
+        fragments = new ArrayList<>();
 
-        daggerInject(fragments);
+        fragments.add(StudyFragment.newInstance());
+        fragments.add(LifeFragment.newInstance());
+        fragments.add(JobFragment.newInstance());
+        fragments.add(OthersFragment.newInstance());
 
         ((StudyFragment) fragments.get(0)).setFollowAdd(this);
         ((LifeFragment) fragments.get(1)).setFollowAdd(this);
         ((JobFragment) fragments.get(2)).setFollowAdd(this);
 
-        adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, pagerTitles);
+        CommonPagerAdapter adapter =
+                new CommonPagerAdapter(getChildFragmentManager(), fragments, pagerTitles);
         viewPager.setAdapter(adapter);
-        indicator.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(3);
+        adapter.notifyDataSetChanged();
 
+        indicator.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(getOnPageChangeListener());
 
         CoordinatorLayout.LayoutParams lp =
@@ -143,14 +125,11 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
         behavior = (CampusAppBarBehavior) lp.getBehavior();
     }
 
-    private void daggerInject(List<Fragment> fragments) {
+    private void daggerInject() {
         DaggerCampusBBSComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
-                .studyPresenterModule(new StudyPresenterModule((StudyFragment) fragments.get(0)))
-                .lifePresenterModule(new LifePresenterModule((LifeFragment) fragments.get(1)))
-                .jobPresenterModule(new JobPresenterModule((JobFragment) fragments.get(2)))
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
     }
@@ -186,41 +165,6 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
         );
     }
 
-    private void resetFragments() {
-        boolean[] fragmentNullIndex = new boolean[4];
-        for (Fragment fragment : fragments) {
-            if (fragment instanceof StudyFragment) {
-                fragmentNullIndex[0] = true;
-            } else if (fragment instanceof LifeFragment) {
-                fragmentNullIndex[1] = true;
-            } else if (fragment instanceof JobFragment) {
-                fragmentNullIndex[2] = true;
-            } else if (fragment instanceof OthersFragment) {
-                fragmentNullIndex[3] = true;
-            }
-        }
-        for (int i = 0; i < 4; i++) {
-            if (!fragmentNullIndex[i]) {
-                switch (i) {
-                    case 0:
-                        fragments.add(StudyFragment.newInstance());
-                        break;
-                    case 1:
-                        fragments.add(LifeFragment.newInstance());
-                        break;
-                    case 2:
-                        fragments.add(JobFragment.newInstance());
-                        break;
-                    case 3:
-                        fragments.add(OthersFragment.newInstance());
-                        break;
-                }
-            }
-        }
-        if (viewPager.getAdapter() != null) {
-            viewPager.getAdapter().notifyDataSetChanged();
-        }
-    }
 
     @Override
     public int getIndex() {

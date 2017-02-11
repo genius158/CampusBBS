@@ -12,7 +12,6 @@ public final class JobPresenter implements JobContract.Presenter {
     JobPresenter(Context context, JobContract.View view) {
         this.view = view;
         this.context = context;
-        this.view.setPresenter(this);
     }
 
 

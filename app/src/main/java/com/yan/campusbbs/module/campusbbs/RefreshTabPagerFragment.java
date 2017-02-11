@@ -33,7 +33,7 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
         pagerTabItem = new ArrayList<>();
     }
 
-    public void attach( RecyclerView pagerBarRecycler, PagerTabAdapter pagerTabAdapter, View appBar) {
+    public void attach(RecyclerView pagerBarRecycler, PagerTabAdapter pagerTabAdapter, View appBar) {
         this.pagerBarRecycler = pagerBarRecycler;
         this.pagerTabAdapter = pagerTabAdapter;
 
@@ -43,7 +43,8 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
         this.pagerBarRecycler.setAdapter(this.pagerTabAdapter);
         this.pagerTabAdapter.setOnRecyclerViewItemClickListener(getItemClickListener());
 
-        followViewsAdd.addFollowView(appBar);
+        if (followViewsAdd != null)
+            followViewsAdd.addFollowView(appBar);
     }
 
     public void setFollowAdd(FollowViewsAdd followView) {

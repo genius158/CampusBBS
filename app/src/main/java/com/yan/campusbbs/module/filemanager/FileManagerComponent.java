@@ -10,7 +10,8 @@ import dagger.Component;
 @Component(
         dependencies = ApplicationComponent.class
         , modules = {
-        SettingModule.class
+        SettingModule.class,
+        FileManagerModule.class,
 }
 )
 public interface FileManagerComponent {

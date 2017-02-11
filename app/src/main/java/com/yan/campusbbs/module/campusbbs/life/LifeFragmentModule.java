@@ -1,11 +1,21 @@
 package com.yan.campusbbs.module.campusbbs.life;
 
+import android.content.Context;
+
 import dagger.Module;
+import dagger.Provides;
 
 @Module
 public class LifeFragmentModule {
+    private LifeContract.View view;
 
-    public LifeFragmentModule() {
+    public LifeFragmentModule(LifeContract.View view) {
+        this.view = view;
+    }
+
+    @Provides
+    LifePresenter getLifePresenter(Context context) {
+        return new LifePresenter(context, view);
     }
 
 }

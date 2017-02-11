@@ -2,6 +2,7 @@ package com.yan.campusbbs.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,12 +71,15 @@ public abstract class BaseFragment extends StatedFragment {
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
+        Log.e("reloadbundle",bundle+"");
         isLazyLoad = bundle.getBoolean(BUNDLE_IS_LAZY_LOAD);
     }
 
     @Override
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
+        Log.e("onSavebundle",bundle+"");
+
         bundle.putBoolean(BUNDLE_IS_LAZY_LOAD, isLazyLoad);
 
     }

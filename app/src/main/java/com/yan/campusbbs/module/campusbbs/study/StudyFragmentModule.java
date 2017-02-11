@@ -15,9 +15,11 @@ import dagger.Provides;
 @Module
 public class StudyFragmentModule {
     private List<DataMultiItem> multiItems;
+    private StudyContract.View view;
 
-    public StudyFragmentModule() {
+    public StudyFragmentModule(StudyContract.View view) {
         multiItems = new ArrayList<>();
+        this.view = view;
     }
 
     @Provides
@@ -28,6 +30,11 @@ public class StudyFragmentModule {
     @Provides
     SelfCenterMultiItemAdapter getSelfCenterMultiItemAdapter(Context context) {
         return new SelfCenterMultiItemAdapter(multiItems, context);
+    }
+
+    @Provides
+    StudyPresenter getStudyPresenter(Context context) {
+        return new StudyPresenter(context, view);
     }
 
 }

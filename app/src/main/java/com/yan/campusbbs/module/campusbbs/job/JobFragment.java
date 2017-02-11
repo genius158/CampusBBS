@@ -40,7 +40,8 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     FrameLayout appBar;
     @BindView(R.id.pager_bar_recycler)
     RecyclerView pagerBarRecycler;
-
+    @Inject
+    JobPresenter mPresenter;
     @Inject
     RxBus rxBus;
     @Inject
@@ -50,7 +51,6 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     @Inject
     SettingHelper changeSkinHelper;
 
-    private JobContract.Presenter mPresenter;
 
     @Override
     public void onResume() {
@@ -87,7 +87,7 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
                         .getApplication())
                         .getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
-                .jobFragmentModule(new JobFragmentModule())
+                .jobFragmentModule(new JobFragmentModule(this))
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
@@ -103,11 +103,6 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     }
 
     public JobFragment() {
-    }
-
-    @Override
-    public void setPresenter(@NonNull JobContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
     }
 
     @Override

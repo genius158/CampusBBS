@@ -12,7 +12,6 @@ public final class FileManagerPresenter implements FileManagerContract.Presenter
     FileManagerPresenter(Context context, FileManagerContract.View view) {
         this.view = view;
         this.context = context;
-        this.view.setPresenter(this);
     }
 
 

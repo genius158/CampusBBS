@@ -16,6 +16,8 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
+import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
+import com.yan.campusbbs.module.campusbbs.life.LifePresenter;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.setting.ImageControl;
@@ -65,8 +67,8 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     List<DataMultiItem> dataMultiItems;
     @Inject
     SelfCenterMultiItemAdapter multiItemAdapter;
-
-    private StudyContract.Presenter mPresenter;
+    @Inject
+    StudyPresenter mPresenter;
 
     @Override
     public void onResume() {
@@ -135,7 +137,7 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
                         .getApplication())
                         .getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
-                .studyFragmentModule(new StudyFragmentModule())
+                .studyFragmentModule(new StudyFragmentModule(this))
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
@@ -152,11 +154,6 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     }
 
     public StudyFragment() {
-    }
-
-    @Override
-    public void setPresenter(@NonNull StudyContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
     }
 
     @Override
