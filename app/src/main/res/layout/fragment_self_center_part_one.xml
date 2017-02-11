@@ -39,7 +39,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="飞翔的蝴蝶"
                 android:textColor="@color/crFFFFFF"
-                android:textSize="18sp" />
+                android:textSize="@dimen/text_size_title" />
 
             <TextView
                 style="@style/TextShadow"
@@ -48,7 +48,7 @@
                 android:gravity="center"
                 android:text="等级:18"
                 android:textColor="@color/crFFFFFF"
-                android:textSize="14sp" />
+                android:textSize="@dimen/text_size_content" />
         </LinearLayout>
 
 

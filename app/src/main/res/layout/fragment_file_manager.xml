@@ -44,7 +44,7 @@
             android:gravity="center"
             android:text="@string/file_center"
             android:textColor="@color/crFEFEFE"
-            android:textSize="@dimen/app_bar_text_size" />
+            android:textSize="@dimen/text_size_title" />
 
     </FrameLayout>
 

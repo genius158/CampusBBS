@@ -40,12 +40,12 @@
 
         <TextView
             android:id="@+id/app_bar_title"
-            style="@style/TextShadow"
+            style="@style/TextShadow.TabTextShadow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/self_center"
-            android:textSize="@dimen/app_bar_text_size" />
+            android:textSize="@dimen/text_size_title" />
 
     </FrameLayout>
 
