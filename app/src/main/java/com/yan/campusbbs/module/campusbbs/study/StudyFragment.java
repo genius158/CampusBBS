@@ -141,7 +141,7 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
-        attach(pagerBarRecycler, pagerTabAdapter, appBar);
+        attach(recyclerView,pagerBarRecycler, pagerTabAdapter, appBar,rxBus);
         setPagerTabItemOnClick(getOnRecyclerViewItemClickListener());
     }
 

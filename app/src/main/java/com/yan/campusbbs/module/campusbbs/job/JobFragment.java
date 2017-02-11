@@ -91,7 +91,7 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
-        attach(pagerBarRecycler, pagerTabAdapter, appBar);
+        attach(recyclerView,pagerBarRecycler, pagerTabAdapter, appBar,rxBus);
     }
 
     private void init() {

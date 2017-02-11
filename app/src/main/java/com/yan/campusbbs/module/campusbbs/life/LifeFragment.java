@@ -94,7 +94,7 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
-        attach(  pagerBarRecycler, pagerTabAdapter, appBar);
+        attach(recyclerView, pagerBarRecycler, pagerTabAdapter, appBar,rxBus);
     }
 
     private void init() {

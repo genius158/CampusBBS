@@ -11,9 +11,13 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
+import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Administrator on 2017/2/8.
@@ -28,24 +32,36 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
     private LinearLayoutManager linearLayoutManager;
     private BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick;
     private AppBarHelper appBarHelper;
+    private RxBus rxBus;
     protected int tabSelectPosition = 0;
 
     protected RefreshTabPagerFragment() {
         pagerTabItem = new ArrayList<>();
     }
 
-    public void attach(RecyclerView pagerBarRecycler, PagerTabAdapter pagerTabAdapter, View appBar) {
+    public void attach(RecyclerView recyclerView, RecyclerView pagerBarRecycler, PagerTabAdapter pagerTabAdapter, View appBar, RxBus rxBus) {
         this.pagerBarRecycler = pagerBarRecycler;
         this.pagerTabAdapter = pagerTabAdapter;
+        this.rxBus = rxBus;
 
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         this.pagerBarRecycler.setLayoutManager(linearLayoutManager);
         this.pagerBarRecycler.setAdapter(this.pagerTabAdapter);
-        this.pagerBarRecycler.addOnScrollListener(onScrollListener);
         this.pagerTabAdapter.setOnRecyclerViewItemClickListener(getItemClickListener());
+
+        recyclerView.addOnScrollListener(onScrollListener);
         appBarHelper = new AppBarHelper(getContext(), appBar);
-        appBarHelper.setBarStartYHeight(0, getResources().getDimension(R.dimen.action_bar_height));
+        initRxBusAction();
+    }
+
+    public void initRxBusAction() {
+        addDisposable(rxBus.getEvent(ActionPagerToCampusBBS.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(pagerToCampusBBS -> {
+                            appBarHelper.show();
+                        }
+                ));
     }
 
     private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
