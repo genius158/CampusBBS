@@ -75,7 +75,6 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
         init();
         daggerInject();
         dataInit();
-        settingInit();
         return view;
     }
 

@@ -79,7 +79,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         init();
         daggerInject();
         dataInit();
-        settingInit();
         return view;
     }
 

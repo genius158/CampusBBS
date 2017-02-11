@@ -80,7 +80,6 @@ public class CampusBBSFragment extends BaseSettingFragment implements FollowView
         ButterKnife.bind(this, view);
         init();
         initRxBusAction();
-        settingInit();
         return view;
     }
 
@@ -177,7 +176,7 @@ public class CampusBBSFragment extends BaseSettingFragment implements FollowView
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
-        Log.e("changeSkinHelper", changeSkinHelper + "");
+        super.changeSkin(actionChangeSkin);
         tabContainer.setCardBackgroundColor(
                 ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
         );

@@ -14,9 +14,15 @@ import static android.content.Context.MODE_PRIVATE;
 
 public abstract class BaseSettingFragment extends BaseFragment implements SystemSetting {
 
-    protected final void settingInit() {
+    private void settingInit() {
         skinInit();
         imgShowControlInit();
+    }
+
+    @Override
+    public void activityCreated() {
+        super.activityCreated();
+        settingInit();
     }
 
     private void skinInit() {

@@ -18,7 +18,7 @@ public abstract class BaseRefreshFragment extends BaseSettingFragment implements
         initRefreshLayout();
     }
 
-    public void initRefreshLayout() {
+    private void initRefreshLayout() {
         swipeRefreshLayout.setProgressViewOffset(true,
                 (int) (getResources().getDimension(R.dimen.action_bar_height) * 1.5)
                 , (int) getResources().getDimension(R.dimen.action_bar_height) * 3);
@@ -33,6 +33,7 @@ public abstract class BaseRefreshFragment extends BaseSettingFragment implements
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
+        super.changeSkin(actionChangeSkin);
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout
                     .setProgressBackgroundColorSchemeColor(ContextCompat

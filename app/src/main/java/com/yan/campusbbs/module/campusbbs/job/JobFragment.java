@@ -75,7 +75,6 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
         init();
         daggerInject();
         dataInit();
-        settingInit();
         return view;
     }
 

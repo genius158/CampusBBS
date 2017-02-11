@@ -14,10 +14,11 @@ import io.reactivex.disposables.Disposable;
  */
 
 public abstract class BaseFragment extends StatedFragment {
-    private static final String BUNDLE_IS_LAZY_LOAD ="isLazyLoad";
+    private static final String BUNDLE_IS_LAZY_LOAD = "isLazyLoad";
 
     protected CompositeDisposable compositeDisposable;
-    private View root;
+    private View rootView;
+    private boolean isRootViewSet;
     private boolean isLazyLoad;
 
     @Override
@@ -29,14 +30,29 @@ public abstract class BaseFragment extends StatedFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (root == null) {
-            root = createView(inflater, container, savedInstanceState);
+        if (rootView == null) {
+            rootView = createView(inflater, container, savedInstanceState);
+            isRootViewSet = false;
+
         } else {
-            if (root.getParent() != null) {
-                ((ViewGroup) root.getParent()).removeView(root);
+            if (rootView.getParent() != null) {
+                ((ViewGroup) rootView.getParent()).removeView(rootView);
             }
         }
-        return root;
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (!isRootViewSet) {
+            isRootViewSet = true;
+            activityCreated();
+        }
+    }
+
+    public void activityCreated() {
+
     }
 
     @Override

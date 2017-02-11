@@ -77,7 +77,6 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
         init();
         daggerInject();
         dataInit();
-        settingInit();
         return view;
     }
 

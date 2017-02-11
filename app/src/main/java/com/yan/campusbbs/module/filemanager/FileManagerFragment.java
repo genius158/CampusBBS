@@ -59,7 +59,6 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
         ButterKnife.bind(this, view);
         init();
         daggerInject();
-        settingInit();
         return view;
     }
 
