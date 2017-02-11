@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
+import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 
 import java.util.ArrayList;
@@ -21,12 +23,11 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
     private static final String BUNDLE_TAB_SELECT_POSITION = "tabSelectPosition";
 
     protected final List<PagerTabAdapter.PagerTabItem> pagerTabItem;
-    protected FollowViewsAdd followViewsAdd;
     private PagerTabAdapter pagerTabAdapter;
     private RecyclerView pagerBarRecycler;
     private LinearLayoutManager linearLayoutManager;
     private BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick;
-
+    private AppBarHelper appBarHelper;
     protected int tabSelectPosition = 0;
 
     protected RefreshTabPagerFragment() {
@@ -41,15 +42,19 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         this.pagerBarRecycler.setLayoutManager(linearLayoutManager);
         this.pagerBarRecycler.setAdapter(this.pagerTabAdapter);
+        this.pagerBarRecycler.addOnScrollListener(onScrollListener);
         this.pagerTabAdapter.setOnRecyclerViewItemClickListener(getItemClickListener());
-
-        if (followViewsAdd != null)
-            followViewsAdd.addFollowView(appBar);
+        appBarHelper = new AppBarHelper(getContext(), appBar);
+        appBarHelper.setBarStartYHeight(0, getResources().getDimension(R.dimen.action_bar_height));
     }
 
-    public void setFollowAdd(FollowViewsAdd followView) {
-        this.followViewsAdd = followView;
-    }
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            appBarHelper.offset(dy);
+        }
+    };
 
     private BaseQuickAdapter.OnRecyclerViewItemClickListener getItemClickListener() {
         return (view, position) -> {

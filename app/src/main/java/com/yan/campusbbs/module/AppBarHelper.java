@@ -16,31 +16,27 @@ import javax.inject.Inject;
  */
 
 public class AppBarHelper {
-    Context context;
-    View appBar;
+    private Context context;
+    private View appBar;
     private int during = 200;
     private ObjectAnimator objectAnimatorShow;
     private ObjectAnimator objectAnimatorHide;
 
     private float barPosition;
     private boolean isShow = true;
-    private List<View> followViews;
+
+    private float startY = -1000;
+    private float height = 0;
+
+    public void setBarStartYHeight(float startY, float height) {
+        this.startY = startY;
+        barPosition = startY;
+        this.height = height;
+    }
 
     @Inject
     public AppBarHelper(Context context, View appBar) {
         this.context = context;
-        this.appBar = appBar;
-    }
-
-    public AppBarHelper() {
-        followViews = new ArrayList<>();
-    }
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
-    public void setAppBar(View appBar) {
         this.appBar = appBar;
     }
 
@@ -55,18 +51,13 @@ public class AppBarHelper {
     public void show() {
         if (isShow) return;
         if (objectAnimatorShow == null) {
-            objectAnimatorShow = ObjectAnimator.ofFloat(appBar, "y", barPosition, 0)
+            objectAnimatorShow = ObjectAnimator.ofFloat(appBar, "y", barPosition, 0 + height)
                     .setDuration(during);
             objectAnimatorShow.addUpdateListener(valueAnimator -> {
                 barPosition = (float) valueAnimator.getAnimatedValue();
-                if (followViews != null) {
-                    for (View view : followViews) {
-                        view.setY(barPosition);
-                    }
-                }
             });
         }
-        objectAnimatorShow.setFloatValues(barPosition, 0);
+        objectAnimatorShow.setFloatValues(barPosition, 0 + height);
         if (objectAnimatorHide != null) {
             objectAnimatorHide.cancel();
         }
@@ -78,28 +69,22 @@ public class AppBarHelper {
         if (!isShow) return;
         if (objectAnimatorHide == null) {
             objectAnimatorHide = ObjectAnimator.ofFloat(appBar, "y", barPosition
-                    , -context.getResources().getDimension(R.dimen.action_bar_height))
+                    , (startY != -1000)
+                            ? startY
+                            : -context.getResources().getDimension(R.dimen.action_bar_height))
                     .setDuration(during);
             objectAnimatorHide.addUpdateListener(valueAnimator -> {
                 barPosition = (float) valueAnimator.getAnimatedValue();
-                if (followViews != null) {
-                    for (View view : followViews) {
-                        view.setY(barPosition);
-                    }
-                }
             });
         }
         objectAnimatorHide.setFloatValues(barPosition
-                , -context.getResources().getDimension(R.dimen.action_bar_height));
+                , (startY != -1000)
+                        ? startY
+                        : -context.getResources().getDimension(R.dimen.action_bar_height));
         if (objectAnimatorShow != null) {
             objectAnimatorShow.cancel();
         }
         objectAnimatorHide.start();
         isShow = false;
-    }
-
-
-    public synchronized void addFollowView(View followView) {
-        this.followViews.add(followView);
     }
 }

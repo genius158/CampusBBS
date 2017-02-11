@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseSettingControlFragment;
+import com.yan.campusbbs.module.AppBarBehavior;
 import com.yan.campusbbs.module.CommonPagerAdapter;
 import com.yan.campusbbs.module.campusbbs.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
@@ -40,7 +41,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBSFragment extends BaseSettingControlFragment implements FollowViewsAdd, Sort {
+public class CampusBBSFragment extends BaseSettingControlFragment implements Sort {
     private final String[] pagerTitles;
 
     @BindView(R.id.tabs)
@@ -58,7 +59,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
     @BindView(R.id.tab_campus_container)
     CardView tabContainer;
 
-    private CampusAppBarBehavior behavior;
+    private AppBarBehavior behavior;
 
     private List<Fragment> fragments;
 
@@ -106,19 +107,6 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
         fragments.add(LifeFragment.newInstance());
         fragments.add(JobFragment.newInstance());
         fragments.add(OthersFragment.newInstance());
-
-        ((StudyFragment) fragments.get(0)).setFollowAdd(this);
-        ((LifeFragment) fragments.get(1)).setFollowAdd(this);
-        ((JobFragment) fragments.get(2)).setFollowAdd(this);
-
-        if (getChildFragmentManager().getFragments() != null) {
-            for (Fragment fragment : getChildFragmentManager().getFragments()) {
-                if (fragment instanceof RefreshTabPagerFragment) {
-                    ((RefreshTabPagerFragment) fragment).setFollowAdd(this);
-                }
-            }
-        }
-
         CommonPagerAdapter adapter =
                 new CommonPagerAdapter(getChildFragmentManager(), fragments, pagerTitles);
 
@@ -130,7 +118,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
 
         CoordinatorLayout.LayoutParams lp =
                 (CoordinatorLayout.LayoutParams) tabContainer.getLayoutParams();
-        behavior = (CampusAppBarBehavior) lp.getBehavior();
+        behavior = (AppBarBehavior) lp.getBehavior();
     }
 
     private void daggerInject() {
@@ -153,11 +141,6 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
 
     public static CampusBBSFragment newInstance() {
         return new CampusBBSFragment();
-    }
-
-    @Override
-    public void addFollowView(View followView) {
-        behavior.addFollowView(followView);
     }
 
     @Override

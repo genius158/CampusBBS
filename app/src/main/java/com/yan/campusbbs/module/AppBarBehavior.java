@@ -13,20 +13,17 @@ import android.view.View;
 public class AppBarBehavior extends CoordinatorLayout.Behavior<View> {
     private Context context;
     protected AppBarHelper appBarHelper;
-    private boolean isAppBarSet = false;
 
     public AppBarBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        appBarHelper = new AppBarHelper();
+
     }
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
-        if (!isAppBarSet) {
-            isAppBarSet = true;
-            appBarHelper.setContext(context);
-            appBarHelper.setAppBar(child);
+        if (appBarHelper == null) {
+            appBarHelper = new AppBarHelper(context, child);
         }
         return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != -1;
     }
