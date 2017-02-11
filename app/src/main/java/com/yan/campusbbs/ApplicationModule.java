@@ -22,8 +22,6 @@ public final class ApplicationModule {
 
     ApplicationModule(Context context) {
         mContext = context;
-        ImageControl.getInstance().frescoInit(context);
-
     }
 
     @Provides

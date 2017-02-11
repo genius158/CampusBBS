@@ -1,7 +1,6 @@
 package com.yan.campusbbs.module.selfcenter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -9,7 +8,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
-import com.yan.campusbbs.setting.AdapterImageControl;
 import com.yan.campusbbs.util.FrescoDisplay;
 import com.yan.campusbbs.util.SizeUtils;
 

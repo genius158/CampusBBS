@@ -8,6 +8,7 @@ import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.MainActivity;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
+import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.RxBus;
@@ -34,6 +35,8 @@ public class FlashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flash);
+        ImageControl.getInstance().frescoInit(this);
+
         ButterKnife.bind(this);
         daggerInject();
         initRxBusDisposable();

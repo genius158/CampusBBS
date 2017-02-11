@@ -19,6 +19,7 @@ import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionImageControl;
+import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.fragmentsort.FragmentSort;
@@ -193,14 +194,11 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
                 rxBus.post(new ActionChangeSkin(3));
 
             } else if (position == 4) {
-                SPUtils.putBoolean(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.IMAGE_SHOW_ABLE, false);
-                rxBus.post(new ActionImageControl(false));
+                ImageControl.getInstance().setImageShowAble(getContext(),false);
+
 
             } else if (position == 5) {
-                SPUtils.putBoolean(getContext(), MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.IMAGE_SHOW_ABLE, true);
-                rxBus.post(new ActionImageControl(true));
+                ImageControl.getInstance().setImageShowAble(getContext(),true);
             }
         };
     }

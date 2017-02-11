@@ -1,11 +1,14 @@
 package com.yan.campusbbs.setting;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.rxbusaction.ActionImageControl;
 import com.yan.campusbbs.util.SPUtils;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by yan on 2017/2/9.
@@ -13,10 +16,17 @@ import com.yan.campusbbs.util.SPUtils;
 
 public class ImageControl {
     private static ImageControl imageControl;
-    private boolean imageShowAble = false;
+    private boolean imageShowAble;
 
-    public void setImageShowAble(boolean imageShowAble) {
+    public void setImageShowAble(Context context, boolean imageShowAble) {
         this.imageShowAble = imageShowAble;
+        if (!imageShowAble) {
+            Fresco.getImagePipeline().pause();
+        } else {
+            Fresco.getImagePipeline().resume();
+        }
+        SPUtils.putBoolean(context, MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                , SharedPreferenceConfig.IMAGE_SHOW_ABLE, imageShowAble);
     }
 
     public static ImageControl getInstance() {
@@ -35,7 +45,9 @@ public class ImageControl {
     }
 
     public void imagePause() {
-        Fresco.getImagePipeline().pause();
+        if (imageShowAble) {
+            Fresco.getImagePipeline().pause();
+        }
     }
 
     public void imageResume() {
@@ -46,10 +58,14 @@ public class ImageControl {
 
     public void frescoInit(Context context) {
         Fresco.initialize(context);
-        if (SPUtils.getBoolean(context
+
+        imageShowAble = SPUtils.getBoolean(context
                 , Context.MODE_PRIVATE
                 , SharedPreferenceConfig.SHARED_PREFERENCE
-                , SharedPreferenceConfig.IMAGE_SHOW_ABLE, false)) {
+                , SharedPreferenceConfig.IMAGE_SHOW_ABLE, true);
+
+        Log.e("imageShowAble", imageShowAble + "");
+        if (!imageShowAble) {
             Fresco.getImagePipeline().pause();
         }
     }
