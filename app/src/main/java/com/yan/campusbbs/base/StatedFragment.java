@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 public abstract class StatedFragment extends Fragment {
-
+    private static final String STATED_FRAGMENT = "stated_fragment";
     private Bundle savedState;
     private Bundle mainBundle;
 
@@ -23,7 +23,7 @@ public abstract class StatedFragment extends Fragment {
     private boolean reStated(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             mainBundle = savedInstanceState;
-            savedState = savedInstanceState.getBundle("STATEDFRAGMENT");
+            savedState = savedInstanceState.getBundle(STATED_FRAGMENT);
             if (savedState != null) {
                 onReloadArguments(savedState);
                 return true;
@@ -44,7 +44,7 @@ public abstract class StatedFragment extends Fragment {
     private void saveStatedArguments() {
         onSaveArguments(savedState);
         if (mainBundle != null)
-            mainBundle.putBundle("STATEDFRAGMENT", savedState);
+            mainBundle.putBundle(STATED_FRAGMENT, savedState);
     }
 
     @Override

@@ -14,8 +14,11 @@ import io.reactivex.disposables.Disposable;
  */
 
 public abstract class BaseFragment extends StatedFragment {
+    private static final String BUNDLE_IS_LAZY_LOAD ="isLazyLoad";
+
     protected CompositeDisposable compositeDisposable;
     private View root;
+    private boolean isLazyLoad;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +51,19 @@ public abstract class BaseFragment extends StatedFragment {
         super.onDestroy();
     }
 
+    @Override
+    protected void onReloadArguments(Bundle bundle) {
+        super.onReloadArguments(bundle);
+        isLazyLoad = bundle.getBoolean(BUNDLE_IS_LAZY_LOAD);
+    }
+
+    @Override
+    protected void onSaveArguments(Bundle bundle) {
+        super.onSaveArguments(bundle);
+        bundle.putBoolean(BUNDLE_IS_LAZY_LOAD, isLazyLoad);
+
+    }
+
     protected abstract View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
     public void addDisposable(Disposable disposable) {
@@ -55,4 +71,16 @@ public abstract class BaseFragment extends StatedFragment {
     }
 
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !isLazyLoad) {
+            isLazyLoad = true;
+            onLoadLazy();
+        }
+    }
+
+    protected void onLoadLazy() {
+
+    }
 }

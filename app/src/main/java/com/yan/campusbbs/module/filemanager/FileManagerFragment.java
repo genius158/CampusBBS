@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,22 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
         return view;
     }
 
+    @Override
+    protected void onLoadLazy() {
+        Log.e("onLoadLazy", "FileManagerLoadLazy");
+    }
+
+    @Override
+    protected void onSaveArguments(Bundle bundle) {
+        super.onSaveArguments(bundle);
+
+    }
+
+    @Override
+    protected void onReloadArguments(Bundle bundle) {
+        super.onReloadArguments(bundle);
+        Log.e("onReload", "FileManagerReload");
+    }
     private void daggerInject() {
         DaggerFileManagerComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getActivity()

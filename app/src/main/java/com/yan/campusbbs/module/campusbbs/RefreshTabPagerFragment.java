@@ -18,6 +18,8 @@ import java.util.List;
  */
 
 public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implements SwipeRefreshLayout.OnRefreshListener {
+    private static final String BUNDLE_TAB_SELECT_POSITION = "tabSelectPosition";
+
     protected final List<PagerTabAdapter.PagerTabItem> pagerTabItem;
     protected FollowViewsAdd followViewsAdd;
     private PagerTabAdapter pagerTabAdapter;
@@ -77,12 +79,15 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
 
     @Override
     protected void onSaveArguments(Bundle bundle) {
-        bundle.putInt("tabSelectPosition", tabSelectPosition);
+        super.onSaveArguments(bundle);
+        bundle.putInt(BUNDLE_TAB_SELECT_POSITION, tabSelectPosition);
     }
 
     @Override
     protected void onReloadArguments(Bundle bundle) {
-        tabSelectPosition = bundle.getInt("tabSelectPosition");
+        super.onReloadArguments(bundle);
+
+        tabSelectPosition = bundle.getInt(BUNDLE_TAB_SELECT_POSITION);
         pagerBarRecycler.scrollToPosition(tabSelectPosition);
         pagerTabItem.get(tabSelectPosition).isSelect = true;
         pagerTabAdapter.notifyDataSetChanged();

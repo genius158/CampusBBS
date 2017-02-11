@@ -84,6 +84,23 @@ public class CampusBBSFragment extends BaseSettingFragment implements FollowView
         return view;
     }
 
+    @Override
+    protected void onLoadLazy() {
+        Log.e("onLoadLazy", "CampusBBSLoadLazy");
+    }
+
+    @Override
+    protected void onSaveArguments(Bundle bundle) {
+        super.onSaveArguments(bundle);
+
+    }
+
+    @Override
+    protected void onReloadArguments(Bundle bundle) {
+        super.onReloadArguments(bundle);
+
+    }
+
     public CampusBBSFragment() {
         pagerTitles = new String[4];
         followViews = new ArrayList<>();

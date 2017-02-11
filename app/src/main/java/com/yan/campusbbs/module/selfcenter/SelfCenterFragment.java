@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,9 +92,26 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication()).getApplicationComponent())
                 .appBarHelperModule(new AppBarHelperModule(appBar))
-                .settingModule(new SettingModule(this,  compositeDisposable))
+                .settingModule(new SettingModule(this, compositeDisposable))
                 .selfCenterModule(new SelfCenterModule())
                 .build().inject(this);
+    }
+
+    @Override
+    protected void onLoadLazy() {
+        Log.e("onLoadLazy", "SelfCenterLoadLazy");
+    }
+
+    @Override
+    protected void onSaveArguments(Bundle bundle) {
+        super.onSaveArguments(bundle);
+
+    }
+
+    @Override
+    protected void onReloadArguments(Bundle bundle) {
+        super.onReloadArguments(bundle);
+
     }
 
     private void init() {
@@ -127,7 +145,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.clearOnScrollListeners();
-        recyclerView.addOnScrollListener(onScrollListener);
+        recyclerView.addOnScrollListener(getOnScrollListener());
     }
 
     public static SelfCenterFragment newInstance() {
@@ -170,49 +188,43 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+    private RecyclerView.OnScrollListener getOnScrollListener() {
+        return new RecyclerView.OnScrollListener() {
 
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            appBarHelper.offset(dy);
-
-            float alphaTrigger = 0.8f;
-            float alpha = Math.min(getScrollYDistance() / actionBarPinHeight, alphaTrigger);
-
-            if (alpha <= alphaTrigger) {
-                isNeedAdjustBar = true;
-                appBarBackground.setAlpha(alpha);
-                appBarTitle.setTextColor(
-                        Color.argb(255
-                                , (int) (255 * (1 - alpha / 8 * 6))
-                                , (int) (255 * (1 - alpha / 8 * 6))
-                                , (int) (255 * (1 - alpha / 8 * 6))
-                        )
-                );
-            } else if (isNeedAdjustBar) {
-                isNeedAdjustBar = false;
-                appBarBackground.setAlpha(alphaTrigger);
-                appBarTitle.setTextColor(
-                        Color.argb(255
-                                , (int) (255 * alphaTrigger / 8 * 6)
-                                , (int) (255 * alphaTrigger / 8 * 6)
-                                , (int) (255 * alphaTrigger / 8 * 6)
-                        )
-                );
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             }
-        }
-    };
 
-    @Override
-    protected void onSaveArguments(Bundle bundle) {
-    }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                appBarHelper.offset(dy);
 
-    @Override
-    protected void onReloadArguments(Bundle bundle) {
+                float alphaTrigger = 0.8f;
+                float alpha = Math.min(getScrollYDistance() / actionBarPinHeight, alphaTrigger);
+
+                if (alpha <= alphaTrigger) {
+                    isNeedAdjustBar = true;
+                    appBarBackground.setAlpha(alpha);
+                    appBarTitle.setTextColor(
+                            Color.argb(255
+                                    , (int) (255 * (1 - alpha / 8 * 6))
+                                    , (int) (255 * (1 - alpha / 8 * 6))
+                                    , (int) (255 * (1 - alpha / 8 * 6))
+                            )
+                    );
+                } else if (isNeedAdjustBar) {
+                    isNeedAdjustBar = false;
+                    appBarBackground.setAlpha(alphaTrigger);
+                    appBarTitle.setTextColor(
+                            Color.argb(255
+                                    , (int) (255 * alphaTrigger / 8 * 6)
+                                    , (int) (255 * alphaTrigger / 8 * 6)
+                                    , (int) (255 * alphaTrigger / 8 * 6)
+                            )
+                    );
+                }
+            }
+        };
     }
 
     public float getScrollYDistance() {
@@ -239,4 +251,5 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         super.imageShow(actionImageControl);
         adapter.imageShow(actionImageControl);
     }
+
 }
