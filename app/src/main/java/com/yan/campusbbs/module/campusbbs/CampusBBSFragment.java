@@ -111,10 +111,18 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
         ((LifeFragment) fragments.get(1)).setFollowAdd(this);
         ((JobFragment) fragments.get(2)).setFollowAdd(this);
 
+        if (getChildFragmentManager().getFragments() != null) {
+            for (Fragment fragment : getChildFragmentManager().getFragments()) {
+                if (fragment instanceof RefreshTabPagerFragment) {
+                    ((RefreshTabPagerFragment) fragment).setFollowAdd(this);
+                }
+            }
+        }
+
         CommonPagerAdapter adapter =
                 new CommonPagerAdapter(getChildFragmentManager(), fragments, pagerTitles);
+
         viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(3);
         adapter.notifyDataSetChanged();
 
         indicator.setupWithViewPager(viewPager);
