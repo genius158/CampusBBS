@@ -14,6 +14,10 @@ public class AppBarBehavior extends CoordinatorLayout.Behavior<View> {
     private Context context;
     protected AppBarHelper appBarHelper;
 
+    public boolean isShow() {
+        return appBarHelper.isShow();
+    }
+
     public AppBarBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;

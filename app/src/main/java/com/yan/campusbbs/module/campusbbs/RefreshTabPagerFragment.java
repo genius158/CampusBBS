@@ -25,6 +25,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String BUNDLE_TAB_SELECT_POSITION = "tabSelectPosition";
+    private static final String BUNDLE_TAB_IS_SHOW = "tabSelectIsShow";
 
     protected final List<PagerTabAdapter.PagerTabItem> pagerTabItem;
     private PagerTabAdapter pagerTabAdapter;
@@ -103,15 +104,19 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
         bundle.putInt(BUNDLE_TAB_SELECT_POSITION, tabSelectPosition);
+        bundle.putBoolean(BUNDLE_TAB_IS_SHOW, appBarHelper.isShow());
     }
 
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
-
-        tabSelectPosition = bundle.getInt(BUNDLE_TAB_SELECT_POSITION);
+        tabSelectPosition = bundle.getInt(BUNDLE_TAB_SELECT_POSITION, 0);
         pagerBarRecycler.scrollToPosition(tabSelectPosition);
         pagerTabItem.get(tabSelectPosition).isSelect = true;
         pagerTabAdapter.notifyDataSetChanged();
+
+        if (bundle.getBoolean(BUNDLE_TAB_IS_SHOW, false)) {
+            appBarHelper.show();
+        }
     }
 }

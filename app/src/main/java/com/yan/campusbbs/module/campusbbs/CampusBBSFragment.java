@@ -42,6 +42,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  * Main UI for the add task screen. Users can enter a task title and description.
  */
 public class CampusBBSFragment extends BaseSettingControlFragment implements Sort {
+    private static final String BUNDLE_TAB_IS_SHOW = "tabSelectIsShow";
+
     private final String[] pagerTitles;
 
     @BindView(R.id.tabs)
@@ -82,13 +84,15 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
     @Override
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
-
+        bundle.putBoolean(BUNDLE_TAB_IS_SHOW, behavior.isShow());
     }
 
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
-
+        if (bundle.getBoolean(BUNDLE_TAB_IS_SHOW, false)) {
+            behavior.show();
+        }
     }
 
     public CampusBBSFragment() {

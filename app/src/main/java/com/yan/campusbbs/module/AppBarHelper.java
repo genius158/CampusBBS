@@ -34,6 +34,10 @@ public class AppBarHelper {
         this.height = height;
     }
 
+    public boolean isShow() {
+        return isShow;
+    }
+
     @Inject
     public AppBarHelper(Context context, View appBar) {
         this.context = context;
