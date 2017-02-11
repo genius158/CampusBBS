@@ -16,10 +16,10 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseSettingControlFragment;
 import com.yan.campusbbs.module.CommonPagerAdapter;
-import com.yan.campusbbs.module.campusbbs.job.Job;
+import com.yan.campusbbs.module.campusbbs.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
 import com.yan.campusbbs.module.campusbbs.job.JobPresenterModule;
-import com.yan.campusbbs.module.campusbbs.life.Life;
+import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
 import com.yan.campusbbs.module.campusbbs.life.LifePresenter;
 import com.yan.campusbbs.module.campusbbs.life.LifePresenterModule;
 import com.yan.campusbbs.module.campusbbs.other.Others;
@@ -47,7 +47,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBS extends BaseSettingControlFragment implements FollowViewsAdd, Sort {
+public class CampusBBSFragment extends BaseSettingControlFragment implements FollowViewsAdd, Sort {
     private final String[] pagerTitles;
 
     @BindView(R.id.tabs)
@@ -102,7 +102,7 @@ public class CampusBBS extends BaseSettingControlFragment implements FollowViews
 
     }
 
-    public CampusBBS() {
+    public CampusBBSFragment() {
         pagerTitles = new String[4];
     }
 
@@ -115,8 +115,8 @@ public class CampusBBS extends BaseSettingControlFragment implements FollowViews
         if (getChildFragmentManager().getFragments() == null) {
             fragments = new ArrayList<>();
             fragments.add(Study.newInstance());
-            fragments.add(Life.newInstance());
-            fragments.add(Job.newInstance());
+            fragments.add(LifeFragment.newInstance());
+            fragments.add(JobFragment.newInstance());
             fragments.add(Others.newInstance());
         } else {
             fragments = getChildFragmentManager().getFragments();
@@ -129,8 +129,8 @@ public class CampusBBS extends BaseSettingControlFragment implements FollowViews
         daggerInject(fragments);
 
         ((Study) fragments.get(0)).setFollowAdd(this);
-        ((Life) fragments.get(1)).setFollowAdd(this);
-        ((Job) fragments.get(2)).setFollowAdd(this);
+        ((LifeFragment) fragments.get(1)).setFollowAdd(this);
+        ((JobFragment) fragments.get(2)).setFollowAdd(this);
 
         adapter = new CommonPagerAdapter(getChildFragmentManager(), fragments, pagerTitles);
         viewPager.setAdapter(adapter);
@@ -149,8 +149,8 @@ public class CampusBBS extends BaseSettingControlFragment implements FollowViews
                         .getApplication())
                         .getApplicationComponent())
                 .studyPresenterModule(new StudyPresenterModule((Study) fragments.get(0)))
-                .lifePresenterModule(new LifePresenterModule((Life) fragments.get(1)))
-                .jobPresenterModule(new JobPresenterModule((Job) fragments.get(2)))
+                .lifePresenterModule(new LifePresenterModule((LifeFragment) fragments.get(1)))
+                .jobPresenterModule(new JobPresenterModule((JobFragment) fragments.get(2)))
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
     }
@@ -164,8 +164,8 @@ public class CampusBBS extends BaseSettingControlFragment implements FollowViews
                 ));
     }
 
-    public static CampusBBS newInstance() {
-        return new CampusBBS();
+    public static CampusBBSFragment newInstance() {
+        return new CampusBBSFragment();
     }
 
     @Override
@@ -191,9 +191,9 @@ public class CampusBBS extends BaseSettingControlFragment implements FollowViews
         for (Fragment fragment : fragments) {
             if (fragment instanceof Study) {
                 fragmentNullIndex[0] = true;
-            } else if (fragment instanceof Life) {
+            } else if (fragment instanceof LifeFragment) {
                 fragmentNullIndex[1] = true;
-            } else if (fragment instanceof Job) {
+            } else if (fragment instanceof JobFragment) {
                 fragmentNullIndex[2] = true;
             } else if (fragment instanceof Others) {
                 fragmentNullIndex[3] = true;
@@ -206,10 +206,10 @@ public class CampusBBS extends BaseSettingControlFragment implements FollowViews
                         fragments.add(Study.newInstance());
                         break;
                     case 1:
-                        fragments.add(Life.newInstance());
+                        fragments.add(LifeFragment.newInstance());
                         break;
                     case 2:
-                        fragments.add(Job.newInstance());
+                        fragments.add(JobFragment.newInstance());
                         break;
                     case 3:
                         fragments.add(Others.newInstance());

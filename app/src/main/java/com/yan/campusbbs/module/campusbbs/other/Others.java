@@ -24,7 +24,7 @@ public class Others extends BaseFragment implements Sort {
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_campusbbs_others, container, false);
+        return inflater.inflate(R.layout.fragment_campus_bbs_others, container, false);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.yan.campusbbs.module.selfcenter;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -40,7 +42,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class SelfCenter extends BaseRefreshFragment implements SelfCenterContract.View, Sort {
+public class SelfCenterFragment extends BaseRefreshFragment implements SelfCenterContract.View, Sort {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -87,7 +89,7 @@ public class SelfCenter extends BaseRefreshFragment implements SelfCenterContrac
         return view;
     }
 
-    public SelfCenter() {
+    public SelfCenterFragment() {
         dataMultiItems = new ArrayList<>();
     }
 
@@ -119,6 +121,8 @@ public class SelfCenter extends BaseRefreshFragment implements SelfCenterContrac
     }
 
     private void init() {
+        customEdgeEffect(R.color.colorAccent2);
+
         actionBarPinHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100
                 , getResources().getDisplayMetrics());
 
@@ -153,10 +157,10 @@ public class SelfCenter extends BaseRefreshFragment implements SelfCenterContrac
         adapter.notifyDataSetChanged();
     }
 
-    public static SelfCenter newInstance() {
-        SelfCenter selfCenterFragment = new SelfCenter();
+    public static SelfCenterFragment newInstance() {
+        SelfCenterFragment selfCenterFragment = new SelfCenterFragment();
         selfCenterFragment.setArguments(new Bundle());
-        return new SelfCenter();
+        return new SelfCenterFragment();
     }
 
     @Override
@@ -277,6 +281,16 @@ public class SelfCenter extends BaseRefreshFragment implements SelfCenterContrac
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
+    }
+    void customEdgeEffect(  int brandColor) {
+        //glow
+        int glowDrawableId =getResources().getIdentifier("overscroll_glow", "drawable", "android");
+        Drawable androidGlow =getResources().getDrawable(glowDrawableId);
+        androidGlow.setColorFilter(brandColor, PorterDuff.Mode.MULTIPLY);
+        //edge
+        int edgeDrawableId =getResources().getIdentifier("overscroll_edge", "drawable", "android");
+        Drawable androidEdge =getResources().getDrawable(edgeDrawableId);
+        androidEdge.setColorFilter(brandColor, PorterDuff.Mode.MULTIPLY);
     }
 
 }

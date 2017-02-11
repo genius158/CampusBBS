@@ -1,13 +1,13 @@
 package com.yan.campusbbs.module.campusbbs.life;
 
 import com.yan.campusbbs.ApplicationComponent;
-import com.yan.campusbbs.base.FragmentScoped;
+import com.yan.campusbbs.base.ScopedFragment;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.setting.SettingModule;
 
 import dagger.Component;
 
-@FragmentScoped
+@ScopedFragment
 @Component(
         dependencies = ApplicationComponent.class
         , modules = {
@@ -17,5 +17,5 @@ import dagger.Component;
 }
 )
 public interface LifeComponent {
-    void inject(Life lifeFragment);
+    void inject(LifeFragment lifeFragment);
 }

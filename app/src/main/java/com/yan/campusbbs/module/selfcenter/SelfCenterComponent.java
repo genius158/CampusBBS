@@ -1,13 +1,13 @@
 package com.yan.campusbbs.module.selfcenter;
 
 import com.yan.campusbbs.ApplicationComponent;
-import com.yan.campusbbs.base.FragmentScoped;
+import com.yan.campusbbs.base.ScopedFragment;
 import com.yan.campusbbs.module.AppBarHelperModule;
 import com.yan.campusbbs.setting.SettingModule;
 
 import dagger.Component;
 
-@FragmentScoped
+@ScopedFragment
 @Component(
         dependencies = ApplicationComponent.class
         , modules = {
@@ -17,5 +17,5 @@ import dagger.Component;
 }
 )
 public interface SelfCenterComponent {
-    void inject(SelfCenter selfCenterFragment);
+    void inject(SelfCenterFragment selfCenterFragment);
 }

@@ -76,7 +76,7 @@ public class Study extends RefreshTabPagerFragment implements StudyContract.View
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_campusbbs_study, container, false);
+        View view = inflater.inflate(R.layout.fragment_campus_bbs_study, container, false);
         ButterKnife.bind(this, view);
         init();
         daggerInject();

@@ -1,12 +1,12 @@
 package com.yan.campusbbs.module.filemanager;
 
 import com.yan.campusbbs.ApplicationComponent;
-import com.yan.campusbbs.base.FragmentScoped;
+import com.yan.campusbbs.base.ScopedFragment;
 import com.yan.campusbbs.setting.SettingModule;
 
 import dagger.Component;
 
-@FragmentScoped
+@ScopedFragment
 @Component(
         dependencies = ApplicationComponent.class
         , modules = {
@@ -14,5 +14,5 @@ import dagger.Component;
 }
 )
 public interface FileManagerComponent {
-    void inject(FileManager fileManagerFragment);
+    void inject(FileManagerFragment fileManagerFragment);
 }

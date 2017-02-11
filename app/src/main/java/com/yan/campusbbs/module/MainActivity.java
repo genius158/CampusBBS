@@ -10,11 +10,11 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.module.campusbbs.CampusBBS;
-import com.yan.campusbbs.module.filemanager.FileManager;
+import com.yan.campusbbs.module.campusbbs.CampusBBSFragment;
+import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenter;
 import com.yan.campusbbs.module.filemanager.FileManagerPresenterModule;
-import com.yan.campusbbs.module.selfcenter.SelfCenter;
+import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenter;
 import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -112,9 +112,9 @@ public class MainActivity extends BaseActivity {
     private void initFragment() {
         if (getSupportFragmentManager().getFragments() == null) {
             fragments = new ArrayList<>();
-            fragments.add(SelfCenter.newInstance());
-            fragments.add(CampusBBS.newInstance());
-            fragments.add(FileManager.newInstance());
+            fragments.add(SelfCenterFragment.newInstance());
+            fragments.add(CampusBBSFragment.newInstance());
+            fragments.add(FileManagerFragment.newInstance());
         } else {
             fragments = getSupportFragmentManager().getFragments();
             if (fragments.size() < 3) {
@@ -125,8 +125,8 @@ public class MainActivity extends BaseActivity {
 
         DaggerModuleComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
-                .selfCenterPresenterModule(new SelfCenterPresenterModule((SelfCenter) fragments.get(0)))
-                .fileManagerPresenterModule(new FileManagerPresenterModule((FileManager) fragments.get(2)))
+                .selfCenterPresenterModule(new SelfCenterPresenterModule((SelfCenterFragment) fragments.get(0)))
+                .fileManagerPresenterModule(new FileManagerPresenterModule((FileManagerFragment) fragments.get(2)))
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
         commonPagerAdapter = new CommonPagerAdapter(getSupportFragmentManager(), fragments);
@@ -210,11 +210,11 @@ public class MainActivity extends BaseActivity {
     private void resetFragments() {
         boolean[] fragmentNullIndex = new boolean[3];
         for (Fragment fragment : fragments) {
-            if (fragment instanceof SelfCenter) {
+            if (fragment instanceof SelfCenterFragment) {
                 fragmentNullIndex[0] = true;
-            } else if (fragment instanceof CampusBBS) {
+            } else if (fragment instanceof CampusBBSFragment) {
                 fragmentNullIndex[1] = true;
-            } else if (fragment instanceof FileManager) {
+            } else if (fragment instanceof FileManagerFragment) {
                 fragmentNullIndex[2] = true;
             }
         }
@@ -222,13 +222,13 @@ public class MainActivity extends BaseActivity {
             if (!fragmentNullIndex[i]) {
                 switch (i) {
                     case 0:
-                        fragments.add(SelfCenter.newInstance());
+                        fragments.add(SelfCenterFragment.newInstance());
                         break;
                     case 1:
-                        fragments.add(CampusBBS.newInstance());
+                        fragments.add(CampusBBSFragment.newInstance());
                         break;
                     case 2:
-                        fragments.add(FileManager.newInstance());
+                        fragments.add(FileManagerFragment.newInstance());
                         break;
                 }
             }

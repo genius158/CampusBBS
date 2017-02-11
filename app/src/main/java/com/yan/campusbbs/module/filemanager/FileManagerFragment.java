@@ -33,7 +33,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class FileManager extends BaseRefreshFragment implements FileManagerContract.View, Sort {
+public class FileManagerFragment extends BaseRefreshFragment implements FileManagerContract.View, Sort {
     List<String> strings;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -104,11 +104,11 @@ public class FileManager extends BaseRefreshFragment implements FileManagerContr
 
     }
 
-    public static FileManager newInstance() {
-        return new FileManager();
+    public static FileManagerFragment newInstance() {
+        return new FileManagerFragment();
     }
 
-    public FileManager() {
+    public FileManagerFragment() {
     }
 
     @Override

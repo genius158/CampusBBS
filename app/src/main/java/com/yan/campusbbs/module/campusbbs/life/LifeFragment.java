@@ -31,7 +31,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class Life extends RefreshTabPagerFragment implements LifeContract.View, Sort {
+public class LifeFragment extends RefreshTabPagerFragment implements LifeContract.View, Sort {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -74,7 +74,7 @@ public class Life extends RefreshTabPagerFragment implements LifeContract.View, 
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_campusbbs_life, container, false);
+        View view = inflater.inflate(R.layout.fragment_campus_bbs_life, container, false);
         ButterKnife.bind(this, view);
         init();
         daggerInject();
@@ -98,11 +98,11 @@ public class Life extends RefreshTabPagerFragment implements LifeContract.View, 
     private void init() {
     }
 
-    public static Life newInstance() {
-        return new Life();
+    public static LifeFragment newInstance() {
+        return new LifeFragment();
     }
 
-    public Life() {
+    public LifeFragment() {
     }
 
     @Override

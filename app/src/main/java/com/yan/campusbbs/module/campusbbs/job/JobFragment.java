@@ -31,7 +31,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class Job extends RefreshTabPagerFragment implements JobContract.View, Sort {
+public class JobFragment extends RefreshTabPagerFragment implements JobContract.View, Sort {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -73,7 +73,7 @@ public class Job extends RefreshTabPagerFragment implements JobContract.View, So
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_campusbbs_job, container, false);
+        View view = inflater.inflate(R.layout.fragment_campus_bbs_job, container, false);
         ButterKnife.bind(this, view);
         init();
         daggerInject();
@@ -98,11 +98,11 @@ public class Job extends RefreshTabPagerFragment implements JobContract.View, So
 
     }
 
-    public static Job newInstance() {
-        return new Job();
+    public static JobFragment newInstance() {
+        return new JobFragment();
     }
 
-    public Job() {
+    public JobFragment() {
     }
 
     @Override
