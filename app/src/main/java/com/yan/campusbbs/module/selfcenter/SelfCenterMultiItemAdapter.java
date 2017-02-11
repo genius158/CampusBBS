@@ -8,7 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
-import com.yan.campusbbs.util.FrescoDisplay;
+import com.yan.campusbbs.util.FrescoUtils;
 import com.yan.campusbbs.util.SizeUtils;
 
 import java.util.List;
@@ -40,10 +40,12 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
                 layoutParams.height = (int) (SizeUtils.getFullScreenWidth(context) / 3 * 2);
                 imageView.setLayoutParams(layoutParams);
-                FrescoDisplay.display(context, imageView
-                        , (String) multiItem.data
-                        , R.drawable.tansparent_default
-                        , FrescoDisplay.CENTER_CROP);
+                FrescoUtils.display(imageView, (String) multiItem.data);
+
+                FrescoUtils.display(holder
+                                .getView(R.id.self_part_one_header)
+                        , (String) multiItem.data);
+
                 break;
             case ITEM_TYPE_SELF_PUSH_WARD:
                 holder.setText(R.id.tv_string, (String) multiItem.data);

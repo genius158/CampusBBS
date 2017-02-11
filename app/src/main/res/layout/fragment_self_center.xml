@@ -40,13 +40,10 @@
 
         <TextView
             android:id="@+id/app_bar_title"
+            style="@style/TextShadow"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:shadowColor="@color/cr26000000"
-            android:shadowDx="0"
-            android:shadowDy="1"
-            android:shadowRadius="2"
             android:text="@string/self_center"
             android:textSize="@dimen/app_bar_text_size" />
 

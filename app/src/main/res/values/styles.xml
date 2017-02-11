@@ -17,8 +17,47 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="TabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <style name="TabLayoutTextAppearance">
         <item name="android:textSize">@dimen/app_bar_text_size</item>
+    </style>
+
+
+    <!--fresco-->
+    <!--  fresco:fadeDuration="300"//渐进时间
+    fresco:actualImageScaleType="focusCrop"
+    fresco:placeholderImage="@color/wait_color"
+    fresco:placeholderImageScaleType="fitCenter"
+    fresco:failureImage="@drawable/error"//失败时显示的图片
+    fresco:failureImageScaleType="centerInside"//失败图片的显示方式
+    fresco:retryImage="@drawable/retrying"//重试图
+    fresco:retryImageScaleType="centerCrop"//重试图显示方式
+    fresco:progressBarImage="@drawable/progress_bar"
+    fresco:progressBarImageScaleType="centerInside"
+    fresco:progressBarAutoRotateInterval="1000"
+    fresco:backgroundImage="@color/blue"
+    fresco:overlayImage="@drawable/watermark"
+    fresco:pressedStateOverlayImage="@color/red"
+    fresco:roundAsCircle="false"
+-->
+    <style name="ImageBase">
+        <item name="actualImageScaleType">focusCrop</item>
+        <item name="fadeDuration">200</item>
+    </style>
+
+    <style name="ImageBase.Circle">
+        <item name="roundAsCircle">true</item>
+    </style>
+
+    <style name="ImageBase.Circle.Border">
+        <item name="roundingBorderWidth">2dp</item>
+        <item name="roundingBorderColor">@color/crC1FFFFFF</item>
+    </style>
+
+    <style name="TextShadow">
+        <item name="android:shadowColor">@color/cr4a000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
     </style>
 
 </resources>

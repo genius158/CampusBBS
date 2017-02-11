@@ -7,13 +7,49 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/self_part_one_img"
+        style="@style/ImageBase"
         android:layout_width="match_parent"
         android:layout_height="100dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/self_part_one_header"
+            style="@style/ImageBase.Circle.Border"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="65dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextShadow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="飞翔的蝴蝶"
+                android:textColor="@color/crFFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
+                style="@style/TextShadow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="等级:18"
+                android:textColor="@color/crFFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
 
 
     </FrameLayout>
