@@ -13,21 +13,28 @@ import android.view.View;
 public class AppBarBehavior extends CoordinatorLayout.Behavior<View> {
     private Context context;
     protected AppBarHelper appBarHelper;
+    private boolean needBarHelperSet = true;
 
     public boolean isShow() {
         return appBarHelper.isShow();
     }
 
+    public void setTagHide() {
+        appBarHelper.setTagHide();
+    }
+
     public AppBarBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        appBarHelper = new AppBarHelper();
 
     }
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
-        if (appBarHelper == null) {
-            appBarHelper = new AppBarHelper(context, child);
+        if (needBarHelperSet) {
+            needBarHelperSet = false;
+            appBarHelper.setBar(context, child);
         }
         return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != -1;
     }
@@ -41,5 +48,15 @@ public class AppBarBehavior extends CoordinatorLayout.Behavior<View> {
         if (appBarHelper != null) {
             appBarHelper.show();
         }
+    }
+
+    public void hide() {
+        if (appBarHelper != null) {
+            appBarHelper.hide();
+        }
+    }
+
+    public void setTagHide(Context context) {
+        appBarHelper.setTagHide(context);
     }
 }

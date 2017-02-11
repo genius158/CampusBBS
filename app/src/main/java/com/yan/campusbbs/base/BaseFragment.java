@@ -21,6 +21,7 @@ public abstract class BaseFragment extends StatedFragment {
     private View rootView;
     private boolean isRootViewSet;
     private boolean isLazyLoad;
+    protected boolean isCreateActivity = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,22 +45,19 @@ public abstract class BaseFragment extends StatedFragment {
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (!isRootViewSet) {
             isRootViewSet = true;
             activityCreated();
         }
-    }
-
-    public void activityCreated() {
-
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setRetainInstance(true);
+        isCreateActivity = true;
     }
 
     @Override
@@ -68,17 +66,21 @@ public abstract class BaseFragment extends StatedFragment {
         super.onDestroy();
     }
 
+    public void activityCreated() {
+
+    }
+
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
-        Log.e("reloadbundle",bundle+"");
+        Log.e("reloadbundle", bundle + "");
         isLazyLoad = bundle.getBoolean(BUNDLE_IS_LAZY_LOAD);
     }
 
     @Override
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
-        Log.e("onSavebundle",bundle+"");
+        Log.e("onSavebundle", bundle + "");
 
         bundle.putBoolean(BUNDLE_IS_LAZY_LOAD, isLazyLoad);
 

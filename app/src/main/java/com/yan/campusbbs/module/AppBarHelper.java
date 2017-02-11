@@ -2,6 +2,7 @@ package com.yan.campusbbs.module;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 
 import com.yan.campusbbs.R;
@@ -38,11 +39,19 @@ public class AppBarHelper {
         return isShow;
     }
 
+    public void setTagHide() {
+        setTagHide(context);
+    }
+
     @Inject
     public AppBarHelper(Context context, View appBar) {
         this.context = context;
         this.appBar = appBar;
     }
+
+    public AppBarHelper() {
+    }
+
 
     public void offset(int dy) {
         if (dy < 0) {
@@ -53,7 +62,8 @@ public class AppBarHelper {
     }
 
     public void show() {
-        if (isShow) return;
+        if (isShow || appBar == null) return;
+
         if (objectAnimatorShow == null) {
             objectAnimatorShow = ObjectAnimator.ofFloat(appBar, "y", barPosition, 0 + height)
                     .setDuration(during);
@@ -70,7 +80,7 @@ public class AppBarHelper {
     }
 
     public void hide() {
-        if (!isShow) return;
+        if (!isShow || appBar == null) return;
         if (objectAnimatorHide == null) {
             objectAnimatorHide = ObjectAnimator.ofFloat(appBar, "y", barPosition
                     , (startY != -1000)
@@ -90,5 +100,17 @@ public class AppBarHelper {
         }
         objectAnimatorHide.start();
         isShow = false;
+    }
+
+    public void setBar(Context context, View appBar) {
+        this.context = context;
+        this.appBar = appBar;
+    }
+
+    public void setTagHide(Context context) {
+        isShow = false;
+        barPosition = (startY != -1000) ? startY
+                : -context.getResources().getDimension(R.dimen.action_bar_height);
+
     }
 }

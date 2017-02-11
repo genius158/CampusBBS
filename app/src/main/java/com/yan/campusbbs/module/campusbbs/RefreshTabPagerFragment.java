@@ -11,7 +11,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
+import com.yan.campusbbs.rxbusaction.ActionTabShow;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
@@ -33,6 +33,7 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
     private LinearLayoutManager linearLayoutManager;
     private BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick;
     private AppBarHelper appBarHelper;
+    private View appBar;
     private RxBus rxBus;
     protected int tabSelectPosition = 0;
 
@@ -44,6 +45,7 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
         this.pagerBarRecycler = pagerBarRecycler;
         this.pagerTabAdapter = pagerTabAdapter;
         this.rxBus = rxBus;
+        this.appBar = appBar;
 
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -52,15 +54,18 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
         this.pagerTabAdapter.setOnRecyclerViewItemClickListener(getItemClickListener());
 
         recyclerView.addOnScrollListener(onScrollListener);
-        appBarHelper = new AppBarHelper(getContext(), appBar);
+        appBarHelper = new AppBarHelper(getContext(), this.appBar);
         initRxBusAction();
     }
 
+
     public void initRxBusAction() {
-        addDisposable(rxBus.getEvent(ActionPagerToCampusBBS.class)
+        addDisposable(rxBus.getEvent(ActionTabShow.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(pagerToCampusBBS -> {
-                            appBarHelper.show();
+                            if (isCreateActivity) {
+                                appBarHelper.show();
+                            }
                         }
                 ));
     }
@@ -110,13 +115,19 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
+        if (!bundle.getBoolean(BUNDLE_TAB_IS_SHOW, false)) {
+            appBarHelper.setTagHide();
+            appBar.setY(-getResources().getDimension(R.dimen.action_bar_height));
+        }
+
         tabSelectPosition = bundle.getInt(BUNDLE_TAB_SELECT_POSITION, 0);
         pagerBarRecycler.scrollToPosition(tabSelectPosition);
         pagerTabItem.get(tabSelectPosition).isSelect = true;
         pagerTabAdapter.notifyDataSetChanged();
 
-        if (bundle.getBoolean(BUNDLE_TAB_IS_SHOW, false)) {
-            appBarHelper.show();
+        if (!bundle.getBoolean(BUNDLE_TAB_IS_SHOW, false)) {
+            appBar.setY(-getResources().getDimension(R.dimen.action_bar_height));
+            appBarHelper.setTagHide();
         }
     }
 }

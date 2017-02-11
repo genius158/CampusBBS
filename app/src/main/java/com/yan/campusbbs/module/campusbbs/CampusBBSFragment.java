@@ -22,7 +22,7 @@ import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
 import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
+import com.yan.campusbbs.rxbusaction.ActionTabShow;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
@@ -43,6 +43,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  */
 public class CampusBBSFragment extends BaseSettingControlFragment implements Sort {
     private static final String BUNDLE_TAB_IS_SHOW = "tabSelectIsShow";
+    private static final String VIEW_PAGER_PAGE = "viewPagerPage";
 
     private final String[] pagerTitles;
 
@@ -61,9 +62,8 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
     @BindView(R.id.tab_campus_container)
     CardView tabContainer;
 
-    private AppBarBehavior behavior;
-
     private List<Fragment> fragments;
+    private boolean isReLoad = false;
 
 
     @Override
@@ -84,15 +84,22 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
     @Override
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
-        bundle.putBoolean(BUNDLE_TAB_IS_SHOW, behavior.isShow());
+        bundle.putBoolean(BUNDLE_TAB_IS_SHOW, getBehavior().isShow());
+        bundle.putInt(VIEW_PAGER_PAGE, viewPager.getCurrentItem());
+
     }
 
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
-        if (bundle.getBoolean(BUNDLE_TAB_IS_SHOW, false)) {
-            behavior.show();
+        if (!bundle.getBoolean(BUNDLE_TAB_IS_SHOW, false)) {
+            getBehavior().setTagHide(getContext());
+            tabContainer.setY(-getResources().getDimension(R.dimen.action_bar_height));
         }
+        if (bundle.getInt(VIEW_PAGER_PAGE, 0) > 0) {
+            isReLoad = true;
+        }
+
     }
 
     public CampusBBSFragment() {
@@ -120,9 +127,13 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
         indicator.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(getOnPageChangeListener());
 
+
+    }
+
+    private AppBarBehavior getBehavior() {
         CoordinatorLayout.LayoutParams lp =
                 (CoordinatorLayout.LayoutParams) tabContainer.getLayoutParams();
-        behavior = (AppBarBehavior) lp.getBehavior();
+        return (AppBarBehavior) lp.getBehavior();
     }
 
     private void daggerInject() {
@@ -135,10 +146,12 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
     }
 
     public void initRxBusAction() {
-        addDisposable(rxBus.getEvent(ActionPagerToCampusBBS.class)
+        addDisposable(rxBus.getEvent(ActionTabShow.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(pagerToCampusBBS -> {
-                            behavior.show();
+                            if (getBehavior() != null) {
+                                getBehavior().show();
+                            }
                         }
                 ));
     }
@@ -160,7 +173,6 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
         );
     }
 
-
     @Override
     public int getIndex() {
         return 1;
@@ -175,7 +187,10 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
 
             @Override
             public void onPageSelected(int position) {
-                behavior.show();
+                if (!isReLoad) {
+                    rxBus.post(new ActionTabShow());
+                }
+                isReLoad = false;
             }
 
             @Override

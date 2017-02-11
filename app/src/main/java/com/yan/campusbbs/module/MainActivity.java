@@ -3,6 +3,7 @@ package com.yan.campusbbs.module;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -15,7 +16,7 @@ import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
-import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
+import com.yan.campusbbs.rxbusaction.ActionTabShow;
 import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
@@ -32,6 +33,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
+
+    private static final String VIEW_PAGER_PAGE = "viewPagerPage";
+
     @Inject
     SettingHelper changeSkinHelper;
     @Inject
@@ -53,11 +57,15 @@ public class MainActivity extends BaseActivity {
 
     List<Fragment> fragments;
 
+    private boolean isReLoad = false;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         initFragment();
 
         imageControl.frescoInit();
@@ -66,7 +74,19 @@ public class MainActivity extends BaseActivity {
 
         settingInit();
 
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getInt(VIEW_PAGER_PAGE, 0) > 0) {
+                isReLoad = true;
+            }
+
+        }
         rxBus.post(new ActionMainActivityShowComplete());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(VIEW_PAGER_PAGE, viewPager.getCurrentItem());
     }
 
     @Override
@@ -128,7 +148,6 @@ public class MainActivity extends BaseActivity {
                         break;
                     case 1:
                         bottomNavigationBar.setAutoHideEnabled(false);
-                        rxBus.post(new ActionPagerToCampusBBS());
                         break;
                     case 2:
                         bottomNavigationBar.setAutoHideEnabled(false);
@@ -158,6 +177,12 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 bottomNavigationBar.selectTab(position);
+                if (position == 1) {
+                    if (!isReLoad) {
+                        rxBus.post(new ActionTabShow());
+                    }
+                }
+                isReLoad = false;
             }
 
             @Override
