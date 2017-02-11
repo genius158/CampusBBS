@@ -116,7 +116,7 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
     }
 
     @Override
-    protected SPUtils attachUtil() {
+    protected SPUtils sPUtils() {
         return spUtils;
     }
 

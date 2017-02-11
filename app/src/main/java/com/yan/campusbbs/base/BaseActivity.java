@@ -44,12 +44,12 @@ public abstract class BaseActivity extends AppCompatActivity implements SettingC
 
     private final void skinInit() {
         changeSkin(new ActionChangeSkin(
-                attachUtil().getInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                sPUtils().getInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                         , SharedPreferenceConfig.SKIN_INDEX, 0)
         ));
     }
 
-    protected abstract SPUtils attachUtil();
+    protected abstract SPUtils sPUtils();
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {

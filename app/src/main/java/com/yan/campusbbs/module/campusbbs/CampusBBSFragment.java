@@ -178,7 +178,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
     }
 
     @Override
-    protected SPUtils attachUtil() {
+    protected SPUtils sPUtils() {
         return spUtils;
     }
 

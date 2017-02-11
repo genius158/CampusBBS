@@ -165,7 +165,7 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     }
 
     @Override
-    protected SPUtils attachUtil() {
+    protected SPUtils sPUtils() {
         return spUtils;
     }
 

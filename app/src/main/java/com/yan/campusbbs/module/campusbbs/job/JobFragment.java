@@ -116,7 +116,7 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     }
 
     @Override
-    protected SPUtils attachUtil() {
+    protected SPUtils sPUtils() {
         return spUtils;
     }
 

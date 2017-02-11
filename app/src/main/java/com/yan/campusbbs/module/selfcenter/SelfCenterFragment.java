@@ -267,7 +267,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
 
     @Override
-    protected SPUtils attachUtil() {
+    protected SPUtils sPUtils() {
         return spUtils;
     }
 

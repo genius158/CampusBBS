@@ -123,7 +123,7 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     }
 
     @Override
-    protected SPUtils attachUtil() {
+    protected SPUtils sPUtils() {
         return spUtils;
     }
     @Override

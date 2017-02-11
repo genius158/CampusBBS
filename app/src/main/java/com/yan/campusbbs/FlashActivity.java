@@ -51,7 +51,7 @@ public class FlashActivity extends BaseActivity {
     }
 
     @Override
-    protected SPUtils attachUtil() {
+    protected SPUtils sPUtils() {
         return spUtils;
     }
 
