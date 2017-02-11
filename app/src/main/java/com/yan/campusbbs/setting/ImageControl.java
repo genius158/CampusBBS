@@ -5,8 +5,10 @@ import android.util.Log;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
-import com.yan.campusbbs.rxbusaction.ActionImageControl;
+import com.yan.campusbbs.rxbusaction.ActionImageShowAble;
 import com.yan.campusbbs.util.SPUtils;
+
+import javax.inject.Inject;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -15,7 +17,6 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class ImageControl {
-    private static ImageControl imageControl;
     private boolean imageShowAble;
 
     public void setImageShowAble(Context context, boolean imageShowAble) {
@@ -29,18 +30,8 @@ public class ImageControl {
                 , SharedPreferenceConfig.IMAGE_SHOW_ABLE, imageShowAble);
     }
 
-    public static ImageControl getInstance() {
-        if (imageControl == null) {
-            synchronized (ActionImageControl.class) {
-                if (imageControl == null) {
-                    imageControl = new ImageControl();
-                }
-            }
-        }
-        return imageControl;
-    }
-
-    private ImageControl() {
+    @Inject
+    public ImageControl() {
 
     }
 

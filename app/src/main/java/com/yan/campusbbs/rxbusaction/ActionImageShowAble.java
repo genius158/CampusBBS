@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by yan on 2017/2/8.
  */
 
-public class ActionImageControl implements Parcelable {
+public class ActionImageShowAble implements Parcelable {
     public boolean isImgShow = true;
 
     @Override
@@ -20,26 +20,26 @@ public class ActionImageControl implements Parcelable {
         dest.writeByte(this.isImgShow ? (byte) 1 : (byte) 0);
     }
 
-    public ActionImageControl() {
+    public ActionImageShowAble() {
     }
 
-    public ActionImageControl(boolean isImgShow) {
+    public ActionImageShowAble(boolean isImgShow) {
         this.isImgShow = isImgShow;
     }
 
-    protected ActionImageControl(Parcel in) {
+    protected ActionImageShowAble(Parcel in) {
         this.isImgShow = in.readByte() != 0;
     }
 
-    public static final Creator<ActionImageControl> CREATOR = new Creator<ActionImageControl>() {
+    public static final Creator<ActionImageShowAble> CREATOR = new Creator<ActionImageShowAble>() {
         @Override
-        public ActionImageControl createFromParcel(Parcel source) {
-            return new ActionImageControl(source);
+        public ActionImageShowAble createFromParcel(Parcel source) {
+            return new ActionImageShowAble(source);
         }
 
         @Override
-        public ActionImageControl[] newArray(int size) {
-            return new ActionImageControl[size];
+        public ActionImageShowAble[] newArray(int size) {
+            return new ActionImageShowAble[size];
         }
     };
 }

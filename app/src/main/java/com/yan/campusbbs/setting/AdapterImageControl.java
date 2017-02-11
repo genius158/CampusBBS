@@ -2,28 +2,17 @@ package com.yan.campusbbs.setting;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.yan.campusbbs.rxbusaction.ActionImageControl;
 
 /**
  * Created by Administrator on 2017/2/11.
  */
 
 public class AdapterImageControl {
-    private static AdapterImageControl adapterImageControl;
+    private ImageControl imageControl;
 
-    public static AdapterImageControl getInstance() {
-        if (adapterImageControl == null) {
-            synchronized (ActionImageControl.class) {
-                if (adapterImageControl == null) {
-                    adapterImageControl = new AdapterImageControl();
-                }
-            }
-        }
-        return adapterImageControl;
-    }
 
-    private AdapterImageControl() {
-
+    public AdapterImageControl(ImageControl imageControl) {
+        this.imageControl = imageControl;
     }
 
     public void attachRecyclerView(RecyclerView recyclerView) {
@@ -35,9 +24,9 @@ public class AdapterImageControl {
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
             if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                ImageControl.getInstance().imageResume();
+                imageControl.imageResume();
             } else {
-                ImageControl.getInstance().imagePause();
+                imageControl.imagePause();
             }
         }
     };

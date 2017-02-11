@@ -24,14 +24,13 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 
 public class AppRetrofit {
-    private static AppRetrofit appRetrofit;
     private Retrofit retrofit;
     private OkHttpClient okHttpClient;
     private List<DownloadProListener> progressListeners;
 
     public AppRetrofit addProgressListener(DownloadProListener progressListener) {
         this.progressListeners.add(progressListener);
-        return appRetrofit;
+        return this;
     }
 
 

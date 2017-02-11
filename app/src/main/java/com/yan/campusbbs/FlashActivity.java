@@ -27,6 +27,9 @@ public class FlashActivity extends BaseActivity {
     RxBus rxBus;
 
     @Inject
+    ImageControl imageControl;
+
+    @Inject
     SettingHelper settingHelper;
     @BindView(R.id.activity_flash)
     CoordinatorLayout activityFlash;
@@ -35,10 +38,10 @@ public class FlashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flash);
-        ImageControl.getInstance().frescoInit(this);
-
         ButterKnife.bind(this);
         daggerInject();
+        imageControl.frescoInit(this);
+
         initRxBusDisposable();
         settingInit();
     }

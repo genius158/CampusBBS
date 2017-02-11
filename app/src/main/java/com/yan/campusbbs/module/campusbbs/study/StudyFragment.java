@@ -18,7 +18,6 @@ import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
-import com.yan.campusbbs.rxbusaction.ActionImageControl;
 import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
@@ -58,6 +57,8 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     PagerTabAdapter pagerTabAdapter;
     @Inject
     SettingHelper changeSkinHelper;
+    @Inject
+    ImageControl imageControl;
     @Inject
     List<DataMultiItem> dataMultiItems;
     @Inject
@@ -194,11 +195,11 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
                 rxBus.post(new ActionChangeSkin(3));
 
             } else if (position == 4) {
-                ImageControl.getInstance().setImageShowAble(getContext(),false);
+                imageControl.setImageShowAble(getContext(), false);
 
 
             } else if (position == 5) {
-                ImageControl.getInstance().setImageShowAble(getContext(),true);
+                imageControl.setImageShowAble(getContext(), true);
             }
         };
     }

@@ -54,6 +54,8 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @Inject
     SettingHelper changeSkinHelper;
     @Inject
+    AdapterImageControl adapterImageControl;
+    @Inject
     AppBarHelper appBarHelper;
 
     private int actionBarPinHeight;
@@ -76,8 +78,8 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_self_center, container, false);
         ButterKnife.bind(this, view);
-        init();
         daggerInject();
+        init();
         dataInit();
         return view;
     }
@@ -123,7 +125,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.clearOnScrollListeners();
-        AdapterImageControl.getInstance().attachRecyclerView(recyclerView);
+        adapterImageControl.attachRecyclerView(recyclerView);
         recyclerView.addOnScrollListener(getOnScrollListener());
     }
 
@@ -147,7 +149,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
                         , new String("说说")));
 
-     adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
     public static SelfCenterFragment newInstance() {
@@ -167,25 +169,25 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
                         , new String("http://img3.imgtn.bdimg.com/it/u=2681925759,1488026640&fm=23&gp=0.jpg")));
-      dataMultiItems.add(
+        dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
                         , new String("http://img3.imgtn.bdimg.com/it/u=2681925759,1488026640&fm=23&gp=0.jpg")));
-      dataMultiItems.add(
+        dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
                         , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
-      dataMultiItems.add(
+        dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
                         , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q5521K36.jpg")));
-      dataMultiItems.add(
+        dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
                         , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q552363P.jpg")));
-      dataMultiItems.add(
+        dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
                         , new String("http://uploads.xuexila.com/allimg/1609/658-16092PU508.jpg")));
-      dataMultiItems.add(
+        dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
                         , new String("http://uploads.xuexila.com/allimg/1609/658-16092PU514.jpg")));
-         dataMultiItems.add(
+        dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
                         , new String("发布说说")));
         dataMultiItems.add(
