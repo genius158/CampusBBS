@@ -17,5 +17,5 @@ import dagger.Component;
 }
 )
 public interface StudyComponent {
-    void inject(Study studyFragment);
+    void inject(StudyFragment studyFragment);
 }

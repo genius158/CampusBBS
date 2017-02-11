@@ -40,7 +40,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class Study extends RefreshTabPagerFragment implements StudyContract.View, Sort {
+public class StudyFragment extends RefreshTabPagerFragment implements StudyContract.View, Sort {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -147,11 +147,11 @@ public class Study extends RefreshTabPagerFragment implements StudyContract.View
     }
 
 
-    public static Study newInstance() {
-        return new Study();
+    public static StudyFragment newInstance() {
+        return new StudyFragment();
     }
 
-    public Study() {
+    public StudyFragment() {
     }
 
     @Override

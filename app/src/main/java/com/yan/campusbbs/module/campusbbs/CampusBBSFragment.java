@@ -22,8 +22,8 @@ import com.yan.campusbbs.module.campusbbs.job.JobPresenterModule;
 import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
 import com.yan.campusbbs.module.campusbbs.life.LifePresenter;
 import com.yan.campusbbs.module.campusbbs.life.LifePresenterModule;
-import com.yan.campusbbs.module.campusbbs.other.Others;
-import com.yan.campusbbs.module.campusbbs.study.Study;
+import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
+import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenter;
 import com.yan.campusbbs.module.campusbbs.study.StudyPresenterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -114,10 +114,10 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
 
         if (getChildFragmentManager().getFragments() == null) {
             fragments = new ArrayList<>();
-            fragments.add(Study.newInstance());
+            fragments.add(StudyFragment.newInstance());
             fragments.add(LifeFragment.newInstance());
             fragments.add(JobFragment.newInstance());
-            fragments.add(Others.newInstance());
+            fragments.add(OthersFragment.newInstance());
         } else {
             fragments = getChildFragmentManager().getFragments();
             if (fragments.size() < 4) {
@@ -128,7 +128,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
 
         daggerInject(fragments);
 
-        ((Study) fragments.get(0)).setFollowAdd(this);
+        ((StudyFragment) fragments.get(0)).setFollowAdd(this);
         ((LifeFragment) fragments.get(1)).setFollowAdd(this);
         ((JobFragment) fragments.get(2)).setFollowAdd(this);
 
@@ -148,7 +148,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
-                .studyPresenterModule(new StudyPresenterModule((Study) fragments.get(0)))
+                .studyPresenterModule(new StudyPresenterModule((StudyFragment) fragments.get(0)))
                 .lifePresenterModule(new LifePresenterModule((LifeFragment) fragments.get(1)))
                 .jobPresenterModule(new JobPresenterModule((JobFragment) fragments.get(2)))
                 .settingModule(new SettingModule(this, compositeDisposable))
@@ -189,13 +189,13 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
     private void resetFragments() {
         boolean[] fragmentNullIndex = new boolean[4];
         for (Fragment fragment : fragments) {
-            if (fragment instanceof Study) {
+            if (fragment instanceof StudyFragment) {
                 fragmentNullIndex[0] = true;
             } else if (fragment instanceof LifeFragment) {
                 fragmentNullIndex[1] = true;
             } else if (fragment instanceof JobFragment) {
                 fragmentNullIndex[2] = true;
-            } else if (fragment instanceof Others) {
+            } else if (fragment instanceof OthersFragment) {
                 fragmentNullIndex[3] = true;
             }
         }
@@ -203,7 +203,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
             if (!fragmentNullIndex[i]) {
                 switch (i) {
                     case 0:
-                        fragments.add(Study.newInstance());
+                        fragments.add(StudyFragment.newInstance());
                         break;
                     case 1:
                         fragments.add(LifeFragment.newInstance());
@@ -212,7 +212,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
                         fragments.add(JobFragment.newInstance());
                         break;
                     case 3:
-                        fragments.add(Others.newInstance());
+                        fragments.add(OthersFragment.newInstance());
                         break;
                 }
             }

@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class Others extends BaseFragment implements Sort {
+public class OthersFragment extends BaseFragment implements Sort {
 
     @Override
     public void onResume() {
@@ -39,11 +39,11 @@ public class Others extends BaseFragment implements Sort {
 
     }
 
-    public static Others newInstance() {
-        return new Others();
+    public static OthersFragment newInstance() {
+        return new OthersFragment();
     }
 
-    public Others() {
+    public OthersFragment() {
     }
 
     @Override
