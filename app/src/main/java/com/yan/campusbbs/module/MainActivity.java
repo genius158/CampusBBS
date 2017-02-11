@@ -20,6 +20,7 @@ import com.yan.campusbbs.module.selfcenter.SelfCenterPresenterModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerToCampusBBS;
+import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
@@ -46,6 +47,8 @@ public class MainActivity extends BaseActivity {
     SettingHelper changeSkinHelper;
     @Inject
     SPUtils spUtils;
+    @Inject
+    ImageControl imageControl;
 
     @Inject
     RxBus rxBus;
@@ -67,8 +70,10 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         initFragment();
+
+        imageControl.frescoInit();
+
         initNavigationBar();
 
         settingInit();

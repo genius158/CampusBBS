@@ -23,9 +23,9 @@ public class ImageControl {
 
     public void setImageShowAble(boolean imageShowAble) {
         this.imageShowAble = imageShowAble;
-        if (!imageShowAble) {
+        if (!imageShowAble && !Fresco.getImagePipeline().isPaused()) {
             Fresco.getImagePipeline().pause();
-        } else {
+        } else if (Fresco.getImagePipeline().isPaused()) {
             Fresco.getImagePipeline().resume();
         }
         spUtils.putBoolean(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
@@ -39,7 +39,7 @@ public class ImageControl {
     }
 
     public void imagePause() {
-        if (imageShowAble) {
+        if (imageShowAble && !Fresco.getImagePipeline().isPaused()) {
             Fresco.getImagePipeline().pause();
         }
     }
@@ -57,7 +57,7 @@ public class ImageControl {
                 , SharedPreferenceConfig.SHARED_PREFERENCE
                 , SharedPreferenceConfig.IMAGE_SHOW_ABLE, true);
 
-        if (!imageShowAble) {
+        if (!imageShowAble && !Fresco.getImagePipeline().isPaused()) {
             Fresco.getImagePipeline().pause();
         }
     }

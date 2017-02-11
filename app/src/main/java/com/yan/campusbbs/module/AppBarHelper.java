@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.yan.campusbbs.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,6 +33,7 @@ public class AppBarHelper {
     }
 
     public AppBarHelper() {
+        followViews = new ArrayList<>();
     }
 
     public void setContext(Context context) {
@@ -97,7 +99,7 @@ public class AppBarHelper {
     }
 
 
-    public void setViewList(List<View> followViews) {
-        this.followViews = followViews;
+    public synchronized void addFollowView(View followView) {
+        this.followViews.add(followView);
     }
 }

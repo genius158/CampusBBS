@@ -139,7 +139,7 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
-        attach(swipeRefreshLayout, pagerBarRecycler, pagerTabAdapter, appBar);
+        attach(pagerBarRecycler, pagerTabAdapter, appBar);
         setPagerTabItemOnClick(getOnRecyclerViewItemClickListener());
     }
 
@@ -167,6 +167,12 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     @Override
     protected SPUtils sPUtils() {
         return spUtils;
+    }
+
+
+    @Override
+    protected SwipeRefreshLayout swipeRefreshLayout() {
+        return swipeRefreshLayout;
     }
 
     @Override

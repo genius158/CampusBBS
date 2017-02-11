@@ -74,7 +74,6 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
     private CampusAppBarBehavior behavior;
     private CommonPagerAdapter adapter;
 
-    private final List<View> followViews;
     private List<Fragment> fragments;
 
     @Override
@@ -105,7 +104,6 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
 
     public CampusBBSFragment() {
         pagerTitles = new String[4];
-        followViews = new ArrayList<>();
     }
 
     private void init() {
@@ -153,9 +151,8 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
                 .studyPresenterModule(new StudyPresenterModule((StudyFragment) fragments.get(0)))
                 .lifePresenterModule(new LifePresenterModule((LifeFragment) fragments.get(1)))
                 .jobPresenterModule(new JobPresenterModule((JobFragment) fragments.get(2)))
-                .settingModule(new SettingModule(this,  compositeDisposable))
+                .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
-
     }
 
     public void initRxBusAction() {
@@ -173,8 +170,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Fol
 
     @Override
     public void addFollowView(View followView) {
-        followViews.add(followView);
-        behavior.setViewList(followViews);
+        behavior.addFollowView(followView);
     }
 
     @Override

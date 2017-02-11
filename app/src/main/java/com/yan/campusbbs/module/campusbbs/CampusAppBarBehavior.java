@@ -6,8 +6,6 @@ import android.view.View;
 
 import com.yan.campusbbs.module.AppBarBehavior;
 
-import java.util.List;
-
 /**
  * Created by yan on 2017/2/9.
  */
@@ -18,8 +16,8 @@ public class CampusAppBarBehavior extends AppBarBehavior {
         super(context, attrs);
     }
 
-    public void setViewList(List<View> followViews) {
-        appBarHelper.setViewList(followViews);
+    public void addFollowView(View followView) {
+        appBarHelper.addFollowView(followView);
     }
 
 }

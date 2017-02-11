@@ -90,7 +90,6 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
 
-        attach(swipeRefreshLayout);
     }
 
     private void init() {
@@ -126,6 +125,12 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     protected SPUtils sPUtils() {
         return spUtils;
     }
+
+    @Override
+    protected SwipeRefreshLayout swipeRefreshLayout() {
+        return swipeRefreshLayout;
+    }
+
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);

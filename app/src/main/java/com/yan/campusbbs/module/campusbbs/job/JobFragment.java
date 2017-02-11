@@ -86,12 +86,12 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
-                .settingModule(new SettingModule(this,  compositeDisposable))
+                .settingModule(new SettingModule(this, compositeDisposable))
                 .jobFragmentModule(new JobFragmentModule())
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
-        attach(swipeRefreshLayout, pagerBarRecycler, pagerTabAdapter, appBar);
+        attach(pagerBarRecycler, pagerTabAdapter, appBar);
     }
 
     private void init() {
@@ -118,6 +118,11 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     @Override
     protected SPUtils sPUtils() {
         return spUtils;
+    }
+
+    @Override
+    protected SwipeRefreshLayout swipeRefreshLayout() {
+        return swipeRefreshLayout;
     }
 
     @Override

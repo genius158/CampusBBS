@@ -122,8 +122,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         actionBarPinHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100
                 , getResources().getDisplayMetrics());
 
-        attach(swipeRefreshLayout);
-
         adapter = new SelfCenterMultiItemAdapter(dataMultiItems, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
@@ -269,6 +267,11 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @Override
     protected SPUtils sPUtils() {
         return spUtils;
+    }
+
+    @Override
+    protected SwipeRefreshLayout swipeRefreshLayout() {
+        return swipeRefreshLayout;
     }
 
     @Override
