@@ -54,6 +54,11 @@ public class PagerTabAdapter extends BaseQuickAdapter<PagerTabAdapter.PagerTabIt
         public PagerTabItem(String title) {
             this.title = title;
         }
+
+        public PagerTabItem(String title, boolean isSelect) {
+            this.isSelect = isSelect;
+            this.title = title;
+        }
     }
 
 }

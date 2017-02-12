@@ -49,7 +49,6 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment {
         campusAppHelperAdd.appHelperAdd(appBar);
     }
 
-
     private BaseQuickAdapter.OnRecyclerViewItemClickListener getItemClickListener() {
         return (view, position) -> {
             tabSelectPosition = position;

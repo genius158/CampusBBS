@@ -63,6 +63,8 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
     }
 
     private void dataInit() {
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("全部",true));
+
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));

@@ -145,7 +145,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
     public void initRxBusAction() {
         addDisposable(rxBus.getEvent(ActionTabShow.class)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(pagerToCampusBBS -> {
+                .subscribe(actionTabShow -> {
                             if (appBarBehavior != null) {
                                 appBarBehavior.show();
                             }

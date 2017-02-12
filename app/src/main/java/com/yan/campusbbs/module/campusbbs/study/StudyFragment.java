@@ -87,7 +87,7 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     }
 
     private void dataInit() {
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("全部",true));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));

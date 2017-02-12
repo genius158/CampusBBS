@@ -59,7 +59,8 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
     }
 
     private void dataInit() {
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("全部",true));
+
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
