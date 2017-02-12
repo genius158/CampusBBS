@@ -5,6 +5,7 @@ import android.content.Context;
 import com.yan.campusbbs.setting.AdapterImageControl;
 import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.repository.AppRetrofit;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -23,11 +24,13 @@ public final class ApplicationModule {
     private final Context mContext;
     private final SPUtils spUtils;
     private final ImageControl imageControl;
+    private final ACache aCache;
 
     ApplicationModule(Context context) {
         mContext = context;
         spUtils = new SPUtils(context);
         imageControl = new ImageControl(spUtils, context);
+        aCache = ACache.get(context);
     }
 
     @Provides
@@ -67,5 +70,10 @@ public final class ApplicationModule {
     @Provides
     SPUtils provideSPUtils() {
         return spUtils;
+    }
+
+    @Provides
+    ACache provideACache() {
+        return aCache;
     }
 }
