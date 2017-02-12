@@ -15,7 +15,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.CampusTabPagerFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
-import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.repository.DataMultiItem;
 import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;

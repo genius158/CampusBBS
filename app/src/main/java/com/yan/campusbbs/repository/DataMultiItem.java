@@ -1,4 +1,4 @@
-package com.yan.campusbbs.repository.entity;
+package com.yan.campusbbs.repository;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 

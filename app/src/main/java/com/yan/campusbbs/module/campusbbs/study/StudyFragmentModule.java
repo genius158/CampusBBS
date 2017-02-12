@@ -5,7 +5,7 @@ import android.content.Context;
 
 import com.yan.campusbbs.module.campusbbs.CampusPagerTabAdapter;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
-import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.repository.DataMultiItem;
 
 import java.util.ArrayList;
 import java.util.List;
