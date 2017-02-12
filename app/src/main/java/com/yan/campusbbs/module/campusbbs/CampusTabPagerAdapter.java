@@ -13,10 +13,10 @@ import java.util.List;
  * Created by yan on 2017/2/8.
  */
 
-public class TabPagerAdapter extends CommonPagerAdapter implements CampusAppHelperAdd {
+public class CampusTabPagerAdapter extends CommonPagerAdapter implements CampusAppHelperAdd {
     private AppBarBehavior tabBehavior;
 
-    public TabPagerAdapter(FragmentManager fm, AppBarBehavior tabBehavior, List<Fragment> fragmentList, String[] titles) {
+    public CampusTabPagerAdapter(FragmentManager fm, AppBarBehavior tabBehavior, List<Fragment> fragmentList, String[] titles) {
         super(fm, fragmentList, titles);
         this.tabBehavior = tabBehavior;
         initAppHelperView(fm, fragmentList);
@@ -24,15 +24,15 @@ public class TabPagerAdapter extends CommonPagerAdapter implements CampusAppHelp
 
     private void initAppHelperView(FragmentManager fm, List<Fragment> fragmentList) {
         for (Fragment fragment : fragmentList) {
-            if (fragment instanceof RefreshTabPagerFragment) {
-                ((RefreshTabPagerFragment) fragment).setCampusAppHelperAdd(this);
+            if (fragment instanceof TabPagerFragment) {
+                ((TabPagerFragment) fragment).setCampusAppHelperAdd(this);
             }
         }
         List<Fragment> tempFragments = fm.getFragments();
         if (tempFragments != null) {
             for (Fragment fragment : tempFragments) {
-                if (fragment instanceof RefreshTabPagerFragment) {
-                    ((RefreshTabPagerFragment) fragment).setCampusAppHelperAdd(this);
+                if (fragment instanceof TabPagerFragment) {
+                    ((TabPagerFragment) fragment).setCampusAppHelperAdd(this);
                 }
             }
         }

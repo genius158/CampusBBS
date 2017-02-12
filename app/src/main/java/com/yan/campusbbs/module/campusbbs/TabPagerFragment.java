@@ -17,7 +17,7 @@ import java.util.List;
  * Created by yan on 2017/2/8.
  */
 
-public abstract class RefreshTabPagerFragment extends BaseRefreshFragment {
+public abstract class TabPagerFragment extends BaseRefreshFragment {
     private static final String BUNDLE_TAB_SELECT_POSITION = "tabSelectPosition";
     private static final String BUNDLE_APP_BAR_Y = "appBarY";
 
@@ -31,7 +31,7 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment {
     protected int tabSelectPosition = 0;
     private CampusAppHelperAdd campusAppHelperAdd;
 
-    protected RefreshTabPagerFragment() {
+    protected TabPagerFragment() {
         pagerTabItem = new ArrayList<>();
     }
 
@@ -89,6 +89,8 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment {
 
         tabSelectPosition = bundle.getInt(BUNDLE_TAB_SELECT_POSITION, 0);
         pagerBarRecycler.scrollToPosition(tabSelectPosition);
+
+
         pagerTabItem.get(tabSelectPosition).isSelect = true;
         pagerTabAdapter.notifyDataSetChanged();
 

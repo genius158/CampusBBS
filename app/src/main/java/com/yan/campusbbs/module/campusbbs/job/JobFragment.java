@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
-import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
+import com.yan.campusbbs.module.campusbbs.TabPagerFragment;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class JobFragment extends RefreshTabPagerFragment implements JobContract.View {
+public class JobFragment extends TabPagerFragment implements JobContract.View {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)

@@ -14,7 +14,7 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
-import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
+import com.yan.campusbbs.module.campusbbs.TabPagerFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.setting.ImageControl;
@@ -37,7 +37,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class StudyFragment extends RefreshTabPagerFragment implements StudyContract.View {
+public class StudyFragment extends TabPagerFragment implements StudyContract.View {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
