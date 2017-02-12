@@ -25,7 +25,6 @@ import com.yan.campusbbs.rxbusaction.ActionTabShow;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.sort.Sort;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class CampusBBSFragment extends BaseSettingControlFragment implements Sort {
+public class CampusBBSFragment extends BaseSettingControlFragment {
     private static final String BUNDLE_TAB_IS_SHOW = "tabSelectIsShow";
     private static final String VIEW_PAGER_PAGE = "viewPagerPage";
 
@@ -170,10 +169,6 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
         );
     }
 
-    @Override
-    public int getIndex() {
-        return 1;
-    }
 
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override

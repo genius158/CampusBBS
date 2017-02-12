@@ -7,7 +7,7 @@ import dagger.Provides;
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
- * Created by Administrator on 2017/2/9.
+ * Created by yan on 2017/2/9.
  */
 
 @Module

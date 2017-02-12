@@ -1,7 +1,6 @@
 package com.yan.campusbbs.module.campusbbs.life;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,11 +12,9 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
-import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.sort.Sort;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.RxBus;
@@ -27,12 +24,11 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class LifeFragment extends RefreshTabPagerFragment implements LifeContract.View, Sort {
+public class LifeFragment extends RefreshTabPagerFragment implements LifeContract.View {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -63,8 +59,7 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
     }
 
     private void dataInit() {
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("全部",true));
-
+        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("全部", true));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
         pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
@@ -91,12 +86,12 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
                         .getApplication())
                         .getApplicationComponent())
-                .settingModule(new SettingModule(this,  compositeDisposable))
+                .settingModule(new SettingModule(this, compositeDisposable))
                 .lifeFragmentModule(new LifeFragmentModule(this))
                 .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
-        attach(recyclerView, pagerBarRecycler, pagerTabAdapter, appBar,rxBus);
+        attach(recyclerView, pagerBarRecycler, pagerTabAdapter, appBar, rxBus);
     }
 
     private void init() {
@@ -129,8 +124,4 @@ public class LifeFragment extends RefreshTabPagerFragment implements LifeContrac
         super.changeSkin(actionChangeSkin);
     }
 
-    @Override
-    public int getIndex() {
-        return 1;
-    }
 }

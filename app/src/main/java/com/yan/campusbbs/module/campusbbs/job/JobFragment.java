@@ -1,7 +1,6 @@
 package com.yan.campusbbs.module.campusbbs.job;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.sort.Sort;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.RxBus;
@@ -26,12 +24,10 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static dagger.internal.Preconditions.checkNotNull;
-
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class JobFragment extends RefreshTabPagerFragment implements JobContract.View, Sort {
+public class JobFragment extends RefreshTabPagerFragment implements JobContract.View {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -127,8 +123,4 @@ public class JobFragment extends RefreshTabPagerFragment implements JobContract.
         pagerTabAdapter.changeSkin(actionChangeSkin);
     }
 
-    @Override
-    public int getIndex() {
-        return 2;
-    }
 }

@@ -1,7 +1,6 @@
 package com.yan.campusbbs.module.campusbbs.study;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,14 +15,11 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.module.campusbbs.RefreshTabPagerFragment;
-import com.yan.campusbbs.module.campusbbs.job.JobPresenter;
-import com.yan.campusbbs.module.campusbbs.life.LifePresenter;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
-import com.yan.campusbbs.util.sort.Sort;
 import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.RxBus;
@@ -37,12 +33,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.content.Context.MODE_PRIVATE;
-import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class StudyFragment extends RefreshTabPagerFragment implements StudyContract.View, Sort {
+public class StudyFragment extends RefreshTabPagerFragment implements StudyContract.View {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -175,11 +170,6 @@ public class StudyFragment extends RefreshTabPagerFragment implements StudyContr
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-    }
-
-    @Override
-    public int getIndex() {
-        return 0;
     }
 
     private BaseQuickAdapter.OnRecyclerViewItemClickListener getOnRecyclerViewItemClickListener() {

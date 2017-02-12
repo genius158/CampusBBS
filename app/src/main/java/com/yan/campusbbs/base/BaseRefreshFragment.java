@@ -7,7 +7,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 
 /**
- * Created by Administrator on 2017/2/8.
+ * Created by yan on 2017/2/8.
  */
 
 public abstract class BaseRefreshFragment extends BaseSettingControlFragment implements SwipeRefreshLayout.OnRefreshListener {

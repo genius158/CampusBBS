@@ -8,7 +8,7 @@ import com.yan.campusbbs.util.SPUtils;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
- * Created by Administrator on 2017/2/8.
+ * Created by yan on 2017/2/8.
  */
 
 public abstract class BaseSettingControlFragment extends BaseFragment implements SettingControl {

@@ -1,7 +1,6 @@
 package com.yan.campusbbs.module.filemanager;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
@@ -14,12 +13,10 @@ import android.view.ViewGroup;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
-import com.yan.campusbbs.module.selfcenter.SelfCenterPresenter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.sort.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +31,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class FileManagerFragment extends BaseRefreshFragment implements FileManagerContract.View, Sort {
+public class FileManagerFragment extends BaseRefreshFragment implements FileManagerContract.View {
     List<String> strings;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -137,8 +134,4 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
         );
     }
 
-    @Override
-    public int getIndex() {
-        return 2;
-    }
 }

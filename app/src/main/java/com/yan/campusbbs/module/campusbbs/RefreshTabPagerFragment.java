@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/2/8.
+ * Created by yan on 2017/2/8.
  */
 
 public abstract class RefreshTabPagerFragment extends BaseRefreshFragment {

@@ -3,7 +3,7 @@ package com.yan.campusbbs.config;
 import com.yan.campusbbs.R;
 
 /**
- * Created by Administrator on 2017/2/10.
+ * Created by yan on 2017/2/10.
  */
 
 public class AppSkinConfig {

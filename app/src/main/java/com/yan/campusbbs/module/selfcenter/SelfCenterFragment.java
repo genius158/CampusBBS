@@ -24,7 +24,6 @@ import com.yan.campusbbs.setting.AdapterImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.sort.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ import butterknife.ButterKnife;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class SelfCenterFragment extends BaseRefreshFragment implements SelfCenterContract.View, Sort {
+public class SelfCenterFragment extends BaseRefreshFragment implements SelfCenterContract.View  {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -253,12 +252,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         int itemHeight = firstVisibleChildView.getHeight();
         return (position) * itemHeight - firstVisibleChildView.getTop();
     }
-
-    @Override
-    public int getIndex() {
-        return 0;
-    }
-
 
     @Override
     protected SPUtils sPUtils() {

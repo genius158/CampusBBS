@@ -1,4 +1,4 @@
-package com.yan.campusbbs.util.entity;
+package com.yan.campusbbs.repository.entity;
 
 import java.io.IOException;
 import java.util.List;

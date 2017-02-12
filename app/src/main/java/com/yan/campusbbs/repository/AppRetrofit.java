@@ -1,9 +1,8 @@
-package com.yan.campusbbs.util;
+package com.yan.campusbbs.repository;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.yan.campusbbs.repository.NetAddress;
-import com.yan.campusbbs.util.entity.DownloadProListener;
-import com.yan.campusbbs.util.entity.ProgressResponse;
+import com.yan.campusbbs.repository.entity.DownloadProListener;
+import com.yan.campusbbs.repository.entity.ProgressResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,7 +57,7 @@ public class AppRetrofit {
 
         retrofit = new Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(NetAddress.MAIN_PATH)
+                .baseUrl(DataAddress.MAIN_PATH)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())

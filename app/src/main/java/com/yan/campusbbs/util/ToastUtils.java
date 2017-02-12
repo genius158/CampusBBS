@@ -6,7 +6,7 @@ import android.widget.Toast;
 import javax.inject.Inject;
 
 /**
- * Created by Administrator on 2017/2/8.
+ * Created by yan on 2017/2/8.
  */
 
 public class ToastUtils {

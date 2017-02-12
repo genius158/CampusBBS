@@ -15,7 +15,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
- * Created by Administrator on 2017/2/8.
+ * Created by yan on 2017/2/8.
  */
 
 public abstract class BaseActivity extends AppCompatActivity implements SettingControl {

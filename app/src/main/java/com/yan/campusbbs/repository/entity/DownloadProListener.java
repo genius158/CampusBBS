@@ -1,4 +1,4 @@
-package com.yan.campusbbs.util.entity;
+package com.yan.campusbbs.repository.entity;
 
 /**
  * Created by yan on 2016/12/16.

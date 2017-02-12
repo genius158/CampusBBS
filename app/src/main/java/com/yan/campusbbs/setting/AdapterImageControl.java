@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 
 
 /**
- * Created by Administrator on 2017/2/11.
+ * Created by yan on 2017/2/11.
  */
 
 public class AdapterImageControl {
