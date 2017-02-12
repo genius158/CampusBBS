@@ -2,7 +2,6 @@ package com.yan.campusbbs.module.campusbbs.study;
 
 import com.yan.campusbbs.ApplicationComponent;
 import com.yan.campusbbs.base.ScopedFragment;
-import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
 import com.yan.campusbbs.setting.SettingModule;
 
 import dagger.Component;
@@ -12,8 +11,7 @@ import dagger.Component;
         dependencies = ApplicationComponent.class
         , modules = {
         SettingModule.class,
-        StudyFragmentModule.class,
-        PagerTabAdapterModule.class
+        StudyFragmentModule.class
 }
 )
 public interface StudyComponent {

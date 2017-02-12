@@ -10,14 +10,15 @@ import android.widget.FrameLayout;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
-import com.yan.campusbbs.module.campusbbs.TabPagerFragment;
+import com.yan.campusbbs.module.campusbbs.CampusTabPagerFragment;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
+import com.yan.campusbbs.module.campusbbs.CampusPagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.RxBus;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -28,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class LifeFragment extends TabPagerFragment implements LifeContract.View {
+public class LifeFragment extends CampusTabPagerFragment implements LifeContract.View {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -44,10 +45,12 @@ public class LifeFragment extends TabPagerFragment implements LifeContract.View 
     @Inject
     RxBus rxBus;
     @Inject
-    PagerTabAdapter pagerTabAdapter;
+    CampusPagerTabAdapter campusPagerTabAdapter;
     @Inject
     SettingHelper changeSkinHelper;
 
+    @Inject
+    List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems;
     @Inject
     SPUtils spUtils;
 
@@ -59,16 +62,16 @@ public class LifeFragment extends TabPagerFragment implements LifeContract.View 
     }
 
     private void dataInit() {
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("全部", true));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("生活"));
-        pagerTabAdapter.notifyDataSetChanged();
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("全部", true));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
+        campusPagerTabAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -88,10 +91,9 @@ public class LifeFragment extends TabPagerFragment implements LifeContract.View 
                         .getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .lifeFragmentModule(new LifeFragmentModule(this))
-                .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
-        attach(recyclerView, pagerBarRecycler, pagerTabAdapter, appBar, rxBus);
+        attach(recyclerView, pagerTabItems, pagerBarRecycler, campusPagerTabAdapter, appBar, rxBus);
     }
 
     private void init() {

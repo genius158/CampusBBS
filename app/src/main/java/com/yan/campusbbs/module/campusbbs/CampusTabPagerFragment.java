@@ -17,12 +17,12 @@ import java.util.List;
  * Created by yan on 2017/2/8.
  */
 
-public abstract class TabPagerFragment extends BaseRefreshFragment {
+public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     private static final String BUNDLE_TAB_SELECT_POSITION = "tabSelectPosition";
     private static final String BUNDLE_APP_BAR_Y = "appBarY";
 
-    protected final List<PagerTabAdapter.PagerTabItem> pagerTabItem;
-    private PagerTabAdapter pagerTabAdapter;
+    private List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems;
+    private CampusPagerTabAdapter campusPagerTabAdapter;
     private RecyclerView pagerBarRecycler;
     private LinearLayoutManager linearLayoutManager;
     private BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick;
@@ -31,21 +31,27 @@ public abstract class TabPagerFragment extends BaseRefreshFragment {
     protected int tabSelectPosition = 0;
     private CampusAppHelperAdd campusAppHelperAdd;
 
-    protected TabPagerFragment() {
-        pagerTabItem = new ArrayList<>();
+    protected CampusTabPagerFragment() {
+        pagerTabItems = new ArrayList<>();
     }
 
-    public void attach(RecyclerView recyclerView, RecyclerView pagerBarRecycler, PagerTabAdapter pagerTabAdapter, View appBar, RxBus rxBus) {
+    public void attach(RecyclerView recyclerView
+            , List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems
+            , RecyclerView pagerBarRecycler
+            , CampusPagerTabAdapter campusPagerTabAdapter
+            , View appBar
+            , RxBus rxBus) {
+        this.pagerTabItems = pagerTabItems;
         this.pagerBarRecycler = pagerBarRecycler;
-        this.pagerTabAdapter = pagerTabAdapter;
+        this.campusPagerTabAdapter = campusPagerTabAdapter;
         this.rxBus = rxBus;
         this.appBar = appBar;
 
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         this.pagerBarRecycler.setLayoutManager(linearLayoutManager);
-        this.pagerBarRecycler.setAdapter(this.pagerTabAdapter);
-        this.pagerTabAdapter.setOnRecyclerViewItemClickListener(getItemClickListener());
+        this.pagerBarRecycler.setAdapter(this.campusPagerTabAdapter);
+        this.campusPagerTabAdapter.setOnRecyclerViewItemClickListener(getItemClickListener());
         campusAppHelperAdd.appHelperAdd(appBar);
     }
 
@@ -55,14 +61,14 @@ public abstract class TabPagerFragment extends BaseRefreshFragment {
             if (pagerTabItemOnClick != null) {
                 pagerTabItemOnClick.onItemClick(view, position);
             }
-            for (int i = 0; i < pagerTabItem.size(); i++) {
+            for (int i = 0; i < pagerTabItems.size(); i++) {
                 if (i == position) {
-                    pagerTabItem.get(i).isSelect = true;
+                    pagerTabItems.get(i).isSelect = true;
                 } else {
-                    pagerTabItem.get(i).isSelect = false;
+                    pagerTabItems.get(i).isSelect = false;
                 }
             }
-            pagerTabAdapter.notifyDataSetChanged();
+            campusPagerTabAdapter.notifyDataSetChanged();
         };
     }
 
@@ -73,7 +79,7 @@ public abstract class TabPagerFragment extends BaseRefreshFragment {
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        pagerTabAdapter.changeSkin(actionChangeSkin);
+        campusPagerTabAdapter.changeSkin(actionChangeSkin);
     }
 
     @Override
@@ -91,8 +97,8 @@ public abstract class TabPagerFragment extends BaseRefreshFragment {
         pagerBarRecycler.scrollToPosition(tabSelectPosition);
 
 
-        pagerTabItem.get(tabSelectPosition).isSelect = true;
-        pagerTabAdapter.notifyDataSetChanged();
+        pagerTabItems.get(tabSelectPosition).isSelect = true;
+        campusPagerTabAdapter.notifyDataSetChanged();
 
         appBar.setY(bundle.getFloat(BUNDLE_APP_BAR_Y, 0));
     }

@@ -24,15 +24,15 @@ public class CampusTabPagerAdapter extends CommonPagerAdapter implements CampusA
 
     private void initAppHelperView(FragmentManager fm, List<Fragment> fragmentList) {
         for (Fragment fragment : fragmentList) {
-            if (fragment instanceof TabPagerFragment) {
-                ((TabPagerFragment) fragment).setCampusAppHelperAdd(this);
+            if (fragment instanceof CampusTabPagerFragment) {
+                ((CampusTabPagerFragment) fragment).setCampusAppHelperAdd(this);
             }
         }
         List<Fragment> tempFragments = fm.getFragments();
         if (tempFragments != null) {
             for (Fragment fragment : tempFragments) {
-                if (fragment instanceof TabPagerFragment) {
-                    ((TabPagerFragment) fragment).setCampusAppHelperAdd(this);
+                if (fragment instanceof CampusTabPagerFragment) {
+                    ((CampusTabPagerFragment) fragment).setCampusAppHelperAdd(this);
                 }
             }
         }

@@ -13,14 +13,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
-import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
-import com.yan.campusbbs.module.campusbbs.TabPagerFragment;
+import com.yan.campusbbs.module.campusbbs.CampusTabPagerFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.setting.ImageControl;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
-import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
+import com.yan.campusbbs.module.campusbbs.CampusPagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
@@ -37,7 +36,7 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class StudyFragment extends TabPagerFragment implements StudyContract.View {
+public class StudyFragment extends CampusTabPagerFragment implements StudyContract.View {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -48,12 +47,14 @@ public class StudyFragment extends TabPagerFragment implements StudyContract.Vie
     @BindView(R.id.pager_bar_recycler)
     RecyclerView pagerBarRecycler;
 
+    @Inject List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems;
+
     @Inject
     RxBus rxBus;
     @Inject
     SPUtils spUtils;
     @Inject
-    PagerTabAdapter pagerTabAdapter;
+    CampusPagerTabAdapter campusPagerTabAdapter;
     @Inject
     SettingHelper changeSkinHelper;
     @Inject
@@ -82,15 +83,15 @@ public class StudyFragment extends TabPagerFragment implements StudyContract.Vie
     }
 
     private void dataInit() {
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("全部",true));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("学习"));
-        pagerTabAdapter.notifyDataSetChanged();
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("全部",true));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        campusPagerTabAdapter.notifyDataSetChanged();
 
         //-----------------------------------------------------------------
 
@@ -133,10 +134,9 @@ public class StudyFragment extends TabPagerFragment implements StudyContract.Vie
                         .getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .studyFragmentModule(new StudyFragmentModule(this))
-                .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
-        attach(recyclerView,pagerBarRecycler, pagerTabAdapter, appBar,rxBus);
+        attach(recyclerView,pagerTabItems,pagerBarRecycler, campusPagerTabAdapter, appBar,rxBus);
         setPagerTabItemOnClick(getOnRecyclerViewItemClickListener());
     }
 

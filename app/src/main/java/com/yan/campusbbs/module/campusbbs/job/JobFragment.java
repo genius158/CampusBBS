@@ -10,14 +10,15 @@ import android.widget.FrameLayout;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.module.campusbbs.PagerTabAdapterModule;
-import com.yan.campusbbs.module.campusbbs.TabPagerFragment;
+import com.yan.campusbbs.module.campusbbs.CampusTabPagerFragment;
 import com.yan.campusbbs.setting.SettingHelper;
 import com.yan.campusbbs.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.module.campusbbs.PagerTabAdapter;
+import com.yan.campusbbs.module.campusbbs.CampusPagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.RxBus;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,7 +28,7 @@ import butterknife.ButterKnife;
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class JobFragment extends TabPagerFragment implements JobContract.View {
+public class JobFragment extends CampusTabPagerFragment implements JobContract.View {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -41,12 +42,13 @@ public class JobFragment extends TabPagerFragment implements JobContract.View {
     @Inject
     RxBus rxBus;
     @Inject
-    PagerTabAdapter pagerTabAdapter;
+    List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems;
+    @Inject
+    CampusPagerTabAdapter campusPagerTabAdapter;
     @Inject
     SPUtils spUtils;
     @Inject
     SettingHelper changeSkinHelper;
-
 
     @Override
     public void onResume() {
@@ -55,17 +57,17 @@ public class JobFragment extends TabPagerFragment implements JobContract.View {
     }
 
     private void dataInit() {
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("全部",true));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("全部", true));
 
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItem.add(new PagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
 
-        pagerTabAdapter.notifyDataSetChanged();
+        campusPagerTabAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -85,10 +87,9 @@ public class JobFragment extends TabPagerFragment implements JobContract.View {
                         .getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .jobFragmentModule(new JobFragmentModule(this))
-                .pagerTabAdapterModule(new PagerTabAdapterModule(pagerTabItem))
                 .build().inject(this);
 
-        attach(recyclerView,pagerBarRecycler, pagerTabAdapter, appBar,rxBus);
+        attach(recyclerView,pagerTabItems, pagerBarRecycler, campusPagerTabAdapter, appBar, rxBus);
     }
 
     private void init() {
@@ -120,7 +121,7 @@ public class JobFragment extends TabPagerFragment implements JobContract.View {
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        pagerTabAdapter.changeSkin(actionChangeSkin);
+        campusPagerTabAdapter.changeSkin(actionChangeSkin);
     }
 
 }

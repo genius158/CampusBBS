@@ -19,12 +19,12 @@ import javax.inject.Inject;
  * Created by yan on 2017/2/7.
  */
 
-public class PagerTabAdapter extends BaseQuickAdapter<PagerTabAdapter.PagerTabItem> implements SkinControl {
+public class CampusPagerTabAdapter extends BaseQuickAdapter<CampusPagerTabAdapter.PagerTabItem> implements SkinControl {
     private ActionChangeSkin actionChangeSkin;
     private Context context;
 
     @Inject
-    public PagerTabAdapter(List<PagerTabItem> data, Context context) {
+    public CampusPagerTabAdapter(List<PagerTabItem> data, Context context) {
         super(R.layout.study_pager_tab_item, data);
         this.context = context;
     }
