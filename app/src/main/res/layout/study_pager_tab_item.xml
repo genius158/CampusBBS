@@ -13,13 +13,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:background="@drawable/study_pager_tab_item_bg"
+        android:background="@drawable/study_pager_tab_item_bg1"
         android:paddingBottom="5dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="5dp"
         android:text="我的客服"
-        android:textColor="@color/campus_pager_tab_title_color"
+        android:textColor="@color/campus_pager_tab_title_color1"
         android:textSize="13sp" />
 
 </LinearLayout>

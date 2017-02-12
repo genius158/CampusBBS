@@ -8,14 +8,15 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/store_house_ptr_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+
+        android:layout_marginBottom="@dimen/bottom_navigation_height">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:overScrollMode="never"
             android:paddingTop="@dimen/action_bar_height_double" />
 
     </android.support.v4.widget.SwipeRefreshLayout>

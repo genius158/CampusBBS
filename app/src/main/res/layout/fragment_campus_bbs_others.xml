@@ -4,6 +4,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/bottom_navigation_height"
     android:background="@color/crE9E9E9"
     android:orientation="vertical">
 
