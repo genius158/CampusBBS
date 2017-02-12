@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 
+import com.yan.campusbbs.module.AppBarBehavior;
 import com.yan.campusbbs.module.CommonPagerAdapter;
 
 import java.util.List;
@@ -13,10 +14,9 @@ import java.util.List;
  */
 
 public class TabPagerAdapter extends CommonPagerAdapter implements CampusAppHelperAdd {
+    private AppBarBehavior tabBehavior;
 
-    private CampusTabBehavior tabBehavior;
-
-    public TabPagerAdapter(FragmentManager fm, CampusTabBehavior tabBehavior, List<Fragment> fragmentList, String[] titles) {
+    public TabPagerAdapter(FragmentManager fm, AppBarBehavior tabBehavior, List<Fragment> fragmentList, String[] titles) {
         super(fm, fragmentList, titles);
         this.tabBehavior = tabBehavior;
         initAppHelperView(fm, fragmentList);

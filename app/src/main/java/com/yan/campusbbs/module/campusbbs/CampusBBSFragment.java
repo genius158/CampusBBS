@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseSettingControlFragment;
+import com.yan.campusbbs.module.AppBarBehavior;
 import com.yan.campusbbs.module.campusbbs.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
 import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
@@ -63,6 +64,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
     private List<Fragment> fragments;
     private boolean isReLoad = false;
 
+    private AppBarBehavior appBarBehavior;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +84,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
     @Override
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
-        bundle.putBoolean(BUNDLE_TAB_IS_SHOW, getBehavior().isShow());
+        bundle.putBoolean(BUNDLE_TAB_IS_SHOW, appBarBehavior.isShow());
         bundle.putInt(VIEW_PAGER_PAGE, viewPager.getCurrentItem());
 
     }
@@ -91,7 +93,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
         if (!bundle.getBoolean(BUNDLE_TAB_IS_SHOW, false)) {
-            getBehavior().setTagHide(getContext());
+            appBarBehavior.setTagHide(getContext());
             tabContainer.setY(-getResources().getDimension(R.dimen.action_bar_height));
         }
         if (bundle.getInt(VIEW_PAGER_PAGE, 0) > 0) {
@@ -116,19 +118,19 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
         fragments.add(LifeFragment.newInstance());
         fragments.add(JobFragment.newInstance());
         fragments.add(OthersFragment.newInstance());
+
+        CoordinatorLayout.LayoutParams lp =
+                (CoordinatorLayout.LayoutParams) tabContainer.getLayoutParams();
+        appBarBehavior = (AppBarBehavior) lp.getBehavior();
+        appBarBehavior.setAppBar(tabContainer);
+
         TabPagerAdapter adapter =
-                new TabPagerAdapter(getChildFragmentManager(), getBehavior(), fragments, pagerTitles);
+                new TabPagerAdapter(getChildFragmentManager(), appBarBehavior, fragments, pagerTitles);
 
         viewPager.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         viewPager.addOnPageChangeListener(onPageChangeListener);
         indicator.setupWithViewPager(viewPager);
-    }
-
-    private CampusTabBehavior getBehavior() {
-        CoordinatorLayout.LayoutParams lp =
-                (CoordinatorLayout.LayoutParams) tabContainer.getLayoutParams();
-        return (CampusTabBehavior) lp.getBehavior();
     }
 
     private void daggerInject() {
@@ -144,8 +146,8 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
         addDisposable(rxBus.getEvent(ActionTabShow.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(pagerToCampusBBS -> {
-                            if (getBehavior() != null) {
-                                getBehavior().show();
+                            if (appBarBehavior != null) {
+                                appBarBehavior.show();
                             }
                         }
                 ));

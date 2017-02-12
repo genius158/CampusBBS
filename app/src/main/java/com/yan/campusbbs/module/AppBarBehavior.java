@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -27,7 +28,17 @@ public class AppBarBehavior extends CoordinatorLayout.Behavior<View> {
         super(context, attrs);
         this.context = context;
         appBarHelper = new AppBarHelper();
+    }
 
+
+    public void setAppBar(View appBar) {
+        needBarHelperSet = false;
+        appBarHelper.addBar(context, appBar);
+    }
+
+
+    public void addAppBar(View appBar) {
+        appBarHelper.addBar(context, appBar);
     }
 
     @Override

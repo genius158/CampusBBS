@@ -20,7 +20,7 @@
         app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="0dp"
         app:cardElevation="1sp"
-        app:layout_behavior="com.yan.campusbbs.module.campusbbs.CampusTabBehavior">
+        app:layout_behavior="com.yan.campusbbs.module.AppBarBehavior">
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
