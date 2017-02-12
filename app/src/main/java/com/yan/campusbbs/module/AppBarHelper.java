@@ -1,6 +1,7 @@
 package com.yan.campusbbs.module;
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -18,10 +19,10 @@ import javax.inject.Inject;
 
 public class AppBarHelper {
     private Context context;
-    private View appBar;
+    private List<View> appBars;
     private int during = 200;
-    private ObjectAnimator objectAnimatorShow;
-    private ObjectAnimator objectAnimatorHide;
+    private ValueAnimator objectAnimatorShow;
+    private ValueAnimator objectAnimatorHide;
 
     private float barPosition;
     private boolean isShow = true;
@@ -46,10 +47,12 @@ public class AppBarHelper {
     @Inject
     public AppBarHelper(Context context, View appBar) {
         this.context = context;
-        this.appBar = appBar;
+        appBars = new ArrayList<>();
+        appBars.add(appBar);
     }
 
     public AppBarHelper() {
+        appBars = new ArrayList<>();
     }
 
 
@@ -62,16 +65,14 @@ public class AppBarHelper {
     }
 
     public void show() {
-        if (isShow || appBar == null) return;
+        if (isShow || appBars.isEmpty()) return;
 
         if (objectAnimatorShow == null) {
-            objectAnimatorShow = ObjectAnimator.ofFloat(appBar, "y", barPosition, 0 + height)
-                    .setDuration(during);
-            objectAnimatorShow.addUpdateListener(valueAnimator -> {
-                barPosition = (float) valueAnimator.getAnimatedValue();
-            });
+            objectAnimatorShow = ObjectAnimator.ofFloat();
+            objectAnimatorShow.addUpdateListener(animatorUpdateListener);
+            objectAnimatorShow.setDuration(during);
         }
-        objectAnimatorShow.setFloatValues(barPosition, 0 + height);
+        objectAnimatorShow.setFloatValues(barPosition, height);
         if (objectAnimatorHide != null) {
             objectAnimatorHide.cancel();
         }
@@ -80,16 +81,11 @@ public class AppBarHelper {
     }
 
     public void hide() {
-        if (!isShow || appBar == null) return;
+        if (!isShow || appBars.isEmpty()) return;
         if (objectAnimatorHide == null) {
-            objectAnimatorHide = ObjectAnimator.ofFloat(appBar, "y", barPosition
-                    , (startY != -1000)
-                            ? startY
-                            : -context.getResources().getDimension(R.dimen.action_bar_height))
-                    .setDuration(during);
-            objectAnimatorHide.addUpdateListener(valueAnimator -> {
-                barPosition = (float) valueAnimator.getAnimatedValue();
-            });
+            objectAnimatorHide = ObjectAnimator.ofFloat();
+            objectAnimatorHide.addUpdateListener(animatorUpdateListener);
+            objectAnimatorHide.setDuration(during);
         }
         objectAnimatorHide.setFloatValues(barPosition
                 , (startY != -1000)
@@ -102,9 +98,16 @@ public class AppBarHelper {
         isShow = false;
     }
 
-    public void setBar(Context context, View appBar) {
+    private ValueAnimator.AnimatorUpdateListener animatorUpdateListener = valueAnimator -> {
+        barPosition = (float) valueAnimator.getAnimatedValue();
+        for (View view : appBars) {
+            view.setY(barPosition);
+        }
+    };
+
+    public void addBar(Context context, View appBar) {
         this.context = context;
-        this.appBar = appBar;
+        this.appBars.add(appBar);
     }
 
     public void setTagHide(Context context) {

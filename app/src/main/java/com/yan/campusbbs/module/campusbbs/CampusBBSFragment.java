@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseSettingControlFragment;
-import com.yan.campusbbs.module.AppBarBehavior;
-import com.yan.campusbbs.module.CommonPagerAdapter;
 import com.yan.campusbbs.module.campusbbs.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
 import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
@@ -118,22 +116,19 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
         fragments.add(LifeFragment.newInstance());
         fragments.add(JobFragment.newInstance());
         fragments.add(OthersFragment.newInstance());
-        CommonPagerAdapter adapter =
-                new CommonPagerAdapter(getChildFragmentManager(), fragments, pagerTitles);
+        TabPagerAdapter adapter =
+                new TabPagerAdapter(getChildFragmentManager(), getBehavior(), fragments, pagerTitles);
 
         viewPager.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
+        viewPager.addOnPageChangeListener(onPageChangeListener);
         indicator.setupWithViewPager(viewPager);
-        viewPager.addOnPageChangeListener(getOnPageChangeListener());
-
-
     }
 
-    private AppBarBehavior getBehavior() {
+    private CampusTabBehavior getBehavior() {
         CoordinatorLayout.LayoutParams lp =
                 (CoordinatorLayout.LayoutParams) tabContainer.getLayoutParams();
-        return (AppBarBehavior) lp.getBehavior();
+        return (CampusTabBehavior) lp.getBehavior();
     }
 
     private void daggerInject() {
@@ -178,25 +173,23 @@ public class CampusBBSFragment extends BaseSettingControlFragment implements Sor
         return 1;
     }
 
-    private ViewPager.OnPageChangeListener getOnPageChangeListener() {
-        return new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            if (!isReLoad) {
+                rxBus.post(new ActionTabShow());
             }
+            isReLoad = false;
+        }
 
-            @Override
-            public void onPageSelected(int position) {
-                if (!isReLoad) {
-                    rxBus.post(new ActionTabShow());
-                }
-                isReLoad = false;
-            }
+        @Override
+        public void onPageScrollStateChanged(int state) {
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        };
-    }
+        }
+    };
 }

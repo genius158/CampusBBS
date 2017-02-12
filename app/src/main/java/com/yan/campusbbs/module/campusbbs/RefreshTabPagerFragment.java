@@ -1,41 +1,35 @@
 package com.yan.campusbbs.module.campusbbs;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
-import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.rxbusaction.ActionTabShow;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-
 /**
  * Created by Administrator on 2017/2/8.
  */
 
-public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class RefreshTabPagerFragment extends BaseRefreshFragment {
     private static final String BUNDLE_TAB_SELECT_POSITION = "tabSelectPosition";
-    private static final String BUNDLE_TAB_IS_SHOW = "tabSelectIsShow";
+    private static final String BUNDLE_APP_BAR_Y = "appBarY";
 
     protected final List<PagerTabAdapter.PagerTabItem> pagerTabItem;
     private PagerTabAdapter pagerTabAdapter;
     private RecyclerView pagerBarRecycler;
     private LinearLayoutManager linearLayoutManager;
     private BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick;
-    private AppBarHelper appBarHelper;
     private View appBar;
     private RxBus rxBus;
     protected int tabSelectPosition = 0;
+    private CampusAppHelperAdd campusAppHelperAdd;
 
     protected RefreshTabPagerFragment() {
         pagerTabItem = new ArrayList<>();
@@ -52,31 +46,9 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
         this.pagerBarRecycler.setLayoutManager(linearLayoutManager);
         this.pagerBarRecycler.setAdapter(this.pagerTabAdapter);
         this.pagerTabAdapter.setOnRecyclerViewItemClickListener(getItemClickListener());
-
-        recyclerView.addOnScrollListener(onScrollListener);
-        appBarHelper = new AppBarHelper(getContext(), this.appBar);
-        initRxBusAction();
+        campusAppHelperAdd.appHelperAdd(appBar);
     }
 
-
-    public void initRxBusAction() {
-        addDisposable(rxBus.getEvent(ActionTabShow.class)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(pagerToCampusBBS -> {
-                            if (isCreateActivity) {
-                                appBarHelper.show();
-                            }
-                        }
-                ));
-    }
-
-    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            appBarHelper.offset(dy);
-        }
-    };
 
     private BaseQuickAdapter.OnRecyclerViewItemClickListener getItemClickListener() {
         return (view, position) -> {
@@ -109,25 +81,24 @@ public abstract class RefreshTabPagerFragment extends BaseRefreshFragment implem
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
         bundle.putInt(BUNDLE_TAB_SELECT_POSITION, tabSelectPosition);
-        bundle.putBoolean(BUNDLE_TAB_IS_SHOW, appBarHelper.isShow());
+        bundle.putFloat(BUNDLE_APP_BAR_Y, appBar.getY());
     }
 
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
-        if (!bundle.getBoolean(BUNDLE_TAB_IS_SHOW, false)) {
-            appBarHelper.setTagHide();
-            appBar.setY(-getResources().getDimension(R.dimen.action_bar_height));
-        }
 
         tabSelectPosition = bundle.getInt(BUNDLE_TAB_SELECT_POSITION, 0);
         pagerBarRecycler.scrollToPosition(tabSelectPosition);
         pagerTabItem.get(tabSelectPosition).isSelect = true;
         pagerTabAdapter.notifyDataSetChanged();
 
-        if (!bundle.getBoolean(BUNDLE_TAB_IS_SHOW, false)) {
-            appBar.setY(-getResources().getDimension(R.dimen.action_bar_height));
-            appBarHelper.setTagHide();
-        }
+        appBar.setY(bundle.getFloat(BUNDLE_APP_BAR_Y, 0));
     }
+
+
+    public void setCampusAppHelperAdd(CampusAppHelperAdd campusAppHelperAdd) {
+        this.campusAppHelperAdd = campusAppHelperAdd;
+    }
+
 }

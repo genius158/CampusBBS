@@ -34,7 +34,7 @@ public class AppBarBehavior extends CoordinatorLayout.Behavior<View> {
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
         if (needBarHelperSet) {
             needBarHelperSet = false;
-            appBarHelper.setBar(context, child);
+            appBarHelper.addBar(context, child);
         }
         return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != -1;
     }
