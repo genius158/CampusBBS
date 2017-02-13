@@ -8,9 +8,9 @@ import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.MainActivity;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
-import com.yan.campusbbs.setting.ImageControl;
-import com.yan.campusbbs.setting.SettingHelper;
-import com.yan.campusbbs.setting.SettingModule;
+import com.yan.campusbbs.module.setting.ImageControl;
+import com.yan.campusbbs.module.setting.SettingHelper;
+import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 

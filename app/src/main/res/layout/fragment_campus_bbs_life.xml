@@ -37,7 +37,7 @@
             android:overScrollMode="never" />
 
         <ImageView
-            android:id="@+id/arrow_more"
+            android:id="@+id/pager_bar_more_arrow"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="right|center_vertical"

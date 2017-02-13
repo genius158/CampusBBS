@@ -6,6 +6,7 @@ import android.content.Context;
 import com.yan.campusbbs.module.campusbbs.CampusPagerTabAdapter;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.DataMultiItem;
+import com.yan.campusbbs.util.AnimationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,5 +50,11 @@ public class StudyFragmentModule {
     StudyPresenter getStudyPresenter(Context context) {
         return new StudyPresenter(context, view);
     }
+
+    @Provides
+    AnimationHelper getAnimationHelper() {
+        return new AnimationHelper();
+    }
+
 
 }

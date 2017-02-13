@@ -22,8 +22,8 @@ import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
-import com.yan.campusbbs.setting.SettingHelper;
-import com.yan.campusbbs.setting.SettingModule;
+import com.yan.campusbbs.module.setting.SettingHelper;
+import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.RxBus;
 

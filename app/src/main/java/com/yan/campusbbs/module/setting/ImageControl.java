@@ -1,4 +1,4 @@
-package com.yan.campusbbs.setting;
+package com.yan.campusbbs.module.setting;
 
 import android.content.Context;
 import android.util.Log;

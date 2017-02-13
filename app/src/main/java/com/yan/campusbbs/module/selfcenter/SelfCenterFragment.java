@@ -20,9 +20,9 @@ import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
 import com.yan.campusbbs.repository.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.setting.AdapterImageControl;
-import com.yan.campusbbs.setting.SettingHelper;
-import com.yan.campusbbs.setting.SettingModule;
+import com.yan.campusbbs.module.setting.AdapterImageControl;
+import com.yan.campusbbs.module.setting.SettingHelper;
+import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;

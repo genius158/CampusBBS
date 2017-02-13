@@ -1,7 +1,7 @@
 package com.yan.campusbbs;
 
 import com.yan.campusbbs.base.ScopedActivity;
-import com.yan.campusbbs.setting.SettingModule;
+import com.yan.campusbbs.module.setting.SettingModule;
 
 import dagger.Component;
 
