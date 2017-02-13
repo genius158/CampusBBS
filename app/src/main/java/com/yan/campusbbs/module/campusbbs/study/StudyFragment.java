@@ -32,6 +32,7 @@ import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
 import java.util.List;
+import java.util.function.LongFunction;
 
 import javax.inject.Inject;
 
@@ -238,7 +239,6 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                                     View.MeasureSpec.UNSPECIFIED)
                     );
                     pagerBarMoreHeight = pagerBarMoreLayout.getMeasuredHeight();
-                    pagerBarMore.setY(-pagerBarMoreHeight);
                 }
 
                 if (!isPagerMoreShow) {
@@ -247,7 +247,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                             , AnimationHelper.AnimationType.TRANSLATEY
                             , 300
                             , new OvershootInterpolator()
-                            , pagerBarMore.getY()
+                            , -pagerBarMoreHeight
                             , 0);
                     pagerBarMore.setVisibility(View.VISIBLE);
 
@@ -255,8 +255,8 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                     isPagerMoreShow = false;
                     animationHelper.start(2, pagerBarMore
                             , AnimationHelper.AnimationType.TRANSLATEY
-                            , 300
-                            , new AnticipateOvershootInterpolator()
+                            , 600
+                            , new OvershootInterpolator()
                             , new AnimatorListenerAdapter() {
                                 @Override
                                 public void onAnimationEnd(Animator animation) {
@@ -264,7 +264,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                                     pagerBarMore.setVisibility(View.GONE);
                                 }
                             }
-                            , pagerBarMore.getY()
+                            , 0
                             , -pagerBarMoreHeight);
                 }
 
