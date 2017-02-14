@@ -41,10 +41,14 @@
                 android:background="@color/crE9E9E9"
                 android:paddingTop="@dimen/action_bar_height">
 
-                <TextView
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/pager_bar_more_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="sadfasdfasdfasdfsa" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
 
             </FrameLayout>
         </FrameLayout>

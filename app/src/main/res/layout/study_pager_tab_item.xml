@@ -3,8 +3,8 @@
     android:id="@+id/pager_tab_container"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/action_bar_height"
-    android:layout_marginLeft="4dp"
-    android:layout_marginRight="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 

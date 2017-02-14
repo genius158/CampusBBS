@@ -3,12 +3,14 @@ package com.yan.campusbbs.module.campusbbs.common;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.util.Log;
+import android.view.View; 
+import android.view.animation.LinearInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.OvershootInterpolator;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
+import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
@@ -136,6 +138,8 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
                             View.MeasureSpec.UNSPECIFIED)
             );
             pagerBarMoreHeight = pagerBarMoreLayout().getMeasuredHeight();
+            Log.e("pagerBarMoreHeight", pagerBarMoreHeight + "  " + pagerBarMoreLayout().getY()
+            +"  "+getResources().getDimension(R.dimen.action_bar_height_double));
         }
 
         if (!isPagerMoreShow) {
@@ -200,7 +204,8 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         if (animationHide == null) {
             animationHide = getAnimatorHide();
         } else {
-            animationHide.setFloatValues(heightValue[0], -pagerBarMoreHeight);
+            animationHide.setFloatValues(heightValue[0]
+                    , -pagerBarMoreHeight + getResources().getDimension(R.dimen.action_bar_height_double)*3);
         }
         animationHide.start();
 
@@ -221,23 +226,23 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     private ValueAnimator getAnimatorShow() {
         return animationHelper().createAnimation(1, pagerBarMore()
                 , AnimationHelper.AnimationType.TRANSLATEY
-                , 350
-                , new OvershootInterpolator()
+                , 500
+                , new AnticipateOvershootInterpolator()
                 , null
                 , heightValue
-                , -pagerBarMoreHeight
+                , -pagerBarMoreHeight + getResources().getDimension(R.dimen.action_bar_height_double)*3
                 , 0);
     }
 
     private ValueAnimator getAnimatorHide() {
         return animationHelper().createAnimation(2, pagerBarMore()
                 , AnimationHelper.AnimationType.TRANSLATEY
-                , 550
+                , 500
                 , new AnticipateOvershootInterpolator()
                 , null
                 , heightValue
                 , 0
-                , -pagerBarMoreHeight
+                , -pagerBarMoreHeight + getResources().getDimension(R.dimen.action_bar_height_double)*3
         );
     }
 
@@ -248,8 +253,8 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     private ValueAnimator getAnimatorShowArrow() {
         return animationHelper().createAnimation(3, pagerBarMoreArrow()
                 , AnimationHelper.AnimationType.ROTATION
-                , 350
-                , new OvershootInterpolator()
+                , 500
+                , new AnticipateOvershootInterpolator()
                 , null
                 , rotationValueArrow
                 , 0
@@ -259,7 +264,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     private ValueAnimator getAnimatorHideArrow() {
         return animationHelper().createAnimation(4, pagerBarMoreArrow()
                 , AnimationHelper.AnimationType.ROTATION
-                , 550
+                , 500
                 , new AnticipateOvershootInterpolator()
                 , null
                 , rotationValueArrow

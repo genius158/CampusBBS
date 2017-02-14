@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
@@ -70,6 +72,8 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     @Inject
     CampusPagerTabAdapter campusPagerTabAdapter;
     @Inject
+    CampusPagerTabAdapter campusPagerTabMoreAdapter;
+    @Inject
     SettingHelper changeSkinHelper;
     @Inject
     ImageControl imageControl;
@@ -79,6 +83,8 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     SelfCenterMultiItemAdapter multiItemAdapter;
     @Inject
     StudyPresenter mPresenter;
+    @BindView(R.id.pager_bar_more_recycler)
+    RecyclerView pagerBarMoreRecycler;
 
     @Override
     public void onResume() {
@@ -139,6 +145,9 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(multiItemAdapter);
+
+        pagerBarMoreRecycler.setLayoutManager(getLayoutManager());
+        pagerBarMoreRecycler.setAdapter(campusPagerTabMoreAdapter);
     }
 
     private void daggerInject() {
@@ -156,6 +165,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     }
 
     private void init() {
+
     }
 
 
@@ -208,7 +218,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
         };
     }
 
-    @OnClick({R.id.pager_bar_more_arrow_layout, R.id.pager_bar_more_layout, R.id.pager_bar_more })
+    @OnClick({R.id.pager_bar_more_arrow_layout, R.id.pager_bar_more_layout, R.id.pager_bar_more})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.pager_bar_more_arrow_layout:
@@ -252,4 +262,36 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     }
 
 
+    private ChipsLayoutManager getLayoutManager() {
+        return ChipsLayoutManager.newBuilder(getContext())
+//              //set vertical gravity for all items in a row. Default = Gravity.CENTER_VERTICAL
+//              .setChildGravity(Gravity.TOP)
+//              //whether RecyclerView can scroll. TRUE by default
+                .setScrollingEnabled(false)
+//              //set maximum views count in a particular row
+//              .setMaxViewsInRow(2)
+//              //set gravity resolver where you can determine gravity for item in position.
+//              //This method have priority over previous one
+//              .setGravityResolver(new IChildGravityResolver() {
+//                  @Override
+//                  public int getItemGravity(int position) {
+//                      return Gravity.CENTER;
+//                  }
+//              })
+//              //you are able to break row due to your conditions. Row breaker should return true for that views
+//              .setRowBreaker(new IRowBreaker() {
+//                  @Override
+//                  public boolean isItemBreakRow(@IntRange(from = 0) int position) {
+//                      return position == 6 || position == 11 || position == 2;
+//                  }
+//              })
+//              //a layoutOrientation of layout manager, could be VERTICAL OR HORIZONTAL. HORIZONTAL by default
+//              .setOrientation(ChipsLayoutManager.HORIZONTAL)
+//              // row strategy for views in completed row, could be STRATEGY_DEFAULT, STRATEGY_FILL_VIEW,
+//              //STRATEGY_FILL_SPACE or STRATEGY_CENTER
+//              .setRowStrategy(ChipsLayoutManager.STRATEGY_FILL_SPACE)
+//              // whether strategy is applied to last row. FALSE by default
+//              .withLastRow(true)
+                .build();
+    }
 }
