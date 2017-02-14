@@ -64,4 +64,21 @@
         <item name="android:shadowColor">@color/cr26000000</item>
     </style>
 
+
+    <style name="Ripple">
+        <item name="mrl_rippleOverlay">true</item>
+        <item name="mrl_rippleColor">@color/cr11000000</item>
+        <item name="mrl_rippleAlpha">0.05</item>
+        <item name="mrl_rippleDimension">10dp</item>
+        <item name="mrl_rippleHover">true</item>
+        <item name="mrl_rippleRoundedCorners">0dp</item>
+        <item name="mrl_rippleInAdapter">false</item>
+        <item name="mrl_rippleDuration">350</item>
+        <item name="mrl_rippleFadeDuration">75</item>
+        <item name="mrl_rippleDelayClick">false</item>
+        <item name="mrl_rippleBackground">@color/cr00000000</item>
+        <item name="mrl_ripplePersistent">false</item>
+    </style>
+
+
 </resources>

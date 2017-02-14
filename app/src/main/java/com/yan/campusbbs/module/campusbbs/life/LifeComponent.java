@@ -2,6 +2,7 @@ package com.yan.campusbbs.module.campusbbs.life;
 
 import com.yan.campusbbs.ApplicationComponent;
 import com.yan.campusbbs.base.ScopedFragment;
+import com.yan.campusbbs.module.campusbbs.CampusTabPagerModule;
 import com.yan.campusbbs.module.setting.SettingModule;
 
 import dagger.Component;
@@ -12,6 +13,8 @@ import dagger.Component;
         , modules = {
         SettingModule.class
         , LifeFragmentModule.class
+        , CampusTabPagerModule.class
+
 }
 )
 public interface LifeComponent {

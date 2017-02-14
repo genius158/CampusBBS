@@ -39,47 +39,67 @@ public class AnimationHelper {
         SCALEY,
         TRANSLATEY,
         TRANSLATEX,
-        ROTATE,
+        ROTATION,
     }
 
-    public void start(int index, View target, AnimationType type, long during, Interpolator interpolator, float... values) {
+    public void start(int index, View target, AnimationType type, long during, Interpolator interpolator, float[] outputValue, float... values) {
         ValueAnimator animator = animations.get(index);
         if (animations.get(index) != null) {
             animator.setFloatValues(values);
             animator.start();
         } else {
-            createAnimation(index, target, type, during, interpolator, values).start();
+            createAnimation(index, target, type, during, interpolator, null, outputValue, values).start();
         }
     }
 
 
     public void start(int index, View target, AnimationType type, long during, Interpolator interpolator
-            , AnimatorListenerAdapter animatorListenerAdapter, float... values) {
+            , AnimatorListenerAdapter animatorListenerAdapter, float[] outputValue, float... values) {
         ValueAnimator animator = animations.get(index);
         if (animations.get(index) != null) {
             animator.setFloatValues(values);
             animator.start();
         } else {
-            ValueAnimator valueAnimator = createAnimation(index, target, type, during, interpolator, values);
-            valueAnimator.addListener(animatorListenerAdapter);
+            ValueAnimator valueAnimator =
+                    createAnimation(index, target, type, during, interpolator, animatorListenerAdapter, outputValue, values);
             valueAnimator.start();
         }
     }
 
-    private ValueAnimator createAnimation(int index, View target, AnimationType type, long during, Interpolator interpolator, float... values) {
+    public ValueAnimator createAnimation(int index
+            , View target
+            , AnimationType type
+            , long during
+            , Interpolator interpolator
+            , AnimatorListenerAdapter animatorListenerAdapter
+            , float[] outputValue
+            , float... values) {
         if (animations.get(index) != null) {
             return animations.get(index);
         }
-
+        ObjectAnimator animator = null;
         switch (type) {
-            case TRANSLATEY:
-                ObjectAnimator animator = ObjectAnimator.ofFloat(target, "translationY", values)
-                        .setDuration(during);
+            case ROTATION:
+                animator = ObjectAnimator.ofFloat(target, "rotation", values);
                 animator.setInterpolator(interpolator);
-                animations.append(index, animator);
-                return animator;
+                break;
+            case TRANSLATEY:
+                animator = ObjectAnimator.ofFloat(target, "translationY", values);
+                animator.setInterpolator(interpolator);
+                break;
         }
-        return null;
+        animator.setDuration(during);
+        animator.addUpdateListener(
+                animation -> {
+                    if (outputValue != null)
+                        outputValue[0] = (float) animation.getAnimatedValue();
+                }
+        );
+        if (animatorListenerAdapter != null) {
+            animator.addListener(animatorListenerAdapter);
+        }
+        animations.append(index, animator);
+        return animator;
     }
 
 }

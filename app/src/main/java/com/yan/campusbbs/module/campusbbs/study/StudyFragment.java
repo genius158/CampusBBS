@@ -4,23 +4,19 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.CampusPagerTabAdapter;
 import com.yan.campusbbs.module.campusbbs.CampusTabPagerFragment;
+import com.yan.campusbbs.module.campusbbs.CampusTabPagerModule;
 import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
@@ -32,7 +28,6 @@ import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
 import java.util.List;
-import java.util.function.LongFunction;
 
 import javax.inject.Inject;
 
@@ -55,8 +50,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     FrameLayout appBar;
     @BindView(R.id.pager_bar_recycler)
     RecyclerView pagerBarRecycler;
-    @Inject
-    AnimationHelper animationHelper;
+
     @BindView(R.id.pager_bar_more_arrow)
     ImageView pagerBarMoreArrow;
     @BindView(R.id.pager_bar_more_layout)
@@ -64,7 +58,8 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     @BindView(R.id.pager_bar_more)
     FrameLayout pagerBarMore;
 
-
+    @Inject
+    AnimationHelper animationHelper;
     @Inject
     List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems;
 
@@ -85,9 +80,6 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     @Inject
     StudyPresenter mPresenter;
 
-    private boolean isPagerMoreShow;
-    private int pagerBarMoreHeight;
-
     @Override
     public void onResume() {
         super.onResume();
@@ -96,7 +88,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_campus_bbs_study, container, false);
+        View view = inflater.inflate(R.layout.fragment_campus_bbs_common, container, false);
         ButterKnife.bind(this, view);
         init();
         daggerInject();
@@ -156,6 +148,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                         .getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .studyFragmentModule(new StudyFragmentModule(this))
+                .campusTabPagerModule(new CampusTabPagerModule())
                 .build().inject(this);
 
         attach(recyclerView, pagerTabItems, pagerBarRecycler, campusPagerTabAdapter, appBar, rxBus);
@@ -176,17 +169,6 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    protected SPUtils sPUtils() {
-        return spUtils;
-    }
-
-
-    @Override
-    protected SwipeRefreshLayout swipeRefreshLayout() {
-        return swipeRefreshLayout;
     }
 
     @Override
@@ -226,48 +208,11 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
         };
     }
 
-    @OnClick({R.id.pager_bar_more_arrow, R.id.pager_bar_more_layout, R.id.pager_bar_more})
+    @OnClick({R.id.pager_bar_more_arrow, R.id.pager_bar_more_layout, R.id.pager_bar_more })
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.pager_bar_more_arrow:
-
-                if (pagerBarMoreHeight == 0) {
-                    pagerBarMoreLayout.measure(
-                            View.MeasureSpec.makeMeasureSpec(0,
-                                    View.MeasureSpec.UNSPECIFIED)
-                            , View.MeasureSpec.makeMeasureSpec(0,
-                                    View.MeasureSpec.UNSPECIFIED)
-                    );
-                    pagerBarMoreHeight = pagerBarMoreLayout.getMeasuredHeight();
-                }
-
-                if (!isPagerMoreShow) {
-                    isPagerMoreShow = true;
-                    animationHelper.start(1, pagerBarMore
-                            , AnimationHelper.AnimationType.TRANSLATEY
-                            , 300
-                            , new OvershootInterpolator()
-                            , -pagerBarMoreHeight
-                            , 0);
-                    pagerBarMore.setVisibility(View.VISIBLE);
-
-                } else {
-                    isPagerMoreShow = false;
-                    animationHelper.start(2, pagerBarMore
-                            , AnimationHelper.AnimationType.TRANSLATEY
-                            , 600
-                            , new OvershootInterpolator()
-                            , new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    super.onAnimationEnd(animation);
-                                    pagerBarMore.setVisibility(View.GONE);
-                                }
-                            }
-                            , 0
-                            , -pagerBarMoreHeight);
-                }
-
+                onArrowClick();
                 break;
             case R.id.pager_bar_more_layout:
                 break;
@@ -275,4 +220,36 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                 break;
         }
     }
+
+    @Override
+    protected SPUtils sPUtils() {
+        return spUtils;
+    }
+
+    @Override
+    protected AnimationHelper animationHelper() {
+        return animationHelper;
+    }
+
+    @Override
+    protected View pagerBarMore() {
+        return pagerBarMore;
+    }
+
+    @Override
+    protected View pagerBarMoreArrow() {
+        return pagerBarMoreArrow;
+    }
+
+    @Override
+    protected View pagerBarMoreLayout() {
+        return pagerBarMoreLayout;
+    }
+
+    @Override
+    protected SwipeRefreshLayout swipeRefreshLayout() {
+        return swipeRefreshLayout;
+    }
+
+
 }

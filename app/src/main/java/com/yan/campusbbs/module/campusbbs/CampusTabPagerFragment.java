@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.OvershootInterpolator;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.nineoldandroids.animation.ValueAnimator;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.AnimationHelper;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
@@ -106,6 +110,138 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
 
     public void setCampusAppHelperAdd(CampusAppHelperAdd campusAppHelperAdd) {
         this.campusAppHelperAdd = campusAppHelperAdd;
+    }
+
+
+    private boolean isPagerMoreShow;
+    private int pagerBarMoreHeight;
+
+    public void onArrowClick() {
+        if (pagerBarMoreHeight == 0) {
+            pagerBarMoreLayout().measure(
+                    View.MeasureSpec.makeMeasureSpec(0,
+                            View.MeasureSpec.UNSPECIFIED)
+                    , View.MeasureSpec.makeMeasureSpec(0,
+                            View.MeasureSpec.UNSPECIFIED)
+            );
+            pagerBarMoreHeight = pagerBarMoreLayout().getMeasuredHeight();
+        }
+
+        if (!isPagerMoreShow) {
+            isPagerMoreShow = true;
+            pagerBarMore().setVisibility(View.VISIBLE);
+
+            //---------------
+            if (animationHide != null && animationHide.isRunning()) {
+                animationHide.cancel();
+            }
+            if (animationShow == null) {
+                animationShow = getAnimatorShow();
+            } else {
+                animationShow.setFloatValues(heightValue[0], 0);
+            }
+            animationShow.start();
+
+            //--------------------------
+
+            if (animationHideArrow != null && animationHideArrow.isRunning()) {
+                animationHideArrow.cancel();
+            }
+            if (animationShowArrow == null) {
+                animationShowArrow = getAnimatorShowArrow();
+            } else {
+                animationShowArrow.setFloatValues(rotationValueArrow[0], 180);
+            }
+            animationShowArrow.start();
+
+        } else {
+            isPagerMoreShow = false;
+            if (animationShow != null && animationShow.isRunning()) {
+                animationShow.cancel();
+            }
+            if (animationHide == null) {
+                animationHide = getAnimatorHide();
+            } else {
+                animationHide.setFloatValues(heightValue[0], -pagerBarMoreHeight);
+            }
+            animationHide.start();
+
+            //--------------------------
+
+            if (animationShowArrow != null && animationShowArrow.isRunning()) {
+                animationShowArrow.cancel();
+            }
+            if (animationHideArrow == null) {
+                animationHideArrow = getAnimatorHideArrow();
+            } else {
+                animationHideArrow.setFloatValues(rotationValueArrow[0], 0);
+            }
+            animationHideArrow.start();
+
+        }
+
+    }
+
+    private ValueAnimator animationHide;
+    private ValueAnimator animationShow;
+    private float[] heightValue = new float[1];
+
+    protected abstract AnimationHelper animationHelper();
+
+    protected abstract View pagerBarMore();
+
+    protected abstract View pagerBarMoreArrow();
+
+    protected abstract View pagerBarMoreLayout();
+
+    private ValueAnimator getAnimatorShow() {
+        return animationHelper().createAnimation(1, pagerBarMore()
+                , AnimationHelper.AnimationType.TRANSLATEY
+                , 350
+                , new OvershootInterpolator()
+                , null
+                , heightValue
+                , -pagerBarMoreHeight
+                , 0);
+    }
+
+    private ValueAnimator getAnimatorHide() {
+        return animationHelper().createAnimation(2, pagerBarMore()
+                , AnimationHelper.AnimationType.TRANSLATEY
+                , 550
+                , new AnticipateOvershootInterpolator()
+                , null
+                , heightValue
+                , 0
+                , -pagerBarMoreHeight
+        );
+    }
+
+    private ValueAnimator animationHideArrow;
+    private ValueAnimator animationShowArrow;
+    private float[] rotationValueArrow = new float[1];
+
+    private ValueAnimator getAnimatorShowArrow() {
+        return animationHelper().createAnimation(3, pagerBarMoreArrow()
+                , AnimationHelper.AnimationType.ROTATION
+                , 350
+                , new OvershootInterpolator()
+                , null
+                , rotationValueArrow
+                , 0
+                , 180);
+    }
+
+    private ValueAnimator getAnimatorHideArrow() {
+        return animationHelper().createAnimation(4, pagerBarMoreArrow()
+                , AnimationHelper.AnimationType.ROTATION
+                , 550
+                , new AnticipateOvershootInterpolator()
+                , null
+                , rotationValueArrow
+                , 180
+                , 0
+        );
     }
 
 }

@@ -9,7 +9,7 @@ public class StudyPresenter implements StudyContract.Presenter {
     private Context context;
 
     @Inject
-    StudyPresenter(Context context, StudyContract.View view) {
+    public StudyPresenter(Context context, StudyContract.View view) {
         this.view = view;
         this.context = context;
     }

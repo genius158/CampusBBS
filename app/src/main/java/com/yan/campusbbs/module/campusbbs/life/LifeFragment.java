@@ -7,16 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.campusbbs.CampusPagerTabAdapter;
 import com.yan.campusbbs.module.campusbbs.CampusTabPagerFragment;
+import com.yan.campusbbs.module.campusbbs.CampusTabPagerModule;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
-import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.module.campusbbs.CampusPagerTabAdapter;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.AnimationHelper;
 import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.SPUtils;
 
 import java.util.List;
 
@@ -24,6 +27,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -50,9 +54,17 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     SettingHelper changeSkinHelper;
 
     @Inject
+    AnimationHelper animationHelper;
+    @Inject
     List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems;
     @Inject
     SPUtils spUtils;
+    @BindView(R.id.pager_bar_more_layout)
+    FrameLayout pagerBarMoreLayout;
+    @BindView(R.id.pager_bar_more)
+    FrameLayout pagerBarMore;
+    @BindView(R.id.pager_bar_more_arrow)
+    ImageView pagerBarMoreArrow;
 
 
     @Override
@@ -76,7 +88,7 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_campus_bbs_life, container, false);
+        View view = inflater.inflate(R.layout.fragment_campus_bbs_common, container, false);
         ButterKnife.bind(this, view);
         init();
         daggerInject();
@@ -91,6 +103,7 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
                         .getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .lifeFragmentModule(new LifeFragmentModule(this))
+                .campusTabPagerModule(new CampusTabPagerModule())
                 .build().inject(this);
 
         attach(recyclerView, pagerTabItems, pagerBarRecycler, campusPagerTabAdapter, appBar, rxBus);
@@ -124,6 +137,40 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
+    }
+
+    @Override
+    protected AnimationHelper animationHelper() {
+        return animationHelper;
+    }
+
+    @Override
+    protected View pagerBarMore() {
+        return pagerBarMore;
+    }
+
+    @Override
+    protected View pagerBarMoreArrow() {
+        return pagerBarMoreArrow;
+    }
+
+    @Override
+    protected View pagerBarMoreLayout() {
+        return pagerBarMoreLayout;
+    }
+
+
+    @OnClick({R.id.pager_bar_more_arrow, R.id.pager_bar_more_layout, R.id.pager_bar_more})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.pager_bar_more_arrow:
+                onArrowClick();
+                break;
+            case R.id.pager_bar_more_layout:
+                break;
+            case R.id.pager_bar_more:
+                break;
+        }
     }
 
 }

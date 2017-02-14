@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/crE9E9E9"
@@ -36,7 +37,7 @@
                 android:id="@+id/pager_bar_more_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="30dp"
                 android:background="@color/crE9E9E9"
                 android:paddingTop="@dimen/action_bar_height">
 
@@ -57,15 +58,28 @@
             android:paddingLeft="10dp"
             android:paddingRight="40dp" />
 
-        <ImageView
-            android:id="@+id/pager_bar_more_arrow"
-            android:layout_width="40dp"
+        <FrameLayout
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/action_bar_height"
-            android:layout_gravity="right"
-            android:layout_marginRight="2dp"
-            android:padding="12dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_expand_more" />
+            android:layout_gravity="right">
 
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/Ripple"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="2dp"
+                android:padding="12dp"
+                app:mrl_rippleRoundedCorners="18dp">
+
+                <ImageView
+                    android:id="@+id/pager_bar_more_arrow"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_expand_more" />
+            </com.balysv.materialripple.MaterialRippleLayout>
+        </FrameLayout>
     </FrameLayout>
 </FrameLayout>
