@@ -21,6 +21,7 @@ import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
 import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -76,8 +77,8 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
     }
 
     @Override
-    protected void onLoadLazy() {
-        Log.e("onLoadLazy", "CampusBBSLoadLazy");
+    protected void onLoadLazy(Bundle reLoadBundle) {
+        Log.e("onLoadLazy", "CampusBBSLoadLazy:"+reLoadBundle);
     }
 
     @Override
@@ -180,6 +181,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
         public void onPageSelected(int position) {
             if (!isReLoad) {
                 rxBus.post(new ActionTabShow());
+                rxBus.post(new ActionPagerTabClose());
             }
             isReLoad = false;
         }

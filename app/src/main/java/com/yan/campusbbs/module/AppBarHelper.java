@@ -3,7 +3,6 @@ package com.yan.campusbbs.module;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 
 import com.yan.campusbbs.R;

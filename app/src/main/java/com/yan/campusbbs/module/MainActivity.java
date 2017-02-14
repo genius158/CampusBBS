@@ -15,6 +15,7 @@ import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
+import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
@@ -64,20 +65,16 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         initFragment();
 
         imageControl.frescoInit();
-
         initNavigationBar();
-
         settingInit();
 
         if (savedInstanceState != null) {
             if (savedInstanceState.getInt(VIEW_PAGER_PAGE, 0) > 0) {
                 isReLoad = true;
             }
-
         }
         rxBus.post(new ActionMainActivityShowComplete());
     }
@@ -181,6 +178,7 @@ public class MainActivity extends BaseActivity {
                         rxBus.post(new ActionTabShow());
                     }
                 }
+                rxBus.post(new ActionPagerTabClose());
                 isReLoad = false;
             }
 

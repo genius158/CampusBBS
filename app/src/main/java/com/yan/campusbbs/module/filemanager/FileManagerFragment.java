@@ -65,8 +65,8 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     }
 
     @Override
-    protected void onLoadLazy() {
-        Log.e("onLoadLazy", "FileManagerLoadLazy");
+    protected void onLoadLazy(Bundle reLoadBundle) {
+        Log.e("onLoadLazy", "FileManagerLoadLazy:"+reLoadBundle);
     }
 
     @Override

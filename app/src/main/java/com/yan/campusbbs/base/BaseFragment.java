@@ -15,13 +15,13 @@ import io.reactivex.disposables.Disposable;
  */
 
 public abstract class BaseFragment extends StatedFragment {
-    private static final String BUNDLE_IS_LAZY_LOAD = "isLazyLoad";
 
     protected CompositeDisposable compositeDisposable;
     private View rootView;
     private boolean isRootViewSet;
     private boolean isLazyLoad;
     protected boolean isCreateActivity = false;
+    private Bundle reLoadBundle;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,16 +73,12 @@ public abstract class BaseFragment extends StatedFragment {
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
-        Log.e("reloadbundle", bundle + "");
-        isLazyLoad = bundle.getBoolean(BUNDLE_IS_LAZY_LOAD);
+        reLoadBundle = bundle;
     }
 
     @Override
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
-        Log.e("onSavebundle", bundle + "");
-
-        bundle.putBoolean(BUNDLE_IS_LAZY_LOAD, isLazyLoad);
 
     }
 
@@ -92,17 +88,16 @@ public abstract class BaseFragment extends StatedFragment {
         compositeDisposable.add(disposable);
     }
 
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && !isLazyLoad) {
             isLazyLoad = true;
-            onLoadLazy();
+            onLoadLazy(reLoadBundle);
         }
     }
 
-    protected void onLoadLazy() {
+    protected void onLoadLazy(Bundle reLoadBundle) {
 
     }
 }

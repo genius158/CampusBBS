@@ -100,8 +100,8 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     }
 
     @Override
-    protected void onLoadLazy() {
-        Log.e("onLoadLazy", "SelfCenterLoadLazy");
+    protected void onLoadLazy(Bundle reLoadBundle) {
+        Log.e("onLoadLazy", "SelfCenterLoadLazy:"+reLoadBundle);
     }
 
     @Override

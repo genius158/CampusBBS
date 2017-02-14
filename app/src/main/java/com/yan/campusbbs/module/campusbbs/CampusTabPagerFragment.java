@@ -11,11 +11,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationHelper;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by yan on 2017/2/8.
@@ -50,7 +53,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         this.campusPagerTabAdapter = campusPagerTabAdapter;
         this.rxBus = rxBus;
         this.appBar = appBar;
-
+        initRxAction();
         linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         this.pagerBarRecycler.setLayoutManager(linearLayoutManager);
@@ -74,6 +77,14 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
             }
             campusPagerTabAdapter.notifyDataSetChanged();
         };
+    }
+
+    private void initRxAction() {
+        addDisposable(rxBus.getEvent(ActionPagerTabClose.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(actionPagerTabClose -> {
+                    tabAnimationHide();
+                }));
     }
 
     public void setPagerTabItemOnClick(BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick) {
@@ -128,58 +139,10 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         }
 
         if (!isPagerMoreShow) {
-            isPagerMoreShow = true;
-            pagerBarMore().setVisibility(View.VISIBLE);
-
-            //---------------
-            if (animationHide != null && animationHide.isRunning()) {
-                animationHide.cancel();
-            }
-            if (animationShow == null) {
-                animationShow = getAnimatorShow();
-            } else {
-                animationShow.setFloatValues(heightValue[0], 0);
-            }
-            animationShow.start();
-
-            //--------------------------
-
-            if (animationHideArrow != null && animationHideArrow.isRunning()) {
-                animationHideArrow.cancel();
-            }
-            if (animationShowArrow == null) {
-                animationShowArrow = getAnimatorShowArrow();
-            } else {
-                animationShowArrow.setFloatValues(rotationValueArrow[0], 180);
-            }
-            animationShowArrow.start();
-
+            tabAnimationShow();
         } else {
-            isPagerMoreShow = false;
-            if (animationShow != null && animationShow.isRunning()) {
-                animationShow.cancel();
-            }
-            if (animationHide == null) {
-                animationHide = getAnimatorHide();
-            } else {
-                animationHide.setFloatValues(heightValue[0], -pagerBarMoreHeight);
-            }
-            animationHide.start();
-
-            //--------------------------
-
-            if (animationShowArrow != null && animationShowArrow.isRunning()) {
-                animationShowArrow.cancel();
-            }
-            if (animationHideArrow == null) {
-                animationHideArrow = getAnimatorHideArrow();
-            } else {
-                animationHideArrow.setFloatValues(rotationValueArrow[0], 0);
-            }
-            animationHideArrow.start();
-
+            tabAnimationHide();
         }
-
     }
 
     private ValueAnimator animationHide;
@@ -193,6 +156,67 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     protected abstract View pagerBarMoreArrow();
 
     protected abstract View pagerBarMoreLayout();
+
+
+    private void tabAnimationShow() {
+        if (isPagerMoreShow) {
+            return;
+        }
+        isPagerMoreShow = true;
+        pagerBarMore().setVisibility(View.VISIBLE);
+
+        //---------------
+        if (animationHide != null && animationHide.isRunning()) {
+            animationHide.cancel();
+        }
+        if (animationShow == null) {
+            animationShow = getAnimatorShow();
+        } else {
+            animationShow.setFloatValues(heightValue[0], 0);
+        }
+        animationShow.start();
+
+        //--------------------------
+
+        if (animationHideArrow != null && animationHideArrow.isRunning()) {
+            animationHideArrow.cancel();
+        }
+        if (animationShowArrow == null) {
+            animationShowArrow = getAnimatorShowArrow();
+        } else {
+            animationShowArrow.setFloatValues(rotationValueArrow[0], 180);
+        }
+        animationShowArrow.start();
+    }
+
+    private void tabAnimationHide() {
+        if (!isPagerMoreShow) {
+            return;
+        }
+        isPagerMoreShow = false;
+        if (animationShow != null && animationShow.isRunning()) {
+            animationShow.cancel();
+        }
+        if (animationHide == null) {
+            animationHide = getAnimatorHide();
+        } else {
+            animationHide.setFloatValues(heightValue[0], -pagerBarMoreHeight);
+        }
+        animationHide.start();
+
+        //--------------------------
+
+        if (animationShowArrow != null && animationShowArrow.isRunning()) {
+            animationShowArrow.cancel();
+        }
+        if (animationHideArrow == null) {
+            animationHideArrow = getAnimatorHideArrow();
+        } else {
+            animationHideArrow.setFloatValues(rotationValueArrow[0], 0);
+        }
+        animationHideArrow.start();
+
+    }
 
     private ValueAnimator getAnimatorShow() {
         return animationHelper().createAnimation(1, pagerBarMore()
