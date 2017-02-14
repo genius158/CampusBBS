@@ -208,10 +208,10 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
         };
     }
 
-    @OnClick({R.id.pager_bar_more_arrow, R.id.pager_bar_more_layout, R.id.pager_bar_more })
+    @OnClick({R.id.pager_bar_more_arrow_layout, R.id.pager_bar_more_layout, R.id.pager_bar_more })
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.pager_bar_more_arrow:
+            case R.id.pager_bar_more_arrow_layout:
                 onArrowClick();
                 break;
             case R.id.pager_bar_more_layout:
