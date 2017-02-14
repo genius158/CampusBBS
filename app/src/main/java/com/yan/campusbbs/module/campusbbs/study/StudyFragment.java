@@ -111,6 +111,18 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
         campusPagerTabAdapter.notifyDataSetChanged();
 
         //-----------------------------------------------------------------

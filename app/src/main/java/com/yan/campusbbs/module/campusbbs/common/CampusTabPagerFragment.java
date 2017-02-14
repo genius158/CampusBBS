@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View; 
 import android.view.animation.LinearInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.OvershootInterpolator;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
@@ -226,8 +227,8 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     private ValueAnimator getAnimatorShow() {
         return animationHelper().createAnimation(1, pagerBarMore()
                 , AnimationHelper.AnimationType.TRANSLATEY
-                , 500
-                , new AnticipateOvershootInterpolator()
+                , 350
+                , new OvershootInterpolator()
                 , null
                 , heightValue
                 , -pagerBarMoreHeight + getResources().getDimension(R.dimen.action_bar_height_double)*3
@@ -253,8 +254,8 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     private ValueAnimator getAnimatorShowArrow() {
         return animationHelper().createAnimation(3, pagerBarMoreArrow()
                 , AnimationHelper.AnimationType.ROTATION
-                , 500
-                , new AnticipateOvershootInterpolator()
+                , 350
+                , new OvershootInterpolator()
                 , null
                 , rotationValueArrow
                 , 0
