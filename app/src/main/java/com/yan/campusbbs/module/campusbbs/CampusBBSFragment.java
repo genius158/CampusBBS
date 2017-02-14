@@ -124,8 +124,8 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
         appBarBehavior = (AppBarBehavior) lp.getBehavior();
         appBarBehavior.setAppBar(tabContainer);
 
-        CampusTabPagerAdapter adapter =
-                new CampusTabPagerAdapter(getChildFragmentManager(), appBarBehavior, fragments, pagerTitles);
+        CampusPagerAdapter adapter =
+                new CampusPagerAdapter(getChildFragmentManager(), appBarBehavior, fragments, pagerTitles);
 
         viewPager.setAdapter(adapter);
         adapter.notifyDataSetChanged();

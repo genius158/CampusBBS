@@ -11,9 +11,9 @@ import android.widget.ImageView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.module.campusbbs.CampusPagerTabAdapter;
-import com.yan.campusbbs.module.campusbbs.CampusTabPagerFragment;
-import com.yan.campusbbs.module.campusbbs.CampusTabPagerModule;
+import com.yan.campusbbs.module.campusbbs.common.CampusPagerTabAdapter;
+import com.yan.campusbbs.module.campusbbs.common.CampusTabPagerFragment;
+import com.yan.campusbbs.module.campusbbs.common.CampusTabPagerModule;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;

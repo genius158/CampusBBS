@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.campusbbs;
+package com.yan.campusbbs.module.campusbbs.common;
 
 import android.view.View;
 

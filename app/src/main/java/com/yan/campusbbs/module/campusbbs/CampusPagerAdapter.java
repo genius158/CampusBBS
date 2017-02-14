@@ -6,6 +6,8 @@ import android.view.View;
 
 import com.yan.campusbbs.module.AppBarBehavior;
 import com.yan.campusbbs.module.CommonPagerAdapter;
+import com.yan.campusbbs.module.campusbbs.common.CampusAppHelperAdd;
+import com.yan.campusbbs.module.campusbbs.common.CampusTabPagerFragment;
 
 import java.util.List;
 
@@ -13,10 +15,10 @@ import java.util.List;
  * Created by yan on 2017/2/8.
  */
 
-public class CampusTabPagerAdapter extends CommonPagerAdapter implements CampusAppHelperAdd {
+public class CampusPagerAdapter extends CommonPagerAdapter implements CampusAppHelperAdd {
     private AppBarBehavior tabBehavior;
 
-    public CampusTabPagerAdapter(FragmentManager fm, AppBarBehavior tabBehavior, List<Fragment> fragmentList, String[] titles) {
+    public CampusPagerAdapter(FragmentManager fm, AppBarBehavior tabBehavior, List<Fragment> fragmentList, String[] titles) {
         super(fm, fragmentList, titles);
         this.tabBehavior = tabBehavior;
         initAppHelperView(fm, fragmentList);
