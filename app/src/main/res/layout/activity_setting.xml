@@ -97,23 +97,25 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
                     android:text="是否显示图片"
                     android:textColor="@color/cr777777"
                     android:textSize="@dimen/text_size_title" />
 
                 <CheckBox
+
                     android:id="@+id/setting_img_show_control1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="right|center"
                     android:layout_marginRight="10dp"
                     android:visibility="gone"
                     app:theme="@style/ButtonColor1" />
@@ -122,8 +124,7 @@
                     android:id="@+id/setting_img_show_control2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-
+                    android:layout_gravity="right|center"
                     android:layout_marginRight="10dp"
                     android:visibility="gone"
                     app:theme="@style/ButtonColor2" />
@@ -132,8 +133,7 @@
                     android:id="@+id/setting_img_show_control3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-
+                    android:layout_gravity="right|center"
                     android:layout_marginRight="10dp"
                     android:visibility="gone"
                     app:theme="@style/ButtonColor3" />
@@ -142,7 +142,7 @@
                     android:id="@+id/setting_img_show_control4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="right|center"
                     android:layout_marginRight="10dp"
                     app:theme="@style/ButtonColor4" />
 
