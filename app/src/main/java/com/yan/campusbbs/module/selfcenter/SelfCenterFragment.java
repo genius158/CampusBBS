@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.selfcenter;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -19,11 +21,12 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
-import com.yan.campusbbs.repository.DataMultiItem;
-import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.module.setting.AdapterImageControl;
+import com.yan.campusbbs.module.setting.SettingActivity;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
+import com.yan.campusbbs.repository.DataMultiItem;
+import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
@@ -33,8 +36,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
+import butterknife.OnClick;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
@@ -65,6 +67,8 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     SelfCenterMultiItemAdapter adapter;
     @Inject
     List<DataMultiItem> dataMultiItems;
+    @BindView(R.id.app_bar_setting)
+    ImageView appBarSetting;
 
 
     private int actionBarPinHeight;
@@ -251,23 +255,25 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                 if (alpha <= alphaTrigger) {
                     isNeedAdjustBar = true;
                     appBarBackground.setAlpha(alpha);
-                    appBarTitle.setTextColor(
-                            Color.argb(255
-                                    , (int) (255 * (1 - alpha / 8 * 6))
-                                    , (int) (255 * (1 - alpha / 8 * 6))
-                                    , (int) (255 * (1 - alpha / 8 * 6))
-                            )
-                    );
+                    int color = Color.argb(255
+                            , (int) (255 * (1 - alpha / 8 * 6))
+                            , (int) (255 * (1 - alpha / 8 * 6))
+                            , (int) (255 * (1 - alpha / 8 * 6)));
+
+                    appBarTitle.setTextColor(color);
+                    appBarSetting.setBackgroundColor(color);
+
                 } else if (isNeedAdjustBar) {
                     isNeedAdjustBar = false;
                     appBarBackground.setAlpha(alphaTrigger);
-                    appBarTitle.setTextColor(
-                            Color.argb(255
-                                    , (int) (255 * alphaTrigger / 8 * 6)
-                                    , (int) (255 * alphaTrigger / 8 * 6)
-                                    , (int) (255 * alphaTrigger / 8 * 6)
-                            )
+                    int color = Color.argb(255
+                            , (int) (255 * alphaTrigger / 8 * 6)
+                            , (int) (255 * alphaTrigger / 8 * 6)
+                            , (int) (255 * alphaTrigger / 8 * 6)
                     );
+                    appBarTitle.setTextColor(color);
+                    appBarSetting.setBackgroundColor(color);
+
                 }
             }
         };
@@ -296,4 +302,12 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         super.changeSkin(actionChangeSkin);
     }
 
+    @OnClick(R.id.app_bar_setting_layout)
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.app_bar_setting_layout:
+                startActivity(new Intent(SelfCenterFragment.this.getContext(), SettingActivity.class));
+                break;
+        }
+    }
 }

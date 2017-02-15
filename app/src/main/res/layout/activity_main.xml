@@ -9,26 +9,11 @@
     tools:context="com.yan.campusbbs.module.MainActivity">
 
 
-
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never" />
-
-
-    <FrameLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_height_with_elevation">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp" >
-            
-        </ImageView>
-    </FrameLayout>
-
 
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
         android:id="@+id/bottom_navigation_bar"

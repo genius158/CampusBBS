@@ -42,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SettingC
         skinInit();
     }
 
-    private final void skinInit() {
+    private void skinInit() {
         changeSkin(new ActionChangeSkin(
                 sPUtils().getInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                         , SharedPreferenceConfig.SKIN_INDEX, 0)
