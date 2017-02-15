@@ -29,9 +29,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="20dp"
                 android:text="系统设置"
-
                 android:textColor="@color/colorPrimary1"
-                android:textSize="@dimen/text_size_content" />
+                android:textSize="@dimen/text_size_sub_title" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -55,6 +54,7 @@
                     android:layout_weight="1"
                     android:text="胖次蓝"
                     android:textColor="@color/colorPrimary1"
+                    android:textSize="@dimen/text_size_sub_title"
                     app:theme="@style/ButtonColor1" />
 
                 <RadioButton
@@ -64,6 +64,7 @@
                     android:layout_weight="1"
                     android:text="少女粉"
                     android:textColor="@color/colorPrimary2"
+                    android:textSize="@dimen/text_size_sub_title"
                     app:theme="@style/ButtonColor2" />
 
 
@@ -74,6 +75,7 @@
                     android:layout_weight="1"
                     android:text="草苗绿"
                     android:textColor="@color/colorPrimary3"
+                    android:textSize="@dimen/text_size_sub_title"
                     app:theme="@style/ButtonColor3" />
 
 
@@ -84,6 +86,7 @@
                     android:layout_weight="1"
                     android:text="基佬紫"
                     android:textColor="@color/colorPrimary4"
+                    android:textSize="@dimen/text_size_sub_title"
                     app:theme="@style/ButtonColor4" />
 
 
