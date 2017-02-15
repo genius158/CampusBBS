@@ -2,8 +2,11 @@ package com.yan.campusbbs.module.campusbbs.common;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -18,6 +21,7 @@ import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationHelper;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SizeUtils;
+import com.yan.campusbbs.widget.GravitySnapHelper;
 
 import java.util.List;
 
@@ -37,6 +41,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     private CampusAppHelperAdd campusAppHelperAdd;
 
     protected CampusTabPagerFragment() {
+
     }
 
     @Override
@@ -51,8 +56,10 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
 
         campusPagerTabAdapter().setOnItemClickListener(onItemClickListener);
         campusPagerTabMoreAdapter().setOnItemClickListener(onItemClickListener);
-
         campusAppHelperAdd.appHelperAdd(appBar());
+
+//        SnapHelper snapHelperStart = new GravitySnapHelper(Gravity.START);
+//        snapHelperStart.attachToRecyclerView(pagerBarRecycler());
     }
 
     private OnItemClickListener onItemClickListener = new OnItemClickListener() {
@@ -73,6 +80,8 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
 
             campusPagerTabMoreAdapter().notifyDataSetChanged();
             campusPagerTabAdapter().notifyDataSetChanged();
+
+            pagerBarRecycler().smoothScrollToPosition(position);
             rxBus().post(new ActionPagerTabClose());
         }
     };
@@ -292,12 +301,22 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
 
 
     public float getScrollYDistance() {
-        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView().getLayoutManager();
+        return getScrollDistance(recyclerView(), false);
+    }
+
+
+    public float getScrollDistance(RecyclerView recyclerView, boolean isHorizontal) {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         int position = layoutManager.findFirstVisibleItemPosition();
         View firstVisibleChildView = layoutManager.findViewByPosition(position);
         if (firstVisibleChildView != null) {
-            float itemHeight = firstVisibleChildView.getHeight();
-            return (position) * itemHeight - firstVisibleChildView.getTop();
+            if (isHorizontal) {
+                float itemWidth = firstVisibleChildView.getWidth();
+                return (position) * itemWidth - firstVisibleChildView.getLeft();
+            } else {
+                float itemHeight = firstVisibleChildView.getHeight();
+                return (position) * itemHeight - firstVisibleChildView.getTop();
+            }
         }
         return 0;
     }
