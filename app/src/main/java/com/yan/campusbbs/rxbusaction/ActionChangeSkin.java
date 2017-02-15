@@ -11,8 +11,7 @@ import com.yan.campusbbs.config.AppSkinConfig;
 
 public class ActionChangeSkin implements Parcelable {
 
-
-    private int skinIndex = 0;
+    public int skinIndex = 0;
 
     public ActionChangeSkin(int index) {
         skinIndex = index;

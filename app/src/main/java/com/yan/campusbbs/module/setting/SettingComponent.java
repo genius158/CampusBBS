@@ -10,6 +10,7 @@ import dagger.Component;
 @Component(
         dependencies = ApplicationComponent.class
         , modules = {
+        SettingModule.class
 }
 )
 public interface SettingComponent {

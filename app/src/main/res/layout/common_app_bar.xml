@@ -17,6 +17,7 @@
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:padding="5dp"
+        android:layout_marginLeft="5dp"
         android:src="@drawable/ic_arrow_back_white_18dp" />
 
     <TextView

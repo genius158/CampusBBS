@@ -197,33 +197,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
         return new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (position == 0) {
-                    spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                            , SharedPreferenceConfig.SKIN_INDEX, 0);
-                    rxBus.post(new ActionChangeSkin(0));
 
-                } else if (position == 1) {
-                    spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                            , SharedPreferenceConfig.SKIN_INDEX, 1);
-                    rxBus.post(new ActionChangeSkin(1));
-
-                } else if (position == 2) {
-                    spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                            , SharedPreferenceConfig.SKIN_INDEX, 2);
-                    rxBus.post(new ActionChangeSkin(2));
-
-                } else if (position == 3) {
-                    spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                            , SharedPreferenceConfig.SKIN_INDEX, 3);
-                    rxBus.post(new ActionChangeSkin(3));
-
-                } else if (position == 4) {
-                    imageControl.setImageShowAble(false);
-
-
-                } else if (position == 5) {
-                    imageControl.setImageShowAble(true);
-                }
             }
         };
     }
