@@ -40,7 +40,12 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         daggerInject();
+        init();
         settingInit();
+    }
+
+    private void init() {
+        title.setText("设置中心");
     }
 
     private void daggerInject() {
