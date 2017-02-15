@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,7 +152,6 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
                         , new String("说说")));
 
-
         multiItemAdapter.notifyDataSetChanged();
 
         pagerBarMoreRecycler.setLayoutManager(getLayoutManager());
@@ -226,7 +226,6 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                 }
             }
         };
-
     }
 
     @OnClick({R.id.pager_bar_more_arrow_layout, R.id.pager_bar_more_layout, R.id.pager_bar_more})
@@ -242,7 +241,6 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                 break;
         }
     }
-
 
     @Override
     protected SPUtils sPUtils() {

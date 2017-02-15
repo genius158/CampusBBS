@@ -59,16 +59,16 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     AppBarHelper appBarHelper;
     @Inject
     SPUtils spUtils;
-
     @Inject
     SelfCenterPresenter mPresenter;
+    @Inject
+    SelfCenterMultiItemAdapter adapter;
+    @Inject
+    List<DataMultiItem> dataMultiItems;
+
 
     private int actionBarPinHeight;
     private boolean isNeedAdjustBar;
-
-    private SelfCenterMultiItemAdapter adapter;
-
-    private final List<DataMultiItem> dataMultiItems;
 
 
     @Override
@@ -104,13 +104,13 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
     @Override
     protected void onLoadLazy(Bundle reLoadBundle) {
+        super.onLoadLazy(reLoadBundle);
         Log.e("onLoadLazy", "SelfCenterLoadLazy:" + reLoadBundle);
     }
 
     @Override
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
-
         bundle.putFloat("getScrollYDistance", getScrollYDistance());
         Log.e("getScrollYDistance", getScrollYDistance() + "");
     }
@@ -125,7 +125,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         actionBarPinHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100
                 , getResources().getDisplayMetrics());
 
-        adapter = new SelfCenterMultiItemAdapter(dataMultiItems, getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.clearOnScrollListeners();

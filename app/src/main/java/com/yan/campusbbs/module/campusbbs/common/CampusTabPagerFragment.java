@@ -3,6 +3,7 @@ package com.yan.campusbbs.module.campusbbs.common;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -58,6 +59,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
 
         @Override
         public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+            tabSelectPosition = position;
             if (pagerTabItemOnClick != null) {
                 pagerTabItemOnClick.onItemClick(adapter, view, position);
             }
@@ -68,8 +70,10 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
                     pagerTabItems().get(i).isSelect = false;
                 }
             }
+
             campusPagerTabMoreAdapter().notifyDataSetChanged();
             campusPagerTabAdapter().notifyDataSetChanged();
+            rxBus().post(new ActionPagerTabClose());
         }
     };
 
@@ -103,7 +107,6 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
-
         tabSelectPosition = bundle.getInt(BUNDLE_TAB_SELECT_POSITION, 0);
         pagerBarRecycler().scrollToPosition(tabSelectPosition);
         recyclerView().scrollTo(0, (int) bundle.getFloat(BUNDLE_RECYCLER_Y, 0));
