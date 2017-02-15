@@ -52,12 +52,13 @@ public abstract class BaseFragment extends StatedFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         if (!isRootViewSet) {
             isRootViewSet = true;
             activityCreated();
         }
         isCreateActivity = true;
+
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override

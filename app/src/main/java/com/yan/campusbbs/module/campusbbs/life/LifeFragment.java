@@ -2,6 +2,7 @@ package com.yan.campusbbs.module.campusbbs.life;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,11 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.common.CampusPagerTabAdapter;
 import com.yan.campusbbs.module.campusbbs.common.CampusTabPagerFragment;
 import com.yan.campusbbs.module.campusbbs.common.CampusTabPagerModule;
+import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationHelper;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
@@ -49,7 +52,11 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     @Inject
     RxBus rxBus;
     @Inject
+    SelfCenterMultiItemAdapter multiItemAdapter;
+    @Inject
     CampusPagerTabAdapter campusPagerTabAdapter;
+    @Inject
+    CampusPagerTabAdapter campusPagerTabMoreAdapter;
     @Inject
     SettingHelper changeSkinHelper;
 
@@ -65,8 +72,8 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     FrameLayout pagerBarMore;
     @BindView(R.id.pager_bar_more_arrow)
     ImageView pagerBarMoreArrow;
-
-
+    @BindView(R.id.pager_bar_more_recycler)
+    RecyclerView pagerBarMoreRecycler;
     @Override
     public void onResume() {
         super.onResume();
@@ -84,14 +91,17 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
         campusPagerTabAdapter.notifyDataSetChanged();
+
+        pagerBarMoreRecycler.setLayoutManager(getLayoutManager());
+        pagerBarMoreRecycler.setAdapter(campusPagerTabMoreAdapter);
     }
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_campus_bbs_common, container, false);
         ButterKnife.bind(this, view);
-        init();
         daggerInject();
+        init();
         dataInit();
         return view;
     }
@@ -105,11 +115,11 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
                 .lifeFragmentModule(new LifeFragmentModule(this))
                 .campusTabPagerModule(new CampusTabPagerModule())
                 .build().inject(this);
-
-        attach(recyclerView, pagerTabItems, pagerBarRecycler, campusPagerTabAdapter, appBar, rxBus);
     }
 
     private void init() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(multiItemAdapter);
     }
 
     public static LifeFragment newInstance() {
@@ -125,6 +135,26 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     }
 
     @Override
+    public void changeSkin(ActionChangeSkin actionChangeSkin) {
+        super.changeSkin(actionChangeSkin);
+    }
+
+
+    @OnClick({R.id.pager_bar_more_arrow_layout, R.id.pager_bar_more_layout, R.id.pager_bar_more})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.pager_bar_more_arrow_layout:
+                onArrowClick();
+                break;
+            case R.id.pager_bar_more_layout:
+                break;
+            case R.id.pager_bar_more:
+                rxBus.post(new ActionPagerTabClose());
+                break;
+        }
+    }
+
+    @Override
     protected SPUtils sPUtils() {
         return spUtils;
     }
@@ -132,11 +162,6 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     @Override
     protected SwipeRefreshLayout swipeRefreshLayout() {
         return swipeRefreshLayout;
-    }
-
-    @Override
-    public void changeSkin(ActionChangeSkin actionChangeSkin) {
-        super.changeSkin(actionChangeSkin);
     }
 
     @Override
@@ -150,6 +175,11 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     }
 
     @Override
+    protected RecyclerView recyclerView() {
+        return recyclerView;
+    }
+
+    @Override
     protected View pagerBarMoreArrow() {
         return pagerBarMoreArrow;
     }
@@ -159,16 +189,34 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
         return pagerBarMoreLayout;
     }
 
-    @OnClick({R.id.pager_bar_more_arrow_layout, R.id.pager_bar_more_layout, R.id.pager_bar_more })
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.pager_bar_more_arrow_layout:
-                onArrowClick();
-                break;
-            case R.id.pager_bar_more_layout:
-                break;
-            case R.id.pager_bar_more:
-                break;
-        }
+    @Override
+    protected List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems() {
+        return pagerTabItems;
+    }
+
+    @Override
+    protected RecyclerView pagerBarRecycler() {
+        return pagerBarRecycler;
+
+    }
+
+    @Override
+    protected CampusPagerTabAdapter campusPagerTabAdapter() {
+        return campusPagerTabAdapter;
+    }
+
+    @Override
+    protected CampusPagerTabAdapter campusPagerTabMoreAdapter() {
+        return campusPagerTabMoreAdapter;
+    }
+
+    @Override
+    protected RxBus rxBus() {
+        return rxBus;
+    }
+
+    @Override
+    protected View appBar() {
+        return appBar;
     }
 }

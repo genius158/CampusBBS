@@ -24,20 +24,21 @@
     <FrameLayout
         android:id="@+id/pager_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:paddingTop="@dimen/action_bar_height">
 
         <FrameLayout
             android:id="@+id/pager_bar_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/cr26000000"
             android:visibility="gone">
 
             <FrameLayout
                 android:id="@+id/pager_bar_more_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/crE9E9E9"
                 android:paddingTop="@dimen/action_bar_height">
 
