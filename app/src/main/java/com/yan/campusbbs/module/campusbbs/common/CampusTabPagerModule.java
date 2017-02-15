@@ -24,7 +24,7 @@ public class CampusTabPagerModule {
     }
 
     @Provides
-    CampusPagerTabAdapter provideStudyContractView(Context context) {
+    CampusPagerTabAdapter provideCampusPagerTabAdapter(Context context) {
         return new CampusPagerTabAdapter(pagerTabItems, context);
     }
     @Provides

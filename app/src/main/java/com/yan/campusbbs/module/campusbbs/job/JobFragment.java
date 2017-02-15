@@ -79,9 +79,9 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
     private void dataInit() {
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("全部", true));
 
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("实习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("调休"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("烦恼驿站"));
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
@@ -197,10 +197,14 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
         return swipeRefreshLayout;
     }
 
-
     @Override
     protected AnimationHelper animationHelper() {
         return animationHelper;
+    }
+
+    @Override
+    protected RecyclerView pagerBarMoreRecycler() {
+        return pagerBarMoreRecycler;
     }
 
     @Override

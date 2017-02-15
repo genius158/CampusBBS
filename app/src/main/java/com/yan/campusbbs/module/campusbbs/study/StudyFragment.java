@@ -4,15 +4,14 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
@@ -105,25 +104,21 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
 
     private void dataInit() {
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("全部", true));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("学习"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("高考冲刺"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("四级"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("计算机"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("航空学院"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("语文"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("数学"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("英语"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("物理"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("化学"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生物"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("政治"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("地理"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("疯狂英语"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("刘一男"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("快乐学习"));
         campusPagerTabAdapter.notifyDataSetChanged();
 
         //-----------------------------------------------------------------
@@ -173,7 +168,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                 .campusTabPagerModule(new CampusTabPagerModule())
                 .build().inject(this);
 
-        setPagerTabItemOnClick(getOnRecyclerViewItemClickListener());
+        setPagerTabItemOnClick(getOnItemClickListener());
     }
 
     private void init() {
@@ -198,36 +193,40 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
         super.changeSkin(actionChangeSkin);
     }
 
-    private BaseQuickAdapter.OnRecyclerViewItemClickListener getOnRecyclerViewItemClickListener() {
-        return (view, position) -> {
-            if (position == 0) {
-                spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.SKIN_INDEX, 0);
-                rxBus.post(new ActionChangeSkin(0));
+    private OnItemClickListener getOnItemClickListener() {
+        return new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (position == 0) {
+                    spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                            , SharedPreferenceConfig.SKIN_INDEX, 0);
+                    rxBus.post(new ActionChangeSkin(0));
 
-            } else if (position == 1) {
-                spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.SKIN_INDEX, 1);
-                rxBus.post(new ActionChangeSkin(1));
+                } else if (position == 1) {
+                    spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                            , SharedPreferenceConfig.SKIN_INDEX, 1);
+                    rxBus.post(new ActionChangeSkin(1));
 
-            } else if (position == 2) {
-                spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.SKIN_INDEX, 2);
-                rxBus.post(new ActionChangeSkin(2));
+                } else if (position == 2) {
+                    spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                            , SharedPreferenceConfig.SKIN_INDEX, 2);
+                    rxBus.post(new ActionChangeSkin(2));
 
-            } else if (position == 3) {
-                spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                        , SharedPreferenceConfig.SKIN_INDEX, 3);
-                rxBus.post(new ActionChangeSkin(3));
+                } else if (position == 3) {
+                    spUtils.putInt(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                            , SharedPreferenceConfig.SKIN_INDEX, 3);
+                    rxBus.post(new ActionChangeSkin(3));
 
-            } else if (position == 4) {
-                imageControl.setImageShowAble(false);
+                } else if (position == 4) {
+                    imageControl.setImageShowAble(false);
 
 
-            } else if (position == 5) {
-                imageControl.setImageShowAble(true);
+                } else if (position == 5) {
+                    imageControl.setImageShowAble(true);
+                }
             }
         };
+
     }
 
     @OnClick({R.id.pager_bar_more_arrow_layout, R.id.pager_bar_more_layout, R.id.pager_bar_more})
@@ -253,6 +252,11 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     @Override
     protected AnimationHelper animationHelper() {
         return animationHelper;
+    }
+
+    @Override
+    protected RecyclerView pagerBarMoreRecycler() {
+        return pagerBarMoreRecycler;
     }
 
     @Override

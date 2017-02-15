@@ -82,11 +82,13 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
 
     private void dataInit() {
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("全部", true));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("宿舍风云"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("青涩"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("闺蜜"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("与食堂阿姨的故事"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("小卖铺"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("前桌"));
+        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("暗恋"));
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
@@ -167,6 +169,11 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     @Override
     protected AnimationHelper animationHelper() {
         return animationHelper;
+    }
+
+    @Override
+    protected RecyclerView pagerBarMoreRecycler() {
+        return pagerBarMoreRecycler;
     }
 
     @Override

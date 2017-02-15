@@ -9,6 +9,7 @@ import android.view.animation.OvershootInterpolator;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -30,7 +31,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     private static final String BUNDLE_RECYCLER_Y = "recyclerY";
     private static final String BUNDLE_APP_BAR_Y = "appBarY";
 
-    private BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick;
+    private OnItemClickListener pagerTabItemOnClick;
     protected int tabSelectPosition = 0;
     private CampusAppHelperAdd campusAppHelperAdd;
 
@@ -46,16 +47,19 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         pagerBarRecycler().setLayoutManager(linearLayoutManager);
         pagerBarRecycler().setAdapter(campusPagerTabAdapter());
-        campusPagerTabAdapter().setOnRecyclerViewItemClickListener(getItemClickListener());
-        campusPagerTabMoreAdapter().setOnRecyclerViewItemClickListener(getItemClickListener());
+
+        campusPagerTabAdapter().setOnItemClickListener(onItemClickListener);
+        campusPagerTabMoreAdapter().setOnItemClickListener(onItemClickListener);
+
         campusAppHelperAdd.appHelperAdd(appBar());
     }
 
-    private BaseQuickAdapter.OnRecyclerViewItemClickListener getItemClickListener() {
-        return (view, position) -> {
-            tabSelectPosition = position;
+    private OnItemClickListener onItemClickListener = new OnItemClickListener() {
+
+        @Override
+        public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
             if (pagerTabItemOnClick != null) {
-                pagerTabItemOnClick.onItemClick(view, position);
+                pagerTabItemOnClick.onItemClick(adapter, view, position);
             }
             for (int i = 0; i < pagerTabItems().size(); i++) {
                 if (i == position) {
@@ -64,10 +68,10 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
                     pagerTabItems().get(i).isSelect = false;
                 }
             }
-            campusPagerTabAdapter().notifyDataSetChanged();
             campusPagerTabMoreAdapter().notifyDataSetChanged();
-        };
-    }
+            campusPagerTabAdapter().notifyDataSetChanged();
+        }
+    };
 
     private void initRxAction() {
         addDisposable(rxBus().getEvent(ActionPagerTabClose.class)
@@ -77,7 +81,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
                 }));
     }
 
-    public void setPagerTabItemOnClick(BaseQuickAdapter.OnRecyclerViewItemClickListener pagerTabItemOnClick) {
+    public void setPagerTabItemOnClick(OnItemClickListener pagerTabItemOnClick) {
         this.pagerTabItemOnClick = pagerTabItemOnClick;
     }
 
@@ -296,6 +300,8 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     }
 
     protected abstract AnimationHelper animationHelper();
+
+    protected abstract RecyclerView pagerBarMoreRecycler();
 
     protected abstract View pagerBarMore();
 

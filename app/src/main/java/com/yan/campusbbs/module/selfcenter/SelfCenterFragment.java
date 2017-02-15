@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
@@ -33,10 +34,12 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
+
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
-public class SelfCenterFragment extends BaseRefreshFragment implements SelfCenterContract.View  {
+public class SelfCenterFragment extends BaseRefreshFragment implements SelfCenterContract.View {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -101,7 +104,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
     @Override
     protected void onLoadLazy(Bundle reLoadBundle) {
-        Log.e("onLoadLazy", "SelfCenterLoadLazy:"+reLoadBundle);
+        Log.e("onLoadLazy", "SelfCenterLoadLazy:" + reLoadBundle);
     }
 
     @Override
@@ -128,6 +131,32 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         recyclerView.clearOnScrollListeners();
         adapterImageControl.attachRecyclerView(recyclerView);
         recyclerView.addOnScrollListener(getOnScrollListener());
+
+        adapter.setEnableLoadMore(true);
+
+        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                recyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dataMultiItems.add(
+                                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                                        , new String("发布说说")));
+                        dataMultiItems.add(
+                                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                                        , new String("发布说说")));
+                        dataMultiItems.add(
+                                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                                        , new String("发布说说")));
+
+                        adapter.loadMoreComplete();
+                    }
+
+                }, 100);
+
+            }
+        });
     }
 
     private void dataInit() {

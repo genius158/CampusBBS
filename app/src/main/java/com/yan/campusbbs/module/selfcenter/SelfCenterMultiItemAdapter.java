@@ -18,7 +18,7 @@ import javax.inject.Inject;
 /**
  * Created by yan on 2017/2/7.
  */
-public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMultiItem> {
+public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, BaseViewHolder> {
 
     public static final int ITEM_TYPE_SELF_HEADER = 1;
     public static final int ITEM_TYPE_SELF_PUSH_WARD = 2;
@@ -48,7 +48,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
                 break;
             case ITEM_TYPE_SELF_PUSH_WARD:
-                holder.setText(R.id.tv_string, (String) multiItem.data);
+                holder.setText(R.id.pager_tab_item_title, (String) multiItem.data);
                 break;
         }
     }
