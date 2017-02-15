@@ -4,6 +4,8 @@
     android:id="@+id/common_app_bar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/action_bar_height"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="1sp"
     android:orientation="vertical"
     app:cardBackgroundColor="@color/colorPrimaryDark">
 

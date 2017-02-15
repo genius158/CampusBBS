@@ -52,7 +52,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center|right"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="8dp"
             android:alpha="0.6"
             android:padding="5dp"
             android:scaleType="centerCrop"
@@ -63,7 +63,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center|right"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="8dp"
             android:background="?selectableItemBackgroundBorderless"
             android:padding="5dp">
 
