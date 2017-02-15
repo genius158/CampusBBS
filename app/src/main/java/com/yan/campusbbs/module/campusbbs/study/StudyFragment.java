@@ -159,7 +159,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
         recyclerView.setAdapter(multiItemAdapter);
 
         pagerBarMoreRecycler.setLayoutManager(getLayoutManager());
-        pagerBarMoreRecycler.setAdapter(campusPagerTabMoreAdapter);
+        pagerBarMoreRecycler.setAdapter(multiItemAdapter);
     }
 
     private void daggerInject() {
@@ -279,7 +279,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
 //              //set vertical gravity for all items in a row. Default = Gravity.CENTER_VERTICAL
 //              .setChildGravity(Gravity.TOP)
 //              //whether RecyclerView can scroll. TRUE by default
-                .setScrollingEnabled(false)
+                .setScrollingEnabled(true)
 //              //set maximum views count in a particular row
 //              .setMaxViewsInRow(2)
 //              //set gravity resolver where you can determine gravity for item in position.

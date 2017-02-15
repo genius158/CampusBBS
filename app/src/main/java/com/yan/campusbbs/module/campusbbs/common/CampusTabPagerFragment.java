@@ -139,8 +139,6 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
                             View.MeasureSpec.UNSPECIFIED)
             );
             pagerBarMoreHeight = pagerBarMoreLayout().getMeasuredHeight();
-            Log.e("pagerBarMoreHeight", pagerBarMoreHeight + "  " + pagerBarMoreLayout().getY()
-            +"  "+getResources().getDimension(R.dimen.action_bar_height_double));
         }
 
         if (!isPagerMoreShow) {
@@ -228,7 +226,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         return animationHelper().createAnimation(1, pagerBarMore()
                 , AnimationHelper.AnimationType.TRANSLATEY
                 , 350
-                , new OvershootInterpolator()
+                , new OvershootInterpolator(0.5f)
                 , null
                 , heightValue
                 , -pagerBarMoreHeight + getResources().getDimension(R.dimen.action_bar_height_double)*3
@@ -239,7 +237,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         return animationHelper().createAnimation(2, pagerBarMore()
                 , AnimationHelper.AnimationType.TRANSLATEY
                 , 500
-                , new AnticipateOvershootInterpolator()
+                , new AnticipateOvershootInterpolator(0.6f)
                 , null
                 , heightValue
                 , 0
