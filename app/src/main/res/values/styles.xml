@@ -79,4 +79,11 @@
         <item name="mrl_rippleBackground">@color/cr00000000</item>
         <item name="mrl_ripplePersistent">false</item>
     </style>
+
+
+    <style name="AnimationFade">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
 </resources>
