@@ -47,7 +47,8 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends BaseActivity {
-    private static final String VIEW_PAGER_PAGE = "viewPagerPage";
+    private static final String BUNDLE_VIEW_PAGER_PAGE = "viewPagerPage";
+    private static final String BUNDLE_FAB_IS_SHOW = "fabShow";
 
     @Inject
     SettingHelper changeSkinHelper;
@@ -93,26 +94,46 @@ public class MainActivity extends BaseActivity {
         imageControl.frescoInit();
         settingInit();
 
+        reLoadData(savedInstanceState);
+
+        rxBus.post(new ActionMainActivityShowComplete());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(BUNDLE_VIEW_PAGER_PAGE, viewPager.getCurrentItem());
+        outState.putBoolean(BUNDLE_FAB_IS_SHOW, isFabShow);
+    }
+
+    private void reLoadData(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            if (savedInstanceState.getInt(VIEW_PAGER_PAGE, 0) > 0) {
+            if (savedInstanceState.getInt(BUNDLE_VIEW_PAGER_PAGE, 0) > 0) {
                 isReLoad = true;
             }
-        }
-        rxBus.post(new ActionMainActivityShowComplete());
 
+            if (savedInstanceState.getBoolean(BUNDLE_FAB_IS_SHOW, false)) {
+                fab.setScaleX(0);
+                fab.setScaleY(0);
+            }
+        }
     }
 
     private void init() {
         initFragment();
         initNavigationBar();
-        RxActionInit();
+        rxActionInit();
     }
 
-    private void RxActionInit() {
+    private boolean isFabShow = false;
+
+    private void rxActionInit() {
         addDisposable(rxBus.getEvent(ActionFloatingButton.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(actionFloating -> {
-                    if (actionFloating.isFloatingShow) {
+                    if (actionFloating.isScrollDown) {
+                        if (isFabShow) return;
+                        isFabShow = true;
                         fab.setOnTouchListener((v, event) -> false);
                         if (fab.getAlpha() == 0f) {
                             fab.setAlpha(1f);
@@ -128,6 +149,8 @@ public class MainActivity extends BaseActivity {
                         fabShowAnimation.start();
 
                     } else {
+                        if (!isFabShow) return;
+                        isFabShow = false;
                         fab.setOnTouchListener((v, event) -> true);
 
                         if (fabShowAnimation != null && fabShowAnimation.isRunning()) {
@@ -270,7 +293,7 @@ public class MainActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 if (actionFloating == null) {
                     actionFloating = new ActionFloatingButton();
-                    actionFloating.isFloatingShow = false;
+                    actionFloating.isScrollDown = false;
 
                 }
                 switch (position) {
@@ -337,11 +360,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(VIEW_PAGER_PAGE, viewPager.getCurrentItem());
-    }
 
     @Override
     protected SPUtils sPUtils() {

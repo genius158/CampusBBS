@@ -20,6 +20,7 @@ public class ImageControl {
     private boolean imageShowAble;
     private final SPUtils spUtils;
     private final Context context;
+    private boolean isInit = false;
 
     public void setImageShowAble(boolean imageShowAble) {
         this.imageShowAble = imageShowAble;
@@ -51,14 +52,17 @@ public class ImageControl {
     }
 
     public void frescoInit() {
-        Fresco.initialize(context);
+        if (!isInit) {
+            isInit = true;
+            Fresco.initialize(context);
 
-        imageShowAble = spUtils.getBoolean(Context.MODE_PRIVATE
-                , SharedPreferenceConfig.SHARED_PREFERENCE
-                , SharedPreferenceConfig.IMAGE_SHOW_ABLE, true);
+            imageShowAble = spUtils.getBoolean(Context.MODE_PRIVATE
+                    , SharedPreferenceConfig.SHARED_PREFERENCE
+                    , SharedPreferenceConfig.IMAGE_SHOW_ABLE, true);
 
-        if (!imageShowAble && !Fresco.getImagePipeline().isPaused()) {
-            Fresco.getImagePipeline().pause();
+            if (!imageShowAble && !Fresco.getImagePipeline().isPaused()) {
+                Fresco.getImagePipeline().pause();
+            }
         }
     }
 }

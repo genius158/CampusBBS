@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 
 public class ActionFloatingButton implements Parcelable {
-    public boolean isFloatingShow = true;
+    public boolean isScrollDown = true;
 
     @Override
     public int describeContents() {

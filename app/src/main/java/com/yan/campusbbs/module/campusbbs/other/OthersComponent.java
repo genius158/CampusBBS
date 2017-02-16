@@ -2,6 +2,7 @@ package com.yan.campusbbs.module.campusbbs.other;
 
 import com.yan.campusbbs.ApplicationComponent;
 import com.yan.campusbbs.base.ScopedFragment;
+import com.yan.campusbbs.module.AppBarHelperModule;
 
 import dagger.Component;
 
@@ -9,7 +10,7 @@ import dagger.Component;
 @Component(
         dependencies = ApplicationComponent.class
         , modules = {
-        OthersFragmentModule.class
+       OthersFragmentModule.class
 }
 )
 public interface OthersComponent {

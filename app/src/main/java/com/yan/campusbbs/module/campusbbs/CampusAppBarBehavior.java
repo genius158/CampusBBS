@@ -38,10 +38,10 @@ public class CampusAppBarBehavior extends AppBarBehavior {
             actionFloating = new ActionFloatingButton();
         }
         if (dyConsumed < 0) {
-            actionFloating.isFloatingShow = true;
+            actionFloating.isScrollDown = true;
             rxBus.post(actionFloating);
         } else if (dyConsumed > 0) {
-            actionFloating.isFloatingShow = false;
+            actionFloating.isScrollDown = false;
             rxBus.post(actionFloating);
     }
     }
@@ -56,7 +56,7 @@ public class CampusAppBarBehavior extends AppBarBehavior {
         if (actionFloating == null) {
             actionFloating = new ActionFloatingButton();
         }
-        actionFloating.isFloatingShow = true;
+        actionFloating.isScrollDown = true;
         rxBus.post(actionFloating);
     }
 }

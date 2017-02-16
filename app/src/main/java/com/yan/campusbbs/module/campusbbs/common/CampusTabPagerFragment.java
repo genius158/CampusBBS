@@ -146,6 +146,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         }
     }
 
+
     private void tabAnimationShow() {
         if (isPagerMoreShow) {
             return;
