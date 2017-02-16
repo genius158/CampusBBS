@@ -3,6 +3,8 @@ package com.yan.campusbbs.widget;
 import android.content.Context;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -26,6 +28,29 @@ public class FloatingButton extends FloatingActionButton implements AnimatedFab 
 
     public FloatingButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        switch (ev.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                Log.e("ACTION_DOWN", "ACTION_DOWNACTION_DOWN");
+                break;
+            case MotionEvent.ACTION_MOVE:
+                Log.e("ACTION_MOVE", "ACTION_MOVEACTION_MOVE");
+
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                Log.e("ACTION_CANCEL", "ACTION_CANCELACTION_CANCEL");
+
+                break;
+            case MotionEvent.ACTION_UP:
+                Log.e("ACTION_UP", "ACTION_UPACTION_UPACTION_UP");
+                break;
+        }
+
+        return super.onTouchEvent(ev);
     }
 
     /**

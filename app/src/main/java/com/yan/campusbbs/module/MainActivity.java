@@ -8,6 +8,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 
@@ -241,6 +244,8 @@ public class MainActivity extends BaseActivity {
     private void setupFab(ActionChangeSkin actionChangeSkin) {
         int sheetColor = ContextCompat.getColor(this, R.color.crFEFEFE);
         int fabColor = ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId());
+
+
         MaterialSheetFab materialSheetFab = new MaterialSheetFab(fab, fabSheet, overlay, sheetColor, fabColor);
         materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
             @Override
