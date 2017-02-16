@@ -78,12 +78,12 @@ public class MainActivity extends BaseActivity {
 
     List<Fragment> fragments;
     private boolean isReLoad = false;
-    private MaterialSheetFab materialSheetFab;
-
 
     float[] fabShowAnimationValue = new float[1];
     private ValueAnimator fabShowAnimation;
     private ValueAnimator fabHideAnimation;
+
+    private boolean isFabShow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity {
         rxActionInit();
     }
 
-    private boolean isFabShow = false;
+
 
     private void rxActionInit() {
         addDisposable(rxBus.getEvent(ActionFloatingButton.class)
@@ -234,7 +234,7 @@ public class MainActivity extends BaseActivity {
     private void setupFab(ActionChangeSkin actionChangeSkin) {
         int sheetColor = ContextCompat.getColor(this, R.color.crFEFEFE);
         int fabColor = ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId());
-        materialSheetFab = new MaterialSheetFab(fab, fabSheet, overlay, sheetColor, fabColor);
+        MaterialSheetFab materialSheetFab = new MaterialSheetFab(fab, fabSheet, overlay, sheetColor, fabColor);
         materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
             @Override
             public void onShowSheet() {
