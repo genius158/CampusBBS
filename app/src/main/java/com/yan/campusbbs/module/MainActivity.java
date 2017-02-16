@@ -58,30 +58,25 @@ public class MainActivity extends BaseActivity {
     ImageControl imageControl;
     @Inject
     AnimationHelper animationHelper;
-
     @Inject
     RxBus rxBus;
-
     @Inject
     ToastUtils toastUtils;
 
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
-
     @BindView(R.id.view_pager)
     ViewPager viewPager;
-
     @BindView(R.id.fab)
     FloatingButton fab;
     @BindView(R.id.overlay)
     DimOverlayFrameLayout overlay;
     @BindView(R.id.fab_sheet)
     CardView fabSheet;
-
-    List<Fragment> fragments;
     @BindView(R.id.floating_button_container)
     LinearLayout floatingButtonContainer;
 
+    List<Fragment> fragments;
     private boolean isReLoad = false;
     private MaterialSheetFab materialSheetFab;
 
