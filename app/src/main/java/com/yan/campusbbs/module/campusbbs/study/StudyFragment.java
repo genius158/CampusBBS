@@ -15,7 +15,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.common.CampusPagerTabAdapter;
 import com.yan.campusbbs.module.campusbbs.common.CampusTabPagerFragment;
 import com.yan.campusbbs.module.campusbbs.common.CampusTabPagerModule;

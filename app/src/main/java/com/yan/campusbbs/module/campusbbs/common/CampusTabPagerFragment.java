@@ -2,11 +2,7 @@ package com.yan.campusbbs.module.campusbbs.common;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -21,7 +17,6 @@ import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationHelper;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SizeUtils;
-import com.yan.campusbbs.widget.GravitySnapHelper;
 
 import java.util.List;
 
@@ -40,6 +35,16 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     protected int tabSelectPosition = 0;
     private CampusAppHelperAdd campusAppHelperAdd;
 
+    private ValueAnimator animationHide;
+    private ValueAnimator animationShow;
+    private float[] heightValue = new float[1];
+    private ValueAnimator animationHideArrow;
+    private ValueAnimator animationShowArrow;
+    private float[] rotationValueArrow = new float[1];
+
+    private boolean isPagerMoreShow;
+    private int pagerBarMoreHeight;
+
     protected CampusTabPagerFragment() {
 
     }
@@ -57,10 +62,37 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         campusPagerTabAdapter().setOnItemClickListener(onItemClickListener);
         campusPagerTabMoreAdapter().setOnItemClickListener(onItemClickListener);
         campusAppHelperAdd.appHelperAdd(appBar());
-
-//        SnapHelper snapHelperStart = new GravitySnapHelper(Gravity.START);
-//        snapHelperStart.attachToRecyclerView(pagerBarRecycler());
     }
+
+    @Override
+    public void changeSkin(ActionChangeSkin actionChangeSkin) {
+        super.changeSkin(actionChangeSkin);
+        campusPagerTabAdapter().changeSkin(actionChangeSkin);
+        campusPagerTabMoreAdapter().changeSkin(actionChangeSkin);
+    }
+
+    @Override
+    protected void onSaveArguments(Bundle bundle) {
+        super.onSaveArguments(bundle);
+        bundle.putInt(BUNDLE_TAB_SELECT_POSITION, tabSelectPosition);
+        bundle.putFloat(BUNDLE_APP_BAR_Y, appBar().getY());
+        bundle.putFloat(BUNDLE_RECYCLER_Y, getScrollYDistance());
+    }
+
+    @Override
+    protected void onReloadArguments(Bundle bundle) {
+        super.onReloadArguments(bundle);
+        tabSelectPosition = bundle.getInt(BUNDLE_TAB_SELECT_POSITION, 0);
+        pagerBarRecycler().scrollToPosition(tabSelectPosition);
+        recyclerView().scrollTo(0, (int) bundle.getFloat(BUNDLE_RECYCLER_Y, 0));
+
+        pagerTabItems().get(tabSelectPosition).isSelect = true;
+        campusPagerTabAdapter().notifyDataSetChanged();
+        campusPagerTabMoreAdapter().notifyDataSetChanged();
+
+        appBar().setY(bundle.getFloat(BUNDLE_APP_BAR_Y, 0));
+    }
+
 
     private OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
@@ -98,41 +130,9 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         this.pagerTabItemOnClick = pagerTabItemOnClick;
     }
 
-    @Override
-    public void changeSkin(ActionChangeSkin actionChangeSkin) {
-        super.changeSkin(actionChangeSkin);
-        campusPagerTabAdapter().changeSkin(actionChangeSkin);
-        campusPagerTabMoreAdapter().changeSkin(actionChangeSkin);
-    }
-
-    @Override
-    protected void onSaveArguments(Bundle bundle) {
-        super.onSaveArguments(bundle);
-        bundle.putInt(BUNDLE_TAB_SELECT_POSITION, tabSelectPosition);
-        bundle.putFloat(BUNDLE_APP_BAR_Y, appBar().getY());
-        bundle.putFloat(BUNDLE_RECYCLER_Y, getScrollYDistance());
-    }
-
-    @Override
-    protected void onReloadArguments(Bundle bundle) {
-        super.onReloadArguments(bundle);
-        tabSelectPosition = bundle.getInt(BUNDLE_TAB_SELECT_POSITION, 0);
-        pagerBarRecycler().scrollToPosition(tabSelectPosition);
-        recyclerView().scrollTo(0, (int) bundle.getFloat(BUNDLE_RECYCLER_Y, 0));
-
-        pagerTabItems().get(tabSelectPosition).isSelect = true;
-        campusPagerTabAdapter().notifyDataSetChanged();
-        campusPagerTabMoreAdapter().notifyDataSetChanged();
-
-        appBar().setY(bundle.getFloat(BUNDLE_APP_BAR_Y, 0));
-    }
-
     public void setCampusAppHelperAdd(CampusAppHelperAdd campusAppHelperAdd) {
         this.campusAppHelperAdd = campusAppHelperAdd;
     }
-
-    private boolean isPagerMoreShow;
-    private int pagerBarMoreHeight;
 
     public void onArrowClick() {
         if (pagerBarMoreHeight == 0) {
@@ -145,11 +145,6 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
             tabAnimationHide();
         }
     }
-
-    private ValueAnimator animationHide;
-    private ValueAnimator animationShow;
-    private float[] heightValue = new float[1];
-
 
     private void tabAnimationShow() {
         if (isPagerMoreShow) {
@@ -238,9 +233,6 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         );
     }
 
-    private ValueAnimator animationHideArrow;
-    private ValueAnimator animationShowArrow;
-    private float[] rotationValueArrow = new float[1];
 
     private ValueAnimator getAnimatorShowArrow() {
         return animationHelper().createAnimation(pagerBarMoreArrow()

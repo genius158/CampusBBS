@@ -12,13 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gordonwong.materialsheetfab.DimOverlayFrameLayout;
-import com.gordonwong.materialsheetfab.MaterialSheetFab;
-import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseSettingControlFragment;
-import com.yan.campusbbs.module.AppBarBehavior;
 import com.yan.campusbbs.module.campusbbs.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
 import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
@@ -30,7 +26,6 @@ import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.widget.FloatingButton;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,7 +3,6 @@ package com.yan.campusbbs.module.campusbbs;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.yan.campusbbs.R;

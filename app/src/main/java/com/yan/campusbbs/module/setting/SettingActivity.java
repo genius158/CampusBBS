@@ -1,16 +1,11 @@
 package com.yan.campusbbs.module.setting;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v7.widget.CardView;
-import android.util.Log;
-import android.view.Display;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
