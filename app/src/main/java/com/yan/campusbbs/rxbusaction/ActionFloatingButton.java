@@ -10,6 +10,10 @@ import android.os.Parcelable;
 public class ActionFloatingButton implements Parcelable {
     public boolean isScrollDown = true;
 
+    public ActionFloatingButton(boolean isScrollDown) {
+        this.isScrollDown = isScrollDown;
+    }
+
     @Override
     public int describeContents() {
         return 0;

@@ -9,7 +9,6 @@ import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
@@ -20,6 +19,8 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.gordonwong.materialsheetfab.DimOverlayFrameLayout;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
@@ -120,11 +121,12 @@ public class MainActivity extends BaseActivity {
             }
 
             isFabShow = savedInstanceState.getBoolean(BUNDLE_FAB_IS_SHOW, false);
+
             if (isFabShow) {
-                fab.setAlpha(1f);
-            } else {
-                fab.setScaleX(0);
-                fab.setScaleY(0);
+                fab.postDelayed(() -> {
+                    fab.setVisibility(View.VISIBLE);
+                    fab.setAlpha(1f);
+                }, 150);
             }
         }
     }
@@ -144,7 +146,7 @@ public class MainActivity extends BaseActivity {
                     if (actionFloating.isScrollDown) {
                         if (isFabShow) return;
                         isFabShow = true;
-                        fab.setOnTouchListener((v, event) -> false);
+                        fab.setVisibility(View.VISIBLE);
                         if (fab.getAlpha() == 0f) {
                             fab.setAlpha(1f);
                         }
@@ -161,7 +163,6 @@ public class MainActivity extends BaseActivity {
                     } else {
                         if (!isFabShow) return;
                         isFabShow = false;
-                        fab.setOnTouchListener((v, event) -> true);
 
                         if (fabShowAnimation != null && fabShowAnimation.isRunning()) {
                             fabShowAnimation.cancel();
@@ -192,7 +193,14 @@ public class MainActivity extends BaseActivity {
         return animationUtils.createAnimation(
                 fab, AnimationUtils.AnimationType.SCALE, 200,
                 new LinearInterpolator()
-                , null
+                , new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (fabShowAnimationValue[0] == 0) {
+                            fab.setVisibility(View.GONE);
+                        }
+                    }
+                }
                 , fabShowAnimationValue
                 , 1f
                 , 0f
@@ -258,7 +266,9 @@ public class MainActivity extends BaseActivity {
             }
         });
         fab.setAlpha(0f);
-        fab.setOnTouchListener((v, event) -> true);
+        fab.postDelayed(() -> {
+            fab.setVisibility(View.GONE);
+        }, 100);
     }
 
     private BottomNavigationBar.OnTabSelectedListener getOnTabSelectedListener() {
