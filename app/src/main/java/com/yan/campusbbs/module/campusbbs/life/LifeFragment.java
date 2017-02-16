@@ -20,7 +20,7 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
-import com.yan.campusbbs.util.AnimationHelper;
+import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -61,7 +61,7 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     SettingHelper changeSkinHelper;
 
     @Inject
-    AnimationHelper animationHelper;
+    AnimationUtils animationUtils;
     @Inject
     List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems;
     @Inject
@@ -167,8 +167,8 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     }
 
     @Override
-    protected AnimationHelper animationHelper() {
-        return animationHelper;
+    protected AnimationUtils animationHelper() {
+        return animationUtils;
     }
 
     @Override

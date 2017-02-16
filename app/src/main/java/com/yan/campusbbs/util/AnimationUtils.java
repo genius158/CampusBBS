@@ -13,10 +13,10 @@ import javax.inject.Inject;
  * Created by Administrator on 2017/2/13.
  */
 
-public class AnimationHelper {
+public class AnimationUtils {
 
     @Inject
-    public AnimationHelper() {
+    public AnimationUtils() {
     }
 
 

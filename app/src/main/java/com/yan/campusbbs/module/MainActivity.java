@@ -31,7 +31,7 @@ import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
-import com.yan.campusbbs.util.AnimationHelper;
+import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity {
     @Inject
     ImageControl imageControl;
     @Inject
-    AnimationHelper animationHelper;
+    AnimationUtils animationUtils;
     @Inject
     RxBus rxBus;
     @Inject
@@ -145,8 +145,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private ValueAnimator getFabShowAnimation() {
-        return animationHelper.createAnimation(
-                fab, AnimationHelper.AnimationType.SCALE, 200,
+        return animationUtils.createAnimation(
+                fab, AnimationUtils.AnimationType.SCALE, 200,
                 new LinearInterpolator()
                 , null
                 , fabShowAnimationValue
@@ -156,8 +156,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private ValueAnimator getFabHideAnimation() {
-        return animationHelper.createAnimation(
-                fab, AnimationHelper.AnimationType.SCALE, 200,
+        return animationUtils.createAnimation(
+                fab, AnimationUtils.AnimationType.SCALE, 200,
                 new LinearInterpolator()
                 , null
                 , fabShowAnimationValue

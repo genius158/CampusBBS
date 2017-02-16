@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
-import com.yan.campusbbs.util.AnimationHelper;
+import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -36,8 +35,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
@@ -61,7 +58,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     FrameLayout pagerBarMore;
 
     @Inject
-    AnimationHelper animationHelper;
+    AnimationUtils animationUtils;
     @Inject
     List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems;
 
@@ -221,8 +218,8 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     }
 
     @Override
-    protected AnimationHelper animationHelper() {
-        return animationHelper;
+    protected AnimationUtils animationHelper() {
+        return animationUtils;
     }
 
     @Override

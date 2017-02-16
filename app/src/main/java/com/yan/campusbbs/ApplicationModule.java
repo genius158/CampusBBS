@@ -6,7 +6,7 @@ import com.yan.campusbbs.module.setting.AdapterImageControl;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.repository.AppRetrofit;
 import com.yan.campusbbs.util.ACache;
-import com.yan.campusbbs.util.AnimationHelper;
+import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -56,8 +56,8 @@ public final class ApplicationModule {
 
     @Singleton
     @Provides
-    AnimationHelper provideAnimationHelper() {
-        return new AnimationHelper();
+    AnimationUtils provideAnimationHelper() {
+        return new AnimationUtils();
     }
 
     @Singleton

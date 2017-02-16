@@ -20,7 +20,7 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
-import com.yan.campusbbs.util.AnimationHelper;
+import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -61,7 +61,7 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
     @Inject
     SelfCenterMultiItemAdapter multiItemAdapter;
     @Inject
-    AnimationHelper animationHelper;
+    AnimationUtils animationUtils;
     @BindView(R.id.pager_bar_more_layout)
     FrameLayout pagerBarMoreLayout;
     @BindView(R.id.pager_bar_more)
@@ -198,8 +198,8 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
     }
 
     @Override
-    protected AnimationHelper animationHelper() {
-        return animationHelper;
+    protected AnimationUtils animationHelper() {
+        return animationUtils;
     }
 
     @Override

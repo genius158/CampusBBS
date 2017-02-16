@@ -14,7 +14,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
-import com.yan.campusbbs.util.AnimationHelper;
+import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SizeUtils;
 
@@ -212,7 +212,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
 
     private ValueAnimator getAnimatorShow() {
         return animationHelper().createAnimation(pagerBarMore()
-                , AnimationHelper.AnimationType.TRANSLATEY
+                , AnimationUtils.AnimationType.TRANSLATEY
                 , 350
                 , new OvershootInterpolator(0.5f)
                 , null
@@ -223,7 +223,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
 
     private ValueAnimator getAnimatorHide() {
         return animationHelper().createAnimation(pagerBarMore()
-                , AnimationHelper.AnimationType.TRANSLATEY
+                , AnimationUtils.AnimationType.TRANSLATEY
                 , 500
                 , new AnticipateOvershootInterpolator(0.6f)
                 , null
@@ -236,7 +236,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
 
     private ValueAnimator getAnimatorShowArrow() {
         return animationHelper().createAnimation(pagerBarMoreArrow()
-                , AnimationHelper.AnimationType.ROTATION
+                , AnimationUtils.AnimationType.ROTATION
                 , 350
                 , new OvershootInterpolator()
                 , null
@@ -247,7 +247,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
 
     private ValueAnimator getAnimatorHideArrow() {
         return animationHelper().createAnimation(pagerBarMoreArrow()
-                , AnimationHelper.AnimationType.ROTATION
+                , AnimationUtils.AnimationType.ROTATION
                 , 500
                 , new AnticipateOvershootInterpolator()
                 , null
@@ -313,7 +313,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         return 0;
     }
 
-    protected abstract AnimationHelper animationHelper();
+    protected abstract AnimationUtils animationHelper();
 
     protected abstract RecyclerView pagerBarMoreRecycler();
 
