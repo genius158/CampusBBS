@@ -2,6 +2,7 @@ package com.yan.campusbbs.module;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
@@ -91,11 +92,14 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         init();
-        imageControl.frescoInit();
         settingInit();
 
         reLoadData(savedInstanceState);
+    }
 
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         rxBus.post(new ActionMainActivityShowComplete());
     }
 
@@ -112,7 +116,10 @@ public class MainActivity extends BaseActivity {
                 isReLoad = true;
             }
 
-            if (savedInstanceState.getBoolean(BUNDLE_FAB_IS_SHOW, false)) {
+            isFabShow = savedInstanceState.getBoolean(BUNDLE_FAB_IS_SHOW, false);
+            if (isFabShow) {
+                fab.setAlpha(1f);
+            } else {
                 fab.setScaleX(0);
                 fab.setScaleY(0);
             }
@@ -121,11 +128,11 @@ public class MainActivity extends BaseActivity {
 
     private void init() {
         initFragment();
+        imageControl.frescoInit();
+
         initNavigationBar();
         rxActionInit();
     }
-
-
 
     private void rxActionInit() {
         addDisposable(rxBus.getEvent(ActionFloatingButton.class)
