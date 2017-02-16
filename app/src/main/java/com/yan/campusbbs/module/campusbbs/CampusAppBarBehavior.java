@@ -3,16 +3,21 @@ package com.yan.campusbbs.module.campusbbs;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.AppBarBehavior;
+import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
+import com.yan.campusbbs.util.RxBus;
 
 /**
  * Created by yan on 2017/2/8.
  */
 
 public class CampusAppBarBehavior extends AppBarBehavior {
+    private RxBus rxBus;
+    private ActionFloatingButton actionFloating;
 
     public CampusAppBarBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -25,5 +30,34 @@ public class CampusAppBarBehavior extends AppBarBehavior {
         } else {
             return super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
         }
+    }
+
+    @Override
+    public void onNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+        super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
+        if (actionFloating == null) {
+            actionFloating = new ActionFloatingButton();
+        }
+        if (dyConsumed < 0) {
+            actionFloating.isFloatingShow = true;
+            rxBus.post(actionFloating);
+        } else if (dyConsumed > 0) {
+            actionFloating.isFloatingShow = false;
+            rxBus.post(actionFloating);
+    }
+    }
+
+    public void setRxBus(RxBus rxBus) {
+        this.rxBus = rxBus;
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        if (actionFloating == null) {
+            actionFloating = new ActionFloatingButton();
+        }
+        actionFloating.isFloatingShow = true;
+        rxBus.post(actionFloating);
     }
 }

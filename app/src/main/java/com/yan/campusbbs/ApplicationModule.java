@@ -6,6 +6,7 @@ import com.yan.campusbbs.module.setting.AdapterImageControl;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.repository.AppRetrofit;
 import com.yan.campusbbs.util.ACache;
+import com.yan.campusbbs.util.AnimationHelper;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -38,16 +39,25 @@ public final class ApplicationModule {
         return mContext;
     }
 
-    @Singleton
     @Provides
-    ToastUtils provideToastUtil() {
-        return new ToastUtils(mContext);
+    ImageControl provideImageControl() {
+        return imageControl;
+    }
+
+    @Provides
+    ACache provideACache() {
+        return aCache;
+    }
+
+    @Provides
+    SPUtils provideSPUtils() {
+        return spUtils;
     }
 
     @Singleton
     @Provides
-    RxBus provideRxBus() {
-        return new RxBus();
+    AnimationHelper provideAnimationHelper() {
+        return new AnimationHelper();
     }
 
     @Singleton
@@ -62,18 +72,16 @@ public final class ApplicationModule {
         return new AdapterImageControl(imageControl);
     }
 
+    @Singleton
     @Provides
-    ImageControl provideImageControl() {
-        return imageControl;
+    ToastUtils provideToastUtil() {
+        return new ToastUtils(mContext);
     }
 
+    @Singleton
     @Provides
-    SPUtils provideSPUtils() {
-        return spUtils;
+    RxBus provideRxBus() {
+        return new RxBus();
     }
 
-    @Provides
-    ACache provideACache() {
-        return aCache;
-    }
 }

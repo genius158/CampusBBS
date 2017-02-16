@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gordonwong.materialsheetfab.DimOverlayFrameLayout;
+import com.gordonwong.materialsheetfab.MaterialSheetFab;
+import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseSettingControlFragment;
@@ -20,13 +23,14 @@ import com.yan.campusbbs.module.campusbbs.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.life.LifeFragment;
 import com.yan.campusbbs.module.campusbbs.other.OthersFragment;
 import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
+import com.yan.campusbbs.module.setting.SettingHelper;
+import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
-import com.yan.campusbbs.module.setting.SettingHelper;
-import com.yan.campusbbs.module.setting.SettingModule;
-import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.widget.FloatingButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,21 +68,21 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
     private List<Fragment> fragments;
     private boolean isReLoad = false;
 
-    private AppBarBehavior appBarBehavior;
+    private CampusAppBarBehavior appBarBehavior;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_campus_bbs, container, false);
         ButterKnife.bind(this, view);
-        init();
         daggerInject();
+        init();
         initRxBusAction();
         return view;
     }
 
     @Override
     protected void onLoadLazy(Bundle reLoadBundle) {
-        Log.e("onLoadLazy", "CampusBBSLoadLazy:"+reLoadBundle);
+        Log.e("onLoadLazy", "CampusBBSLoadLazy:" + reLoadBundle);
     }
 
     @Override
@@ -121,8 +125,9 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
 
         CoordinatorLayout.LayoutParams lp =
                 (CoordinatorLayout.LayoutParams) tabContainer.getLayoutParams();
-        appBarBehavior = (AppBarBehavior) lp.getBehavior();
+        appBarBehavior = (CampusAppBarBehavior) lp.getBehavior();
         appBarBehavior.setAppBar(tabContainer);
+        appBarBehavior.setRxBus(rxBus);
 
         CampusPagerAdapter adapter =
                 new CampusPagerAdapter(getChildFragmentManager(), appBarBehavior, fragments, pagerTitles);
@@ -191,4 +196,5 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
 
         }
     };
+
 }

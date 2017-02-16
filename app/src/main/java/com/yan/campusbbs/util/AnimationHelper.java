@@ -1,6 +1,5 @@
 package com.yan.campusbbs.util;
 
-import android.util.SparseArray;
 import android.view.View;
 import android.view.animation.Interpolator;
 
@@ -15,21 +14,9 @@ import javax.inject.Inject;
  */
 
 public class AnimationHelper {
-    private SparseArray<ValueAnimator> animations;
 
     @Inject
     public AnimationHelper() {
-        animations = new SparseArray<>();
-    }
-
-
-    public boolean start(int index) {
-        if (animations.get(index) != null) {
-            animations.get(index).start();
-            return true;
-        } else {
-            return false;
-        }
     }
 
 
@@ -37,47 +24,22 @@ public class AnimationHelper {
         ALPHA,
         SCALEX,
         SCALEY,
+        SCALE,
         TRANSLATEY,
         TRANSLATEX,
         ROTATION,
     }
 
-    public void start(int index, View target, AnimationType type, long during, Interpolator interpolator, float[] outputValue, float... values) {
-        ValueAnimator animator = animations.get(index);
-        if (animations.get(index) != null) {
-            animator.setFloatValues(values);
-            animator.start();
-        } else {
-            createAnimation(index, target, type, during, interpolator, null, outputValue, values).start();
-        }
-    }
-
-
-    public void start(int index, View target, AnimationType type, long during, Interpolator interpolator
-            , AnimatorListenerAdapter animatorListenerAdapter, float[] outputValue, float... values) {
-        ValueAnimator animator = animations.get(index);
-        if (animations.get(index) != null) {
-            animator.setFloatValues(values);
-            animator.start();
-        } else {
-            ValueAnimator valueAnimator =
-                    createAnimation(index, target, type, during, interpolator, animatorListenerAdapter, outputValue, values);
-            valueAnimator.start();
-        }
-    }
-
-    public ValueAnimator createAnimation(int index
-            , View target
+    public ValueAnimator createAnimation(
+            View target
             , AnimationType type
             , long during
             , Interpolator interpolator
             , AnimatorListenerAdapter animatorListenerAdapter
             , float[] outputValue
             , float... values) {
-        if (animations.get(index) != null) {
-            return animations.get(index);
-        }
-        ObjectAnimator animator = null;
+
+        ValueAnimator animator = null;
         switch (type) {
             case ROTATION:
                 animator = ObjectAnimator.ofFloat(target, "rotation", values);
@@ -87,18 +49,27 @@ public class AnimationHelper {
                 animator = ObjectAnimator.ofFloat(target, "translationY", values);
                 animator.setInterpolator(interpolator);
                 break;
+            case SCALE:
+                animator = ValueAnimator.ofFloat(values);
+                animator.setInterpolator(interpolator);
+                break;
         }
         animator.setDuration(during);
+
         animator.addUpdateListener(
                 animation -> {
-                    if (outputValue != null)
+                    if (outputValue != null) {
                         outputValue[0] = (float) animation.getAnimatedValue();
+                        if (type == AnimationType.SCALE) {
+                            target.setScaleX(outputValue[0]);
+                            target.setScaleY(outputValue[0]);
+                        }
+                    }
                 }
         );
         if (animatorListenerAdapter != null) {
             animator.addListener(animatorListenerAdapter);
         }
-        animations.append(index, animator);
         return animator;
     }
 

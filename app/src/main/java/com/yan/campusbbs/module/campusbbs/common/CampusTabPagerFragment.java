@@ -216,7 +216,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     }
 
     private ValueAnimator getAnimatorShow() {
-        return animationHelper().createAnimation(1, pagerBarMore()
+        return animationHelper().createAnimation(pagerBarMore()
                 , AnimationHelper.AnimationType.TRANSLATEY
                 , 350
                 , new OvershootInterpolator(0.5f)
@@ -227,7 +227,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     }
 
     private ValueAnimator getAnimatorHide() {
-        return animationHelper().createAnimation(2, pagerBarMore()
+        return animationHelper().createAnimation(pagerBarMore()
                 , AnimationHelper.AnimationType.TRANSLATEY
                 , 500
                 , new AnticipateOvershootInterpolator(0.6f)
@@ -243,7 +243,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     private float[] rotationValueArrow = new float[1];
 
     private ValueAnimator getAnimatorShowArrow() {
-        return animationHelper().createAnimation(3, pagerBarMoreArrow()
+        return animationHelper().createAnimation(pagerBarMoreArrow()
                 , AnimationHelper.AnimationType.ROTATION
                 , 350
                 , new OvershootInterpolator()
@@ -254,7 +254,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     }
 
     private ValueAnimator getAnimatorHideArrow() {
-        return animationHelper().createAnimation(4, pagerBarMoreArrow()
+        return animationHelper().createAnimation(pagerBarMoreArrow()
                 , AnimationHelper.AnimationType.ROTATION
                 , 500
                 , new AnticipateOvershootInterpolator()

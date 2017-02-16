@@ -2,27 +2,40 @@ package com.yan.campusbbs.module;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.LinearInterpolator;
+import android.widget.LinearLayout;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.gordonwong.materialsheetfab.DimOverlayFrameLayout;
+import com.gordonwong.materialsheetfab.MaterialSheetFab;
+import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
+import com.nineoldandroids.animation.ValueAnimator;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.campusbbs.CampusBBSFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
-import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
-import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
-import com.yan.campusbbs.rxbusaction.ActionTabShow;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
-import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
+import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
+import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
+import com.yan.campusbbs.rxbusaction.ActionTabShow;
+import com.yan.campusbbs.util.AnimationHelper;
 import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
+import com.yan.campusbbs.widget.FloatingButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +44,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends BaseActivity {
 
@@ -42,6 +56,8 @@ public class MainActivity extends BaseActivity {
     SPUtils spUtils;
     @Inject
     ImageControl imageControl;
+    @Inject
+    AnimationHelper animationHelper;
 
     @Inject
     RxBus rxBus;
@@ -55,20 +71,27 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
+    @BindView(R.id.fab)
+    FloatingButton fab;
+    @BindView(R.id.overlay)
+    DimOverlayFrameLayout overlay;
+    @BindView(R.id.fab_sheet)
+    CardView fabSheet;
+
     List<Fragment> fragments;
+    @BindView(R.id.floating_button_container)
+    LinearLayout floatingButtonContainer;
 
     private boolean isReLoad = false;
-
+    private MaterialSheetFab materialSheetFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initFragment();
-
+        init();
         imageControl.frescoInit();
-        initNavigationBar();
         settingInit();
 
         if (savedInstanceState != null) {
@@ -79,15 +102,74 @@ public class MainActivity extends BaseActivity {
         rxBus.post(new ActionMainActivityShowComplete());
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(VIEW_PAGER_PAGE, viewPager.getCurrentItem());
+    private void init() {
+        initFragment();
+        initNavigationBar();
+        setupFab();
+        RxActionInit();
     }
 
-    @Override
-    protected SPUtils sPUtils() {
-        return spUtils;
+    private void RxActionInit() {
+        addDisposable(rxBus.getEvent(ActionFloatingButton.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(actionFloating -> {
+                    if (actionFloating.isFloatingShow) {
+                        fab.setOnTouchListener((v, event) -> false);
+                        if (fab.getAlpha() == 0f) {
+                            fab.setAlpha(1f);
+                        }
+                        if (fabHideAnimation != null && fabHideAnimation.isRunning()) {
+                            fabHideAnimation.cancel();
+                        }
+                        if (fabShowAnimation == null) {
+                            fabShowAnimation = getFabShowAnimation();
+                        } else {
+                            fabShowAnimation.setFloatValues(fabShowAnimationValue[0], 1);
+                        }
+                        fabShowAnimation.start();
+
+                    } else {
+                        fab.setOnTouchListener((v, event) -> true);
+
+                        if (fabShowAnimation != null && fabShowAnimation.isRunning()) {
+                            fabShowAnimation.cancel();
+                        }
+                        if (fabHideAnimation == null) {
+                            fabHideAnimation = getFabHideAnimation();
+                        } else {
+                            fabHideAnimation.setFloatValues(fabShowAnimationValue[0]
+                                    , 0);
+                        }
+                        fabHideAnimation.start();
+                    }
+                }));
+    }
+
+    float[] fabShowAnimationValue = new float[1];
+
+    private ValueAnimator fabShowAnimation;
+    private ValueAnimator fabHideAnimation;
+
+    private ValueAnimator getFabShowAnimation() {
+        return animationHelper.createAnimation(
+                fab, AnimationHelper.AnimationType.SCALE, 200,
+                new LinearInterpolator()
+                , null
+                , fabShowAnimationValue
+                , 0f
+                , 1f
+        );
+    }
+
+    private ValueAnimator getFabHideAnimation() {
+        return animationHelper.createAnimation(
+                fab, AnimationHelper.AnimationType.SCALE, 200,
+                new LinearInterpolator()
+                , null
+                , fabShowAnimationValue
+                , 1f
+                , 0f
+        );
     }
 
     private void initNavigationBar() {
@@ -132,6 +214,29 @@ public class MainActivity extends BaseActivity {
         viewPager.addOnPageChangeListener(getPageChangeListener());
     }
 
+
+    private void setupFab() {
+        int sheetColor = ContextCompat.getColor(this, R.color.crFEFEFE);
+        int fabColor = ContextCompat.getColor(this, R.color.colorAccent1);
+
+        // Create material sheet FAB
+        materialSheetFab = new MaterialSheetFab(fab, fabSheet, overlay, sheetColor, fabColor);
+        // Set material sheet event listener
+        materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
+            @Override
+            public void onShowSheet() {
+
+            }
+
+            @Override
+            public void onHideSheet() {
+            }
+        });
+        floatingButtonContainer.bringToFront();
+        fab.setAlpha(0f);
+        fab.setOnTouchListener((v, event) -> true);
+    }
+
     private BottomNavigationBar.OnTabSelectedListener getOnTabSelectedListener() {
         return new BottomNavigationBar.OnTabSelectedListener() {
             @Override
@@ -163,6 +268,8 @@ public class MainActivity extends BaseActivity {
         };
     }
 
+    private ActionFloatingButton actionFloating;
+
     private ViewPager.OnPageChangeListener getPageChangeListener() {
         return new ViewPager.OnPageChangeListener() {
             @Override
@@ -172,12 +279,26 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                bottomNavigationBar.selectTab(position);
-                if (position == 1) {
-                    if (!isReLoad) {
-                        rxBus.post(new ActionTabShow());
-                    }
+                if (actionFloating == null) {
+                    actionFloating = new ActionFloatingButton();
+                    actionFloating.isFloatingShow = false;
+
                 }
+                switch (position) {
+                    case 0:
+                        rxBus.post(actionFloating);
+                        break;
+                    case 1:
+                        if (!isReLoad) {
+                            rxBus.post(new ActionTabShow());
+                        }
+                        break;
+                    case 2:
+                        rxBus.post(actionFloating);
+                        break;
+                }
+
+                bottomNavigationBar.selectTab(position);
                 rxBus.post(new ActionPagerTabClose());
                 isReLoad = false;
             }
@@ -221,4 +342,16 @@ public class MainActivity extends BaseActivity {
             toastUtils.showShort(getString(R.string.more_pressed_exit));
         }
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(VIEW_PAGER_PAGE, viewPager.getCurrentItem());
+    }
+
+    @Override
+    protected SPUtils sPUtils() {
+        return spUtils;
+    }
+
 }
