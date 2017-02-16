@@ -1,8 +1,10 @@
 package com.yan.campusbbs.module;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.view.MotionEvent;
@@ -100,7 +102,6 @@ public class MainActivity extends BaseActivity {
     private void init() {
         initFragment();
         initNavigationBar();
-        setupFab();
         RxActionInit();
     }
 
@@ -209,14 +210,10 @@ public class MainActivity extends BaseActivity {
         viewPager.addOnPageChangeListener(getPageChangeListener());
     }
 
-
-    private void setupFab() {
+    private void setupFab(ActionChangeSkin actionChangeSkin) {
         int sheetColor = ContextCompat.getColor(this, R.color.crFEFEFE);
-        int fabColor = ContextCompat.getColor(this, R.color.colorAccent1);
-
-        // Create material sheet FAB
+        int fabColor = ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId());
         materialSheetFab = new MaterialSheetFab(fab, fabSheet, overlay, sheetColor, fabColor);
-        // Set material sheet event listener
         materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
             @Override
             public void onShowSheet() {
@@ -227,7 +224,6 @@ public class MainActivity extends BaseActivity {
             public void onHideSheet() {
             }
         });
-        floatingButtonContainer.bringToFront();
         fab.setAlpha(0f);
         fab.setOnTouchListener((v, event) -> true);
     }
@@ -308,6 +304,11 @@ public class MainActivity extends BaseActivity {
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
+
+        ViewCompat.setBackgroundTintList(fab, ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
+        ));
+        setupFab(actionChangeSkin);
 
         bottomNavigationBar.clearAll();
         BadgeItem numberBadgeItem = new BadgeItem()

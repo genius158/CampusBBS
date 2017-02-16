@@ -79,30 +79,4 @@
         <item name="mrl_rippleBackground">@color/cr00000000</item>
         <item name="mrl_ripplePersistent">false</item>
     </style>
-
-
-    <style name="ButtonColor1">
-        <item name="android:colorControlNormal">@color/colorPrimary1</item>
-        <item name="android:colorAccent">@color/colorAccent1</item>
-        <item name="android:colorControlActivated">@color/colorPrimaryDark1</item>
-    </style>
-
-    <style name="ButtonColor2">
-        <item name="android:colorControlNormal">@color/colorPrimary2</item>
-        <item name="android:colorAccent">@color/colorAccent2</item>
-        <item name="android:colorControlActivated">@color/colorPrimaryDark2</item>
-    </style>
-
-    <style name="ButtonColor3">
-        <item name="android:colorControlNormal">@color/colorPrimary3</item>
-        <item name="android:colorAccent">@color/colorAccent3</item>
-        <item name="android:colorControlActivated">@color/colorPrimaryDark3</item>
-    </style>
-
-    <style name="ButtonColor4">
-        <item name="android:colorControlNormal">@color/colorPrimary4</item>
-        <item name="android:colorAccent">@color/colorAccent4</item>
-        <item name="android:colorControlActivated">@color/colorPrimaryDark4</item>
-    </style>
-
 </resources>

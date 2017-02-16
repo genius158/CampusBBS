@@ -1,10 +1,15 @@
 package com.yan.campusbbs.module.setting;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.CompoundButtonCompat;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -51,15 +56,8 @@ public class SettingActivity extends BaseActivity {
     CardView commonAppBar;
     @BindView(R.id.setting_system_title)
     TextView settingSystemTitle;
-    @BindView(R.id.setting_img_show_control1)
-    CheckBox settingImgShowControl1;
-    @BindView(R.id.setting_img_show_control2)
-    CheckBox settingImgShowControl2;
-    @BindView(R.id.setting_img_show_control3)
-    CheckBox settingImgShowControl3;
-    @BindView(R.id.setting_img_show_control4)
-    CheckBox settingImgShowControl4;
-    CheckBox[] settingImgShowControl;
+    @BindView(R.id.setting_img_show_control)
+    CheckBox settingImgShowControl;
 
     @BindView(R.id.setting_skin_select1)
     RadioButton settingSkinSelect1;
@@ -85,27 +83,30 @@ public class SettingActivity extends BaseActivity {
     private void init() {
         title.setText("设置中心");
 
-        settingImgShowControl = new CheckBox[4];
-        settingImgShowControl[0] = settingImgShowControl1;
-        settingImgShowControl[1] = settingImgShowControl2;
-        settingImgShowControl[2] = settingImgShowControl3;
-        settingImgShowControl[3] = settingImgShowControl4;
-
         settingSkinSelect = new RadioButton[4];
         settingSkinSelect[0] = settingSkinSelect1;
         settingSkinSelect[1] = settingSkinSelect2;
         settingSkinSelect[2] = settingSkinSelect3;
         settingSkinSelect[3] = settingSkinSelect4;
+
+        CompoundButtonCompat.setButtonTintList(settingSkinSelect1, ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), R.color.colorPrimary1)));
+        CompoundButtonCompat.setButtonTintList(settingSkinSelect2, ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), R.color.colorPrimary2)));
+        CompoundButtonCompat.setButtonTintList(settingSkinSelect3, ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), R.color.colorPrimary3)));
+        CompoundButtonCompat.setButtonTintList(settingSkinSelect4, ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), R.color.colorPrimary4)));
+
         for (RadioButton radioButton : settingSkinSelect) {
             radioButton.setOnCheckedChangeListener(onSkinCheckedChangeListener);
         }
+
+        settingImgShowControl.setOnCheckedChangeListener(onImgShowCheckedChangeListener);
     }
 
     private CompoundButton.OnCheckedChangeListener onImgShowCheckedChangeListener =
             (compoundButton, isSelect) -> {
-                for (CheckBox checkBox : settingImgShowControl) {
-                    checkBox.setChecked(isSelect);
-                }
                 imageControl.setImageShowAble(isSelect);
             };
 
@@ -162,14 +163,6 @@ public class SettingActivity extends BaseActivity {
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
 
-        for (int i = 0; i < settingImgShowControl.length; i++) {
-            if (i == actionChangeSkin.skinIndex) {
-                settingImgShowControl[i].setVisibility(View.VISIBLE);
-            } else {
-                settingImgShowControl[i].setVisibility(View.GONE);
-            }
-        }
-
         for (int i = 0; i < settingSkinSelect.length; i++) {
             if (i == actionChangeSkin.skinIndex && !settingSkinSelect[i].isChecked()) {
                 settingSkinSelect[i].setChecked(true);
@@ -177,14 +170,13 @@ public class SettingActivity extends BaseActivity {
             }
         }
 
-        for (CheckBox checkBox : settingImgShowControl) {
-            checkBox.setOnCheckedChangeListener(onImgShowCheckedChangeListener);
-            checkBox.setChecked(spUtils.getBoolean(MODE_PRIVATE
-                    , SHARED_PREFERENCE
-                    , IMAGE_SHOW_ABLE
-                    , true)
-            );
-        }
+        CompoundButtonCompat.setButtonTintList(settingImgShowControl, ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())));
+
+        settingImgShowControl.setChecked(spUtils.getBoolean(MODE_PRIVATE
+                , SHARED_PREFERENCE
+                , IMAGE_SHOW_ABLE
+                , true));
     }
 
 

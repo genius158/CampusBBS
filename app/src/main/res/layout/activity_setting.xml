@@ -54,8 +54,7 @@
                     android:layout_weight="1"
                     android:text="胖次蓝"
                     android:textColor="@color/colorPrimary1"
-                    android:textSize="@dimen/text_size_sub_title"
-                    app:theme="@style/ButtonColor1" />
+                    android:textSize="@dimen/text_size_sub_title" />
 
                 <RadioButton
                     android:id="@+id/setting_skin_select2"
@@ -64,9 +63,7 @@
                     android:layout_weight="1"
                     android:text="少女粉"
                     android:textColor="@color/colorPrimary2"
-                    android:textSize="@dimen/text_size_sub_title"
-                    app:theme="@style/ButtonColor2" />
-
+                    android:textSize="@dimen/text_size_sub_title" />
 
                 <RadioButton
                     android:id="@+id/setting_skin_select3"
@@ -75,9 +72,7 @@
                     android:layout_weight="1"
                     android:text="草苗绿"
                     android:textColor="@color/colorPrimary3"
-                    android:textSize="@dimen/text_size_sub_title"
-                    app:theme="@style/ButtonColor3" />
-
+                    android:textSize="@dimen/text_size_sub_title" />
 
                 <RadioButton
                     android:id="@+id/setting_skin_select4"
@@ -86,9 +81,7 @@
                     android:layout_weight="1"
                     android:text="基佬紫"
                     android:textColor="@color/colorPrimary4"
-                    android:textSize="@dimen/text_size_sub_title"
-                    app:theme="@style/ButtonColor4" />
-
+                    android:textSize="@dimen/text_size_sub_title" />
 
             </RadioGroup>
 
@@ -115,42 +108,13 @@
 
                 <CheckBox
 
-                    android:id="@+id/setting_img_show_control1"
+                    android:id="@+id/setting_img_show_control"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center"
-                    android:layout_marginRight="10dp"
-                    android:visibility="gone"
-                    app:theme="@style/ButtonColor1" />
-
-                <CheckBox
-                    android:id="@+id/setting_img_show_control2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="10dp"
-                    android:visibility="gone"
-                    app:theme="@style/ButtonColor2" />
-
-                <CheckBox
-                    android:id="@+id/setting_img_show_control3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="10dp"
-                    android:visibility="gone"
-                    app:theme="@style/ButtonColor3" />
-
-                <CheckBox
-                    android:id="@+id/setting_img_show_control4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center"
-                    android:layout_marginRight="10dp"
-                    app:theme="@style/ButtonColor4" />
+                    android:layout_marginRight="10dp" />
 
             </FrameLayout>
-
 
         </LinearLayout>
     </ScrollView>
