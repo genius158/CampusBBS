@@ -7,8 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.LinearLayout;
 
@@ -49,7 +47,6 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends BaseActivity {
-
     private static final String VIEW_PAGER_PAGE = "viewPagerPage";
 
     @Inject
@@ -82,6 +79,11 @@ public class MainActivity extends BaseActivity {
     private boolean isReLoad = false;
     private MaterialSheetFab materialSheetFab;
 
+
+    float[] fabShowAnimationValue = new float[1];
+    private ValueAnimator fabShowAnimation;
+    private ValueAnimator fabHideAnimation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,7 @@ public class MainActivity extends BaseActivity {
             }
         }
         rxBus.post(new ActionMainActivityShowComplete());
+
     }
 
     private void init() {
@@ -140,11 +143,6 @@ public class MainActivity extends BaseActivity {
                     }
                 }));
     }
-
-    float[] fabShowAnimationValue = new float[1];
-
-    private ValueAnimator fabShowAnimation;
-    private ValueAnimator fabHideAnimation;
 
     private ValueAnimator getFabShowAnimation() {
         return animationHelper.createAnimation(

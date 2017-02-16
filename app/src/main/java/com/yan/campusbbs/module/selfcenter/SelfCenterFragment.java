@@ -42,6 +42,8 @@ import butterknife.OnClick;
  * Main UI for the add task screen. Users can enter a task title and description.
  */
 public class SelfCenterFragment extends BaseRefreshFragment implements SelfCenterContract.View {
+    private static final String TAG = "SelfCenterFragment";
+
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -109,20 +111,20 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @Override
     protected void onLoadLazy(Bundle reLoadBundle) {
         super.onLoadLazy(reLoadBundle);
-        Log.e("onLoadLazy", "SelfCenterLoadLazy:" + reLoadBundle);
+        Log.e(TAG, "onLoadLazy: SelfCenterLoadLazy " + reLoadBundle);
     }
 
     @Override
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
         bundle.putFloat("getScrollYDistance", getScrollYDistance());
-        Log.e("getScrollYDistance", getScrollYDistance() + "");
+        Log.e(TAG, "onSaveArguments: getScrollYDistance " + getScrollYDistance());
     }
 
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
-        Log.e("getScrollYDistance", "onReloadArguments" + bundle.getFloat("getScrollYDistance") + "");
+        Log.e(TAG, "onReloadArguments: getScrollYDistance " + bundle.getFloat("getScrollYDistance"));
     }
 
     private void init() {
@@ -137,29 +139,24 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
         adapter.setEnableLoadMore(true);
 
-        adapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                recyclerView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        dataMultiItems.add(
-                                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                                        , new String("发布说说")));
-                        dataMultiItems.add(
-                                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                                        , new String("发布说说")));
-                        dataMultiItems.add(
-                                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                                        , new String("发布说说")));
+        adapter.setOnLoadMoreListener(
+                () -> {
+                    recyclerView.postDelayed(
+                            () -> {
+                                dataMultiItems.add(
+                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                                                , new String("发布说说")));
+                                dataMultiItems.add(
+                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                                                , new String("发布说说")));
+                                dataMultiItems.add(
+                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                                                , new String("发布说说")));
 
-                        adapter.loadMoreComplete();
-                    }
+                                adapter.loadMoreComplete();
+                            }, 100);
+                });
 
-                }, 100);
-
-            }
-        });
     }
 
     private void dataInit() {
