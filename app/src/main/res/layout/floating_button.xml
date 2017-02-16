@@ -10,7 +10,7 @@
         android:layout_height="match_parent">
 
         <!-- Your FAB implementation -->
-        <com.yan.campusbbs.widget.FloatingButton
+        <com.yan.campusbbs.widget.FloatingButton xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,8 +18,12 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="68dp"
+            android:clickable="true"
             android:layout_marginRight="10dp"
-            android:src="@drawable/ic_edit_white_36dp" />
+            android:src="@drawable/ic_edit_white_36dp"
+            android:background="?selectableItemBackground"
+            app:pressedTranslationZ="0dp"
+            app:rippleColor="@color/cr00000000" />
 
         <!-- Overlay that dims the screen -->
         <com.gordonwong.materialsheetfab.DimOverlayFrameLayout
@@ -41,14 +45,14 @@
                 android:layout_height="200dp">
 
                 <TextView
-                    android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_margin="30dp"
-                    android:textColor="@color/cr777777"
-                    android:text="发表评论"
                     android:drawableLeft="@drawable/ic_edit_white_36dp"
-                    android:textSize="@dimen/text_size_sub_title"
-                    android:layout_height="wrap_content" />
+                    android:text="发表评论"
+                    android:textColor="@color/cr777777"
+                    android:textSize="@dimen/text_size_sub_title" />
 
             </android.support.v7.widget.CardView>
         </io.codetail.widget.RevealLinearLayout>
