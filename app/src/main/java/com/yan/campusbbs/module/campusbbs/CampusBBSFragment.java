@@ -127,7 +127,9 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
 
         CampusPagerAdapter adapter =
                 new CampusPagerAdapter(getChildFragmentManager(), appBarBehavior, fragments, pagerTitles);
-
+        if (searchView != null) {
+            appBarBehavior.addAppBar(searchView);
+        }
         viewPager.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         viewPager.addOnPageChangeListener(onPageChangeListener);
@@ -156,6 +158,12 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
 
     public static CampusBBSFragment newInstance() {
         return new CampusBBSFragment();
+    }
+
+    private View searchView;
+
+    public void setMainSearch(View searchView) {
+        this.searchView = searchView;
     }
 
     @Override

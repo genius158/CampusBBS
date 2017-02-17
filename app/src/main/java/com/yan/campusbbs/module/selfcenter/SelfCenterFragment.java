@@ -26,6 +26,8 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.rxbusaction.ActionSelfSearchControl;
+import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
@@ -57,6 +60,8 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @Inject
     SettingHelper changeSkinHelper;
     @Inject
+    RxBus rxBus;
+    @Inject
     AdapterImageControl adapterImageControl;
     @Inject
     AppBarHelper appBarHelper;
@@ -70,6 +75,12 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     List<DataMultiItem> dataMultiItems;
     @BindView(R.id.app_bar_setting)
     ImageView appBarSetting;
+    @BindView(R.id.btn_search)
+    ImageView btnSearch;
+    @BindView(R.id.app_bar_search_layout)
+    FrameLayout appBarSearchLayout;
+    @BindView(R.id.app_bar_search_main_layout)
+    FrameLayout appBarSearchMainLayout;
 
 
     private int actionBarPinHeight;
@@ -89,8 +100,17 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         ButterKnife.bind(this, view);
         daggerInject();
         init();
+        initRxAction();
         dataInit();
         return view;
+    }
+
+    private void initRxAction() {
+        addDisposable(rxBus.getEvent(ActionSelfSearchControl.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(actionSelfSearchControl -> {
+                    appBarSearchMainLayout.setVisibility((actionSelfSearchControl.isShow) ? View.VISIBLE : View.GONE);
+                }));
     }
 
     public SelfCenterFragment() {
@@ -155,7 +175,12 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                                 adapter.loadMoreComplete();
                             }, 100);
                 });
+    }
 
+    public static SelfCenterFragment newInstance() {
+        SelfCenterFragment selfCenterFragment = new SelfCenterFragment();
+        selfCenterFragment.setArguments(new Bundle());
+        return new SelfCenterFragment();
     }
 
     private void dataInit() {
@@ -179,12 +204,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                         , new String("说说")));
 
         adapter.notifyDataSetChanged();
-    }
-
-    public static SelfCenterFragment newInstance() {
-        SelfCenterFragment selfCenterFragment = new SelfCenterFragment();
-        selfCenterFragment.setArguments(new Bundle());
-        return new SelfCenterFragment();
     }
 
     @Override
@@ -258,6 +277,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
                     appBarTitle.setTextColor(color);
                     appBarSetting.setBackgroundColor(color);
+                    btnSearch.setBackgroundColor(color);
 
                 } else if (isNeedAdjustBar) {
                     isNeedAdjustBar = false;
@@ -269,6 +289,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                     );
                     appBarTitle.setTextColor(color);
                     appBarSetting.setBackgroundColor(color);
+                    btnSearch.setBackgroundColor(color);
 
                 }
             }
@@ -298,12 +319,17 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         super.changeSkin(actionChangeSkin);
     }
 
-    @OnClick(R.id.app_bar_setting_layout)
+    @OnClick({R.id.app_bar_setting_layout, R.id.app_bar_search_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.app_bar_setting_layout:
                 startActivity(new Intent(SelfCenterFragment.this.getContext(), SettingActivity.class));
                 break;
+
+            case R.id.app_bar_search_layout:
+                startActivity(new Intent(SelfCenterFragment.this.getContext(), SettingActivity.class));
+                break;
         }
     }
+
 }

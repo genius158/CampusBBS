@@ -8,9 +8,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -85,6 +85,9 @@ public class MainActivity extends BaseActivity {
     ImageView btnSearch;
 
     List<Fragment> fragments;
+    @BindView(R.id.btn_search_layout)
+    FrameLayout btnSearchLayout;
+    private boolean[] btnSearchLayoutShow;
 
     private boolean isReLoad = false;
 
@@ -236,10 +239,19 @@ public class MainActivity extends BaseActivity {
 
     private void initFragment() {
         fragments = new ArrayList<>();
-        fragments.add(SelfCenterFragment.newInstance());
-        fragments.add(CampusBBSFragment.newInstance());
+        SelfCenterFragment selfCenterFragment = SelfCenterFragment.newInstance();
+        fragments.add(selfCenterFragment);
+        CampusBBSFragment campusBBSFragment = CampusBBSFragment.newInstance();
+        campusBBSFragment.setMainSearch(btnSearchLayout);
+        fragments.add(campusBBSFragment);
         fragments.add(FileManagerFragment.newInstance());
-
+        if (getSupportFragmentManager().getFragments() != null) {
+            for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                if (fragment instanceof CampusBBSFragment) {
+                    ((CampusBBSFragment) fragment).setMainSearch(btnSearchLayout);
+                }
+            }
+        }
         DaggerModuleComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
@@ -309,16 +321,25 @@ public class MainActivity extends BaseActivity {
 
     private ViewPager.OnPageChangeListener getPageChangeListener() {
         return new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (positionOffset < 0.2) {
                     btnSearch.setScaleX(1 - positionOffset);
                     btnSearch.setScaleY(1 - positionOffset);
-                    btnSearch.setAlpha(1 - positionOffset * 5f);
+                    if (position == 0) {
+                        if (btnSearch.getAlpha() != 0f) {
+                            btnSearch.setAlpha(0f);
+                        }
+                    } else {
+                        btnSearch.setScaleX(1 - positionOffset);
+                        btnSearch.setScaleY(1 - positionOffset);
+                        btnSearch.setAlpha(1 - positionOffset * 5f);
+                    }
                 } else if (positionOffset > 0.8) {
                     btnSearch.setScaleX(positionOffset);
                     btnSearch.setScaleY(positionOffset);
-                    btnSearch.setAlpha((positionOffset-0.8f) *5f);
+                    btnSearch.setAlpha((positionOffset - 0.8f) * 5f);
                 } else if (positionOffset >= 0.2 && positionOffset <= 0.8) {
                     btnSearch.setAlpha(0f);
                 }
@@ -338,6 +359,7 @@ public class MainActivity extends BaseActivity {
                         if (!isReLoad) {
                             rxBus.post(new ActionTabShow());
                             actionFloating.isScrollDown = true;
+                            btnSearchLayout.setY(0);
                         }
                         break;
                     case 2:
@@ -347,13 +369,15 @@ public class MainActivity extends BaseActivity {
                 bottomNavigationBar.selectTab(position);
                 rxBus.post(new ActionPagerTabClose());
                 isReLoad = false;
+
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
-        };
+        }
+
+                ;
     }
 
     @Override
