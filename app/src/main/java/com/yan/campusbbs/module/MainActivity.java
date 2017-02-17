@@ -359,12 +359,13 @@ public class MainActivity extends BaseActivity {
                         if (!isReLoad) {
                             rxBus.post(new ActionTabShow());
                             actionFloating.isScrollDown = true;
-                            btnSearchLayout.setY(0);
                         }
                         break;
                     case 2:
                         break;
                 }
+                btnSearchLayout.setY(0);
+
                 rxBus.post(actionFloating);
                 bottomNavigationBar.selectTab(position);
                 rxBus.post(new ActionPagerTabClose());
