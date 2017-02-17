@@ -34,16 +34,7 @@ public class CampusAppBarBehavior extends AppBarBehavior {
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-        if (actionFloating == null) {
-            actionFloating = new ActionFloatingButton();
-        }
-        if (dyConsumed < 0) {
-            actionFloating.isScrollDown = true;
-            rxBus.post(actionFloating);
-        } else if (dyConsumed > 0) {
-            actionFloating.isScrollDown = false;
-            rxBus.post(actionFloating);
-    }
+
     }
 
     public void setRxBus(RxBus rxBus) {

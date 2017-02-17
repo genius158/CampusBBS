@@ -11,6 +11,7 @@ import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
@@ -80,8 +81,11 @@ public class MainActivity extends BaseActivity {
     CardView fabSheet;
     @BindView(R.id.floating_button_container)
     LinearLayout floatingButtonContainer;
+    @BindView(R.id.btn_search)
+    ImageView btnSearch;
 
     List<Fragment> fragments;
+
     private boolean isReLoad = false;
 
     float[] fabShowAnimationValue = new float[1];
@@ -253,7 +257,6 @@ public class MainActivity extends BaseActivity {
         int sheetColor = ContextCompat.getColor(this, R.color.crFEFEFE);
         int fabColor = ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId());
 
-
         MaterialSheetFab materialSheetFab = new MaterialSheetFab(fab, fabSheet, overlay, sheetColor, fabColor);
         materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
             @Override
@@ -308,30 +311,39 @@ public class MainActivity extends BaseActivity {
         return new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                if (positionOffset < 0.2) {
+                    btnSearch.setScaleX(1 - positionOffset);
+                    btnSearch.setScaleY(1 - positionOffset);
+                    btnSearch.setAlpha(1 - positionOffset * 5f);
+                } else if (positionOffset > 0.8) {
+                    btnSearch.setScaleX(positionOffset);
+                    btnSearch.setScaleY(positionOffset);
+                    btnSearch.setAlpha((positionOffset-0.8f) *5f);
+                } else if (positionOffset >= 0.2 && positionOffset <= 0.8) {
+                    btnSearch.setAlpha(0f);
+                }
             }
 
             @Override
             public void onPageSelected(int position) {
                 if (actionFloating == null) {
                     actionFloating = new ActionFloatingButton();
-                    actionFloating.isScrollDown = false;
-
                 }
+                actionFloating.isScrollDown = false;
+
                 switch (position) {
                     case 0:
-                        rxBus.post(actionFloating);
                         break;
                     case 1:
                         if (!isReLoad) {
                             rxBus.post(new ActionTabShow());
+                            actionFloating.isScrollDown = true;
                         }
                         break;
                     case 2:
-                        rxBus.post(actionFloating);
                         break;
                 }
-
+                rxBus.post(actionFloating);
                 bottomNavigationBar.selectTab(position);
                 rxBus.post(new ActionPagerTabClose());
                 isReLoad = false;

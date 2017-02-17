@@ -22,6 +22,7 @@ import com.yan.campusbbs.module.campusbbs.study.StudyFragment;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
 import com.yan.campusbbs.util.RxBus;
@@ -181,6 +182,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
         public void onPageSelected(int position) {
             if (!isReLoad) {
                 rxBus.post(new ActionTabShow());
+                rxBus.post(new ActionFloatingButton(true));
                 rxBus.post(new ActionPagerTabClose());
             }
             isReLoad = false;

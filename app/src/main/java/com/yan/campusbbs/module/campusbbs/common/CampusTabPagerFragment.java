@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
@@ -58,6 +59,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         pagerBarRecycler().setLayoutManager(linearLayoutManager);
         pagerBarRecycler().setAdapter(campusPagerTabAdapter());
+        recyclerView().addOnScrollListener(onScrollListener);
 
         campusPagerTabAdapter().setOnItemClickListener(onItemClickListener);
         campusPagerTabMoreAdapter().setOnItemClickListener(onItemClickListener);
@@ -297,6 +299,23 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         return getScrollDistance(recyclerView(), false);
     }
 
+    private ActionFloatingButton actionFloating;
+    private RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            if (actionFloating == null) {
+                actionFloating = new ActionFloatingButton();
+            }
+            if (dy < 0 && !actionFloating.isScrollDown) {
+                actionFloating.isScrollDown = true;
+                rxBus().post(actionFloating);
+            } else if (dy > 0 && actionFloating.isScrollDown) {
+                actionFloating.isScrollDown = false;
+                rxBus().post(actionFloating);
+            }
+        }
+    };
 
     public float getScrollDistance(RecyclerView recyclerView, boolean isHorizontal) {
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
