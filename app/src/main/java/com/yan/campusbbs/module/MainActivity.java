@@ -376,9 +376,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
             }
-        }
-
-                ;
+        };
     }
 
     @Override
