@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/crE9E9E9"
+    android:background="@color/crFFFFFF"
     android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/self_part_one_img"
         style="@style/ImageBase"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="wrap_content" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_alignBottom="@id/self_part_one_img"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp">
 
@@ -50,8 +50,45 @@
                 android:textColor="@color/crFFFFFF"
                 android:textSize="@dimen/text_size_content" />
         </LinearLayout>
-
-
     </FrameLayout>
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/fragment_self_center_sign"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:layout_below="@id/self_part_one_img"
+        android:background="@color/crFFFFFF"
+        android:gravity="center_vertical"
+        android:hint="@string/say_some_things"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/cr3C3B41"
+        android:textSize="@dimen/text_size_title" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fragment_self_center_sign"
+        android:background="@color/crE9E9E9"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="个人动态"
+            android:textColor="@color/cr777777" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="更多"
+            android:textColor="@color/cr777777" />
+    </FrameLayout>
+
+</RelativeLayout>

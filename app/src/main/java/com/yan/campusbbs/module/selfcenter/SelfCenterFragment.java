@@ -155,7 +155,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         recyclerView.clearOnScrollListeners();
         adapterImageControl.attachRecyclerView(recyclerView);
         recyclerView.addOnScrollListener(getOnScrollListener());
-
         adapter.setEnableLoadMore(true);
 
         adapter.setOnLoadMoreListener(
@@ -163,13 +162,13 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                     recyclerView.postDelayed(
                             () -> {
                                 dataMultiItems.add(
-                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                                                 , new String("发布说说")));
                                 dataMultiItems.add(
-                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                                                 , new String("发布说说")));
                                 dataMultiItems.add(
-                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                                                 , new String("发布说说")));
 
                                 adapter.loadMoreComplete();
@@ -188,20 +187,20 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
                         , new String("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                        , new String("说说")));
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                        , new String("说说")));
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                        , new String("说说")));
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                        , new String("说说")));
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                        , new String("说说")));
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
 
         adapter.notifyDataSetChanged();
     }
@@ -212,42 +211,16 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         dataMultiItems.add(
                 new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
                         , new String("http://img3.imgtn.bdimg.com/it/u=2681925759,1488026640&fm=23&gp=0.jpg")));
+
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("http://img3.imgtn.bdimg.com/it/u=2681925759,1488026640&fm=23&gp=0.jpg")));
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                        , new String("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263907&di=c436e10ebb875da6eff0cfdafa15712b&imgtype=jpg&er=1&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201308%2F31%2F20130831185515_TmBhr.jpeg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                        , new String("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263941&di=fe9a2ebeff706f423ea53ce88d2ae55f&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160927%2Faddefebf625b4d9ca7a09b9154e1a270_th.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q5521K36.jpg")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q552363P.jpg")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("http://uploads.xuexila.com/allimg/1609/658-16092PU508.jpg")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("http://uploads.xuexila.com/allimg/1609/658-16092PU514.jpg")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                        , new String("发布说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                        , new String("发布说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                        , new String("发布说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                        , new String("发布说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                        , new String("发布说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
-                        , new String("发布说说")));
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                        , new String("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263969&di=189f988069e9aebca15a57284c410513&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F3bf33a87e950352a5b31d24d5343fbf2b2118b27.jpg")));
 
         adapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);

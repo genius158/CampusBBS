@@ -8,6 +8,7 @@
         android:id="@+id/pager_tab_item_title"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
+        android:textColor="@color/cr3C3B41"
         android:background="?selectableItemBackground"
         android:clickable="true" />
     <!--android:background="?selectableItemBackgroundBorderless" -->

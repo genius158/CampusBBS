@@ -45,6 +45,7 @@
     </style>
 
     <style name="ImageBase.Circle">
+        <item name="actualImageScaleType">focusCrop</item>
         <item name="roundAsCircle">true</item>
     </style>
 

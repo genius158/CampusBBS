@@ -1,16 +1,12 @@
 package com.yan.campusbbs.module.selfcenter;
 
 import android.content.Context;
-import android.view.ViewGroup;
-
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.repository.DataMultiItem;
 import com.yan.campusbbs.util.FrescoUtils;
-import com.yan.campusbbs.util.SizeUtils;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,14 +17,14 @@ import javax.inject.Inject;
 public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, BaseViewHolder> {
 
     public static final int ITEM_TYPE_SELF_HEADER = 1;
-    public static final int ITEM_TYPE_SELF_PUSH_WARD = 2;
+    public static final int ITEM_TYPE_SELF_SELF_DYNAMIC = 2;
     private Context context;
 
     @Inject
     public SelfCenterMultiItemAdapter(List<DataMultiItem> data, Context context) {
         super(data);
-        addItemType(ITEM_TYPE_SELF_HEADER, R.layout.fragment_self_center_part_one);
-        addItemType(ITEM_TYPE_SELF_PUSH_WARD, R.layout.string_data);
+        addItemType(ITEM_TYPE_SELF_HEADER, R.layout.fragment_self_center_bg_header_sign);
+        addItemType(ITEM_TYPE_SELF_SELF_DYNAMIC, R.layout.fragment_self_center_self_dynamic_item);
         this.context = context;
     }
 
@@ -37,19 +33,20 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
         switch (holder.getItemViewType()) {
             case ITEM_TYPE_SELF_HEADER:
                 SimpleDraweeView imageView = holder.getView(R.id.self_part_one_img);
-                ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
-                layoutParams.height = (int) (SizeUtils.getFullScreenWidth(context) / 3 * 2);
-                imageView.setLayoutParams(layoutParams);
-                FrescoUtils.display(imageView, (String) multiItem.data);
+                imageView.setAspectRatio(1.50f);
+                FrescoUtils.display(imageView, String.valueOf(multiItem.data));
 
-                FrescoUtils.display(holder
-                                .getView(R.id.self_part_one_header)
-                        , (String) multiItem.data);
+                FrescoUtils.display(holder.getView(R.id.self_part_one_header)
+                        , String.valueOf(multiItem.data));
 
                 break;
-            case ITEM_TYPE_SELF_PUSH_WARD:
-                holder.setText(R.id.pager_tab_item_title, (String) multiItem.data);
+            case ITEM_TYPE_SELF_SELF_DYNAMIC:
+                SimpleDraweeView simpleDraweeView = holder.getView(R.id.self_part_one_img);
+                FrescoUtils.adjustViewOnImage(context, simpleDraweeView, String.valueOf(multiItem.data));
+
                 break;
         }
     }
+
+
 }

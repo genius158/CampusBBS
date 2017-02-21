@@ -121,9 +121,9 @@ public class MainActivity extends BaseActivity {
         rxPermissions.request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe(aBoolean -> {
                     if (aBoolean) {
-                        Toast.makeText(getBaseContext(), "true", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getBaseContext(), "true", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(getBaseContext(), "false", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getBaseContext(), "false", Toast.LENGTH_SHORT).show();
                     }
                 });
 

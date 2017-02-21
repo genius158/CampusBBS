@@ -51,7 +51,7 @@
                     android:layout_margin="30dp"
                     android:drawableLeft="@drawable/ic_edit_white_36dp"
                     android:text="发表评论"
-                    android:textColor="@color/cr777777"
+                    android:textColor="@color/cr3C3B41"
                     android:textSize="@dimen/text_size_sub_title" />
 
             </android.support.v7.widget.CardView>

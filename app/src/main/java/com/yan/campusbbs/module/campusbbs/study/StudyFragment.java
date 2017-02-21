@@ -121,31 +121,31 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
         //-----------------------------------------------------------------
 
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_PUSH_WARD
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
                         , new String("说说")));
 
         multiItemAdapter.notifyDataSetChanged();
