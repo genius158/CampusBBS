@@ -17,6 +17,7 @@
     <string name="test_text">test测试test测试test测试</string>
     <string name="self_dynamic">个人动态</string>
     <string name="more">更多</string>
+    <string name="friend_dynamic">好友动态</string>
 
 
 </resources>

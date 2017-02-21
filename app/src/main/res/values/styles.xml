@@ -40,8 +40,11 @@
     fresco:roundAsCircle="false"
 -->
     <style name="ImageBase">
-        <item name="actualImageScaleType">focusCrop</item>
         <item name="fadeDuration">200</item>
+        <item name="actualImageScaleType">fitCenter</item>
+    </style>
+    <style name="ImageBase.focusCrop">
+        <item name="actualImageScaleType">focusCrop</item>
     </style>
 
     <style name="ImageBase.Circle">
