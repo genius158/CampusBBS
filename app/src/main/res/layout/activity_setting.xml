@@ -8,7 +8,6 @@
     android:fitsSystemWindows="true"
     tools:context="com.yan.campusbbs.module.MainActivity">
 
-    <include layout="@layout/common_app_bar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -119,5 +118,6 @@
         </LinearLayout>
     </ScrollView>
 
+    <include layout="@layout/common_app_bar" />
 
 </android.support.design.widget.CoordinatorLayout>

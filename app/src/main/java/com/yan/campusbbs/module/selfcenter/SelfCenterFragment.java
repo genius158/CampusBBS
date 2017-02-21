@@ -2,8 +2,11 @@ package com.yan.campusbbs.module.selfcenter;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -56,7 +59,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @BindView(R.id.store_house_ptr_frame)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.app_bar_background)
-    View appBarBackground;
+    CardView appBarBackground;
     @BindView(R.id.app_bar_title)
     TextView appBarTitle;
     @BindView(R.id.app_bar)
@@ -288,6 +291,11 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            appBarBackground.setBackgroundColor(
+                    ContextCompat.getColor(getContext(),R.color.crFFFFFF)
+            );
+        }
     }
 
     @OnClick({R.id.app_bar_setting_layout, R.id.app_bar_search_layout})

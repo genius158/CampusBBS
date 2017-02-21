@@ -1,6 +1,7 @@
 package com.yan.campusbbs.module;
 
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -398,9 +399,16 @@ public class MainActivity extends BaseActivity {
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
 
-        ViewCompat.setBackgroundTintList(fab, ColorStateList.valueOf(
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            fab.setBackgroundColor(
+                    ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
+            );
+        }
+
+        fab.setBackgroundTintList( ColorStateList.valueOf(
                 ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
         ));
+
         setupFab(actionChangeSkin);
 
         bottomNavigationBar.clearAll();

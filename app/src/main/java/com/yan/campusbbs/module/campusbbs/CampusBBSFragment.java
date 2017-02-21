@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.campusbbs;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -107,6 +108,7 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
     }
 
     private void init() {
+
         pagerTitles[0] = getString(R.string.campus_bbs_study);
         pagerTitles[1] = getString(R.string.campus_bbs_life);
         pagerTitles[2] = getString(R.string.campus_bbs_job);
@@ -177,6 +179,12 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
         tabContainer.setCardBackgroundColor(
                 ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
         );
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            tabContainer.setBackgroundColor(
+                    ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
+            );
+        }
     }
 
 

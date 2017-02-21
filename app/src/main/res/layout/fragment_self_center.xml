@@ -42,59 +42,16 @@
             android:id="@+id/app_bar_title"
             style="@style/TextShadow.TabTextShadow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/action_bar_height"
             android:gravity="center"
             android:text="@string/self_center"
             android:textSize="@dimen/text_size_title" />
 
 
+
         <FrameLayout
-            android:id="@+id/app_bar_search_main_layout"
+            android:layout_gravity="right"
             android:layout_width="@dimen/action_bar_height"
-            android:layout_height="@dimen/action_bar_height"
-            android:layout_marginLeft="5dp"
-            android:background="@color/cr00000000">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:paddingBottom="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:paddingTop="4dp"
-                android:src="@drawable/ic_search_72pt" />
-
-            <FrameLayout
-                android:id="@+id/app_bar_search_layout"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:background="?selectableItemBackgroundBorderless"
-                android:paddingBottom="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:paddingTop="4dp">
-
-                <com.yan.campusbbs.widget.MaskableFrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:mask="@drawable/ic_search_72pt"
-                    app:porterduffxfermode="DST_IN">
-
-                    <ImageView
-                        android:id="@+id/btn_search"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/crFFFFFF"
-                        android:clickable="true"
-                        android:scaleType="centerInside" />
-                </com.yan.campusbbs.widget.MaskableFrameLayout>
-            </FrameLayout>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
             android:layout_height="@dimen/action_bar_height"
             android:background="@color/cr00000000">
 
@@ -133,6 +90,51 @@
                 </com.yan.campusbbs.widget.MaskableFrameLayout>
             </FrameLayout>
         </FrameLayout>
+
+        <FrameLayout
+        android:id="@+id/app_bar_search_main_layout"
+        android:layout_width="@dimen/action_bar_height"
+        android:layout_height="@dimen/action_bar_height"
+        android:layout_marginLeft="5dp"
+        android:background="@color/cr00000000">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp"
+            android:src="@drawable/ic_search_72pt" />
+
+        <FrameLayout
+            android:id="@+id/app_bar_search_layout"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="?selectableItemBackgroundBorderless"
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="4dp">
+
+            <com.yan.campusbbs.widget.MaskableFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:mask="@drawable/ic_search_72pt"
+                app:porterduffxfermode="DST_IN">
+
+                <ImageView
+                    android:id="@+id/btn_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/crFFFFFF"
+                    android:scaleType="centerInside" />
+            </com.yan.campusbbs.widget.MaskableFrameLayout>
+        </FrameLayout>
+    </FrameLayout>
+
     </FrameLayout>
 
 

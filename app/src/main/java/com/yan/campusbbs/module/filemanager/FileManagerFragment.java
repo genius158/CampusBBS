@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.filemanager;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -66,7 +67,7 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
 
     @Override
     protected void onLoadLazy(Bundle reLoadBundle) {
-        Log.e("onLoadLazy", "FileManagerLoadLazy:"+reLoadBundle);
+        Log.e("onLoadLazy", "FileManagerLoadLazy:" + reLoadBundle);
     }
 
     @Override
@@ -132,6 +133,11 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
         appBarBackground.setCardBackgroundColor(
                 ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
         );
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            appBarBackground.setBackgroundColor(
+                    ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
+            );
+        }
     }
 
 }
