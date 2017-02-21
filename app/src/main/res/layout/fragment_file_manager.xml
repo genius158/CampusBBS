@@ -32,6 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="1dp"
+                app:cardUseCompatPadding="false"
                 app:cardBackgroundColor="@color/colorPrimary"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="1sp" />

@@ -152,15 +152,15 @@ public class SettingActivity extends BaseActivity {
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        commonAppBar.setCardBackgroundColor(
-                ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
-        );
-
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             commonAppBar.setBackgroundColor(
                     ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
             );
         }
+
+        commonAppBar.setCardBackgroundColor(
+                ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
+        );
 
         settingSystemTitle.setTextColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())

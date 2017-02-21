@@ -4,20 +4,20 @@
     android:id="@+id/common_app_bar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/action_bar_height"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="1sp"
     android:orientation="vertical"
-    app:cardBackgroundColor="@color/colorPrimaryDark">
+    app:cardBackgroundColor="@color/colorPrimaryDark"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="1sp" >
 
     <ImageView
         android:id="@+id/arrow_back"
         android:layout_width="33dp"
         android:layout_height="33dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
         android:background="?selectableItemBackgroundBorderless"
         android:clickable="true"
         android:padding="5dp"
-        android:layout_marginLeft="5dp"
         android:src="@drawable/ic_arrow_back_white_24dp" />
 
     <TextView
