@@ -40,13 +40,15 @@
 
             <ImageView
                 android:id="@+id/btn_search"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="2dp"
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:padding="5dp"
+                android:paddingTop="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="4dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_search_white_72pt" />
         </FrameLayout>

@@ -56,21 +56,25 @@
             android:background="@color/cr00000000">
 
             <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="2dp"
-                android:padding="5dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="4dp"
                 android:src="@drawable/ic_search_72pt" />
 
             <FrameLayout
                 android:id="@+id/app_bar_search_layout"
-                android:layout_width="33dp"
-                android:layout_height="33dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="2dp"
                 android:background="?selectableItemBackgroundBorderless"
-                android:padding="5dp">
+                android:paddingBottom="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="4dp">
 
                 <com.yan.campusbbs.widget.MaskableFrameLayout
                     android:layout_width="match_parent"

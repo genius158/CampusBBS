@@ -13,6 +13,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -23,6 +24,7 @@ import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
@@ -45,12 +47,14 @@ import com.yan.campusbbs.widget.FloatingButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Manifest;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import okhttp3.OkHttpClient;
 
 public class MainActivity extends BaseActivity {
     private static final String BUNDLE_VIEW_PAGER_PAGE = "viewPagerPage";
@@ -112,6 +116,17 @@ public class MainActivity extends BaseActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         rxBus.post(new ActionMainActivityShowComplete());
+
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+                        Toast.makeText(getBaseContext(), "true", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getBaseContext(), "false", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
     @Override
