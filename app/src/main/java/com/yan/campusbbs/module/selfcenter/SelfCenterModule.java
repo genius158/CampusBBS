@@ -3,7 +3,7 @@ package com.yan.campusbbs.module.selfcenter;
 
 import android.content.Context;
 
-import com.yan.campusbbs.repository.DataMultiItem;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -21,7 +21,7 @@ import com.yan.campusbbs.module.selfcenter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
-import com.yan.campusbbs.repository.DataMultiItem;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationUtils;
@@ -121,31 +121,31 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
         //-----------------------------------------------------------------
 
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("说说")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("说说")));
 
         multiItemAdapter.notifyDataSetChanged();

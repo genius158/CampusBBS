@@ -1,12 +1,13 @@
-package com.yan.campusbbs.repository;
+package com.yan.campusbbs.repository.entity;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.yan.campusbbs.util.sort.Sort;
 
 /**
  * Created by yan on 2017/2/10.
  */
 
-public class DataMultiItem implements MultiItemEntity {
+public class DataMultiItem implements MultiItemEntity ,Sort {
     public Object data;
     public int type;
 
@@ -18,5 +19,10 @@ public class DataMultiItem implements MultiItemEntity {
     @Override
     public int getItemType() {
         return type;
+    }
+
+    @Override
+    public int getIndex() {
+        return 0;
     }
 }

@@ -20,15 +20,20 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
+import com.yan.campusbbs.module.selfcenter.entity.FriendDynamic;
+import com.yan.campusbbs.module.selfcenter.entity.FriendTitle;
+import com.yan.campusbbs.module.selfcenter.entity.SelfDynamic;
+import com.yan.campusbbs.module.selfcenter.entity.SelfCenterHeader;
 import com.yan.campusbbs.module.setting.AdapterImageControl;
 import com.yan.campusbbs.module.setting.SettingActivity;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
-import com.yan.campusbbs.repository.DataMultiItem;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionSelfSearchControl;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.util.sort.SortUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,16 +166,9 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                 () -> {
                     recyclerView.postDelayed(
                             () -> {
-                                dataMultiItems.add(
-                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
-                                                , new String("发布说说")));
-                                dataMultiItems.add(
-                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
-                                                , new String("发布说说")));
-                                dataMultiItems.add(
-                                        new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
-                                                , new String("发布说说")));
-
+                                dataMultiItems.add(new FriendDynamic(new String("发布说说")));
+                                dataMultiItems.add(new FriendDynamic(new String("发布说说")));
+                                dataMultiItems.add(new FriendDynamic(new String("发布说说")));
                                 adapter.loadMoreComplete();
                             }, 100);
                 });
@@ -184,24 +182,24 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
     private void dataInit() {
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg")));
+                new SelfCenterHeader(new String("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
-                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
+                new SelfDynamic(new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
-                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
+                new SelfDynamic(new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
-                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
+                new SelfDynamic(new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
-                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
+                new FriendDynamic(new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
-                        , new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
+                new FriendDynamic(new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
 
+        notifyDataSetChanged();
+    }
+
+    private void notifyDataSetChanged() {
+        dataMultiItems.add(new FriendTitle());
+        SortUtils.sort(dataMultiItems);
         adapter.notifyDataSetChanged();
     }
 
@@ -213,16 +211,16 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                         , new String("http://img3.imgtn.bdimg.com/it/u=2681925759,1488026640&fm=23&gp=0.jpg")));
 
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263907&di=c436e10ebb875da6eff0cfdafa15712b&imgtype=jpg&er=1&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201308%2F31%2F20130831185515_TmBhr.jpeg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263941&di=fe9a2ebeff706f423ea53ce88d2ae55f&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160927%2Faddefebf625b4d9ca7a09b9154e1a270_th.jpg")));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_SELF_DYNAMIC
+                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
                         , new String("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263969&di=189f988069e9aebca15a57284c410513&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F3bf33a87e950352a5b31d24d5343fbf2b2118b27.jpg")));
 
-        adapter.notifyDataSetChanged();
+        notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
     }
 

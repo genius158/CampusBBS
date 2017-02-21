@@ -1,8 +1,8 @@
 package com.yan.campusbbs.repository;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.yan.campusbbs.repository.entity.DownloadProListener;
-import com.yan.campusbbs.repository.entity.ProgressResponse;
+import com.yan.campusbbs.repository.entity.download.DownloadProListener;
+import com.yan.campusbbs.repository.entity.download.ProgressResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
