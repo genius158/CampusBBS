@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/crFFFFFF"
+    android:orientation="vertical"
+    android:paddingBottom="30dp">
+
+    <TextView
+        android:id="@+id/message_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:text="@string/test_text"
+        android:textColor="@color/cr3C3B41"
+        android:textSize="@dimen/text_size_content" />
+
+    <TextView
+        android:id="@+id/self_dynamic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/message_detail"
+        android:layout_marginTop="2dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:text="@string/test_text"
+        android:textColor="@color/cr3C3B41"
+        android:textSize="@dimen/text_size_sub_title" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/self_part_one_img"
+        style="@style/ImageBase"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/self_dynamic"
+        android:layout_centerHorizontal="true" />
+
+    <View
+        android:id="@+id/space_line"
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:layout_below="@id/self_part_one_img"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/cr11000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/space_line"
+        android:padding="10dp"
+        android:text="@string/test_text"
+        android:textColor="@color/cr3C3B41"
+        android:textSize="@dimen/text_size_content" />
+
+</RelativeLayout>
