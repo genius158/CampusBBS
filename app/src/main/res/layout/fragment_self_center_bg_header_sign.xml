@@ -43,7 +43,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="飞翔的蝴蝶"
                 android:textColor="@color/crFFFFFF"
-                android:textSize="@dimen/text_size_title" />
+                android:textSize="@dimen/size_sp_16" />
 
             <TextView
                 style="@style/TextShadow"
@@ -52,7 +52,7 @@
                 android:gravity="center"
                 android:text="等级:18"
                 android:textColor="@color/crFFFFFF"
-                android:textSize="@dimen/text_size_content" />
+                android:textSize="@dimen/size_sp_14" />
         </LinearLayout>
     </FrameLayout>
 
@@ -68,7 +68,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textColor="@color/cr3C3B41"
-        android:textSize="@dimen/text_size_title" />
+        android:textSize="@dimen/size_sp_16" />
 
     <FrameLayout
         android:layout_width="match_parent"

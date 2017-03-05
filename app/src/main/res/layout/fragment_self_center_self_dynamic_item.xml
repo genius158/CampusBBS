@@ -20,7 +20,7 @@
             android:paddingTop="5dp"
             android:text="@string/test_text"
             android:textColor="@color/cr3C3B41"
-            android:textSize="@dimen/text_size_content" />
+            android:textSize="@dimen/size_sp_14" />
 
         <TextView
             android:id="@+id/self_dynamic"
@@ -32,7 +32,7 @@
             android:paddingTop="5dp"
             android:text="@string/test_text"
             android:textColor="@color/cr3C3B41"
-            android:textSize="@dimen/text_size_sub_title" />
+            android:textSize="@dimen/size_sp_15" />
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/self_part_one_img"
@@ -59,7 +59,7 @@
             android:padding="10dp"
             android:text="@string/test_text"
             android:textColor="@color/cr3C3B41"
-            android:textSize="@dimen/text_size_content" />
+            android:textSize="@dimen/size_sp_14" />
 
     </RelativeLayout>
 </FrameLayout>

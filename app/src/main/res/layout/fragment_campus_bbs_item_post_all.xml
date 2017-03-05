@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="test测试"
             android:textColor="@color/cr3C3B41"
-            android:textSize="@dimen/text_size_title" />
+            android:textSize="@dimen/size_sp_16" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,6 +34,6 @@
             android:layout_marginTop="10dp"
             android:text="test测试"
             android:textColor="@color/cr777777"
-            android:textSize="@dimen/text_size_content" />
+            android:textSize="@dimen/size_sp_14" />
     </LinearLayout>
 </FrameLayout>

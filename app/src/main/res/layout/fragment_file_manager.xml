@@ -45,7 +45,7 @@
             android:gravity="center"
             android:text="@string/file_center"
             android:textColor="@color/crFEFEFE"
-            android:textSize="@dimen/text_size_title" />
+            android:textSize="@dimen/size_sp_16" />
 
     </FrameLayout>
 

@@ -25,7 +25,7 @@
             android:layout_marginLeft="5dp"
             android:text="test测试"
             android:textColor="@color/cr777777"
-            android:textSize="@dimen/text_size_title" />
+            android:textSize="@dimen/size_sp_14" />
     </LinearLayout>
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_marginTop="8dp"
         android:text="test测试"
         android:textColor="@color/cr3C3B41"
-        android:textSize="@dimen/text_size_title" />
+        android:textSize="@dimen/size_sp_16" />
 
     <LinearLayout
         android:gravity="right"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:text="浏览(1000)"
             android:textColor="@color/cr777777"
-            android:textSize="@dimen/text_size_sub_content" />
+            android:textSize="@dimen/size_sp_12" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
             android:layout_marginLeft="10dp"
             android:text="点赞(1000)"
             android:textColor="@color/cr777777"
-            android:textSize="@dimen/text_size_sub_content" />
+            android:textSize="@dimen/size_sp_12" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,6 +63,6 @@
             android:layout_marginLeft="10dp"
             android:text="回复(1000)"
             android:textColor="@color/cr777777"
-            android:textSize="@dimen/text_size_sub_content" />
+            android:textSize="@dimen/size_sp_12" />
     </LinearLayout>
 </LinearLayout>

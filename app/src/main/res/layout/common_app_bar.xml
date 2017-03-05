@@ -27,5 +27,5 @@
         android:gravity="center"
         android:text="text"
         android:textColor="@color/crFFFFFF"
-        android:textSize="@dimen/text_size_title" />
+        android:textSize="@dimen/size_sp_16" />
 </android.support.v7.widget.CardView>
