@@ -66,7 +66,7 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
                         Toast.makeText(context, "position:" + position, Toast.LENGTH_SHORT).show());
                 banner.setDataSource(multiItem.data);
                 banner.attachIndicator(bannerIndicator);
-
+                banner.resumeScroll();
                 break;
             case ITEM_TYPE_POST_ALL:
                 SimpleDraweeView img = holder.getView(R.id.img);

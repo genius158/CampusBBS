@@ -47,7 +47,7 @@
                 android:paddingRight="4dp"
                 android:paddingTop="4dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_search_white_72pt" />
+                android:src="@drawable/ic_search_white" />
         </FrameLayout>
     </FrameLayout>
 

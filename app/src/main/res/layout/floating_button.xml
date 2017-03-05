@@ -20,7 +20,7 @@
             android:layout_marginBottom="68dp"
             android:clickable="true"
             android:layout_marginRight="10dp"
-            android:src="@drawable/ic_edit_white_36dp"
+            android:src="@drawable/ic_edit_white"
             android:background="?selectableItemBackground"
             app:pressedTranslationZ="0dp"
             app:rippleColor="@color/cr00000000" />
@@ -49,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="30dp"
-                    android:drawableLeft="@drawable/ic_edit_white_36dp"
+                    android:drawableLeft="@drawable/ic_edit_white"
                     android:text="发表评论"
                     android:textColor="@color/cr3C3B41"
                     android:textSize="@dimen/size_sp_15" />
