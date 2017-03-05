@@ -14,10 +14,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.campusbbs.adapter.CampusDataAdapter;
 import com.yan.campusbbs.module.campusbbs.adapter.CampusPagerTabAdapter;
+import com.yan.campusbbs.module.campusbbs.data.BannerImgs;
+import com.yan.campusbbs.module.campusbbs.data.PostAll;
 import com.yan.campusbbs.module.campusbbs.ui.common.CampusTabPagerFragment;
 import com.yan.campusbbs.module.campusbbs.ui.common.CampusTabPagerModule;
-import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -28,6 +30,7 @@ import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -77,7 +80,7 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     @Inject
     List<DataMultiItem> dataMultiItems;
     @Inject
-    SelfCenterMultiItemAdapter multiItemAdapter;
+    CampusDataAdapter multiItemAdapter;
     @Inject
     StudyPresenter mPresenter;
     @BindView(R.id.pager_bar_more_recycler)
@@ -119,35 +122,14 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
         campusPagerTabAdapter.notifyDataSetChanged();
 
         //-----------------------------------------------------------------
-
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("说说")));
-        dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("说说")));
-
+        List<String> bannerImgs = new ArrayList<>();
+        bannerImgs.add("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg");
+        bannerImgs.add("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
+        bannerImgs.add("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg");
+        dataMultiItems.add(new BannerImgs(bannerImgs));
+        dataMultiItems.add(new PostAll("d"));
+        dataMultiItems.add(new PostAll("d"));
+        dataMultiItems.add(new PostAll("d"));
         multiItemAdapter.notifyDataSetChanged();
 
         pagerBarMoreRecycler.setLayoutManager(getLayoutManager());

@@ -12,4 +12,5 @@
     <dimen name="text_size_title">16sp</dimen>
     <dimen name="text_size_sub_title">15sp</dimen>
     <dimen name="text_size_content">14sp</dimen>
+    <dimen name="text_size_sub_content">12sp</dimen>
 </resources>

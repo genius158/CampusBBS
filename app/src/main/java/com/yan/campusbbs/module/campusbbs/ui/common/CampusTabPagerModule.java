@@ -3,8 +3,8 @@ package com.yan.campusbbs.module.campusbbs.ui.common;
 
 import android.content.Context;
 
+import com.yan.campusbbs.module.campusbbs.adapter.CampusDataAdapter;
 import com.yan.campusbbs.module.campusbbs.adapter.CampusPagerTabAdapter;
-import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ public class CampusTabPagerModule {
     CampusPagerTabAdapter provideCampusPagerTabAdapter(Context context) {
         return new CampusPagerTabAdapter(pagerTabItems, context);
     }
+
     @Provides
     List<CampusPagerTabAdapter.PagerTabItem> getPagerTabItems() {
         return pagerTabItems;
@@ -38,7 +39,7 @@ public class CampusTabPagerModule {
     }
 
     @Provides
-    SelfCenterMultiItemAdapter getSelfCenterMultiItemAdapter(Context context) {
-        return new SelfCenterMultiItemAdapter(multiItems, context);
+    CampusDataAdapter getCampusDataAdapter(Context context) {
+        return new CampusDataAdapter(multiItems, context);
     }
 }

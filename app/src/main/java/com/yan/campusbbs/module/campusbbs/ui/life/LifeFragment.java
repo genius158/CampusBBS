@@ -12,12 +12,15 @@ import android.widget.ImageView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.campusbbs.adapter.CampusDataAdapter;
 import com.yan.campusbbs.module.campusbbs.adapter.CampusPagerTabAdapter;
+import com.yan.campusbbs.module.campusbbs.data.PostAll;
+import com.yan.campusbbs.module.campusbbs.data.PostTag;
 import com.yan.campusbbs.module.campusbbs.ui.common.CampusTabPagerFragment;
 import com.yan.campusbbs.module.campusbbs.ui.common.CampusTabPagerModule;
-import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationUtils;
@@ -46,26 +49,6 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     FrameLayout appBar;
     @BindView(R.id.pager_bar_recycler)
     RecyclerView pagerBarRecycler;
-    @Inject
-    LifePresenter mPresenter;
-
-    @Inject
-    RxBus rxBus;
-    @Inject
-    SelfCenterMultiItemAdapter multiItemAdapter;
-    @Inject
-    CampusPagerTabAdapter campusPagerTabAdapter;
-    @Inject
-    CampusPagerTabAdapter campusPagerTabMoreAdapter;
-    @Inject
-    SettingHelper changeSkinHelper;
-
-    @Inject
-    AnimationUtils animationUtils;
-    @Inject
-    List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems;
-    @Inject
-    SPUtils spUtils;
     @BindView(R.id.pager_bar_more_layout)
     FrameLayout pagerBarMoreLayout;
     @BindView(R.id.pager_bar_more)
@@ -74,6 +57,29 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     ImageView pagerBarMoreArrow;
     @BindView(R.id.pager_bar_more_recycler)
     RecyclerView pagerBarMoreRecycler;
+
+
+    @Inject
+    LifePresenter mPresenter;
+    @Inject
+    RxBus rxBus;
+    @Inject
+    CampusPagerTabAdapter campusPagerTabAdapter;
+    @Inject
+    CampusPagerTabAdapter campusPagerTabMoreAdapter;
+    @Inject
+    SettingHelper changeSkinHelper;
+    @Inject
+    AnimationUtils animationUtils;
+    @Inject
+    List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems;
+    @Inject
+    SPUtils spUtils;
+    @Inject
+    List<DataMultiItem> dataMultiItems;
+    @Inject
+    CampusDataAdapter multiItemAdapter;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -96,6 +102,13 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
 
         pagerBarMoreRecycler.setLayoutManager(getLayoutManager());
         pagerBarMoreRecycler.setAdapter(campusPagerTabMoreAdapter);
+
+        dataMultiItems.add(new PostTag("SSDads"));
+        dataMultiItems.add(new PostTag("SSDads"));
+        dataMultiItems.add(new PostTag("SSDads"));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(multiItemAdapter);
+
     }
 
     @Override
