@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.campusbbs.ui;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -19,6 +20,7 @@ import com.yan.campusbbs.base.BaseSettingControlFragment;
 import com.yan.campusbbs.module.campusbbs.ui.job.JobFragment;
 import com.yan.campusbbs.module.campusbbs.ui.life.LifeFragment;
 import com.yan.campusbbs.module.campusbbs.ui.other.OthersFragment;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.SelfCenterActivity;
 import com.yan.campusbbs.module.campusbbs.ui.study.StudyFragment;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -36,6 +38,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
@@ -51,6 +54,8 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
     TabLayout indicator;
     @BindView(R.id.pager)
     ViewPager viewPager;
+    @BindView(R.id.tab_campus_container)
+    CardView tabContainer;
 
     @Inject
     RxBus rxBus;
@@ -59,13 +64,12 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
     @Inject
     SettingHelper changeSkinHelper;
 
-    @BindView(R.id.tab_campus_container)
-    CardView tabContainer;
-
     private List<Fragment> fragments;
     private boolean isReLoad = false;
 
     private CampusAppBarBehavior appBarBehavior;
+
+    private View searchView;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -162,7 +166,6 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
         return new CampusBBSFragment();
     }
 
-    private View searchView;
 
     public void setMainSearch(View searchView) {
         this.searchView = searchView;
@@ -210,4 +213,8 @@ public class CampusBBSFragment extends BaseSettingControlFragment {
         }
     };
 
+    @OnClick(R.id.btn_self_center)
+    public void onClick() {
+        startActivity(new Intent(getContext(), SelfCenterActivity.class));
+    }
 }

@@ -38,7 +38,9 @@ public abstract class BaseActivity extends AppCompatActivity implements SettingC
         super.onDestroy();
     }
 
-    protected final void settingInit() {
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         skinInit();
     }
 

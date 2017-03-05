@@ -73,7 +73,6 @@ public class SettingActivity extends BaseActivity {
 
         daggerInject();
         init();
-        settingInit();
     }
 
     private void init() {

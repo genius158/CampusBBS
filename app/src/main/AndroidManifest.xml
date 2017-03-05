@@ -31,6 +31,9 @@
         <activity
             android:name=".module.setting.SettingActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.campusbbs.ui.selfcenter.SelfCenterActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

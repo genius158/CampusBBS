@@ -47,7 +47,6 @@ public class FlashActivity extends BaseActivity {
         imageControl.frescoInit();
 
         initRxBusDisposable();
-        settingInit();
     }
 
     @Override
