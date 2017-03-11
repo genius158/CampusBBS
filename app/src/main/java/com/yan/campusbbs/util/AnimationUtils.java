@@ -1,31 +1,19 @@
 package com.yan.campusbbs.util;
 
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.view.View;
 import android.view.animation.Interpolator;
 
-import javax.inject.Inject;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.ValueAnimator;
 
+import javax.inject.Inject;
 
 /**
  * Created by Administrator on 2017/2/13.
  */
 
 public class AnimationUtils {
-    private static AnimationUtils animationUtils;
-
-    public static AnimationUtils getInstance() {
-        if (animationUtils == null) {
-            synchronized (AnimationUtils.class) {
-                if (animationUtils == null) {
-                    animationUtils = new AnimationUtils();
-                }
-            }
-        }
-        return animationUtils;
-    }
 
     @Inject
     public AnimationUtils() {
@@ -42,12 +30,12 @@ public class AnimationUtils {
     }
 
     public ValueAnimator createAnimation(
-            final View target
-            , final AnimationType type
+            View target
+            , AnimationType type
             , long during
             , Interpolator interpolator
             , AnimatorListenerAdapter animatorListenerAdapter
-            , final float[] outputValue
+            , float[] outputValue
             , float... values) {
 
         ValueAnimator animator = null;
@@ -60,14 +48,6 @@ public class AnimationUtils {
                 animator = ObjectAnimator.ofFloat(target, "translationY", values);
                 animator.setInterpolator(interpolator);
                 break;
-            case ALPHA:
-                animator = ObjectAnimator.ofFloat(target, "alpha", values);
-                animator.setInterpolator(interpolator);
-                break;
-            case TRANSLATEX:
-                animator = ObjectAnimator.ofFloat(target, "translationX", values);
-                animator.setInterpolator(interpolator);
-                break;
             case SCALE:
                 animator = ValueAnimator.ofFloat(values);
                 animator.setInterpolator(interpolator);
@@ -76,15 +56,12 @@ public class AnimationUtils {
         animator.setDuration(during);
 
         animator.addUpdateListener(
-                new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        if (outputValue != null) {
-                            outputValue[0] = (float) animation.getAnimatedValue();
-                            if (type == AnimationType.SCALE) {
-                                target.setScaleX(outputValue[0]);
-                                target.setScaleY(outputValue[0]);
-                            }
+                animation -> {
+                    if (outputValue != null) {
+                        outputValue[0] = (float) animation.getAnimatedValue();
+                        if (type == AnimationType.SCALE) {
+                            target.setScaleX(outputValue[0]);
+                            target.setScaleY(outputValue[0]);
                         }
                     }
                 }

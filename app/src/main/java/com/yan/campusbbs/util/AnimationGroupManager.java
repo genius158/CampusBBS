@@ -1,10 +1,11 @@
 package com.yan.campusbbs.util;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
 import android.view.View;
 import android.view.animation.Interpolator;
+
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.nineoldandroids.animation.ValueAnimator;
 
 /**
  * Created by yan on 2017/3/11.
@@ -19,11 +20,17 @@ public class AnimationGroupManager {
     private float[] animationCurrentValue;
     private ValueAnimator goAnimation;
     private ValueAnimator backAnimation;
+    private AnimationUtils animationUtils;
     private Interpolator interpolator;
     private AnimatorListenerAdapter listenerAdapter;
 
-    public AnimationGroupManager(View target, long animationDuring, AnimationUtils.AnimationType animationType, AnimatorListenerAdapter listenerAdapter, Interpolator interpolator, float... animationValues) {
+    public AnimationGroupManager(AnimationUtils animationUtils
+                                 ,    View target, long animationDuring
+            , AnimationUtils.AnimationType animationType
+            , AnimatorListenerAdapter listenerAdapter
+            , Interpolator interpolator, float... animationValues) {
         this.target = target;
+        this.animationUtils = animationUtils;
         this.animationDuring = animationDuring;
         this.animationValues = animationValues;
         this.animationType = animationType;
@@ -50,7 +57,7 @@ public class AnimationGroupManager {
             backAnimation.cancel();
         }
         if (goAnimation == null) {
-            goAnimation = AnimationUtils.getInstance().createAnimation(
+            goAnimation = animationUtils.createAnimation(
                     target
                     , animationType
                     , animationDuring
@@ -76,7 +83,7 @@ public class AnimationGroupManager {
             goAnimation.cancel();
         }
         if (backAnimation == null) {
-            backAnimation = AnimationUtils.getInstance().createAnimation(
+            backAnimation =animationUtils.createAnimation(
                     target
                     , animationType
                     , animationDuring
