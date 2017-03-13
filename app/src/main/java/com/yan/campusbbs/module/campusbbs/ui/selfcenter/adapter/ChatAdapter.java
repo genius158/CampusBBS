@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 
@@ -29,8 +30,12 @@ public class ChatAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, BaseVi
     protected void convert(BaseViewHolder holder, DataMultiItem item) {
         switch (holder.getItemViewType()) {
             case ITEM_TYPE_CHAT_SELF:
+                ((SimpleDraweeView) holder.getView(R.id.sdv_head))
+                        .setImageURI("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
                 break;
             case ITEM_TYPE_CHAT_OTHER:
+                ((SimpleDraweeView) holder.getView(R.id.sdv_head))
+                        .setImageURI("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
                 break;
         }
     }

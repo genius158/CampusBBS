@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
@@ -36,6 +37,8 @@ public class SelfCenterActivity extends BaseActivity {
     TextView title;
     @BindView(R.id.ll_control_layout)
     LinearLayout llControlLayout;
+    @BindView(R.id.head)
+    SimpleDraweeView head;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +48,8 @@ public class SelfCenterActivity extends BaseActivity {
 
         daggerInject();
         init();
+
+        head.setImageURI("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
     }
 
     private void daggerInject() {
