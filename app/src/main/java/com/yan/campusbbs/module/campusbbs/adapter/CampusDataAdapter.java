@@ -76,7 +76,6 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
             case ITEM_TYPE_POST_TAG:
                 SimpleDraweeView head = holder.getView(R.id.head);
                 head.setImageURI("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg");
-
                 break;
         }
     }

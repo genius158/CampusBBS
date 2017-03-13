@@ -37,6 +37,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="105dp"
                     android:text="飞翔的蝴蝶"
+                    android:textColor="@color/cr3C3B41"
                     android:textSize="@dimen/size_sp_16" />
             </FrameLayout>
 
@@ -47,6 +48,7 @@
                 android:background="@color/crFFFFFF"
                 android:paddingBottom="8dp"
                 android:paddingLeft="15dp"
+                android:id="@+id/ll_control_layout"
                 android:paddingRight="15dp"
                 android:paddingTop="10dp">
 
@@ -70,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="好友"
-                        android:textColor="@color/cr777777"
+                        android:textColor="@color/cr3C3B41"
                         android:textSize="@dimen/size_sp_15" />
                 </LinearLayout>
 
@@ -94,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="收藏"
-                        android:textColor="@color/cr777777"
+                        android:textColor="@color/cr3C3B41"
                         android:textSize="@dimen/size_sp_15" />
                 </LinearLayout>
 
@@ -119,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="浏览记录"
-                        android:textColor="@color/cr777777"
+                        android:textColor="@color/cr3C3B41"
                         android:textSize="@dimen/size_sp_15" />
                 </LinearLayout>
 
@@ -144,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="消息"
-                        android:textColor="@color/cr777777"
+                        android:textColor="@color/cr3C3B41"
                         android:textSize="@dimen/size_sp_15" />
                 </LinearLayout>
 
@@ -169,7 +171,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="等级"
-                        android:textColor="@color/cr777777"
+                        android:textColor="@color/cr3C3B41"
                         android:textSize="@dimen/size_sp_15" />
                 </LinearLayout>
 
@@ -188,7 +190,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="个人热帖"
-                    android:textColor="@color/cr777777"
+                    android:textColor="@color/cr3C3B41"
                     android:textSize="@dimen/size_sp_15" />
 
                 <android.support.v7.widget.RecyclerView

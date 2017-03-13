@@ -1,14 +1,18 @@
 package com.yan.campusbbs.module.campusbbs.ui.selfcenter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.friend.FriendsActivity;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -30,6 +34,8 @@ public class SelfCenterActivity extends BaseActivity {
     CardView commonAppBar;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.ll_control_layout)
+    LinearLayout llControlLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,7 +54,30 @@ public class SelfCenterActivity extends BaseActivity {
     }
 
     private void init() {
+        for (int i = 0; i < llControlLayout.getChildCount(); i++) {
+            View view = llControlLayout.getChildAt(i);
+            view.setTag(i);
+            view.setOnClickListener(onClickListener);
+        }
+
     }
+
+    private View.OnClickListener onClickListener = v -> {
+        int position = (int) v.getTag();
+        switch (position) {
+            case 0:
+                startActivity(new Intent(getBaseContext(), FriendsActivity.class));
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+        }
+    };
 
     @Override
     protected SPUtils sPUtils() {
@@ -58,7 +87,7 @@ public class SelfCenterActivity extends BaseActivity {
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        title.setText(R.string.self_center);
+        title.setText(R.string.self_center_friend);
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );

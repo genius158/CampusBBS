@@ -186,17 +186,17 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
     private void dataInit() {
         dataMultiItems.add(
-                new SelfCenterHeader(new String("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg")));
+                new SelfCenterHeader("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
         dataMultiItems.add(
-                new SelfDynamic(new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
+                new SelfDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
         dataMultiItems.add(
-                new SelfDynamic(new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
+                new SelfDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
         dataMultiItems.add(
-                new SelfDynamic(new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
+                new SelfDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
         dataMultiItems.add(
-                new FriendDynamic(new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
+                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
         dataMultiItems.add(
-                new FriendDynamic(new String("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg")));
+                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
 
         notifyDataSetChanged();
     }
