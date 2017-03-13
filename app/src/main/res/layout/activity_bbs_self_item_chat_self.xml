@@ -21,7 +21,6 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/sdv_head"
-        android:background=""
         android:gravity="center_vertical"
         android:orientation="vertical">
 
