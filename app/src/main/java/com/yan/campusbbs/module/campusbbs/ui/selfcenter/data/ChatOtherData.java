@@ -8,7 +8,7 @@ import com.yan.campusbbs.repository.entity.DataMultiItem;
  * Created by yan on 2017/3/13.
  */
 
-public class ChatOtherData extends DataMultiItem {
+public class ChatOtherData extends DataMultiItem<Object> {
     public ChatOtherData(Object dataObj) {
         super(ChatAdapter.ITEM_TYPE_CHAT_OTHER, dataObj);
     }

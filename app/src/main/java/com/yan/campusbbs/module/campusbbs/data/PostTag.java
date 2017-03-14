@@ -7,7 +7,7 @@ import com.yan.campusbbs.repository.entity.DataMultiItem;
  * Created by Administrator on 2017/3/5.
  */
 
-public class PostTag extends DataMultiItem {
+public class PostTag extends DataMultiItem<Object> {
     public PostTag(Object dataObj) {
         super(CampusDataAdapter.ITEM_TYPE_POST_TAG, dataObj);
     }

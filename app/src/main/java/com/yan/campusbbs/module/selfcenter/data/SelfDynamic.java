@@ -7,7 +7,7 @@ import com.yan.campusbbs.repository.entity.DataMultiItem;
  * Created by yan on 2017/2/10.
  */
 
-public class SelfDynamic extends DataMultiItem {
+public class SelfDynamic extends DataMultiItem<Object> {
     public SelfDynamic(Object dataObj) {
         super(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC, dataObj);
     }

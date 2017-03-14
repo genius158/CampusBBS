@@ -8,7 +8,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -33,6 +35,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -99,29 +102,10 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         recyclerView.setAdapter(searchAdapter);
 
         etSearch.setOnEditorActionListener(onEditorActionListener);
+        etSearch.addTextChangedListener(watcher);
 
         getSearchData();
-
         showSearchData();
-    }
-
-    @Override
-    protected SPUtils sPUtils() {
-        return spUtils;
-    }
-
-    @Override
-    public void changeSkin(ActionChangeSkin actionChangeSkin) {
-        super.changeSkin(actionChangeSkin);
-        title.setText("搜索");
-        commonAppBar.setCardBackgroundColor(
-                ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
-        );
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            commonAppBar.setBackgroundColor(
-                    ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
-            );
-        }
     }
 
     @OnClick(R.id.arrow_back)
@@ -130,13 +114,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     }
 
     private TextView.OnEditorActionListener onEditorActionListener = (v, actionId, event) -> {
-        if (actionId == EditorInfo.IME_ACTION_SEARCH
-                || actionId == EditorInfo.IME_ACTION_SEND
-                || actionId == EditorInfo.IME_ACTION_DONE
-                || (event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode()
-                && KeyEvent.ACTION_DOWN == event.getAction())) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             searchGo();
-
         }
         return false;
     };
@@ -164,6 +143,39 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         }
     }
 
+    TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            dataMultiDisplayItems.clear();
+
+            if (TextUtils.isEmpty(s)) {
+                dataMultiDisplayItems.addAll(searchItems);
+            } else {
+                if (searchItems != null && !searchItems.isEmpty()) {
+                    List<SearchData> historyShow = new ArrayList<>();
+                    for (SearchData searchData : searchItems) {
+                        if (searchData.data.contains(s)) {
+                            historyShow.add(searchData);
+                        }
+                    }
+                    dataMultiDisplayItems.addAll(historyShow);
+                }
+            }
+            Collections.reverse(dataMultiDisplayItems);
+            searchAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
     private void requestData() {
     }
 
@@ -171,6 +183,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         if (!searchItems.isEmpty()) {
             dataMultiDisplayItems.clear();
             dataMultiDisplayItems.addAll(searchItems);
+            Collections.reverse(dataMultiDisplayItems);
             searchAdapter.notifyDataSetChanged();
         }
     }
@@ -189,6 +202,26 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     private void saveSearchData() {
         String searchData = new Gson().toJson(searchItems);
         spUtils.putString(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SEARCH_DATA, searchData);
+    }
+
+
+    @Override
+    protected SPUtils sPUtils() {
+        return spUtils;
+    }
+
+    @Override
+    public void changeSkin(ActionChangeSkin actionChangeSkin) {
+        super.changeSkin(actionChangeSkin);
+        title.setText("搜索");
+        commonAppBar.setCardBackgroundColor(
+                ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
+        );
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            commonAppBar.setBackgroundColor(
+                    ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
+            );
+        }
     }
 
 }

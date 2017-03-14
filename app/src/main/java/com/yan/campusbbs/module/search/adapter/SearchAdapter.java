@@ -5,6 +5,7 @@ import android.content.Context;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.adapter.CampusDataAdapter;
+import com.yan.campusbbs.module.search.data.SearchData;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class SearchAdapter extends CampusDataAdapter {
     protected void convert(BaseViewHolder holder, DataMultiItem multiItem) {
         switch (holder.getItemViewType()) {
             case ITEM_TYPE_SEARCH:
-
+                holder.setText(R.id.tv_search_text, ((SearchData) multiItem).data);
                 break;
         }
     }

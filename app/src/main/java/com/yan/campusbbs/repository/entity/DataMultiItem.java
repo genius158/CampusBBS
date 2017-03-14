@@ -7,11 +7,11 @@ import com.yan.campusbbs.util.sort.Sort;
  * Created by yan on 2017/2/10.
  */
 
-public class DataMultiItem implements MultiItemEntity ,Sort {
-    public Object data;
+public class DataMultiItem<T> implements MultiItemEntity ,Sort {
+    public T data;
     public int type;
 
-    public DataMultiItem(int type, Object dataObj) {
+    public DataMultiItem(int type, T dataObj) {
         this.type = type;
         this.data = dataObj;
     }
