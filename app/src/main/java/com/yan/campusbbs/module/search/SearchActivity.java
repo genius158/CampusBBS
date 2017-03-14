@@ -126,7 +126,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
 
-            if (searchItems.size() >= 11) {
+            if (searchItems.size() >= 10) {
                 searchItems.remove(0);
             }
 
