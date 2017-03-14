@@ -11,10 +11,8 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter.ChatAdapter;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.ChatOtherData;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.ChatSelfData;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.chat.ChatModule;
+import com.yan.campusbbs.module.search.adapter.SearchAdapter;
+import com.yan.campusbbs.module.selfcenter.data.SelfDynamic;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -44,7 +42,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     @Inject
     ImageControl imageControl;
     @Inject
-    ChatAdapter chatAdapter;
+    SearchAdapter searchAdapter;
 
     @Inject
     List<DataMultiItem> dataMultiItems;
@@ -76,15 +74,12 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
 
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-        recyclerView.setAdapter(chatAdapter);
-        dataMultiItems.add(new ChatSelfData(""));
-        dataMultiItems.add(new ChatSelfData(""));
-        dataMultiItems.add(new ChatSelfData(""));
-        dataMultiItems.add(new ChatOtherData(""));
-        dataMultiItems.add(new ChatOtherData(""));
-        dataMultiItems.add(new ChatOtherData(""));
-        dataMultiItems.add(new ChatOtherData(""));
-        chatAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(searchAdapter);
+        dataMultiItems.add(new SelfDynamic(""));
+        dataMultiItems.add(new SelfDynamic(""));
+        dataMultiItems.add(new SelfDynamic(""));
+        dataMultiItems.add(new SelfDynamic(""));
+        searchAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -95,12 +90,11 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        title.setText("聊天中...");
+        title.setText("搜索");
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
     }
-
 
     @OnClick(R.id.arrow_back)
     public void onClick() {

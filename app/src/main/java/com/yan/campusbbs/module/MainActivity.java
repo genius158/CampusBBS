@@ -1,5 +1,7 @@
 package com.yan.campusbbs.module;
 
+import android.Manifest;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.campusbbs.ui.CampusBBSFragment;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
+import com.yan.campusbbs.module.search.SearchActivity;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
@@ -51,6 +54,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends BaseActivity {
@@ -114,7 +118,7 @@ public class MainActivity extends BaseActivity {
         rxBus.post(new ActionMainActivityShowComplete());
 
         RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe(aBoolean -> {
                     if (aBoolean) {
 //                        Toast.makeText(getBaseContext(), "true", Toast.LENGTH_SHORT).show();
@@ -400,7 +404,7 @@ public class MainActivity extends BaseActivity {
             );
         }
 
-        fab.setBackgroundTintList( ColorStateList.valueOf(
+        fab.setBackgroundTintList(ColorStateList.valueOf(
                 ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
         ));
 
@@ -441,4 +445,8 @@ public class MainActivity extends BaseActivity {
         return spUtils;
     }
 
+    @OnClick(R.id.btn_search)
+    public void onClick() {
+        startActivity(new Intent(getBaseContext(), SearchActivity.class));
+    }
 }

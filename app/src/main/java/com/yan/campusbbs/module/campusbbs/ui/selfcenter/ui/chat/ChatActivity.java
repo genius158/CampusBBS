@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter.ChatAdapter;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.ChatOtherData;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.ChatSelfData;
 import com.yan.campusbbs.module.search.adapter.SearchAdapter;
@@ -43,7 +44,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     @Inject
     ImageControl imageControl;
     @Inject
-    SearchAdapter searchAdapter;
+    ChatAdapter chatAdapter;
 
     @Inject
     List<DataMultiItem> dataMultiItems;
@@ -76,7 +77,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
 
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-        recyclerView.setAdapter(searchAdapter);
+        recyclerView.setAdapter(chatAdapter);
         dataMultiItems.add(new ChatSelfData(""));
         dataMultiItems.add(new ChatSelfData(""));
         dataMultiItems.add(new ChatSelfData(""));
@@ -84,7 +85,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         dataMultiItems.add(new ChatOtherData(""));
         dataMultiItems.add(new ChatOtherData(""));
         dataMultiItems.add(new ChatOtherData(""));
-        searchAdapter.notifyDataSetChanged();
+        chatAdapter.notifyDataSetChanged();
     }
 
     @Override
