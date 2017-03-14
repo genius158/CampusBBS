@@ -61,6 +61,7 @@
                         android:textSize="@dimen/size_sp_15" />
 
                     <TextView
+                        android:id="@+id/tv_learn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?selectableItemBackground"
@@ -76,6 +77,7 @@
                         android:background="@color/crE9E9E9" />
 
                     <TextView
+                        android:id="@+id/tv_life"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?selectableItemBackground"
@@ -91,6 +93,7 @@
                         android:background="@color/crE9E9E9" />
 
                     <TextView
+                        android:id="@+id/tv_job"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?selectableItemBackground"
@@ -107,6 +110,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
+                        android:id="@+id/tv_other"
                         android:layout_height="wrap_content"
                         android:background="?selectableItemBackground"
                         android:clickable="true"

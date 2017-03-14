@@ -15,7 +15,6 @@ import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -93,8 +92,6 @@ public class MainActivity extends BaseActivity {
     List<Fragment> fragments;
     @BindView(R.id.btn_search_layout)
     FrameLayout btnSearchLayout;
-    @BindView(R.id.ll_tab_layout)
-    LinearLayout llTabLayout;
     private boolean[] btnSearchLayoutShow;
 
     private boolean isReLoad = false;
@@ -158,36 +155,11 @@ public class MainActivity extends BaseActivity {
 
     private void init() {
         initFragment();
-        fabListenerInit();
         imageControl.frescoInit();
 
         initNavigationBar();
         rxActionInit();
     }
-
-    private void fabListenerInit() {
-        for (int i = 1; i < llTabLayout.getChildCount(); i++) {
-            llTabLayout.setTag(i - 1);
-            llTabLayout.setOnClickListener(onFabTabClickListener);
-        }
-
-    }
-
-    private View.OnClickListener onFabTabClickListener = view -> {
-        int position = (int) view.getTag();
-
-        switch (position) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
-        toastUtils.showShort(position + "");
-    };
 
     private void rxActionInit() {
         addDisposable(rxBus.getEvent(ActionFloatingButton.class)
@@ -475,5 +447,21 @@ public class MainActivity extends BaseActivity {
     @OnClick(R.id.btn_search)
     public void onClick() {
         startActivity(new Intent(getBaseContext(), SearchActivity.class));
+    }
+
+    @OnClick({R.id.tv_learn, R.id.tv_life, R.id.tv_job, R.id.tv_other})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_learn:
+                break;
+            case R.id.tv_life:
+                break;
+            case R.id.tv_job:
+                break;
+            case R.id.tv_other:
+                break;
+        }
+        toastUtils.showShort(view.getId() + "");
+
     }
 }
