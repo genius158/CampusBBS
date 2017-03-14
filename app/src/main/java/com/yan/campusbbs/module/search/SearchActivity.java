@@ -59,8 +59,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bbs_search);
         ButterKnife.bind(this);
-
         daggerInject();
+        imageControl.frescoInit();
         init();
     }
 
