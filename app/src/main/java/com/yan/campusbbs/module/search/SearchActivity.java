@@ -11,8 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -27,7 +25,6 @@ import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.search.action.ActionChangeSearchText;
 import com.yan.campusbbs.module.search.adapter.SearchAdapter;
 import com.yan.campusbbs.module.search.data.SearchData;
-import com.yan.campusbbs.module.selfcenter.data.SelfDynamic;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -48,7 +45,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-
 
 /**
  * Created by yan on 2017/2/15.
@@ -156,7 +152,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         }
     }
 
-    TextWatcher watcher = new TextWatcher() {
+   private TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -250,6 +246,4 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
             );
         }
     }
-
-
 }
