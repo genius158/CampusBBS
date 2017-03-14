@@ -133,16 +133,16 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
             if (searchItems.size() >= 11) {
                 searchItems.remove(0);
             }
-            boolean ismotify = false;
+            boolean isModify = false;
             for (SearchData searchData : searchItems) {
                 if (searchData.data.equals(etSearch.getText().toString())) {
                     searchItems.remove(searchData);
                     searchItems.add(new SearchData(etSearch.getText().toString()));
-                    ismotify = true;
+                    isModify = true;
                     break;
                 }
             }
-            if (!ismotify) {
+            if (!isModify) {
                 searchItems.add(new SearchData(etSearch.getText().toString()));
             }
             requestData();
