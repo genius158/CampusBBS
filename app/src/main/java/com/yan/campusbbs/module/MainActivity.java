@@ -88,20 +88,20 @@ public class MainActivity extends BaseActivity {
     LinearLayout floatingButtonContainer;
     @BindView(R.id.btn_search)
     ImageView btnSearch;
-
-    List<Fragment> fragments;
     @BindView(R.id.btn_search_layout)
     FrameLayout btnSearchLayout;
 
+    List<Fragment> fragments;
+
     private MaterialSheetFab materialSheetFab;
+    private ActionFloatingButton actionFloating;
+    private boolean isFabShow = false;
 
     private boolean isReLoad = false;
 
     float[] fabShowAnimationValue = new float[1];
     private ValueAnimator fabShowAnimation;
     private ValueAnimator fabHideAnimation;
-
-    private boolean isFabShow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -333,7 +333,6 @@ public class MainActivity extends BaseActivity {
         };
     }
 
-    private ActionFloatingButton actionFloating;
 
     private ViewPager.OnPageChangeListener getPageChangeListener() {
         return new ViewPager.OnPageChangeListener() {
@@ -438,7 +437,6 @@ public class MainActivity extends BaseActivity {
             toastUtils.showShort(getString(R.string.more_pressed_exit));
         }
     }
-
 
     @Override
     protected SPUtils sPUtils() {
