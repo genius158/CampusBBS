@@ -10,7 +10,7 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="87dp" />
+        android:layout_marginTop="96dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -32,18 +32,19 @@
                 android:id="@+id/btn_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/crFFFFFF" />
+                android:background="@color/crE9E9E9" />
 
         </com.yan.campusbbs.widget.MaskableFrameLayout>
 
         <EditText
+            android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="30dp"
             android:background="@null"
             android:hint="搜索"
             android:imeOptions="actionSearch"
-            android:lines="1"
+            android:singleLine="true"
             android:textColor="@color/cr3C3B41"
             android:textSize="@dimen/size_sp_14" />
     </FrameLayout>
