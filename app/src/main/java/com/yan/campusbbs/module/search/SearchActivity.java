@@ -24,6 +24,7 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
+import com.yan.campusbbs.module.search.action.ActionChangeSearchText;
 import com.yan.campusbbs.module.search.adapter.SearchAdapter;
 import com.yan.campusbbs.module.search.data.SearchData;
 import com.yan.campusbbs.module.selfcenter.data.SelfDynamic;
@@ -32,17 +33,21 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 
 /**
@@ -53,6 +58,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
 
     @Inject
     SettingHelper changeSkinHelper;
+    @Inject
+    RxBus rxBus;
     @Inject
     SPUtils spUtils;
     @Inject
@@ -84,6 +91,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         daggerInject();
         imageControl.frescoInit();
         init();
+        RxActionInit();
     }
 
     private void daggerInject() {
@@ -106,6 +114,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
 
         getSearchData();
         showSearchData();
+        etSearch.requestFocus();
     }
 
     @OnClick(R.id.arrow_back)
@@ -120,20 +129,24 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         return false;
     };
 
-
     private void searchGo() {
         if (etSearch.getText() != null && !etSearch.getText().toString().trim().equals("")) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
 
-            if (searchItems.size() >= 10) {
+            if (searchItems.size() >= 11) {
                 searchItems.remove(0);
             }
-
-            if (searchItems.contains(etSearch.getText().toString())) {
-                searchItems.remove(etSearch.getText().toString());
-                searchItems.add(new SearchData(etSearch.getText().toString()));
-            } else {
+            boolean ismotify = false;
+            for (SearchData searchData : searchItems) {
+                if (searchData.data.equals(etSearch.getText().toString())) {
+                    searchItems.remove(searchData);
+                    searchItems.add(new SearchData(etSearch.getText().toString()));
+                    ismotify = true;
+                    break;
+                }
+            }
+            if (!ismotify) {
                 searchItems.add(new SearchData(etSearch.getText().toString()));
             }
             requestData();
@@ -198,12 +211,26 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         }
     }
 
-
     private void saveSearchData() {
         String searchData = new Gson().toJson(searchItems);
         spUtils.putString(MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE, SharedPreferenceConfig.SEARCH_DATA, searchData);
     }
 
+    private void RxActionInit() {
+        addDisposable(rxBus.getEvent(ActionChangeSearchText.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(actionChangeSearchText -> {
+                    etSearch.setText(actionChangeSearchText.searchData.data);
+                    etSearch.setSelection(etSearch.getText().toString().length());
+                    Observable.timer(200,TimeUnit.MILLISECONDS)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(aLong -> {
+                                etSearch.requestFocus();
+                                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                inputMethodManager.showSoftInput(etSearch, 0);
+                            });
+                }));
+    }
 
     @Override
     protected SPUtils sPUtils() {
@@ -223,5 +250,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
             );
         }
     }
+
 
 }
