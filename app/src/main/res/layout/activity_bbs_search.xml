@@ -25,6 +25,7 @@
         <com.yan.campusbbs.widget.MaskableFrameLayout
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:layout_marginLeft="6dp"
             android:layout_gravity="center_vertical"
             app:mask="@drawable/ic_search"
             app:porterduffxfermode="DST_IN">

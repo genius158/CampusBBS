@@ -1,12 +1,12 @@
 package com.yan.campusbbs.base;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-
-import com.facebook.drawee.backends.pipeline.Fresco;
+import android.view.inputmethod.InputMethodManager;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
@@ -62,5 +62,12 @@ public abstract class BaseActivity extends AppCompatActivity implements SettingC
                             , actionChangeSkin.getColorPrimaryDarkId())
             );
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 }
