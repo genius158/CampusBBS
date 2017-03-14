@@ -62,8 +62,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bbs_self_center_sub);
         ButterKnife.bind(this);
-
         daggerInject();
+        imageControl.frescoInit();
         init();
     }
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/crE9E9E9"
+    android:fitsSystemWindows="true"
+    tools:context="com.yan.campusbbs.module.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="87dp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/round_ffffff_radius_4">
+
+        <com.yan.campusbbs.widget.MaskableFrameLayout
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            app:mask="@drawable/ic_search"
+            app:porterduffxfermode="DST_IN">
+
+            <ImageView
+                android:id="@+id/btn_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/crE9E9E9"
+                android:scaleType="centerInside" />
+
+        </com.yan.campusbbs.widget.MaskableFrameLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:background="@null"
+            android:hint="搜索"
+            android:textSize="@dimen/size_sp_14" />
+    </FrameLayout>
+
+    <include layout="@layout/common_app_bar" />
+
+</android.support.design.widget.CoordinatorLayout>

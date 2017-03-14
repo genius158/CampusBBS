@@ -58,8 +58,8 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bbs_self_center_sub);
         ButterKnife.bind(this);
-
         daggerInject();
+        imageControl.frescoInit();
         init();
     }
 

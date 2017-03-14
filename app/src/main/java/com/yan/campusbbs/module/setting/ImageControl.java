@@ -1,11 +1,8 @@
 package com.yan.campusbbs.module.setting;
 
 import android.content.Context;
-import android.util.Log;
-
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
-import com.yan.campusbbs.rxbusaction.ActionImageShowAble;
 import com.yan.campusbbs.util.SPUtils;
 
 import javax.inject.Inject;

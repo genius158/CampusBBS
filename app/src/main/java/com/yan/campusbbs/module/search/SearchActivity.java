@@ -57,7 +57,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bbs_self_center_sub);
+        setContentView(R.layout.activity_bbs_search);
         ButterKnife.bind(this);
 
         daggerInject();

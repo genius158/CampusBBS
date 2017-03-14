@@ -14,6 +14,8 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.friend.FriendsActivity;
+import com.yan.campusbbs.module.setting.ImageControl;
+import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 
@@ -31,6 +33,9 @@ import butterknife.OnClick;
 public class SelfCenterActivity extends BaseActivity {
     @Inject
     SPUtils spUtils;
+    @Inject
+    ImageControl imageControl;
+
     @BindView(R.id.common_app_bar)
     CardView commonAppBar;
     @BindView(R.id.title)
@@ -45,8 +50,8 @@ public class SelfCenterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bbs_self_center);
         ButterKnife.bind(this);
-
         daggerInject();
+        imageControl.frescoInit();
         init();
 
         head.setImageURI("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
@@ -55,7 +60,8 @@ public class SelfCenterActivity extends BaseActivity {
     private void daggerInject() {
         DaggerSelfCenterComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent()
-        ).build().inject(this);
+        ).settingModule(new SettingModule(this, compositeDisposable))
+                .build().inject(this);
     }
 
     private void init() {
