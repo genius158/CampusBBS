@@ -1,6 +1,7 @@
 package com.yan.campusbbs.module.campusbbs.ui.selfcenter;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -102,6 +103,11 @@ public class SelfCenterActivity extends BaseActivity {
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            commonAppBar.setBackgroundColor(
+                    ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
+            );
+        }
     }
 
 

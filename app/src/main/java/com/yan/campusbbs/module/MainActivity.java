@@ -398,16 +398,15 @@ public class MainActivity extends BaseActivity {
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
 
+        fab.setBackgroundTintList(ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
+        ));
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             fab.setBackgroundColor(
                     ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
             );
         }
-
-        fab.setBackgroundTintList(ColorStateList.valueOf(
-                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
-        ));
-
         setupFab(actionChangeSkin);
 
         bottomNavigationBar.clearAll();
