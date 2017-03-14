@@ -21,6 +21,9 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardElevation="1dp"
+        app:cardCornerRadius="4dp"
         android:layout_toLeftOf="@id/sdv_head"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -30,6 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:ellipsize="end"
+            android:textIsSelectable="true"
+            android:lineSpacingExtra="5dp"
             android:maxLines="2"
             android:text="test测试test测试test测试test测试test测试test测试"
             android:textColor="@color/cr777777"

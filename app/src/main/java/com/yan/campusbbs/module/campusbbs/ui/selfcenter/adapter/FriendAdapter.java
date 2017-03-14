@@ -2,6 +2,8 @@ package com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -14,6 +16,8 @@ import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.chat.ChatActivity;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * Created by Administrator on 2017/3/5.
@@ -39,6 +43,6 @@ public class FriendAdapter extends BaseQuickAdapter<FriendData, BaseViewHolder> 
 
     View.OnClickListener onClickListener = v -> {
         FriendData friendData = (FriendData) v.getTag();
-        context.startActivity(new Intent(context, ChatActivity.class));
+        context.startActivity(new Intent(context, ChatActivity.class).addFlags(FLAG_ACTIVITY_NEW_TASK));
     };
 }

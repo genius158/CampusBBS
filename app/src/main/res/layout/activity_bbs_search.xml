@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/crE9E9E9"
-    android:fitsSystemWindows="true"
-    tools:context="com.yan.campusbbs.module.MainActivity">
+    android:fitsSystemWindows="true" >
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -25,8 +23,8 @@
         <com.yan.campusbbs.widget.MaskableFrameLayout
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginLeft="6dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
             app:mask="@drawable/ic_search"
             app:porterduffxfermode="DST_IN">
 
@@ -34,8 +32,7 @@
                 android:id="@+id/btn_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/crE9E9E9"
-                android:scaleType="centerInside" />
+                android:background="@color/crFFFFFF" />
 
         </com.yan.campusbbs.widget.MaskableFrameLayout>
 
@@ -45,6 +42,9 @@
             android:layout_marginLeft="30dp"
             android:background="@null"
             android:hint="搜索"
+            android:imeOptions="actionSearch"
+            android:lines="1"
+            android:textColor="@color/cr3C3B41"
             android:textSize="@dimen/size_sp_14" />
     </FrameLayout>
 

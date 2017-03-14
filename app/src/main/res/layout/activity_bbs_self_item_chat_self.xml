@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -29,7 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:lineSpacingExtra="5dp"
+            app:cardElevation="1dp"
+            app:cardCornerRadius="4dp"
             android:text="test测试test测试test测试test测试test测试test测试"
             android:textColor="@color/cr777777"
             android:textSize="@dimen/sp_14" />
