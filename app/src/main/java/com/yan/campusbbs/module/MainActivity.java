@@ -92,7 +92,8 @@ public class MainActivity extends BaseActivity {
     List<Fragment> fragments;
     @BindView(R.id.btn_search_layout)
     FrameLayout btnSearchLayout;
-    private boolean[] btnSearchLayoutShow;
+
+    private MaterialSheetFab materialSheetFab;
 
     private boolean isReLoad = false;
 
@@ -284,7 +285,7 @@ public class MainActivity extends BaseActivity {
         int sheetColor = ContextCompat.getColor(this, R.color.crFEFEFE);
         int fabColor = ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId());
 
-        MaterialSheetFab materialSheetFab = new MaterialSheetFab(fab, fabSheet, overlay, sheetColor, fabColor);
+        materialSheetFab = new MaterialSheetFab(fab, fabSheet, overlay, sheetColor, fabColor);
         materialSheetFab.setEventListener(new MaterialSheetFabEventListener() {
             @Override
             public void onShowSheet() {
@@ -462,6 +463,6 @@ public class MainActivity extends BaseActivity {
                 break;
         }
         toastUtils.showShort(view.getId() + "");
-
+        materialSheetFab.hideSheet();
     }
 }
