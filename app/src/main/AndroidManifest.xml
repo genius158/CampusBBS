@@ -36,8 +36,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.campusbbs.ui.selfcenter.ui.friend.FriendsActivity"
-            android:screenOrientation="portrait" />       <activity
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".module.campusbbs.ui.selfcenter.ui.chat.ChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.search.SearchActivity"
             android:screenOrientation="portrait" />
     </application>
 

@@ -13,6 +13,8 @@ import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.chat.ChatActivity;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by Administrator on 2017/3/5.
  */
@@ -20,6 +22,7 @@ import java.util.List;
 public class FriendAdapter extends BaseQuickAdapter<FriendData, BaseViewHolder> {
     Context context;
 
+    @Inject
     public FriendAdapter(Context context, List<FriendData> data) {
         super(R.layout.activity_bbs_self_item_friend, data);
         this.context = context;

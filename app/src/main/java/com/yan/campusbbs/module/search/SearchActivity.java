@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.chat;
+package com.yan.campusbbs.module.search;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,9 +11,10 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter.ChatAdapter;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.ChatOtherData;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.ChatSelfData;
-import com.yan.campusbbs.module.search.adapter.SearchAdapter;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.chat.ChatModule;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -34,7 +35,7 @@ import butterknife.OnClick;
  * Created by yan on 2017/2/15.
  */
 
-public class ChatActivity extends BaseActivity implements ChatContract.View {
+public class SearchActivity extends BaseActivity implements SearchContract.View {
 
     @Inject
     SettingHelper changeSkinHelper;
@@ -43,11 +44,10 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     @Inject
     ImageControl imageControl;
     @Inject
-    SearchAdapter searchAdapter;
+    ChatAdapter chatAdapter;
 
     @Inject
     List<DataMultiItem> dataMultiItems;
-
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
@@ -67,16 +67,16 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     }
 
     private void daggerInject() {
-        DaggerChatComponent.builder().applicationComponent(
+        DaggerSearchComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent()
-        ).chatModule(new ChatModule(this))
+        ).searchModule(new SearchModule(this))
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
     }
 
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-        recyclerView.setAdapter(searchAdapter);
+        recyclerView.setAdapter(chatAdapter);
         dataMultiItems.add(new ChatSelfData(""));
         dataMultiItems.add(new ChatSelfData(""));
         dataMultiItems.add(new ChatSelfData(""));
@@ -84,7 +84,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         dataMultiItems.add(new ChatOtherData(""));
         dataMultiItems.add(new ChatOtherData(""));
         dataMultiItems.add(new ChatOtherData(""));
-        searchAdapter.notifyDataSetChanged();
+        chatAdapter.notifyDataSetChanged();
     }
 
     @Override

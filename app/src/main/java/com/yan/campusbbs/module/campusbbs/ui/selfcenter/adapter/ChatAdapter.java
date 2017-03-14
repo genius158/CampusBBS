@@ -10,6 +10,8 @@ import com.yan.campusbbs.repository.entity.DataMultiItem;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by yan on 2017/3/13.
  */
@@ -19,7 +21,7 @@ public class ChatAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, BaseVi
     public static final int ITEM_TYPE_CHAT_SELF = 1;
     public static final int ITEM_TYPE_CHAT_OTHER = 2;
 
-
+    @Inject
     public ChatAdapter(List<DataMultiItem> data, Context context) {
         super(data);
         addItemType(ITEM_TYPE_CHAT_SELF, R.layout.activity_bbs_self_item_chat_self);
