@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -58,6 +59,7 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends BaseActivity {
+    private static final String TAG = "MainActivity";
     private static final String BUNDLE_VIEW_PAGER_PAGE = "viewPagerPage";
     private static final String BUNDLE_FAB_IS_SHOW = "fabShow";
 
@@ -142,14 +144,10 @@ public class MainActivity extends BaseActivity {
             if (savedInstanceState.getInt(BUNDLE_VIEW_PAGER_PAGE, 0) > 0) {
                 isReLoad = true;
             }
-
-            isFabShow = savedInstanceState.getBoolean(BUNDLE_FAB_IS_SHOW, false);
+            boolean isFabShow = savedInstanceState.getBoolean(BUNDLE_FAB_IS_SHOW, false);
 
             if (isFabShow) {
-                fab.postDelayed(() -> {
-                    fab.setVisibility(View.VISIBLE);
-                    fab.setAlpha(1f);
-                }, 150);
+                fab.postDelayed(() -> rxBus.post(new ActionFloatingButton(isFabShow)), 150);
             }
         }
     }
