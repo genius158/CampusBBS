@@ -6,8 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yan on 2017/2/8.
@@ -15,7 +21,7 @@ import io.reactivex.disposables.Disposable;
 
 public abstract class BaseFragment extends StatedFragment {
 
-    protected CompositeDisposable compositeDisposable;
+    protected CompositeDisposable compositeDisposable= new CompositeDisposable();
     private View rootView;
     private boolean isRootViewSet;
     private boolean isLazyLoad;
@@ -25,7 +31,6 @@ public abstract class BaseFragment extends StatedFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        compositeDisposable = new CompositeDisposable();
     }
 
     @Nullable
@@ -74,12 +79,20 @@ public abstract class BaseFragment extends StatedFragment {
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
         reLoadBundle = bundle;
+        isLazyLoad = bundle.getBoolean("isLazyLoad", true);
+
+        if (isLazyLoad) {
+            reloadData();
+        }
+    }
+
+    private void reloadData() {
     }
 
     @Override
     protected void onSaveArguments(Bundle bundle) {
         super.onSaveArguments(bundle);
-
+        bundle.putBoolean("isLazyLoad", isLazyLoad);
     }
 
     protected abstract View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
@@ -93,8 +106,22 @@ public abstract class BaseFragment extends StatedFragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && !isLazyLoad) {
             isLazyLoad = true;
-            onLoadLazy(reLoadBundle);
+            getDisposable();
         }
+    }
+
+    private void getDisposable() {
+        compositeDisposable.add(Observable.timer(100, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                            if (isCreateActivity) {
+                                onLoadLazy(reLoadBundle);
+                                return;
+                            }
+                            getDisposable();
+                        }
+                ));
     }
 
     protected void onLoadLazy(Bundle reLoadBundle) {
