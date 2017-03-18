@@ -2,7 +2,7 @@
 <com.facebook.drawee.view.SimpleDraweeView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:clickable="true"
-    style="@style/ImageBase.focusCrop"
+    style="@style/ImageBase.FocusCrop"
     android:scaleType="centerInside"
     android:layout_height="match_parent">
 

@@ -29,6 +29,7 @@
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sdv_img"
                 android:layout_width="200dp"
+                style="@style/ImageBase.CenterInside"
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal" />
 

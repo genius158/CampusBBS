@@ -7,7 +7,7 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/self_part_one_img"
-        style="@style/ImageBase.focusCrop"
+        style="@style/ImageBase.FocusCrop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?selectableItemBackgroundBorderless"

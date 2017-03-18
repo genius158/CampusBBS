@@ -43,8 +43,11 @@
         <item name="fadeDuration">200</item>
         <item name="actualImageScaleType">fitCenter</item>
     </style>
-    <style name="ImageBase.focusCrop">
+    <style name="ImageBase.FocusCrop">
         <item name="actualImageScaleType">focusCrop</item>
+    </style>
+    <style name="ImageBase.CenterInside">
+        <item name="actualImageScaleType">centerInside</item>
     </style>
 
     <style name="ImageBase.Circle">
