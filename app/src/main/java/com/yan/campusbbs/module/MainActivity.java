@@ -469,7 +469,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.tv_other:
                 startActivity(new Intent(MainActivity.this, PublishActivity.class)
-                        .putExtra(PublishActivity.SUB_TITLE, getString(R.string.campus_bbs_more)));
+                        .putExtra(PublishActivity.SUB_TITLE, ""));
                 break;
         }
         materialSheetFab.hideSheet();
