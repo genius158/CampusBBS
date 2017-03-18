@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -334,55 +333,11 @@ public class MainActivity extends BaseActivity {
 
     private ViewPager.OnPageChangeListener getPageChangeListener() {
         return new ViewPager.OnPageChangeListener() {
-
-            @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (positionOffset < 0.2) {
-                    btnSearch.setScaleX(1 - positionOffset);
-                    btnSearch.setScaleY(1 - positionOffset);
-                    if (position == 0) {
-                        if (btnSearch.getAlpha() != 0f) {
-                            btnSearch.setAlpha(0f);
-                        }
-                    } else {
-                        btnSearch.setScaleX(1 - positionOffset);
-                        btnSearch.setScaleY(1 - positionOffset);
-                        btnSearch.setAlpha(1 - positionOffset * 5f);
-                    }
-                } else if (positionOffset > 0.8) {
-                    btnSearch.setScaleX(positionOffset);
-                    btnSearch.setScaleY(positionOffset);
-                    btnSearch.setAlpha((positionOffset - 0.8f) * 5f);
-                } else if (positionOffset >= 0.2 && positionOffset <= 0.8) {
-                    btnSearch.setAlpha(0f);
-                }
+                pageScrolled(position, positionOffset);
             }
-
-            @Override
             public void onPageSelected(int position) {
-                if (actionFloating == null) {
-                    actionFloating = new ActionFloatingButton();
-                }
-                actionFloating.isScrollDown = false;
-
-                switch (position) {
-                    case 0:
-                        break;
-                    case 1:
-                        if (!isReLoad) {
-                            rxBus.post(new ActionTabShow());
-                            actionFloating.isScrollDown = true;
-                        }
-                        break;
-                    case 2:
-                        break;
-                }
-                btnSearchLayout.setY(0);
-
-                rxBus.post(actionFloating);
-                bottomNavigationBar.selectTab(position);
-                rxBus.post(new ActionPagerTabClose());
-                isReLoad = false;
+                pageSelected(position);
 
             }
 
@@ -390,6 +345,55 @@ public class MainActivity extends BaseActivity {
             public void onPageScrollStateChanged(int state) {
             }
         };
+    }
+
+    private void pageSelected(int position) {
+        if (actionFloating == null) {
+            actionFloating = new ActionFloatingButton();
+        }
+        actionFloating.isScrollDown = false;
+
+        switch (position) {
+            case 0:
+                break;
+            case 1:
+                if (!isReLoad) {
+                    rxBus.post(new ActionTabShow());
+                    actionFloating.isScrollDown = true;
+                }
+                break;
+            case 2:
+                break;
+        }
+        btnSearchLayout.setY(0);
+
+        rxBus.post(actionFloating);
+        bottomNavigationBar.selectTab(position);
+        rxBus.post(new ActionPagerTabClose());
+        isReLoad = false;
+
+    }
+
+    private void pageScrolled(int position, float positionOffset) {
+        if (positionOffset < 0.2) {
+            btnSearch.setScaleX(1 - positionOffset);
+            btnSearch.setScaleY(1 - positionOffset);
+            if (position == 0) {
+                if (btnSearch.getAlpha() != 0f) {
+                    btnSearch.setAlpha(0f);
+                }
+            } else {
+                btnSearch.setScaleX(1 - positionOffset);
+                btnSearch.setScaleY(1 - positionOffset);
+                btnSearch.setAlpha(1 - positionOffset * 5f);
+            }
+        } else if (positionOffset > 0.8) {
+            btnSearch.setScaleX(positionOffset);
+            btnSearch.setScaleY(positionOffset);
+            btnSearch.setAlpha((positionOffset - 0.8f) * 5f);
+        } else if (positionOffset >= 0.2 && positionOffset <= 0.8) {
+            btnSearch.setAlpha(0f);
+        }
     }
 
     @Override
