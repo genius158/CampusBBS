@@ -1,25 +1,26 @@
-package com.yan.campusbbs.module.campusbbs.ui.selfcenter;
+package com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.message;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
-import android.view.View;
-import android.widget.LinearLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.friend.FriendsActivity;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.message.MessageActivity;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter.MessageAdapter;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.MessageData;
 import com.yan.campusbbs.module.setting.ImageControl;
+import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -32,66 +33,55 @@ import butterknife.OnClick;
  * Created by yan on 2017/2/15.
  */
 
-public class SelfCenterActivity extends BaseActivity {
+public class MessageActivity extends BaseActivity implements MessageContract.View {
+
+    @Inject
+    SettingHelper changeSkinHelper;
     @Inject
     SPUtils spUtils;
     @Inject
     ImageControl imageControl;
+    @Inject
+    MessageAdapter messageAdapter;
+    @Inject
+    List<MessageData> messageDatas;
+
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
 
     @BindView(R.id.common_app_bar)
     CardView commonAppBar;
     @BindView(R.id.title)
     TextView title;
-    @BindView(R.id.ll_control_layout)
-    LinearLayout llControlLayout;
-    @BindView(R.id.head)
-    SimpleDraweeView head;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bbs_self_center);
+        setContentView(R.layout.activity_bbs_self_center_sub);
         ButterKnife.bind(this);
         daggerInject();
         imageControl.frescoInit();
         init();
-
-        head.setImageURI("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
     }
 
     private void daggerInject() {
-        DaggerSelfCenterComponent.builder().applicationComponent(
-                ((ApplicationCampusBBS) getApplication()).getApplicationComponent()
-        ).settingModule(new SettingModule(this, compositeDisposable))
+        DaggerMessageComponent.builder().applicationComponent(
+                ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
+                .messageModule(new MessageModule(this))
+                .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
     }
 
     private void init() {
-        for (int i = 0; i < llControlLayout.getChildCount(); i++) {
-            View view = llControlLayout.getChildAt(i);
-            view.setTag(i);
-            view.setOnClickListener(onClickListener);
-        }
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        recyclerView.setAdapter(messageAdapter);
+        messageDatas.add(new MessageData("Sdfsdf"));
+        messageDatas.add(new MessageData("Sdfsdf"));
+        messageDatas.add(new MessageData("Sdfsdf"));
+        messageDatas.add(new MessageData("Sdfsdf"));
+        messageDatas.add(new MessageData("Sdfsdf"));
+        messageAdapter.notifyDataSetChanged();
     }
-
-    private View.OnClickListener onClickListener = v -> {
-        int position = (int) v.getTag();
-        switch (position) {
-            case 0:
-                startActivity(new Intent(getBaseContext(), FriendsActivity.class));
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                startActivity(new Intent(getBaseContext(), MessageActivity.class));
-                break;
-            case 4:
-                break;
-        }
-    };
 
     @Override
     protected SPUtils sPUtils() {
@@ -101,7 +91,7 @@ public class SelfCenterActivity extends BaseActivity {
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        title.setText(R.string.self_center_friend);
+        title.setText("消息");
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
@@ -110,6 +100,7 @@ public class SelfCenterActivity extends BaseActivity {
                     ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
             );
         }
+        messageAdapter.changeSkin(actionChangeSkin);
     }
 
 
