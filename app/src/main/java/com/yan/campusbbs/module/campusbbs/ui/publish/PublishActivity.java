@@ -1,26 +1,20 @@
-package com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.message;
+package com.yan.campusbbs.module.campusbbs.ui.publish;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter.MessageAdapter;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.MessageData;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -33,7 +27,7 @@ import butterknife.OnClick;
  * Created by yan on 2017/2/15.
  */
 
-public class MessageActivity extends BaseActivity implements MessageContract.View {
+public class PublishActivity extends BaseActivity implements PublishContract.View {
 
     @Inject
     SettingHelper changeSkinHelper;
@@ -41,23 +35,19 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
     SPUtils spUtils;
     @Inject
     ImageControl imageControl;
-    @Inject
-    MessageAdapter messageAdapter;
-    @Inject
-    List<MessageData> messageDatas;
-
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
 
     @BindView(R.id.common_app_bar)
     CardView commonAppBar;
     @BindView(R.id.title)
     TextView title;
 
+    public static final String SUB_TITLE = "subTitle";
+    private String subTitle;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bbs_self_center_sub);
+        setContentView(R.layout.activity_bbs_self_center_publish);
         ButterKnife.bind(this);
         daggerInject();
         imageControl.frescoInit();
@@ -65,22 +55,14 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
     }
 
     private void daggerInject() {
-        DaggerMessageComponent.builder().applicationComponent(
+        DaggerPublishComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
-                .messageModule(new MessageModule(this))
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
     }
 
     private void init() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-        recyclerView.setAdapter(messageAdapter);
-        messageDatas.add(new MessageData("点赞了你的说说    阿三的生活"));
-        messageDatas.add(new MessageData("点赞了你的说说    阿三的生活"));
-        messageDatas.add(new MessageData("点赞了你的说说    阿三的生活"));
-        messageDatas.add(new MessageData("点赞了你的说说    阿三的生活"));
-        messageDatas.add(new MessageData("点赞了你的说说    阿三的生活"));
-        messageAdapter.notifyDataSetChanged();
+        subTitle = getIntent().getStringExtra(SUB_TITLE);
     }
 
     @Override
@@ -91,7 +73,7 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        title.setText("消息");
+        title.setText(String.valueOf("发布" + subTitle));
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
@@ -100,9 +82,7 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
                     ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
             );
         }
-        messageAdapter.changeSkin(actionChangeSkin);
     }
-
 
     @OnClick(R.id.arrow_back)
     public void onClick() {

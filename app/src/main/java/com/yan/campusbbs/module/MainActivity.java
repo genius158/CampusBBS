@@ -30,6 +30,7 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.campusbbs.ui.CampusBBSFragment;
+import com.yan.campusbbs.module.campusbbs.ui.publish.PublishActivity;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.search.SearchActivity;
 import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
@@ -336,6 +337,7 @@ public class MainActivity extends BaseActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 pageScrolled(position, positionOffset);
             }
+
             public void onPageSelected(int position) {
                 pageSelected(position);
 
@@ -454,15 +456,22 @@ public class MainActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_learn:
+                startActivity(new Intent(MainActivity.this, PublishActivity.class)
+                        .putExtra(PublishActivity.SUB_TITLE, getString(R.string.campus_bbs_study)));
                 break;
             case R.id.tv_life:
+                startActivity(new Intent(MainActivity.this, PublishActivity.class)
+                        .putExtra(PublishActivity.SUB_TITLE, getString(R.string.campus_bbs_life)));
                 break;
             case R.id.tv_job:
+                startActivity(new Intent(MainActivity.this, PublishActivity.class)
+                        .putExtra(PublishActivity.SUB_TITLE, getString(R.string.campus_bbs_job)));
                 break;
             case R.id.tv_other:
+                startActivity(new Intent(MainActivity.this, PublishActivity.class)
+                        .putExtra(PublishActivity.SUB_TITLE, getString(R.string.campus_bbs_more)));
                 break;
         }
-        toastUtils.showShort(view.getId() + "");
         materialSheetFab.hideSheet();
     }
 }
