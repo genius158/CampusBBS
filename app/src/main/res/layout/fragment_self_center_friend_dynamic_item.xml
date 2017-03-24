@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/crFFFFFF">
 
     <RelativeLayout
@@ -12,13 +13,20 @@
         android:orientation="vertical"
         android:paddingBottom="30dp">
 
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="@dimen/dp_40"
+            android:id="@+id/sdv_head"
+            android:layout_height="@dimen/dp_40" />
+
         <TextView
+
+            android:layout_toRightOf="@id/sdv_head"
             android:id="@+id/message_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
-            android:text="@string/test_text"
+            tools:text="@string/test_text"
             android:textColor="@color/cr3C3B41"
             android:textSize="@dimen/size_sp_14" />
 
