@@ -30,7 +30,7 @@
             android:layout_toRightOf="@id/sdv_head"
             android:ellipsize="end"
             android:lines="1"
-            android:paddingLeft="10dp"
+            android:paddingLeft="4dp"
             android:paddingTop="16dp"
             android:textColor="@color/cr3C3B41"
             android:textSize="@dimen/size_sp_14"
