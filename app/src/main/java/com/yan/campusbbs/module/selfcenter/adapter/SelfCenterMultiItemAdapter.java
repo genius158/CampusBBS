@@ -1,12 +1,14 @@
 package com.yan.campusbbs.module.selfcenter.adapter;
 
 import android.content.Context;
+
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.FrescoUtils;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,6 +49,16 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
             case ITEM_TYPE_SELF_DYNAMIC:
                 SimpleDraweeView simpleDraweeView = holder.getView(R.id.self_part_one_img);
                 FrescoUtils.adjustViewOnImage(context, simpleDraweeView, String.valueOf(multiItem.data));
+
+                break;
+            case ITEM_TYPE_FRIEND_TITLE:
+
+                break;
+            case ITEM_TYPE_FRIEND_DYNAMIC:
+                SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
+                SimpleDraweeView head = holder.getView(R.id.sdv_head);
+                head.setImageURI(String.valueOf(multiItem.data));
+                FrescoUtils.adjustViewOnImage(context, simpleDrawee, String.valueOf(multiItem.data));
 
                 break;
         }

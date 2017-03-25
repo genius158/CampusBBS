@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/crFFFFFF">
 
     <RelativeLayout
@@ -14,21 +14,24 @@
         android:paddingBottom="30dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:layout_width="@dimen/dp_40"
             android:id="@+id/sdv_head"
+            android:layout_marginLeft="10dp"
+            style="@style/ImageBase.Circle"
+
+            android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40" />
 
         <TextView
 
-            android:layout_toRightOf="@id/sdv_head"
             android:id="@+id/message_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/sdv_head"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
-            tools:text="@string/test_text"
             android:textColor="@color/cr3C3B41"
-            android:textSize="@dimen/size_sp_14" />
+            android:textSize="@dimen/size_sp_14"
+            tools:text="@string/test_text" />
 
         <TextView
             android:id="@+id/self_dynamic"
@@ -50,11 +53,53 @@
             android:layout_below="@id/self_dynamic"
             android:layout_centerHorizontal="true" />
 
+        <FrameLayout
+            android:id="@+id/action_part"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/self_part_one_img">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:text="浏览(20)"
+                android:textColor="@color/cr777777"
+                android:textSize="@dimen/size_sp_12" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_gravity="right"
+                android:layout_marginRight="90dp"
+                android:padding="10dp"
+                android:src="@drawable/action_like" />
+
+            <ImageView
+                android:layout_marginTop="1dp"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_gravity="right"
+                android:layout_marginRight="50dp"
+                android:padding="11dp"
+                android:src="@drawable/action_commit" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:padding="10dp"
+                android:src="@drawable/action_recommit" />
+
+        </FrameLayout>
+
         <View
             android:id="@+id/space_line"
             android:layout_width="match_parent"
             android:layout_height="1sp"
-            android:layout_below="@id/self_part_one_img"
+            android:layout_below="@id/action_part"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"

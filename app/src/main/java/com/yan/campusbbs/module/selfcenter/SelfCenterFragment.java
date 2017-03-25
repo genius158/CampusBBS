@@ -170,9 +170,9 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                 () -> {
                     recyclerView.postDelayed(
                             () -> {
-                                dataMultiItems.add(new FriendDynamic(new String("发布说说")));
-                                dataMultiItems.add(new FriendDynamic(new String("发布说说")));
-                                dataMultiItems.add(new FriendDynamic(new String("发布说说")));
+                                dataMultiItems.add(new FriendDynamic("发布说说"));
+                                dataMultiItems.add(new FriendDynamic("发布说说"));
+                                dataMultiItems.add(new FriendDynamic("发布说说"));
                                 adapter.loadMoreComplete();
                             }, 100);
                 });
@@ -193,6 +193,10 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                 new SelfDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
         dataMultiItems.add(
                 new SelfDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
+        dataMultiItems.add(new FriendTitle());
+
+        dataMultiItems.add(
+                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
         dataMultiItems.add(
                 new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
         dataMultiItems.add(
@@ -210,19 +214,20 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @Override
     public void onRefresh() {
         dataMultiItems.clear();
+        dataMultiItems.add(new SelfCenterHeader("个人动态"));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_HEADER
-                        , new String("http://img3.imgtn.bdimg.com/it/u=2681925759,1488026640&fm=23&gp=0.jpg")));
-
+                new SelfDynamic("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263907&di=c436e10ebb875da6eff0cfdafa15712b&imgtype=jpg&er=1&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201308%2F31%2F20130831185515_TmBhr.jpeg"));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263907&di=c436e10ebb875da6eff0cfdafa15712b&imgtype=jpg&er=1&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201308%2F31%2F20130831185515_TmBhr.jpeg")));
+                new SelfDynamic("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263941&di=fe9a2ebeff706f423ea53ce88d2ae55f&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160927%2Faddefebf625b4d9ca7a09b9154e1a270_th.jpg"));
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263941&di=fe9a2ebeff706f423ea53ce88d2ae55f&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160927%2Faddefebf625b4d9ca7a09b9154e1a270_th.jpg")));
+                new SelfDynamic("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263969&di=189f988069e9aebca15a57284c410513&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F3bf33a87e950352a5b31d24d5343fbf2b2118b27.jpg"));
+        dataMultiItems.add(new FriendTitle());
         dataMultiItems.add(
-                new DataMultiItem(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC
-                        , new String("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263969&di=189f988069e9aebca15a57284c410513&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F3bf33a87e950352a5b31d24d5343fbf2b2118b27.jpg")));
+                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
+        dataMultiItems.add(
+                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
+        dataMultiItems.add(
+                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
 
         notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
@@ -294,7 +299,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         super.changeSkin(actionChangeSkin);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             appBarBackground.setBackgroundColor(
-                    ContextCompat.getColor(getContext(),R.color.crFFFFFF)
+                    ContextCompat.getColor(getContext(), R.color.crFFFFFF)
             );
         }
     }
