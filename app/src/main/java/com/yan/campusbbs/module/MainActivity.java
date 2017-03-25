@@ -420,10 +420,10 @@ public class MainActivity extends BaseActivity {
                 .setText("5");
 
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.self_center))
+                .addItem(new BottomNavigationItem(R.drawable.self_main_page, getString(R.string.self_center))
                         .setBadgeItem(numberBadgeItem))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.campus_bbs)))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.file_center)))
+                .addItem(new BottomNavigationItem(R.drawable.campus_bbs, getString(R.string.campus_bbs)))
+                .addItem(new BottomNavigationItem(R.drawable.res_center, getString(R.string.file_center)))
                 .setActiveColor(actionChangeSkin.getColorPrimaryId())
                 .setInActiveColor(R.color.crABABAB)
                 .setFirstSelectedPosition(viewPager.getCurrentItem())

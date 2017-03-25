@@ -47,7 +47,8 @@
                 android:layout_gravity="center"
                 android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:src="@mipmap/ic_launcher" />
+                android:padding="5dp"
+                android:src="@drawable/self_center" />
         </FrameLayout>
 
     </android.support.v7.widget.CardView>
