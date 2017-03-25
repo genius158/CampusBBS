@@ -23,7 +23,9 @@
             android:layout_height="48dp" />
 
         <TextView
-            android:id="@+id/message_detail"
+            android:lines="1"
+            android:ellipsize="end"
+            android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/sdv_head"

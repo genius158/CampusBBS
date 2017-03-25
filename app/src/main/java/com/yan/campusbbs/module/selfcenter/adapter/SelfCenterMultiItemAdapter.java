@@ -58,7 +58,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
                 SimpleDraweeView head = holder.getView(R.id.sdv_head);
                 head.setImageURI(String.valueOf(multiItem.data));
-                holder.setTag(R.id.message_detail, String.valueOf(multiItem.data));
+                holder.setText(R.id.user_name, String.valueOf(multiItem.data));
                 FrescoUtils.adjustViewOnImage(context, simpleDrawee, String.valueOf(multiItem.data));
 
                 break;
