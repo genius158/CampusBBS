@@ -15,30 +15,31 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_head"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="6dp"
             style="@style/ImageBase.Circle"
 
+            android:padding="5dp"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40" />
 
         <TextView
-
             android:id="@+id/message_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/sdv_head"
             android:paddingLeft="10dp"
-            android:paddingTop="5dp"
+            android:paddingTop="12dp"
             android:textColor="@color/cr3C3B41"
             android:textSize="@dimen/size_sp_14"
             tools:text="@string/test_text" />
 
         <TextView
+
             android:id="@+id/self_dynamic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/message_detail"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="4dp"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:text="@string/test_text"
