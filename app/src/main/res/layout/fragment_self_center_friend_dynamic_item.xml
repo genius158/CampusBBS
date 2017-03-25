@@ -15,20 +15,21 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_head"
-            android:layout_marginLeft="6dp"
             style="@style/ImageBase.Circle"
-
-            android:padding="5dp"
             android:layout_width="48dp"
-            android:layout_height="48dp" />
+
+            android:layout_height="48dp"
+            android:layout_marginLeft="6dp"
+            android:padding="5dp" />
 
         <TextView
-            android:lines="1"
-            android:ellipsize="end"
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/sdv_head"
+            android:ellipsize="end"
+            android:lines="1"
             android:paddingLeft="10dp"
             android:paddingTop="16dp"
             android:textColor="@color/cr3C3B41"
@@ -78,11 +79,11 @@
                 android:src="@drawable/action_like" />
 
             <ImageView
-                android:layout_marginTop="1dp"
                 android:layout_width="@dimen/dp_40"
                 android:layout_height="@dimen/dp_40"
                 android:layout_gravity="right"
                 android:layout_marginRight="50dp"
+                android:layout_marginTop="1dp"
                 android:padding="11dp"
                 android:src="@drawable/action_commit" />
 
