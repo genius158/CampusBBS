@@ -31,7 +31,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:paddingLeft="4dp"
-            android:paddingTop="16dp"
+            android:paddingTop="15dp"
             android:textColor="@color/cr3C3B41"
             android:textSize="@dimen/size_sp_14"
             tools:text="@string/test_text" />
