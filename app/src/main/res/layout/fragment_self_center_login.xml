@@ -73,6 +73,14 @@
             android:text="登录"
             android:textColor="@color/crFFFFFF" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_marginRight="2dp"
+            android:id="@+id/tv_register"
+            android:text="注册" />
+
     </LinearLayout>
 
 

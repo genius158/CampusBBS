@@ -57,6 +57,8 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
     TextInputLayout userNameLayout;
     @BindView(R.id.user_password_layout)
     TextInputLayout userPasswordLayout;
+    @BindView(R.id.tv_register)
+    TextView tvRegister;
 
     public static LogInFragment newInstance() {
         LogInFragment logInFragment = new LogInFragment();
@@ -130,9 +132,7 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
         ViewCompat.setBackgroundTintList(btbLogin, colorStateList);
         ViewCompat.setBackgroundTintList(tielUserName, colorStateList);
         ViewCompat.setBackgroundTintList(tielUserPassword, colorStateList);
-        ViewCompat.setBackgroundTintList(userNameLayout, colorStateList);
-        ViewCompat.setBackgroundTintList(userPasswordLayout, colorStateList);
-
+        tvRegister.setTextColor(ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId()));
     }
 
 }
