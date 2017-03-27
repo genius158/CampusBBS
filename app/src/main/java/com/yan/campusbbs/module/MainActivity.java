@@ -1,6 +1,7 @@
 package com.yan.campusbbs.module;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -29,6 +31,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.ui.CampusBBSFragment;
 import com.yan.campusbbs.module.campusbbs.ui.publish.PublishActivity;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
@@ -382,7 +385,13 @@ public class MainActivity extends BaseActivity {
         if (positionOffset < 0.2) {
             btnSearch.setScaleX(1 - positionOffset);
             btnSearch.setScaleY(1 - positionOffset);
-            if (position == 0) {
+
+            boolean isNotFirstPageShow = position == 0
+                    && !TextUtils.isEmpty(spUtils
+                    .getString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                            , SharedPreferenceConfig.SESSION_ID));
+
+            if (isNotFirstPageShow) {
                 if (btnSearch.getAlpha() != 0f) {
                     btnSearch.setAlpha(0f);
                 }

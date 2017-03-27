@@ -1,13 +1,18 @@
 package com.yan.campusbbs.module.selfcenter.ui.login;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
@@ -24,6 +29,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by yan on 2017/3/27.
@@ -41,6 +47,16 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
     CardView commonAppBar;
     @BindView(R.id.title)
     TextView title;
+    @BindView(R.id.btb_login)
+    Button btbLogin;
+    @BindView(R.id.tiel_user_name)
+    TextInputEditText tielUserName;
+    @BindView(R.id.tiel_user_password)
+    TextInputEditText tielUserPassword;
+    @BindView(R.id.user_name_layout)
+    TextInputLayout userNameLayout;
+    @BindView(R.id.user_password_layout)
+    TextInputLayout userPasswordLayout;
 
     public static LogInFragment newInstance() {
         LogInFragment logInFragment = new LogInFragment();
@@ -62,7 +78,6 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
 
     private void init() {
         skinInit();
-        title.setText("登录");
     }
 
     private void dataInit() {
@@ -85,12 +100,10 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
         super.onSaveArguments(bundle);
     }
 
-
     @Override
     protected void onReloadArguments(Bundle bundle) {
         super.onReloadArguments(bundle);
     }
-
 
     private void daggerInject() {
         DaggerLoginComponent.builder().applicationComponent(((ApplicationCampusBBS) getContext().getApplicationContext())
@@ -111,6 +124,15 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
                     ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
             );
         }
+        ColorStateList colorStateList = ColorStateList.valueOf(
+                ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
+        );
+        ViewCompat.setBackgroundTintList(btbLogin, colorStateList);
+        ViewCompat.setBackgroundTintList(tielUserName, colorStateList);
+        ViewCompat.setBackgroundTintList(tielUserPassword, colorStateList);
+        ViewCompat.setBackgroundTintList(userNameLayout, colorStateList);
+        ViewCompat.setBackgroundTintList(userPasswordLayout, colorStateList);
+
     }
 
 }
