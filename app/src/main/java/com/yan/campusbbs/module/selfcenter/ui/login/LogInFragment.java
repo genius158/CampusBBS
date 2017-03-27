@@ -19,16 +19,19 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
+import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.setting.SettingControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -42,6 +45,8 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
     SPUtils spUtils;
     @Inject
     LoginPresenter loginPresenter;
+    @Inject
+    RxBus rxBus;
 
     @BindView(R.id.common_app_bar)
     CardView commonAppBar;
@@ -135,4 +140,15 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
         tvRegister.setTextColor(ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId()));
     }
 
+
+    @OnClick({R.id.btb_login, R.id.tv_register})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btb_login:
+                rxBus.post(new LogInAction(true));
+                break;
+            case R.id.tv_register:
+                break;
+        }
+    }
 }

@@ -20,5 +20,6 @@
     <string name="friend_dynamic">好友动态</string>
     <string name="self_center">个人中心</string>
     <string name="self_center_friend">我的好友</string>
+    <string name="register">注册</string>
 
 </resources>

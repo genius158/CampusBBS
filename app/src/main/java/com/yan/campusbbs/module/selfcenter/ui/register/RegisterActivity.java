@@ -60,7 +60,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     }
 
     private void daggerInject() {
-
         DaggerRegisterComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent()
         ).registerModule(new RegisterModule(this))
@@ -80,7 +79,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        title.setText("聊天中...");
+        title.setText(R.string.register);
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
