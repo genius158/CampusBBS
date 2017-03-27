@@ -151,7 +151,7 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
         switch (view.getId()) {
             case R.id.btb_login:
                 if (!TextUtils.isEmpty(tielUserName.getText())
-                        && TextUtils.isEmpty(tielUserPassword.getText())) {
+                        && !TextUtils.isEmpty(tielUserPassword.getText())) {
                     loginPresenter.login(tielUserName.getText().toString()
                             , tielUserPassword.getText().toString());
                 } else {
