@@ -36,6 +36,7 @@ import com.yan.campusbbs.module.campusbbs.ui.CampusBBSFragment;
 import com.yan.campusbbs.module.campusbbs.ui.publish.PublishActivity;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.search.SearchActivity;
+import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.ui.MainPageFragment;
 import com.yan.campusbbs.module.selfcenter.ui.login.LogInFragment;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterFragment;
@@ -62,6 +63,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
@@ -202,6 +204,14 @@ public class MainActivity extends BaseActivity {
                         fabHideAnimation.start();
                     }
                 }));
+
+
+        addDisposable(rxBus.getEvent(LogInAction.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(logInAction -> {
+                    btnSearch.setVisibility(logInAction.isLogIn ? View.VISIBLE : View.GONE);
+                }, Throwable::printStackTrace));
     }
 
     private ValueAnimator getFabShowAnimation() {
