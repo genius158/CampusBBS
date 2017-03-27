@@ -26,7 +26,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class MainPageFragment extends BaseFragment {
-
     @Inject
     RxBus rxBus;
 
@@ -34,9 +33,17 @@ public class MainPageFragment extends BaseFragment {
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_self_center_main, container, false);
         ButterKnife.bind(this, view);
+        daggerInject();
         init();
         initRxAction();
         return view;
+    }
+
+    private void daggerInject() {
+        DaggerMainPageComponent.builder()
+                .applicationComponent(((ApplicationCampusBBS) getContext().getApplicationContext())
+                        .getApplicationComponent())
+                .build().inject(this);
     }
 
     private void initRxAction() {

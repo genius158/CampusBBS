@@ -12,11 +12,13 @@ import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.repository.entity.download.DownloadProListener;
 import com.yan.campusbbs.repository.entity.download.ProgressResponse;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -68,10 +70,15 @@ public class AppRetrofit {
         downloadInterceptor = new DownLoadInterceptor();
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-
+        File cacheFile = new File(ApplicationCampusBBS.getApplication()
+                .getCacheDir().getAbsolutePath(), "HttpCache");
+        int cacheSize = 10 * 1024 * 1024;
+        Cache cache = new Cache(cacheFile, cacheSize);
+        builder.cache(cache);
         if (BuildConfig.DEBUG && IS_LOG) {
             builder.addInterceptor(getLogInterceptor());
         }
+
         okHttpClient = builder
                 .addInterceptor(addHeadersInterceptor)
                 .addNetworkInterceptor(downloadInterceptor)

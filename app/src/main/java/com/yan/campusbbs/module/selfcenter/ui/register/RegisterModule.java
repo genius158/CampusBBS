@@ -21,7 +21,7 @@ public class RegisterModule {
     }
 
     @Provides
-    RegisterContract.Presenter getStudyPresenter(Context context) {
+    RegisterPresenter getPresenter(Context context) {
         return new RegisterPresenter(context, view);
     }
 
