@@ -210,7 +210,7 @@ public class MainActivity extends BaseActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(logInAction -> {
-                    btnSearch.setVisibility(logInAction.isLogIn ? View.VISIBLE : View.GONE);
+                    btnSearch.setVisibility(!logInAction.isLogIn ? View.VISIBLE : View.GONE);
                 }, Throwable::printStackTrace));
     }
 
