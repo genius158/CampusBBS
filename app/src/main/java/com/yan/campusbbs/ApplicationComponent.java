@@ -26,4 +26,6 @@ public interface ApplicationComponent {
     ImageControl getImageControl();
 
     AppRetrofit getAppRetrofit();
+
+    void inject(ApplicationCampusBBS applicationCampusBBS);
 }

@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.selfcenter;
+package com.yan.campusbbs.module.selfcenter.ui.mainpage;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -181,7 +181,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     public static SelfCenterFragment newInstance() {
         SelfCenterFragment selfCenterFragment = new SelfCenterFragment();
         selfCenterFragment.setArguments(new Bundle());
-        return new SelfCenterFragment();
+        return selfCenterFragment;
     }
 
     private void dataInit() {

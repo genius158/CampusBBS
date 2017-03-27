@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.selfcenter;
+package com.yan.campusbbs.module.selfcenter.ui.mainpage;
 
 import com.yan.campusbbs.ApplicationComponent;
 import com.yan.campusbbs.base.ScopedFragment;

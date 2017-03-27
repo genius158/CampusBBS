@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.selfcenter;
+package com.yan.campusbbs.module.selfcenter.ui.mainpage;
 
 import android.content.Context;
 

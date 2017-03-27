@@ -33,7 +33,9 @@ import com.yan.campusbbs.module.campusbbs.ui.CampusBBSFragment;
 import com.yan.campusbbs.module.campusbbs.ui.publish.PublishActivity;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.search.SearchActivity;
-import com.yan.campusbbs.module.selfcenter.SelfCenterFragment;
+import com.yan.campusbbs.module.selfcenter.ui.MainPageFragment;
+import com.yan.campusbbs.module.selfcenter.ui.login.LogInFragment;
+import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterFragment;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -253,8 +255,8 @@ public class MainActivity extends BaseActivity {
 
     private void initFragment() {
         fragments = new ArrayList<>();
-        SelfCenterFragment selfCenterFragment = SelfCenterFragment.newInstance();
-        fragments.add(selfCenterFragment);
+        MainPageFragment mainPageFragment = MainPageFragment.newInstance();
+        fragments.add(mainPageFragment);
         CampusBBSFragment campusBBSFragment = CampusBBSFragment.newInstance();
         campusBBSFragment.setMainSearch(btnSearchLayout);
         fragments.add(campusBBSFragment);

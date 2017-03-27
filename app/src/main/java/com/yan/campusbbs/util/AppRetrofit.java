@@ -1,8 +1,13 @@
 package com.yan.campusbbs.util;
 
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.yan.campusbbs.ApplicationCampusBBS;
+import com.yan.campusbbs.BuildConfig;
 import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.repository.entity.download.DownloadProListener;
 import com.yan.campusbbs.repository.entity.download.ProgressResponse;
@@ -12,12 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Callback;
+import okhttp3.Headers;
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -29,14 +34,13 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class AppRetrofit {
     private static AppRetrofit appRetrofit;
-    private static int LOG_MODE = 2;//0. no log / 1. request / 2. use body
+    private static boolean IS_LOG = true;
 
     private Retrofit retrofit;
     private OkHttpClient okHttpClient;
     private List<DownloadProListener> progressListeners;
 
     private DownLoadInterceptor downloadInterceptor;
-    private Interceptor logInterceptor;
 
 
     public AppRetrofit addProgressListener(DownloadProListener progressListener) {
@@ -63,17 +67,13 @@ public class AppRetrofit {
         progressListeners = new ArrayList<>();
         downloadInterceptor = new DownLoadInterceptor();
 
-        if (LOG_MODE == 1) {
-            logInterceptor = new OkHttpLogInterceptor();
-        } else if (LOG_MODE == 2) {
-            logInterceptor = new OkHttpLogInterceptor2();
-        }
-
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        if (LOG_MODE != 0) {
-            builder.addInterceptor(logInterceptor);
+
+        if (BuildConfig.DEBUG && IS_LOG) {
+            builder.addInterceptor(getLogInterceptor());
         }
         okHttpClient = builder
+                .addInterceptor(addHeadersInterceptor)
                 .addNetworkInterceptor(downloadInterceptor)
                 .retryOnConnectionFailure(true)
                 .connectTimeout(15, TimeUnit.SECONDS)
@@ -97,6 +97,27 @@ public class AppRetrofit {
         return retrofit;
     }
 
+    public Interceptor getLogInterceptor() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(
+                new HttpLoggingInterceptor.Logger() {
+                    @Override
+                    public void log(String message) {
+                        boolean isJson;
+
+                        try {
+                            new JsonParser().parse(message);
+                            isJson = true;
+                        } catch (JsonParseException e) {
+                            isJson = false;
+                        }
+
+                        Log.e("AppRetrofit", isJson ? format(message) : message);
+                    }
+                });
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return loggingInterceptor;
+    }
+
 
     private class DownLoadInterceptor implements Interceptor {
 
@@ -109,64 +130,20 @@ public class AppRetrofit {
         }
     }
 
+    private Interceptor addHeadersInterceptor =
+            chain -> {
 
-    private class OkHttpLogInterceptor implements Interceptor {
-        private static final String TAG = "OkHttpLogInterceptor";
-        List<String> requestUrl;
-
-        public OkHttpLogInterceptor() {
-            requestUrl = new ArrayList<>();
-        }
-
-        public void add(final Request request) {
-            if (!progressListeners.isEmpty()) return;
-            if (requestUrl.contains(request.url().url().toString())) return;
-            Log.e(TAG, "request: " + request.toString());
-            requestUrl.add(request.url().url().toString());
-            okhttp3.Call call = getClient().newCall(request);
-            call.enqueue(new Callback() {
-                @Override
-                public void onFailure(okhttp3.Call call, IOException e) {
-                    Log.e(TAG, "onFailure: " + e);
-                    requestUrl.remove(request.url().url().toString());
-                }
-
-                @Override
-                public void onResponse(okhttp3.Call call, Response response) throws IOException {
-                    Log.e(TAG, "onResponse: " +format(response.body().string()) );
-                    requestUrl.remove(request.url().url().toString());
-                }
-            });
-        }
-
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            add(request);
-            return chain.proceed(request);
-        }
-    }
-
-    private class OkHttpLogInterceptor2 implements Interceptor {
-        private static final String TAG = "OkHttpLogInterceptor2";
-
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            Log.e(TAG, "request: " + request.toString());
-            Response response = chain.proceed(request);
-            okhttp3.MediaType mediaType = response.body().contentType();
-            Log.e(TAG, "mediaType.type: " + mediaType.toString());
-            if (mediaType.equals(MediaType.parse("application/json;charset=UTF-8"))
-                    || mediaType.equals(MediaType.parse("text/plain;charset=UTF-8"))) {
-                String content = response.body().string();
-                Log.e(TAG, "onResponse: " + format(content));
-                return response.newBuilder().body((okhttp3.ResponseBody
-                        .create(mediaType, content))).build();
-            }
-            return response;
-        }
-    }
+                Headers headers = new Headers.Builder()
+                        .add("token", TextUtils.isEmpty(ApplicationCampusBBS.getApplication().getSessionId())
+                                ? "api_token_26deda60f5d446bf9fcf30f3286009a9"
+                                : ApplicationCampusBBS.getApplication().getSessionId())
+                        .build();
+                Request request = chain.request()
+                        .newBuilder()
+                        .headers(headers)
+                        .build();
+                return chain.proceed(request);
+            };
 
     private String format(String jsonStr) {
         int level = 0;
