@@ -21,6 +21,7 @@
         android:layout_marginLeft="20dp">
 
         <TextView
+            android:id="@+id/tv_sign"
             style="@style/TextShadow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
