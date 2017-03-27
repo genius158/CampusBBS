@@ -8,11 +8,13 @@ public class LoginInfoData {
 
     /**
      * data : null
-     * resultCode : 500
-     * message : 请输入账号
+     * jsessionId : 0D39988690788BB039A059B0BBF5DD7D
+     * resultCode : 200
+     * message : 登录成功
      */
 
     private Object data;
+    private String jsessionId;
     private int resultCode;
     private String message;
 
@@ -22,6 +24,14 @@ public class LoginInfoData {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public String getJsessionId() {
+        return jsessionId;
+    }
+
+    public void setJsessionId(String jsessionId) {
+        this.jsessionId = jsessionId;
     }
 
     public int getResultCode() {

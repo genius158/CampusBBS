@@ -165,9 +165,13 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
 
     @Override
     public void loginSuccess(LoginInfoData loginInfoData) {
-        spUtils.putString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                , SharedPreferenceConfig.SESSION_ID, loginInfoData.toString());
-        rxBus.post(new LogInAction(true));
+        if (loginInfoData.getResultCode() == 200) {
+            spUtils.putString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                    , SharedPreferenceConfig.SESSION_ID, loginInfoData.getJsessionId());
+            rxBus.post(new LogInAction(true));
+        } else {
+            toastUtils.showShort(loginInfoData.getMessage());
+        }
     }
 
     @Override
