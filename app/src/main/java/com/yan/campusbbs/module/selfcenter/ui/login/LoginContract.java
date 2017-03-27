@@ -18,6 +18,9 @@ package com.yan.campusbbs.module.selfcenter.ui.login;
 
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -25,9 +28,14 @@ import com.yan.campusbbs.base.BaseView;
 public interface LoginContract {
 
     interface View extends BaseView<Presenter> {
+        void loginSuccess(LoginInfoData sessionId);
+
+        void addDisposable(Disposable disposable);
+
+        void loginFail();
     }
 
     interface Presenter extends BasePresenter {
-
+        void login(String userName, String userPassword);
     }
 }

@@ -5,5 +5,7 @@ package com.yan.campusbbs.repository;
  */
 
 public class DataAddress {
-    public static final String MAIN_PATH = "/";
+    public static final String MAIN_PATH = "http://112.74.32.111:8080/";
+
+    public static final String URL_LOGIN = "CompusBBS/app/login";
 }

@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import okhttp3.Cache;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
@@ -50,22 +52,12 @@ public class AppRetrofit {
         return appRetrofit;
     }
 
-    public static AppRetrofit getAppRetrofit() {
-        if (appRetrofit == null) {
-            synchronized (AppRetrofit.class) {
-                if (appRetrofit == null) {
-                    appRetrofit = new AppRetrofit();
-                }
-            }
-        }
-        return appRetrofit;
-    }
-
     public OkHttpClient getClient() {
         return okHttpClient;
     }
 
-    private AppRetrofit() {
+    @Inject
+    public AppRetrofit() {
         progressListeners = new ArrayList<>();
         downloadInterceptor = new DownLoadInterceptor();
 

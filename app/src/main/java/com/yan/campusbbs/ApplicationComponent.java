@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.yan.campusbbs.module.setting.AdapterImageControl;
 import com.yan.campusbbs.module.setting.ImageControl;
-import com.yan.campusbbs.repository.AppRetrofit;
+import com.yan.campusbbs.util.AppRetrofit;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.ToastUtils;
 
