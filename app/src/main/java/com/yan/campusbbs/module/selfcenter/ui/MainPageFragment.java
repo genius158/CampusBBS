@@ -1,8 +1,10 @@
 package com.yan.campusbbs.module.selfcenter.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,14 +54,14 @@ public class MainPageFragment extends BaseFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(logInAction -> {
                     if (logInAction.isLogIn) {
-                        getFragmentManager().beginTransaction()
+                        getChildFragmentManager().beginTransaction()
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.fl_fragment_container, new SelfCenterFragment())
+                                .replace(R.id.fl_fragment_container, new SelfCenterFragment(),"SELF_CENTER")
                                 .commit();
                     } else {
-                        getFragmentManager().beginTransaction()
+                        getChildFragmentManager().beginTransaction()
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.fl_fragment_container, LogInFragment.newInstance())
+                                .replace(R.id.fl_fragment_container, LogInFragment.newInstance(),"LOGIN")
                                 .commit();
                     }
                 }, Throwable::printStackTrace));
@@ -71,11 +73,33 @@ public class MainPageFragment extends BaseFragment {
         return mainPageFragment;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume: ");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e(TAG, "onPause: ");
+    }
+
+    private static final String TAG = "MainPageFragment";
+
     private void init() {
         if (TextUtils.isEmpty(ApplicationCampusBBS.getApplication().getSessionId())) {
-            getChildFragmentManager().beginTransaction().add(R.id.fl_fragment_container, LogInFragment.newInstance()).commit();
+            Fragment fragment = getChildFragmentManager().findFragmentByTag("LOGIN");
+            if (fragment == null || !fragment.isAdded()) {
+                fragment = LogInFragment.newInstance();
+            }
+            getChildFragmentManager().beginTransaction().add(R.id.fl_fragment_container, fragment, "LOGIN").commit();
         } else {
-            getChildFragmentManager().beginTransaction().add(R.id.fl_fragment_container, new SelfCenterFragment()).commit();
+            Fragment fragment = getChildFragmentManager().findFragmentByTag("SELF_CENTER");
+            if (fragment == null || !fragment.isAdded()) {
+                fragment = new SelfCenterFragment();
+            }
+            getChildFragmentManager().beginTransaction().add(R.id.fl_fragment_container, fragment, "SELF_CENTER").commit();
         }
     }
 }
