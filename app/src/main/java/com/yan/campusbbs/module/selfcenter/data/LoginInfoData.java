@@ -1,10 +1,12 @@
 package com.yan.campusbbs.module.selfcenter.data;
 
+import java.io.Serializable;
+
 /**
  * Created by yan on 2017/3/27.
  */
 
-public class LoginInfoData {
+public class LoginInfoData implements Serializable {
 
     /**
      * data : null

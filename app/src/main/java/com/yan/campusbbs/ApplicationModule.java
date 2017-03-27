@@ -25,13 +25,11 @@ public final class ApplicationModule {
     private final Context mContext;
     private final SPUtils spUtils;
     private final ImageControl imageControl;
-    private final ACache aCache;
 
     ApplicationModule(Context context) {
         mContext = context;
         spUtils = new SPUtils(context);
         imageControl = new ImageControl(spUtils, context);
-        aCache = ACache.get(context);
     }
 
     @Provides
@@ -42,11 +40,6 @@ public final class ApplicationModule {
     @Provides
     ImageControl provideImageControl() {
         return imageControl;
-    }
-
-    @Provides
-    ACache provideACache() {
-        return aCache;
     }
 
     @Provides

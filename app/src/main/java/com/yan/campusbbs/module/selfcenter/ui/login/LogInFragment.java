@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
+import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
@@ -26,6 +27,7 @@ import com.yan.campusbbs.module.setting.SettingControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -44,6 +46,7 @@ import butterknife.Unbinder;
 public class LogInFragment extends BaseFragment implements LoginContract.View, SettingControl {
     @Inject
     SettingHelper settingHelper;
+
     @Inject
     ToastUtils toastUtils;
     @Inject
@@ -169,6 +172,9 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
             spUtils.putString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                     , SharedPreferenceConfig.SESSION_ID, loginInfoData.getJsessionId());
             rxBus.post(new LogInAction(true));
+
+            ACache.get(getContext()).put(CacheConfig.USER_INFO, loginInfoData);
+
         } else {
             toastUtils.showShort(loginInfoData.getMessage());
         }
