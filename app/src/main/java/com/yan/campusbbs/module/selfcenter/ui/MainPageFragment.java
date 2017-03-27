@@ -92,14 +92,18 @@ public class MainPageFragment extends BaseFragment {
             Fragment fragment = getChildFragmentManager().findFragmentByTag("LOGIN");
             if (fragment == null || !fragment.isAdded()) {
                 fragment = LogInFragment.newInstance();
+                getChildFragmentManager().beginTransaction().add(R.id.fl_fragment_container, fragment, "LOGIN").commit();
+            }else {
+                getChildFragmentManager().beginTransaction().show(fragment).commit();
             }
-            getChildFragmentManager().beginTransaction().add(R.id.fl_fragment_container, fragment, "LOGIN").commit();
         } else {
             Fragment fragment = getChildFragmentManager().findFragmentByTag("SELF_CENTER");
             if (fragment == null || !fragment.isAdded()) {
                 fragment = new SelfCenterFragment();
+                getChildFragmentManager().beginTransaction().add(R.id.fl_fragment_container, fragment, "SELF_CENTER").commit();
+            }else {
+                getChildFragmentManager().beginTransaction().show(fragment).commit();
             }
-            getChildFragmentManager().beginTransaction().add(R.id.fl_fragment_container, fragment, "SELF_CENTER").commit();
         }
     }
 }
