@@ -253,7 +253,7 @@ public class MainActivity extends BaseActivity {
                 .setText("5");
 
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.self_center))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.self_main_page))
                         .setBadgeItem(numberBadgeItem))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.campus_bbs)))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.file_center)))
