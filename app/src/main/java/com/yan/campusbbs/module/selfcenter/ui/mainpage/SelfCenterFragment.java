@@ -99,7 +99,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     private int actionBarPinHeight;
     private boolean isNeedAdjustBar;
 
-    int pageNo=1;
+    int pageNo=0;
 
     @Override
     public void onResume() {
