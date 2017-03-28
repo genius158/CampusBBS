@@ -18,6 +18,9 @@ package com.yan.campusbbs.module.selfcenter.ui.mainpage;
 
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.module.selfcenter.api.MainPage;
+
+import okhttp3.ResponseBody;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -25,9 +28,14 @@ import com.yan.campusbbs.base.BaseView;
 public interface SelfCenterContract {
 
     interface View extends BaseView<Presenter> {
+        void setData(ResponseBody data);
+        void dataError();
+
     }
 
     interface Presenter extends BasePresenter {
+
+        void getMainPageData(int pageNo);
 
     }
 }

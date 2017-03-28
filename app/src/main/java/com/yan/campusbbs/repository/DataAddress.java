@@ -8,4 +8,5 @@ public class DataAddress {
     public static final String MAIN_PATH = "http://112.74.32.111:8080/";
 
     public static final String URL_LOGIN = "CompusBBS/app/login";
+    public static final String URL_HOME_PAGE_DATA= "CompusBBS/app/topic/homepage";
 }

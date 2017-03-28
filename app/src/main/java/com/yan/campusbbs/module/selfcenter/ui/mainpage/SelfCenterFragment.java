@@ -37,6 +37,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionSelfSearchControl;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.util.ToastUtils;
 import com.yan.campusbbs.util.sort.SortUtils;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import okhttp3.ResponseBody;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
@@ -77,6 +79,8 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     @Inject
     SPUtils spUtils;
     @Inject
+    ToastUtils toastUtils;
+    @Inject
     SelfCenterPresenter mPresenter;
     @Inject
     SelfCenterMultiItemAdapter adapter;
@@ -95,6 +99,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     private int actionBarPinHeight;
     private boolean isNeedAdjustBar;
 
+    int pageNo=1;
 
     @Override
     public void onResume() {
@@ -202,6 +207,8 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         dataMultiItems.add(
                 new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
 
+        mPresenter.getMainPageData(pageNo);
+
         notifyDataSetChanged();
     }
 
@@ -213,24 +220,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
     @Override
     public void onRefresh() {
-        dataMultiItems.clear();
-        dataMultiItems.add(new SelfCenterHeader("个人动态"));
-        dataMultiItems.add(
-                new SelfDynamic("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263907&di=c436e10ebb875da6eff0cfdafa15712b&imgtype=jpg&er=1&src=http%3A%2F%2Fimg4.duitang.com%2Fuploads%2Fitem%2F201308%2F31%2F20130831185515_TmBhr.jpeg"));
-        dataMultiItems.add(
-                new SelfDynamic("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263941&di=fe9a2ebeff706f423ea53ce88d2ae55f&imgtype=jpg&er=1&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160927%2Faddefebf625b4d9ca7a09b9154e1a270_th.jpg"));
-        dataMultiItems.add(
-                new SelfDynamic("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488263969&di=189f988069e9aebca15a57284c410513&imgtype=jpg&er=1&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fpic%2Fitem%2F3bf33a87e950352a5b31d24d5343fbf2b2118b27.jpg"));
-        dataMultiItems.add(new FriendTitle());
-        dataMultiItems.add(
-                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
-        dataMultiItems.add(
-                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
-        dataMultiItems.add(
-                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
-
-        notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
+        mPresenter.getMainPageData(pageNo);
     }
 
     private RecyclerView.OnScrollListener getOnScrollListener() {
@@ -317,4 +307,13 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         }
     }
 
+    @Override
+    public void setData(ResponseBody data) {
+
+    }
+
+    @Override
+    public void dataError() {
+        toastUtils.showShort("网络错误");
+    }
 }

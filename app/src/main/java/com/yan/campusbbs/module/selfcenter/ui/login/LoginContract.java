@@ -30,8 +30,6 @@ public interface LoginContract {
     interface View extends BaseView<Presenter> {
         void loginSuccess(LoginInfoData sessionId);
 
-        void addDisposable(Disposable disposable);
-
         void loginFail();
     }
 

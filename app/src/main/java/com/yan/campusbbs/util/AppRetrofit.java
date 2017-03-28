@@ -133,7 +133,7 @@ public class AppRetrofit {
             chain -> {
 
                 Headers headers = new Headers.Builder()
-                        .add("token", TextUtils.isEmpty(ApplicationCampusBBS.getApplication().getSessionId())
+                        .add("jsessionId", TextUtils.isEmpty(ApplicationCampusBBS.getApplication().getSessionId())
                                 ? "api_token_26deda60f5d446bf9fcf30f3286009a9"
                                 : ApplicationCampusBBS.getApplication().getSessionId())
                         .build();

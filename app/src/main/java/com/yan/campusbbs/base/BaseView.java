@@ -16,5 +16,8 @@
 
 package com.yan.campusbbs.base;
 
+import io.reactivex.disposables.Disposable;
+
 public interface BaseView<T> {
+    void addDisposable(Disposable disposable);
 }

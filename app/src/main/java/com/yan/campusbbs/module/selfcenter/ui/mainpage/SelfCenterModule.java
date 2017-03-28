@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.util.AppRetrofit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,8 @@ public class SelfCenterModule {
     }
 
     @Provides
-    SelfCenterPresenter getSelfCenterPresenter(Context context) {
-        return new SelfCenterPresenter(context, mView);
+    SelfCenterPresenter getSelfCenterPresenter(Context context, AppRetrofit appRetrofit) {
+        return new SelfCenterPresenter(context, mView,appRetrofit);
     }
 
     @Provides
