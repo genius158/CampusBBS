@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
+import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
@@ -29,6 +30,7 @@ import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.selfcenter.data.FriendDynamic;
 import com.yan.campusbbs.module.selfcenter.data.FriendTitle;
+import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.MainPageData;
 import com.yan.campusbbs.module.selfcenter.data.SelfDynamic;
 import com.yan.campusbbs.module.selfcenter.data.SelfCenterHeader;
@@ -39,6 +41,7 @@ import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionSelfSearchControl;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -315,6 +318,8 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     public void setData(MainPageData data) {
         if (data.getResultCode() != 200) {
             toastUtils.showShort(data.getMessage());
+        } else {
+            dataMultiItems.add(new SelfCenterHeader(ACache.get(getContext()).getAsObject(CacheConfig.USER_INFO)));
         }
         if (data.getResultCode() == 401) {
             spUtils.putString(Context.MODE_PRIVATE

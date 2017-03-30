@@ -6,6 +6,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.FrescoUtils;
 
@@ -40,6 +41,12 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
             case ITEM_TYPE_SELF_HEADER:
                 SimpleDraweeView imageView = holder.getView(R.id.self_part_one_img);
                 imageView.setAspectRatio(1.50f);
+                if ( multiItem.data instanceof LoginInfoData ){
+                    LoginInfoData loginInfoData = (LoginInfoData) multiItem.data;
+
+                    FrescoUtils.display(holder.getView(R.id.self_part_one_header)
+                            , String.valueOf(multiItem.data));
+                }
                 FrescoUtils.display(imageView, String.valueOf(multiItem.data));
 
                 FrescoUtils.display(holder.getView(R.id.self_part_one_header)
