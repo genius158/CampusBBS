@@ -321,6 +321,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
     @Override
     public void dataError() {
+        swipeRefreshLayout.setRefreshing(false);
         toastUtils.showShort("网络错误");
     }
 }
