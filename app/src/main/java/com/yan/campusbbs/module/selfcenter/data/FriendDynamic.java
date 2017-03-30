@@ -9,7 +9,7 @@ import com.yan.campusbbs.repository.entity.DataMultiItem;
  */
 
 public class FriendDynamic extends DataMultiItem<Object> {
-    public FriendDynamic(  Object dataObj) {
+    public FriendDynamic(MainPageData.DataBean.TopicInfoListBean.TopicListBean dataObj) {
         super(SelfCenterMultiItemAdapter.ITEM_TYPE_FRIEND_DYNAMIC, dataObj);
     }
 

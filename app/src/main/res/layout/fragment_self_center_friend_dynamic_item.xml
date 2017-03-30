@@ -37,7 +37,6 @@
             tools:text="@string/test_text" />
 
         <TextView
-
             android:id="@+id/self_dynamic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,6 +61,7 @@
             android:layout_below="@id/self_part_one_img">
 
             <TextView
+                android:id="@+id/tv_brown_count"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginLeft="10dp"

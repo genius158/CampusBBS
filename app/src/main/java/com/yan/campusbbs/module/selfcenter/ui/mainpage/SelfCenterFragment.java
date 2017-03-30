@@ -182,9 +182,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                 () -> {
                     recyclerView.postDelayed(
                             () -> {
-                                dataMultiItems.add(new FriendDynamic("发布说说"));
-                                dataMultiItems.add(new FriendDynamic("发布说说"));
-                                dataMultiItems.add(new FriendDynamic("发布说说"));
                                 adapter.loadMoreComplete();
                             }, 100);
                 });
@@ -197,23 +194,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     }
 
     private void dataInit() {
-        dataMultiItems.add(
-                new SelfCenterHeader("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
-        dataMultiItems.add(
-                new SelfDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
-        dataMultiItems.add(
-                new SelfDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
-        dataMultiItems.add(
-                new SelfDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
-        dataMultiItems.add(new FriendTitle());
-
-        dataMultiItems.add(
-                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
-        dataMultiItems.add(
-                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
-        dataMultiItems.add(
-                new FriendDynamic("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg"));
-
         mPresenter.getMainPageData(pageNo);
 
         notifyDataSetChanged();
@@ -320,7 +300,14 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         if (data.getResultCode() != 200) {
             toastUtils.showShort(data.getMessage());
         } else {
+            dataMultiItems.clear();
             dataMultiItems.add(new SelfCenterHeader(ACache.get(getContext()).getAsObject(CacheConfig.USER_INFO)));
+            if (data.getData().getTopicInfoList() != null
+                    && data.getData().getTopicInfoList().getTopicList() != null) {
+                for (MainPageData.DataBean.TopicInfoListBean.TopicListBean bean : data.getData().getTopicInfoList().getTopicList()) {
+                    dataMultiItems.add(new FriendDynamic(bean));
+                }
+            }
             adapter.notifyDataSetChanged();
         }
         if (data.getResultCode() == 401) {

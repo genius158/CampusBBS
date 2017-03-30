@@ -8,7 +8,7 @@ import com.yan.campusbbs.repository.entity.DataMultiItem;
  */
 
 public class SelfDynamic extends DataMultiItem<Object> {
-    public SelfDynamic(Object dataObj) {
+    public SelfDynamic(MainPageData.DataBean.TopicInfoListBean.TopicListBean dataObj) {
         super(SelfCenterMultiItemAdapter.ITEM_TYPE_SELF_DYNAMIC, dataObj);
     }
 

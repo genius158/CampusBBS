@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
+import com.yan.campusbbs.module.selfcenter.data.MainPageData;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.FrescoUtils;
 
@@ -43,8 +44,8 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 imageView.setAspectRatio(1.50f);
                 if (multiItem.data instanceof LoginInfoData) {
                     LoginInfoData loginInfoData = (LoginInfoData) multiItem.data;
-                    holder.setTag(R.id.tv_nike_name, loginInfoData.getData().getUserInfo().getUserNickname());
-                    holder.setTag(R.id.tv_plus, "等级:" + loginInfoData.getData().getUserInfo().getUserRank());
+                    holder.setText(R.id.tv_nike_name, loginInfoData.getData().getUserInfo().getUserNickname());
+                    holder.setText(R.id.tv_plus, "等级:" + loginInfoData.getData().getUserInfo().getUserRank());
 
                     FrescoUtils.display(holder.getView(R.id.self_part_one_header)
                             , String.valueOf(multiItem.data));
@@ -63,11 +64,17 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
                 break;
             case ITEM_TYPE_FRIEND_DYNAMIC:
+
+                MainPageData.DataBean.TopicInfoListBean.TopicListBean bean =
+                        (MainPageData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
+
                 SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
                 SimpleDraweeView head = holder.getView(R.id.sdv_head);
                 head.setImageURI(String.valueOf(multiItem.data));
-                holder.setText(R.id.user_name, String.valueOf(multiItem.data));
-                FrescoUtils.adjustViewOnImage(context, simpleDrawee, String.valueOf(multiItem.data));
+                holder.setText(R.id.user_name,bean.getUserNickname());
+                holder.setText(R.id.self_dynamic,bean.getTopicTitle());
+                holder.setText(R.id.tv_brown_count,"浏览("+bean.getCmtCount()+")");
+                FrescoUtils.adjustViewOnImage(context, simpleDrawee, bean.getUserHeadImg());
 
                 break;
         }
