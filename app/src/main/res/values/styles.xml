@@ -57,6 +57,8 @@
     <style name="ImageBase.Circle">
         <item name="actualImageScaleType">focusCrop</item>
         <item name="roundAsCircle">true</item>
+        <item name="placeholderImage">@drawable/default_head</item>
+        <item name="placeholderImageScaleType">focusCrop</item>
     </style>
 
     <style name="ImageBase.Circle.Border">
