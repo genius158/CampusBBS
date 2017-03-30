@@ -57,6 +57,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_nike_name"
                 style="@style/TextShadow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,6 +67,7 @@
                 android:textSize="@dimen/size_sp_16" />
 
             <TextView
+                android:id="@+id/tv_plus"
                 style="@style/TextShadow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

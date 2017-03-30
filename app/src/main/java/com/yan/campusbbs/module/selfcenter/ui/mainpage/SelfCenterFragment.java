@@ -316,10 +316,12 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
     @Override
     public void setData(MainPageData data) {
+        swipeRefreshLayout.setRefreshing(false);
         if (data.getResultCode() != 200) {
             toastUtils.showShort(data.getMessage());
         } else {
             dataMultiItems.add(new SelfCenterHeader(ACache.get(getContext()).getAsObject(CacheConfig.USER_INFO)));
+            adapter.notifyDataSetChanged();
         }
         if (data.getResultCode() == 401) {
             spUtils.putString(Context.MODE_PRIVATE
