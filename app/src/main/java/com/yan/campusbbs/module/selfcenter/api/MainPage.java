@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.selfcenter.api;
 
+import com.yan.campusbbs.module.selfcenter.data.MainPageData;
 import com.yan.campusbbs.repository.DataAddress;
 
 import io.reactivex.Observable;
@@ -13,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface MainPage {
     @GET(DataAddress.URL_HOME_PAGE_DATA)
-    Observable<ResponseBody> getMainPageData(
+    Observable<MainPageData> getMainPageData(
             @Query("pageNum")String pageNum
     );
 }

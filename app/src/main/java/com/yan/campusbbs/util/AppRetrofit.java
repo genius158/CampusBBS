@@ -117,7 +117,6 @@ public class AppRetrofit {
         return loggingInterceptor;
     }
 
-
     private class DownLoadInterceptor implements Interceptor {
 
         @Override
@@ -131,11 +130,8 @@ public class AppRetrofit {
 
     private Interceptor addHeadersInterceptor =
             chain -> {
-
                 Headers headers = new Headers.Builder()
-                        .add("jsessionId", TextUtils.isEmpty(ApplicationCampusBBS.getApplication().getSessionId())
-                                ? "api_token_26deda60f5d446bf9fcf30f3286009a9"
-                                : ApplicationCampusBBS.getApplication().getSessionId())
+                        .add("Cookie", "JSESSIONID=" +ApplicationCampusBBS.getApplication().getSessionId())
                         .build();
                 Request request = chain.request()
                         .newBuilder()

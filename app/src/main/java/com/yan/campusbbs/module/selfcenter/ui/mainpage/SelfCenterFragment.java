@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.selfcenter.ui.mainpage;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -21,11 +22,14 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
+import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
+import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.selfcenter.data.FriendDynamic;
 import com.yan.campusbbs.module.selfcenter.data.FriendTitle;
+import com.yan.campusbbs.module.selfcenter.data.MainPageData;
 import com.yan.campusbbs.module.selfcenter.data.SelfDynamic;
 import com.yan.campusbbs.module.selfcenter.data.SelfCenterHeader;
 import com.yan.campusbbs.module.setting.AdapterImageControl;
@@ -99,7 +103,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     private int actionBarPinHeight;
     private boolean isNeedAdjustBar;
 
-    int pageNo=0;
+    int pageNo = 0;
 
     @Override
     public void onResume() {
@@ -308,8 +312,17 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     }
 
     @Override
-    public void setData(ResponseBody data) {
-
+    public void setData(MainPageData data) {
+        if (data.getResultCode() != 200) {
+            toastUtils.showShort(data.getMessage());
+        }
+        if (data.getResultCode() == 401) {
+            spUtils.putString(Context.MODE_PRIVATE
+                    , SharedPreferenceConfig.SHARED_PREFERENCE
+                    , SharedPreferenceConfig.SESSION_ID
+                    , "");
+            rxBus.post(new LogInAction(false));
+        }
     }
 
     @Override
