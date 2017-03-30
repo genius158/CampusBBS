@@ -42,10 +42,14 @@
     <style name="ImageBase">
         <item name="fadeDuration">200</item>
         <item name="actualImageScaleType">fitCenter</item>
+        <item name="placeholderImage">@drawable/default_img</item>
+        <item name="placeholderImageScaleType">fitCenter</item>
     </style>
+
     <style name="ImageBase.FocusCrop">
         <item name="actualImageScaleType">focusCrop</item>
     </style>
+
     <style name="ImageBase.CenterInside">
         <item name="actualImageScaleType">centerInside</item>
     </style>
