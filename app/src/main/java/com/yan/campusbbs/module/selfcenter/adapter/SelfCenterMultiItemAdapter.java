@@ -39,6 +39,8 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
     protected void convert(BaseViewHolder holder, DataMultiItem multiItem) {
         switch (holder.getItemViewType()) {
             case ITEM_TYPE_SELF_HEADER:
+                SimpleDraweeView imageView = holder.getView(R.id.self_part_one_img);
+                imageView.setAspectRatio(1.50f);
                 if (multiItem.data instanceof LoginInfoData) {
                     LoginInfoData loginInfoData = (LoginInfoData) multiItem.data;
                     holder.setTag(R.id.tv_nike_name, loginInfoData.getData().getUserInfo().getUserNickname());
@@ -47,6 +49,10 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     FrescoUtils.display(holder.getView(R.id.self_part_one_header)
                             , String.valueOf(multiItem.data));
                 }
+                FrescoUtils.display(imageView, String.valueOf(multiItem.data));
+                FrescoUtils.display(holder.getView(R.id.self_part_one_header)
+                        , String.valueOf(multiItem.data));
+
                 break;
             case ITEM_TYPE_SELF_DYNAMIC:
                 SimpleDraweeView simpleDraweeView = holder.getView(R.id.self_part_one_img);
