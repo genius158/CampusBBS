@@ -76,6 +76,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     private int time = 60;
     private boolean isAbleToGetCode = true;
+    private Disposable verifyTwiceDisposable;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -225,7 +226,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         toastUtils.showShort("已经验证成功");
     }
 
-    Disposable verifyTwiceDisposable;
 
     private void verifyTwiceTrigger() {
         if (verifyTwiceDisposable == null) {
