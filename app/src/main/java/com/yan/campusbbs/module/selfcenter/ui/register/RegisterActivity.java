@@ -1,28 +1,22 @@
 package com.yan.campusbbs.module.selfcenter.ui.register;
 
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter.ChatAdapter;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.ChatOtherData;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.ChatSelfData;
-import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
-import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -49,6 +43,14 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     @Inject
     RegisterPresenter registerPresenter;
+    @BindView(R.id.et_code)
+    EditText etCode;
+    @BindView(R.id.cv_btn_get_code)
+    CardView cvBtnGetCode;
+    @BindView(R.id.et_password)
+    EditText etPassword;
+    @BindView(R.id.et_phone)
+    EditText etPhone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +82,18 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
         title.setText(R.string.register);
+        ViewCompat.setBackgroundTintList(etCode, ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
+        ));
+        ViewCompat.setBackgroundTintList(etPhone, ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
+        ));
+        ViewCompat.setBackgroundTintList(etPassword, ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
+        ));
+        ViewCompat.setBackgroundTintList(cvBtnGetCode, ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
+        ));
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );

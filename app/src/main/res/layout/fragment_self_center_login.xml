@@ -34,6 +34,7 @@
         android:layout_marginBottom="80dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:gravity="right"
         android:orientation="vertical">
 
         <android.support.design.widget.TextInputLayout
@@ -74,11 +75,14 @@
             android:textColor="@color/crFFFFFF" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:layout_marginRight="2dp"
+            android:clickable="true"
             android:id="@+id/tv_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:background="?selectableItemBackground"
+            android:gravity="right"
+            android:padding="5dp"
             android:text="注册" />
 
     </LinearLayout>
