@@ -35,6 +35,7 @@ import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -69,7 +70,12 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     EditText etPassword;
     @BindView(R.id.et_phone)
     EditText etPhone;
+    @BindView(R.id.tv_code_notice)
+    TextView tvCodeNotice;
     private boolean isVerify = false;
+
+    private int time = 60;
+    private boolean isAbleToGetCode = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +123,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                     isVerify = true;
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                     //获取验证码成功
+                    isAbleToGetCode = false;
                     addDisposable(
                             Observable.just("获取验证码成功")
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -206,12 +213,38 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     }
 
     private void sendSMSCode() {
+
         if (!isVerify) {
-            String zh = etPhone.getText().toString().trim();
-            SMSSDK.getVerificationCode("86", zh);
+            if (!isAbleToGetCode) {
+                verifyTwiceTrigger();
+            } else {
+                String zh = etPhone.getText().toString().trim();
+                SMSSDK.getVerificationCode("86", zh);
+            }
             return;
         }
         toastUtils.showShort("已经验证成功");
+    }
+
+    Disposable verifyTwiceDisposable;
+
+    private void verifyTwiceTrigger() {
+        if (verifyTwiceDisposable == null) {
+            verifyTwiceDisposable = Observable.interval(1000, TimeUnit.MILLISECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(aLong -> {
+                        if (--time < 0) {
+                            isAbleToGetCode = true;
+                            time = 60;
+                            tvCodeNotice.setText("获取验证码");
+                            verifyTwiceDisposable.dispose();
+                        } else {
+                            tvCodeNotice.setText(String.valueOf(time));
+                        }
+                    });
+            addDisposable(verifyTwiceDisposable);
+        }
     }
 
 
