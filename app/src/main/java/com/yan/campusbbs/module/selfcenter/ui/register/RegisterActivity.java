@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
-import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,7 +24,6 @@ import com.yan.campusbbs.util.ToastUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -71,7 +69,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     EditText etPassword;
     @BindView(R.id.et_phone)
     EditText etPhone;
-
     private boolean isVerify = false;
 
     @Override
@@ -199,13 +196,22 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
             case R.id.arrow_back:
                 finish();
             case R.id.cv_btn_get_code:
-                String zh = etPhone.getText().toString().trim();
-                SMSSDK.getVerificationCode("86", zh);
+                sendSMSCode();
+
                 break;
             case R.id.tv_btn_register:
                 verifyCode();
                 break;
         }
+    }
+
+    private void sendSMSCode() {
+        if (!isVerify) {
+            String zh = etPhone.getText().toString().trim();
+            SMSSDK.getVerificationCode("86", zh);
+            return;
+        }
+        toastUtils.showShort("已经验证成功");
     }
 
 
