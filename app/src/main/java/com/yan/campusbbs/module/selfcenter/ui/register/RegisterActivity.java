@@ -204,6 +204,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         switch (view.getId()) {
             case R.id.arrow_back:
                 finish();
+                break;
             case R.id.cv_btn_get_code:
                 sendSMSCode();
 
