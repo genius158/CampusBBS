@@ -124,6 +124,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                     //获取验证码成功
                     isAbleToGetCode = false;
+                    verifyTwiceTrigger();
                     addDisposable(
                             Observable.just("获取验证码成功")
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -215,9 +216,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     private void sendSMSCode() {
 
         if (!isVerify) {
-            if (!isAbleToGetCode) {
-                verifyTwiceTrigger();
-            } else {
+            if (isAbleToGetCode) {
                 String zh = etPhone.getText().toString().trim();
                 SMSSDK.getVerificationCode("86", zh);
             }
