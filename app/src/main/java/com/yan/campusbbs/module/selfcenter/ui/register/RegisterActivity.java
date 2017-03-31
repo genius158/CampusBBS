@@ -98,7 +98,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                 .subscribe(aLong -> SMSSDK.registerEventHandler(eventHandler));
     }
 
-    EventHandler eventHandler = new EventHandler() {
+    private EventHandler eventHandler = new EventHandler() {
         @Override
         public void afterEvent(int event, int result, Object data) {
             Message msg = Message.obtain();
@@ -159,18 +159,13 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
         title.setText(R.string.register);
-        ViewCompat.setBackgroundTintList(etCode, ColorStateList.valueOf(
+        ColorStateList colorStateList = ColorStateList.valueOf(
                 ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
-        ));
-        ViewCompat.setBackgroundTintList(etPhone, ColorStateList.valueOf(
-                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
-        ));
-        ViewCompat.setBackgroundTintList(etPassword, ColorStateList.valueOf(
-                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
-        ));
-        ViewCompat.setBackgroundTintList(cvBtnGetCode, ColorStateList.valueOf(
-                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
-        ));
+        );
+        ViewCompat.setBackgroundTintList(etCode, colorStateList);
+        ViewCompat.setBackgroundTintList(etPhone, colorStateList);
+        ViewCompat.setBackgroundTintList(etPassword, colorStateList);
+        ViewCompat.setBackgroundTintList(cvBtnGetCode, colorStateList);
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
@@ -178,6 +173,17 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
             commonAppBar.setBackgroundColor(
                     ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
             );
+        }
+    }
+
+    //验证 验证码
+    private void verifyCode() {
+        if (!isVerify) {
+            String code = etCode.getText().toString().trim();
+            String zh = etPhone.getText().toString().trim();
+            SMSSDK.submitVerificationCode("86", zh, code);
+        } else {
+            toastUtils.showShort("已经验证成功");
         }
     }
 
@@ -202,15 +208,5 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         }
     }
 
-    //验证 验证码
-    private void verifyCode() {
-        if (!isVerify) {
-            String code = etCode.getText().toString().trim();
-            String zh = etPhone.getText().toString().trim();
-            SMSSDK.submitVerificationCode("86", zh, code);
-        } else {
-            toastUtils.showShort("已经验证成功");
-        }
-    }
 
 }
