@@ -23,6 +23,7 @@ import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -33,6 +34,7 @@ import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -40,9 +42,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  */
 
 public class RegisterActivity extends BaseActivity implements RegisterContract.View {
+
     public static String APP_KEY = "1c9e60261fea0";
     public static String APP_SECRET = "56eadbb181aa5792b62d8537331bd971";
-    private static final String[] AVATARS = new String[400];
 
     @Inject
     SettingHelper changeSkinHelper;
@@ -67,9 +69,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     @BindView(R.id.et_phone)
     EditText etPhone;
 
-
-    SmsManager smsManager;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +88,9 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     private void init() {
         SMSSDK.initSDK(this, APP_KEY, APP_SECRET);
+        Observable.timer(1000, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .subscribe(aLong -> SMSSDK.registerEventHandler(eventHandler));
     }
 
     EventHandler eventHandler = new EventHandler() {
@@ -127,6 +129,10 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
             } else {
                 //回调失败
                 ((Throwable) data).printStackTrace();
+                addDisposable(Observable.just("校验码错误")
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(str -> toastUtils.showShort(str)
+                        ));
             }
         }
     };
@@ -174,7 +180,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
             case R.id.arrow_back:
                 finish();
             case R.id.cv_btn_get_code:
-                SMSSDK.registerEventHandler(eventHandler);
                 String zh = etPhone.getText().toString().trim();
                 SMSSDK.getVerificationCode("86", zh);
                 break;

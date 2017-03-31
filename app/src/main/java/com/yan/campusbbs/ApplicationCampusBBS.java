@@ -13,6 +13,7 @@ import cn.smssdk.SMSSDK;
 public class ApplicationCampusBBS extends Application {
     public static ApplicationCampusBBS campusBBS;
 
+
     @Inject
     SPUtils spUtils;
 
@@ -34,7 +35,6 @@ public class ApplicationCampusBBS extends Application {
     }
 
     private void init() {
-
     }
 
     public ApplicationComponent getApplicationComponent() {
@@ -45,5 +45,4 @@ public class ApplicationCampusBBS extends Application {
         return spUtils.getString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                 , SharedPreferenceConfig.SESSION_ID);
     }
-
 }
