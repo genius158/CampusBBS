@@ -1,6 +1,7 @@
 package com.yan.campusbbs.module.selfcenter.ui.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
+import com.yan.campusbbs.module.selfcenter.ui.register.RegisterActivity;
 import com.yan.campusbbs.module.setting.SettingControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -162,6 +164,7 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
                 }
                 break;
             case R.id.tv_register:
+                startActivity(new Intent(getContext(), RegisterActivity.class));
                 break;
         }
     }

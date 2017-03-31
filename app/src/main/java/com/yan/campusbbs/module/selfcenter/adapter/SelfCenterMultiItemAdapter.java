@@ -1,11 +1,14 @@
 package com.yan.campusbbs.module.selfcenter.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.SelfCenterActivity;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.MainPageData;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
@@ -18,7 +21,7 @@ import javax.inject.Inject;
 /**
  * Created by yan on 2017/2/7.
  */
-public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, BaseViewHolder> {
+public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, BaseViewHolder> implements View.OnClickListener {
 
     public static final int ITEM_TYPE_SELF_HEADER = 1;
     public static final int ITEM_TYPE_SELF_DYNAMIC = 2;
@@ -49,10 +52,8 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
                     FrescoUtils.display(holder.getView(R.id.self_part_one_header)
                             , String.valueOf(multiItem.data));
+                    holder.setOnClickListener(R.id.self_part_one_header, this);
                 }
-                FrescoUtils.display(imageView, String.valueOf(multiItem.data));
-                FrescoUtils.display(holder.getView(R.id.self_part_one_header)
-                        , String.valueOf(multiItem.data));
 
                 break;
             case ITEM_TYPE_SELF_DYNAMIC:
@@ -71,9 +72,9 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
                 SimpleDraweeView head = holder.getView(R.id.sdv_head);
                 head.setImageURI(String.valueOf(multiItem.data));
-                holder.setText(R.id.user_name,bean.getUserNickname());
-                holder.setText(R.id.self_dynamic,bean.getTopicTitle());
-                holder.setText(R.id.tv_brown_count,"浏览("+bean.getCmtCount()+")");
+                holder.setText(R.id.user_name, bean.getUserNickname());
+                holder.setText(R.id.self_dynamic, bean.getTopicTitle());
+                holder.setText(R.id.tv_brown_count, "浏览(" + bean.getCmtCount() + ")");
                 FrescoUtils.adjustViewOnImage(context, simpleDrawee, bean.getUserHeadImg());
 
                 break;
@@ -81,4 +82,13 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.self_part_one_header:
+                context.startActivity(new Intent(context, SelfCenterActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                break;
+        }
+    }
 }

@@ -55,6 +55,9 @@
         <activity
             android:name=".module.campusbbs.ui.publish.PublishActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.selfcenter.ui.register.RegisterActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
