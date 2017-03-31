@@ -179,27 +179,16 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                 SMSSDK.getVerificationCode("86", zh);
                 break;
             case R.id.tv_btn_register:
-                vaildatePassword();
+                verifyCode();
                 break;
         }
     }
 
     //验证 验证码
-    private void vaildatePassword() {
+    private void verifyCode() {
         String code = etCode.getText().toString().trim();
         String zh = etPhone.getText().toString().trim();
         SMSSDK.submitVerificationCode("86", zh, code);
-        putUserInfo("86", zh);
-    }
-
-    //提交用户信息
-    private void putUserInfo(String country, String phone) {
-        Random rnd = new Random();
-        int id = Math.abs(rnd.nextInt());
-        String uid = String.valueOf(id);
-        String nickName = phone + uid;
-        String avatar = AVATARS[id % 12];
-        SMSSDK.submitUserInfo(uid, nickName, avatar, country, phone);
     }
 
 }
