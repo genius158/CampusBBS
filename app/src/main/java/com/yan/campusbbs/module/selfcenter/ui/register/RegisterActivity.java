@@ -22,6 +22,9 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -103,13 +106,13 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
             if (result == SMSSDK.RESULT_COMPLETE) {
                 //回调完成
-                addDisposable(Observable.just("验证正确")
+                addDisposable(Observable.just("回调完成")
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(str -> toastUtils.showShort(str)));
                 if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     //提交验证码成功
                     addDisposable(
-                            Observable.just("提交验证码成功")
+                            Observable.just("验证正确")
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(str -> toastUtils.showShort(str)));
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
@@ -128,11 +131,18 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                 }
             } else {
                 //回调失败
+                try {
+                    JSONObject jsonObject=new JSONObject( ((Throwable) data).getMessage());
+                    addDisposable(Observable.just(jsonObject.getString("detail"))
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(str -> toastUtils.showShort(str)
+                            ));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 ((Throwable) data).printStackTrace();
-                addDisposable(Observable.just("校验码错误")
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(str -> toastUtils.showShort(str)
-                        ));
+
             }
         }
     };
