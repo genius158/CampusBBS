@@ -238,6 +238,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                             time = 60;
                             tvCodeNotice.setText("获取验证码");
                             verifyTwiceDisposable.dispose();
+                            verifyTwiceDisposable = null;
                         } else {
                             tvCodeNotice.setText(String.valueOf(time));
                         }
