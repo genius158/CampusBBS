@@ -81,7 +81,6 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
         }
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
