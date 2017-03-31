@@ -72,6 +72,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     @BindView(R.id.et_phone)
     EditText etPhone;
 
+    private boolean isVerify = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +117,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                             Observable.just("验证正确")
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(str -> toastUtils.showShort(str)));
+                    isVerify = true;
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                     //获取验证码成功
                     addDisposable(
@@ -132,7 +135,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
             } else {
                 //回调失败
                 try {
-                    JSONObject jsonObject=new JSONObject( ((Throwable) data).getMessage());
+                    JSONObject jsonObject = new JSONObject(((Throwable) data).getMessage());
                     addDisposable(Observable.just(jsonObject.getString("detail"))
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(str -> toastUtils.showShort(str)
@@ -201,9 +204,13 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     //验证 验证码
     private void verifyCode() {
-        String code = etCode.getText().toString().trim();
-        String zh = etPhone.getText().toString().trim();
-        SMSSDK.submitVerificationCode("86", zh, code);
+        if (!isVerify) {
+            String code = etCode.getText().toString().trim();
+            String zh = etPhone.getText().toString().trim();
+            SMSSDK.submitVerificationCode("86", zh, code);
+        } else {
+            toastUtils.showShort("已经验证成功");
+        }
     }
 
 }
