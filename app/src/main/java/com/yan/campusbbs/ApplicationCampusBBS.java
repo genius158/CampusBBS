@@ -8,6 +8,8 @@ import com.yan.campusbbs.util.SPUtils;
 
 import javax.inject.Inject;
 
+import cn.smssdk.SMSSDK;
+
 public class ApplicationCampusBBS extends Application {
     public static ApplicationCampusBBS campusBBS;
 
@@ -23,11 +25,16 @@ public class ApplicationCampusBBS extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        init();
         campusBBS = this;
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule((getApplicationContext())))
                 .build();
         applicationComponent.inject(this);
+    }
+
+    private void init() {
+
     }
 
     public ApplicationComponent getApplicationComponent() {
