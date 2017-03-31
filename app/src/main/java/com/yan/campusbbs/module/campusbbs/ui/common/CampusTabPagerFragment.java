@@ -33,7 +33,6 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     private static final String BUNDLE_RECYCLER_Y = "recyclerY";
     private static final String BUNDLE_APP_BAR_Y = "appBarY";
 
-    private OnItemClickListener pagerTabItemOnClick;
     protected int tabSelectPosition = 0;
     private CampusAppHelperAdd campusAppHelperAdd;
 
@@ -102,10 +101,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         @Override
         public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
             tabSelectPosition = position;
-            if (pagerTabItemOnClick != null) {
-                pagerTabItemOnClick.onItemClick(adapter, view, position);
-            }
-            for (int i = 0; i < pagerTabItems().size(); i++) {
+             for (int i = 0; i < pagerTabItems().size(); i++) {
                 if (i == position) {
                     pagerTabItems().get(i).isSelect = true;
                 } else {
@@ -118,8 +114,13 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
 
             pagerBarRecycler().smoothScrollToPosition(position);
             rxBus().post(new ActionPagerTabClose());
+
+            CampusTabPagerFragment.this.onItemClick(position);
         }
     };
+
+    protected void onItemClick(int position) {
+    }
 
     private void initRxAction() {
         addDisposable(rxBus().getEvent(ActionPagerTabClose.class)
@@ -127,10 +128,6 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
                 .subscribe(actionPagerTabClose -> {
                     tabAnimationHide();
                 }));
-    }
-
-    public void setPagerTabItemOnClick(OnItemClickListener pagerTabItemOnClick) {
-        this.pagerTabItemOnClick = pagerTabItemOnClick;
     }
 
     public void setCampusAppHelperAdd(CampusAppHelperAdd campusAppHelperAdd) {

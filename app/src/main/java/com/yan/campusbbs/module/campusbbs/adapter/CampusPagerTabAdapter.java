@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.campusbbs.ui.common.CampusTabPagerFragment;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.module.setting.SkinControl;
 
@@ -80,6 +81,8 @@ public class CampusPagerTabAdapter extends RecyclerView.Adapter<BaseViewHolder> 
         return data.size();
     }
 
+
+
     public static class PagerTabItem {
         public String title;
         public boolean isSelect;
@@ -93,5 +96,4 @@ public class CampusPagerTabAdapter extends RecyclerView.Adapter<BaseViewHolder> 
             this.title = title;
         }
     }
-
 }

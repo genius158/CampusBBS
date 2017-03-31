@@ -26,6 +26,7 @@ import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.List;
 
@@ -71,6 +72,8 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     SettingHelper changeSkinHelper;
     @Inject
     AnimationUtils animationUtils;
+    @Inject
+    ToastUtils toastUtils;
     @Inject
     List<CampusPagerTabAdapter.PagerTabItem> pagerTabItems;
     @Inject
@@ -142,6 +145,12 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     }
 
     public LifeFragment() {
+    }
+
+    @Override
+    protected void onItemClick(int position) {
+        super.onItemClick(position);
+        toastUtils.showShort(pagerTabItems.get(position).title);
     }
 
     @Override

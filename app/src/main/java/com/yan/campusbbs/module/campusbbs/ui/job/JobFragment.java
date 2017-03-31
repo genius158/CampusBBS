@@ -23,6 +23,7 @@ import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.List;
 
@@ -58,6 +59,8 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
     SPUtils spUtils;
     @Inject
     SettingHelper changeSkinHelper;
+    @Inject
+    ToastUtils toastUtils;
     @Inject
     SelfCenterMultiItemAdapter multiItemAdapter;
     @Inject
@@ -124,6 +127,11 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
     }
 
     public JobFragment() {
+    }
+    @Override
+    protected void onItemClick(int position) {
+        super.onItemClick(position);
+        toastUtils.showShort(pagerTabItems.get(position).title);
     }
 
     @Override

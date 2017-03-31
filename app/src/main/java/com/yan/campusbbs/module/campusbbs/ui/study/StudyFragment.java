@@ -29,6 +29,7 @@ import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,8 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
 
     @Inject
     RxBus rxBus;
+    @Inject
+    ToastUtils toastUtils;
     @Inject
     SPUtils spUtils;
     @Inject
@@ -136,6 +139,12 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
         pagerBarMoreRecycler.setAdapter(campusPagerTabMoreAdapter);
     }
 
+    @Override
+    protected void onItemClick(int position) {
+        super.onItemClick(position);
+        toastUtils.showShort(pagerTabItems.get(position).title);
+    }
+
     private void daggerInject() {
         DaggerStudyComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getActivity()
@@ -146,7 +155,6 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                 .campusTabPagerModule(new CampusTabPagerModule())
                 .build().inject(this);
 
-        setPagerTabItemOnClick(getOnItemClickListener());
     }
 
     private void init() {
@@ -169,15 +177,6 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-    }
-
-    private OnItemClickListener getOnItemClickListener() {
-        return new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-
-            }
-        };
     }
 
     @OnClick({R.id.pager_bar_more_arrow_layout, R.id.pager_bar_more_layout, R.id.pager_bar_more})
