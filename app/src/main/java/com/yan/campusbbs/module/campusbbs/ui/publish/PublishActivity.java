@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -185,6 +186,12 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
     }
 
     private void publish() {
+        if (TextUtils.isEmpty(etTitle.getText())
+                || TextUtils.isEmpty(etContent.getText())) {
+            toastUtils.showShort("标题和正文不能为空");
+            return;
+        }
+
         String title = null;
         String content = null;
         try {
