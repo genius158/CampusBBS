@@ -1,14 +1,19 @@
 package com.yan.campusbbs.module.campusbbs.ui.publish;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -21,9 +26,12 @@ import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.FrescoUtils;
 import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.util.ToastUtils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -45,7 +53,11 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
     @Inject
     SPUtils spUtils;
     @Inject
+    ToastUtils toastUtils;
+    @Inject
     ImageControl imageControl;
+    @Inject
+    PublishPresenter presenter;
 
     @BindView(R.id.common_app_bar)
     CardView commonAppBar;
@@ -55,7 +67,17 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
     public static final String SUB_TITLE = "subTitle";
     @BindView(R.id.sdv_img)
     SimpleDraweeView sdvImg;
+    @BindView(R.id.et_title)
+    EditText etTitle;
+    @BindView(R.id.sp_types)
+    Spinner spTypes;
+    @BindView(R.id.et_content)
+    EditText etContent;
+
     private String subTitle;
+    List<String> spDatas = new ArrayList<>();
+
+    private int mode = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,11 +93,34 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
         DaggerPublishComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
+                .publishModule(new PublishModule(this))
                 .build().inject(this);
     }
 
     private void init() {
         subTitle = getIntent().getStringExtra(SUB_TITLE);
+        switch (subTitle) {
+            case "学习":
+                mode = 0;
+                break;
+            case "生活":
+                mode = 1;
+                break;
+            case "工作":
+                mode = 2;
+                break;
+            default:
+                break;
+        }
+
+        spDatas.add("高考冲刺");
+        spDatas.add("四级");
+        spDatas.add("计算机");
+        spTypes.setAdapter(new ArrayAdapter<>(getBaseContext()
+                , android.R.layout.simple_list_item_1
+                , android.R.id.text1
+                , spDatas));
+
     }
 
     @Override
@@ -87,6 +132,10 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
         title.setText(String.valueOf("发布" + subTitle));
+
+        ViewCompat.setBackgroundTintList(etTitle, ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
+        ));
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
@@ -95,11 +144,6 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
                     ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
             );
         }
-    }
-
-    @OnClick(R.id.arrow_back)
-    public void onClick() {
-
     }
 
     @Override
@@ -111,25 +155,64 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
                 Log.e("path", path + "");
                 if (path != null && path.get(0) != null) {
                     Log.e("path2", path + "");
-                    sdvImg.setImageURI(Uri.parse("file://"+path.get(0)));
+                    sdvImg.setImageURI(Uri.parse("file://" + path.get(0)));
                 }
             }
         }
     }
 
-    @OnClick({R.id.tv_img_pic, R.id.sdv_img, R.id.arrow_back})
+    @OnClick({R.id.tv_img_pic, R.id.sdv_img, R.id.arrow_back, R.id.iv_publish})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_img_pic:
             case R.id.sdv_img:
-                MultiImageSelector.create()
-                        .showCamera(false)
-                        .single()
-                        .start(this, REQUEST_IMAGE);
+                selectImg();
                 break;
             case R.id.arrow_back:
                 finish();
                 break;
+            case R.id.iv_publish:
+                publish();
+                break;
         }
+    }
+
+    private void selectImg() {
+        MultiImageSelector.create()
+                .showCamera(false)
+                .single()
+                .start(this, REQUEST_IMAGE);
+    }
+
+    private void publish() {
+        String title = null;
+        String content = null;
+        try {
+            title = URLEncoder.encode(etTitle.getText().toString(), "UTF-8");
+            content = URLEncoder.encode(etContent.getText().toString(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        presenter.publish(title
+                , content
+                , String.valueOf(mode)
+                , String.valueOf(spTypes.getSelectedItemPosition())
+        );
+    }
+
+
+    @Override
+    public void stateSuccess() {
+        toastUtils.showShort("发布成功");
+    }
+
+    @Override
+    public void stateNetError() {
+        toastUtils.showShort("网络错误");
+    }
+
+    @Override
+    public void stateError() {
+        toastUtils.showShort("发布失败");
     }
 }

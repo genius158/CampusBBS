@@ -9,4 +9,5 @@ public class DataAddress {
 
     public static final String URL_LOGIN = "CompusBBS/app/login";
     public static final String URL_HOME_PAGE_DATA= "CompusBBS/app/topic/homepage";
+    public static final String URL_PUBLISH= "CompusBBS/app/topic/release";
 }

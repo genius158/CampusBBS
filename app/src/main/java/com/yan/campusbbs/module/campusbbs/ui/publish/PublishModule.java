@@ -3,11 +3,8 @@ package com.yan.campusbbs.module.campusbbs.ui.publish;
 
 import android.content.Context;
 
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter.ChatAdapter;
-import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.util.AppRetrofit;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;
@@ -21,8 +18,8 @@ public class PublishModule {
     }
 
     @Provides
-    PublishContract.Presenter getPresenter(Context context) {
-        return new PublishPresenter(context, view);
+    PublishPresenter getPresenter(Context context, AppRetrofit appRetrofit) {
+        return new PublishPresenter(context, view,appRetrofit);
     }
 
 }

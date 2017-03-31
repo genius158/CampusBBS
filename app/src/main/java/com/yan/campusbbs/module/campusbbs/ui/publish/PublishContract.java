@@ -25,9 +25,23 @@ import com.yan.campusbbs.base.BaseView;
 public interface PublishContract {
 
     interface View extends BaseView<Presenter> {
+
+        void stateSuccess();
+
+        void stateNetError();
+
+        void stateError();
+
     }
 
     interface Presenter extends BasePresenter {
+
+        void publish(
+                String topicTitle,
+                String topicContent,
+                String typeDiv,
+                String contentDiv
+        );
 
     }
 }
