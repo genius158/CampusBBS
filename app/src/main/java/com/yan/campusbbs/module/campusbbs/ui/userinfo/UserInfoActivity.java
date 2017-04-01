@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by yan on 2017/4/1.
@@ -117,5 +119,16 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     @Override
     public void stateError() {
 
+    }
+
+    @OnClick({R.id.arrow_back, R.id.tv_btn_register})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.arrow_back:
+                finish();
+                break;
+            case R.id.tv_btn_register:
+                break;
+        }
     }
 }
