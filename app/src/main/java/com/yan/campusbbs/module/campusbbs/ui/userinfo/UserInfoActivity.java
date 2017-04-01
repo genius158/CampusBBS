@@ -1,10 +1,13 @@
 package com.yan.campusbbs.module.campusbbs.ui.userinfo;
 
+import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
@@ -39,6 +42,20 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     TextView title;
     @BindView(R.id.common_app_bar)
     CardView commonAppBar;
+    @BindView(R.id.et_nike_name)
+    EditText etNikeName;
+    @BindView(R.id.et_sign)
+    EditText etSign;
+    @BindView(R.id.et_email)
+    EditText etEmail;
+    @BindView(R.id.et_campus)
+    EditText etCampus;
+    @BindView(R.id.et_birthday)
+    EditText etBirthday;
+    @BindView(R.id.et_sex)
+    EditText etSex;
+    @BindView(R.id.et_like)
+    EditText etLike;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +78,16 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
         title.setText(String.valueOf("个人信息"));
-
+        ColorStateList colorStateList = ColorStateList.valueOf(
+                ContextCompat.getColor(getBaseContext(), actionChangeSkin.getColorPrimaryId())
+        );
+        ViewCompat.setBackgroundTintList(etBirthday, colorStateList);
+        ViewCompat.setBackgroundTintList(etEmail, colorStateList);
+        ViewCompat.setBackgroundTintList(etLike, colorStateList);
+        ViewCompat.setBackgroundTintList(etNikeName, colorStateList);
+        ViewCompat.setBackgroundTintList(etCampus, colorStateList);
+        ViewCompat.setBackgroundTintList(etSex, colorStateList);
+        ViewCompat.setBackgroundTintList(etSign, colorStateList);
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
