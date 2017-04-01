@@ -88,6 +88,12 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         init();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SMSSDK.unregisterAllEventHandler();
+    }
+
     private void daggerInject() {
         DaggerRegisterComponent.builder().applicationComponent(
                 ((ApplicationCampusBBS) getApplication()).getApplicationComponent()
@@ -192,12 +198,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         } else {
             toastUtils.showShort("已经验证成功");
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SMSSDK.unregisterAllEventHandler();
     }
 
     @OnClick({R.id.arrow_back, R.id.cv_btn_get_code, R.id.tv_btn_register})
