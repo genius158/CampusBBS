@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -210,8 +211,19 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
                 break;
             case R.id.tv_btn_register:
-                verifyCode();
+                register();
                 break;
+        }
+    }
+
+    private void register() {
+        if (!TextUtils.isEmpty(etPassword.getText())
+                && !TextUtils.isEmpty(etPhone.getText())
+                && !TextUtils.isEmpty(etCode.getText())
+                ) {
+            verifyCode();
+        } else {
+            toastUtils.showShort("电话、密码和验证码不能为空");
         }
     }
 
