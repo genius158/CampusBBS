@@ -58,6 +58,8 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     EditText etSex;
     @BindView(R.id.et_like)
     EditText etLike;
+    @BindView(R.id.et_phone)
+    EditText etPhone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,7 +88,8 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
         ViewCompat.setBackgroundTintList(etBirthday, colorStateList);
         ViewCompat.setBackgroundTintList(etEmail, colorStateList);
         ViewCompat.setBackgroundTintList(etLike, colorStateList);
-        ViewCompat.setBackgroundTintList(etNikeName, colorStateList);
+        ViewCompat.setBackgroundTintList(etLike, colorStateList);
+        ViewCompat.setBackgroundTintList(etPhone, colorStateList);
         ViewCompat.setBackgroundTintList(etCampus, colorStateList);
         ViewCompat.setBackgroundTintList(etSex, colorStateList);
         ViewCompat.setBackgroundTintList(etSign, colorStateList);
