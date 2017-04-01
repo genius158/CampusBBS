@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.selfcenter.ui.register;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.module.setting.SettingActivity;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -73,6 +75,21 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     EditText etPhone;
     @BindView(R.id.tv_code_notice)
     TextView tvCodeNotice;
+    @BindView(R.id.et_nike_name)
+    EditText etNikeName;
+    @BindView(R.id.et_sign)
+    EditText etSign;
+    @BindView(R.id.et_email)
+    EditText etEmail;
+    @BindView(R.id.et_campus)
+    EditText etCampus;
+    @BindView(R.id.et_birthday)
+    EditText etBirthday;
+    @BindView(R.id.et_sex)
+    EditText etSex;
+    @BindView(R.id.et_like)
+    EditText etLike;
+
     private boolean isVerify = false;
 
     private int time = 60;
@@ -156,9 +173,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
                 ((Throwable) data).printStackTrace();
-
             }
         }
     };
@@ -177,8 +192,14 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         );
         ViewCompat.setBackgroundTintList(etCode, colorStateList);
         ViewCompat.setBackgroundTintList(etPhone, colorStateList);
+        ViewCompat.setBackgroundTintList(etBirthday, colorStateList);
         ViewCompat.setBackgroundTintList(etPassword, colorStateList);
         ViewCompat.setBackgroundTintList(cvBtnGetCode, colorStateList);
+        ViewCompat.setBackgroundTintList(etEmail, colorStateList);
+        ViewCompat.setBackgroundTintList(etLike, colorStateList);
+        ViewCompat.setBackgroundTintList(etNikeName, colorStateList);
+        ViewCompat.setBackgroundTintList(etSex, colorStateList);
+        ViewCompat.setBackgroundTintList(etSign, colorStateList);
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
@@ -200,7 +221,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         }
     }
 
-    @OnClick({R.id.arrow_back, R.id.cv_btn_get_code, R.id.tv_btn_register})
+    @OnClick({R.id.arrow_back, R.id.cv_btn_get_code, R.id.tv_btn_register, R.id.app_bar_setting_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.arrow_back:
@@ -212,6 +233,9 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                 break;
             case R.id.tv_btn_register:
                 register();
+                break;
+            case R.id.app_bar_setting_layout:
+                startActivity(new Intent(getBaseContext(), SettingActivity.class));
                 break;
         }
     }
