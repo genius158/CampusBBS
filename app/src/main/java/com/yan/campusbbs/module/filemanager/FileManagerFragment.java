@@ -1,19 +1,23 @@
 package com.yan.campusbbs.module.filemanager;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
+import com.yan.campusbbs.module.filemanager.ui.IjkFullscreenActivity;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -102,6 +106,27 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
         strings.add("文件管理");
         strings.add("文件管理");
         strings.add("文件管理");
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(new RecyclerView.Adapter<BaseViewHolder>() {
+            @Override
+            public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return new BaseViewHolder(LayoutInflater.from(getContext())
+                        .inflate(android.R.layout.simple_list_item_1, parent, false));
+            }
+
+            @Override
+            public void onBindViewHolder(BaseViewHolder holder, int position) {
+                holder.setText(android.R.id.text1, strings.get(position));
+                holder.setOnClickListener(android.R.id.text1, v ->
+                        startActivity(new Intent(getContext(), IjkFullscreenActivity.class))
+                );
+            }
+
+            @Override
+            public int getItemCount() {
+                return strings.size();
+            }
+        });
 
     }
 
