@@ -582,9 +582,9 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
 //                mLoadingView.setVisibility(VISIBLE);
 //                mHandler.sendEmptyMessage(MSG_TRY_RELOAD);
 //            } else {
-                mVideoView.start();
-                // 更新进度
-                mHandler.sendEmptyMessage(MSG_UPDATE_SEEK);
+            mVideoView.start();
+            // 更新进度
+            mHandler.sendEmptyMessage(MSG_UPDATE_SEEK);
 //            }
         }
         if (mIsNeverPlay) {
@@ -846,11 +846,11 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
     private void _togglePlayStatus() {
         Log.d("TTAG", "_togglePlayStatus " + mIsReady + " - " + mVideoView.isPlaying());
 //        if (mIsReady) {
-            if (mVideoView.isPlaying()) {
-                pause();
-            } else {
-                start();
-            }
+        if (mVideoView.isPlaying()) {
+            pause();
+        } else {
+            start();
+        }
 //        }
     }
 
@@ -1661,7 +1661,7 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
 //                    if (mVideoView.getInterruptPosition() > 0) {
 //                        mInterruptPosition = mVideoView.getInterruptPosition();
 //                    } else {
-                        Toast.makeText(mAttachActivity, "网络异常", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mAttachActivity, "网络异常", Toast.LENGTH_SHORT).show();
 //                    }
                 } else {
                     mIsPlayComplete = true;
@@ -2448,13 +2448,15 @@ public class IjkPlayerView extends FrameLayout implements View.OnClickListener {
      */
     private void _recoverScreen() {
         // 清除焦点
-        mEditDanmakuLayout.clearFocus();
-        mEditDanmakuLayout.setVisibility(GONE);
+        if (mEditDanmakuLayout != null) {
+            mEditDanmakuLayout.clearFocus();
+            mEditDanmakuLayout.setVisibility(GONE);
+        }
         // 关闭软键盘
         SoftInputUtils.closeSoftInput(mAttachActivity);
         // 重新设置全屏界面UI标志位
         _setUiLayoutFullscreen();
-        if (mDanmakuColorOptions.getWidth() != 0) {
+        if (mDanmakuColorOptions != null && mDanmakuColorOptions.getWidth() != 0) {
             _toggleMoreColorOptions();
         }
     }

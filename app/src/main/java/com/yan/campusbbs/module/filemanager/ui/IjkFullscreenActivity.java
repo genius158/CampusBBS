@@ -23,7 +23,6 @@ public class IjkFullscreenActivity extends AppCompatActivity {
                 .alwaysFullScreen()
                 .enableOrientation()
                 .setVideoPath(VIDEO_URL)
-                .enableDanmaku(false)
                 .setTitle("这是个跑马灯TextView，标题要足够长才会跑。-(゜ -゜)つロ 乾杯~")
                 .start();
     }

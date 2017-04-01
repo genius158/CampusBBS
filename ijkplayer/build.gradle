@@ -32,8 +32,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     // ijkplayer
     compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.8.1'
-    compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.7.8.1'
-
     // Danmaku
     compile 'com.github.ctiao:DanmakuFlameMaster:0.6.2'
 }

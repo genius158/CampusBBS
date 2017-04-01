@@ -68,7 +68,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.filemanager.ui.IjkFullscreenActivity"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
     </application>
 
 </manifest>
