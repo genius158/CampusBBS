@@ -26,6 +26,7 @@
             android:textSize="@dimen/size_sp_16" />
 
         <FrameLayout
+            android:visibility="gone"
             android:id="@+id/app_bar_setting_layout"
             android:layout_width="30dp"
             android:layout_height="30dp"
