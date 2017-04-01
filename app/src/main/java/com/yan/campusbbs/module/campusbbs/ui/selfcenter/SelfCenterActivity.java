@@ -16,6 +16,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.friend.FriendsActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.message.MessageActivity;
+import com.yan.campusbbs.module.campusbbs.ui.userinfo.UserInfoActivity;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -113,8 +114,15 @@ public class SelfCenterActivity extends BaseActivity {
     }
 
 
-    @OnClick(R.id.arrow_back)
-    public void onClick() {
-        finish();
+    @OnClick({R.id.fl_info_container, R.id.arrow_back})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.fl_info_container:
+                startActivity(new Intent(getBaseContext(), UserInfoActivity.class));
+                break;
+            case R.id.arrow_back:
+                finish();
+                break;
+        }
     }
 }

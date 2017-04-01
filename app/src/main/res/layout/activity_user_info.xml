@@ -16,6 +16,17 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <EditText
+                android:id="@+id/et_nike_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:enabled="false"
+                android:hint="你的手机号码"
+                android:textColor="@color/cr3C3B41"
+                android:textSize="13sp" />
+
             <include layout="@layout/view_user_info" />
 
         </LinearLayout>

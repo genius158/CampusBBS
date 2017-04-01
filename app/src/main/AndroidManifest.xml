@@ -69,6 +69,9 @@
         <activity
             android:name=".module.filemanager.ui.IjkFullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity
+            android:name=".module.campusbbs.ui.userinfo.UserInfoActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
