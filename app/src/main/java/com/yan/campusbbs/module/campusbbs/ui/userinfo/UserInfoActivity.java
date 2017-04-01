@@ -89,6 +89,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
         ViewCompat.setBackgroundTintList(etEmail, colorStateList);
         ViewCompat.setBackgroundTintList(etLike, colorStateList);
         ViewCompat.setBackgroundTintList(etLike, colorStateList);
+        ViewCompat.setBackgroundTintList(etNikeName, colorStateList);
         ViewCompat.setBackgroundTintList(etPhone, colorStateList);
         ViewCompat.setBackgroundTintList(etCampus, colorStateList);
         ViewCompat.setBackgroundTintList(etSex, colorStateList);
