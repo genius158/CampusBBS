@@ -146,7 +146,7 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
                 ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId())
         );
         ViewCompat.setBackgroundTintList(btbLogin, colorStateList);
-        ViewCompat.setBackgroundTintList(tielUserName, colorStateList);
+        ViewCompat.setBackgroundTintList(tielUserName, colorStateList); 
         ViewCompat.setBackgroundTintList(tielUserPassword, colorStateList);
         tvRegister.setTextColor(ContextCompat.getColor(getContext(), actionChangeSkin.getColorPrimaryId()));
     }
