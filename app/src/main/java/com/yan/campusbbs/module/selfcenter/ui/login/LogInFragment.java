@@ -25,6 +25,7 @@ import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.ui.register.RegisterActivity;
+import com.yan.campusbbs.module.setting.SettingActivity;
 import com.yan.campusbbs.module.setting.SettingControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -151,7 +152,7 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
     }
 
 
-    @OnClick({R.id.btb_login, R.id.tv_register})
+    @OnClick({R.id.btb_login, R.id.tv_register, R.id.app_bar_setting_layout})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btb_login:
@@ -165,6 +166,10 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
                 break;
             case R.id.tv_register:
                 startActivity(new Intent(getContext(), RegisterActivity.class));
+                break;
+
+            case R.id.app_bar_setting_layout:
+                startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
         }
     }

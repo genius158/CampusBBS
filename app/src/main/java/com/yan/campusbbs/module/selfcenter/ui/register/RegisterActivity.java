@@ -221,7 +221,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         }
     }
 
-    @OnClick({R.id.arrow_back, R.id.cv_btn_get_code, R.id.tv_btn_register, R.id.app_bar_setting_layout})
+    @OnClick({R.id.arrow_back, R.id.cv_btn_get_code, R.id.tv_btn_register})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.arrow_back:
@@ -234,9 +234,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
             case R.id.tv_btn_register:
                 register();
                 break;
-            case R.id.app_bar_setting_layout:
-                startActivity(new Intent(getBaseContext(), SettingActivity.class));
-                break;
+
         }
     }
 
