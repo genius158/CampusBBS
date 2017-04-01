@@ -97,9 +97,9 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     private void init() {
         SMSSDK.initSDK(this, APP_KEY, APP_SECRET);
-        Observable.timer(1000, TimeUnit.MILLISECONDS)
+        addDisposable(Observable.timer(1000, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
-                .subscribe(aLong -> SMSSDK.registerEventHandler(eventHandler));
+                .subscribe(aLong -> SMSSDK.registerEventHandler(eventHandler)));
     }
 
     private EventHandler eventHandler = new EventHandler() {
