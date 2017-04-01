@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/et_nike_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:hint="请输入你的昵称"
+        android:textColor="@color/cr3C3B41"
+        android:textSize="13sp" />
+
+    <EditText
+        android:id="@+id/et_sign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:hint="请输入你的签名"
+        android:textColor="@color/cr3C3B41"
+        android:textSize="13sp" />
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:hint="请输入你的邮箱"
+        android:textColor="@color/cr3C3B41"
+        android:textSize="13sp" />
+
+    <EditText
+        android:id="@+id/et_campus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:hint="请输入你现在所在的学校"
+        android:textColor="@color/cr3C3B41"
+        android:textSize="13sp" />
+
+    <EditText
+        android:id="@+id/et_birthday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:hint="请输入你的出生日期（例:2017-02-12）"
+        android:textColor="@color/cr3C3B41"
+        android:textSize="13sp" />
+
+    <EditText
+        android:id="@+id/et_sex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:hint="请输入你的性别（男/女）"
+        android:textColor="@color/cr3C3B41"
+        android:textSize="13sp" />
+
+    <EditText
+        android:id="@+id/et_like"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:hint="请输入你的兴趣、爱好"
+        android:textColor="@color/cr3C3B41"
+        android:textSize="13sp" />
+</LinearLayout>
