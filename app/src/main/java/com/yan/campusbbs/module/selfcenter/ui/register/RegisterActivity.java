@@ -198,6 +198,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         ViewCompat.setBackgroundTintList(etEmail, colorStateList);
         ViewCompat.setBackgroundTintList(etLike, colorStateList);
         ViewCompat.setBackgroundTintList(etNikeName, colorStateList);
+        ViewCompat.setBackgroundTintList(etCampus, colorStateList);
         ViewCompat.setBackgroundTintList(etSex, colorStateList);
         ViewCompat.setBackgroundTintList(etSign, colorStateList);
         commonAppBar.setCardBackgroundColor(
