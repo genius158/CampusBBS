@@ -1,6 +1,7 @@
 package com.yan.campusbbs.util;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.WindowManager;
@@ -92,7 +93,10 @@ public class SizeUtils {
     public static float getFullScreenHeight(Context context) {
         return getDisplayMetrics(context).heightPixels;
     }
-
+    public static int getStatusBarHeight() {
+        return Resources.getSystem().getDimensionPixelSize(
+                Resources.getSystem().getIdentifier("status_bar_height", "dimen", "android"));
+    }
     private static DisplayMetrics getDisplayMetrics(Context context) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

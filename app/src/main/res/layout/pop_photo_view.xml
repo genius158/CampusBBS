@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
   android:background="@color/cr4a000000"
     android:id="@+id/ll_container"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
 
     <me.relex.photodraweeview.PhotoDraweeView
@@ -11,4 +12,14 @@
         style="@style/ImageBase.FocusCrop"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/iv_pop_close"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="right|top"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/pop_close"/>
+
+
+</android.support.design.widget.CoordinatorLayout>
