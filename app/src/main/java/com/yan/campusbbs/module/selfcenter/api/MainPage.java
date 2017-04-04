@@ -15,6 +15,10 @@ import retrofit2.http.Query;
 public interface MainPage {
     @GET(DataAddress.URL_HOME_PAGE_DATA)
     Observable<MainPageData> getMainPageData(
-            @Query("pageNum")String pageNum
+            @Query("pageNum") String pageNum
+    );
+
+    @GET(DataAddress.URL_SELF_TOPIC3)
+    Observable<MainPageData> getMainPageSelfData(
     );
 }

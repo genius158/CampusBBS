@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.SelfCenterActivity;
+import com.yan.campusbbs.module.common.PopPhotoView;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.MainPageData;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
@@ -28,6 +29,12 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
     public static final int ITEM_TYPE_FRIEND_TITLE = 3;
     public static final int ITEM_TYPE_FRIEND_DYNAMIC = 4;
     private Context context;
+
+    private PopPhotoView popPhotoView;
+
+    public void setPopPhotoView(PopPhotoView popPhotoView) {
+        this.popPhotoView = popPhotoView;
+    }
 
     @Inject
     public SelfCenterMultiItemAdapter(List<DataMultiItem> data, Context context) {
@@ -52,31 +59,53 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
                     FrescoUtils.display(holder.getView(R.id.self_part_one_header)
                             , String.valueOf(multiItem.data));
+                    imageView.setOnClickListener(v -> {
+                        if (popPhotoView != null) {
+                            popPhotoView.show();
+                            popPhotoView.setImageUrl(String.valueOf(multiItem.data));
+                        }
+                    });
                     holder.setOnClickListener(R.id.self_part_one_header, this);
                 }
 
                 break;
-            case ITEM_TYPE_SELF_DYNAMIC:
-                SimpleDraweeView simpleDraweeView = holder.getView(R.id.self_part_one_img);
-                FrescoUtils.adjustViewOnImage(context, simpleDraweeView, String.valueOf(multiItem.data));
 
-                break;
             case ITEM_TYPE_FRIEND_TITLE:
 
                 break;
-            case ITEM_TYPE_FRIEND_DYNAMIC:
+            case ITEM_TYPE_SELF_DYNAMIC:
+                MainPageData.DataBean.TopicInfoListBean.TopicListBean selfBean =
+                        (MainPageData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
 
-                MainPageData.DataBean.TopicInfoListBean.TopicListBean bean =
+                SimpleDraweeView selfSimpleDrawee = holder.getView(R.id.self_part_one_img);
+                holder.setText(R.id.message_detail, selfBean.getTopicTitle());
+                holder.setText(R.id.self_dynamic, selfBean.getTopicContent());
+                holder.setText(R.id.tv_brown_count, "浏览(" + selfBean.getCmtCount() + ")");
+                FrescoUtils.adjustViewOnImage(context, selfSimpleDrawee, selfBean.getUserHeadImg());
+                selfSimpleDrawee.setOnClickListener(v -> {
+                    if (popPhotoView != null) {
+                        popPhotoView.show();
+                        popPhotoView.setImageUrl(selfBean.getUserHeadImg());
+                    }
+                });
+                break;
+            case ITEM_TYPE_FRIEND_DYNAMIC:
+                MainPageData.DataBean.TopicInfoListBean.TopicListBean otherBean =
                         (MainPageData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
 
                 SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
                 SimpleDraweeView head = holder.getView(R.id.sdv_head);
                 head.setImageURI(String.valueOf(multiItem.data));
-                holder.setText(R.id.user_name, bean.getUserNickname());
-                holder.setText(R.id.self_dynamic, bean.getTopicTitle());
-                holder.setText(R.id.tv_brown_count, "浏览(" + bean.getCmtCount() + ")");
-                FrescoUtils.adjustViewOnImage(context, simpleDrawee, bean.getUserHeadImg());
-
+                holder.setText(R.id.user_name, otherBean.getUserNickname());
+                holder.setText(R.id.self_dynamic, otherBean.getTopicTitle());
+                holder.setText(R.id.tv_brown_count, "浏览(" + otherBean.getCmtCount() + ")");
+                FrescoUtils.adjustViewOnImage(context, simpleDrawee, otherBean.getUserHeadImg());
+                simpleDrawee.setOnClickListener(v -> {
+                    if (popPhotoView != null) {
+                        popPhotoView.show();
+                        popPhotoView.setImageUrl(otherBean.getUserHeadImg());
+                    }
+                });
                 break;
         }
     }

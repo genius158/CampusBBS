@@ -194,12 +194,15 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
 
         String title = null;
         String content = null;
-        try {
-            title = URLEncoder.encode(etTitle.getText().toString(), "UTF-8");
-            content = URLEncoder.encode(etContent.getText().toString(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            title = URLEncoder.encode(etTitle.getText().toString(), "UTF-8");
+//            content = URLEncoder.encode(etContent.getText().toString(), "UTF-8");
+
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        title = etTitle.getText().toString();
+        content = etContent.getText().toString();
         presenter.publish(title
                 , content
                 , String.valueOf(mode)

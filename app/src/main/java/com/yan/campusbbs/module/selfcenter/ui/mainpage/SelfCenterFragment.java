@@ -26,13 +26,8 @@ import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
-import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
-import com.yan.campusbbs.module.selfcenter.data.FriendDynamic;
 import com.yan.campusbbs.module.selfcenter.data.FriendTitle;
-import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
-import com.yan.campusbbs.module.selfcenter.data.MainPageData;
-import com.yan.campusbbs.module.selfcenter.data.SelfDynamic;
 import com.yan.campusbbs.module.selfcenter.data.SelfCenterHeader;
 import com.yan.campusbbs.module.setting.AdapterImageControl;
 import com.yan.campusbbs.module.setting.SettingActivity;
@@ -56,7 +51,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import okhttp3.ResponseBody;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
@@ -74,6 +68,8 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     TextView appBarTitle;
     @BindView(R.id.app_bar)
     FrameLayout appBar;
+    @BindView(R.id.fl_container)
+    View container;
 
     @Inject
     SettingHelper changeSkinHelper;
@@ -101,7 +97,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     FrameLayout appBarSearchLayout;
     @BindView(R.id.app_bar_search_main_layout)
     FrameLayout appBarSearchMainLayout;
-
 
     private int actionBarPinHeight;
     private boolean isNeedAdjustBar;
@@ -144,7 +139,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                         .getApplication()).getApplicationComponent())
                 .appBarHelperModule(new AppBarHelperModule(appBar))
                 .settingModule(new SettingModule(this, compositeDisposable))
-                .selfCenterModule(new SelfCenterModule(this))
+                .selfCenterModule(new SelfCenterModule(this, container))
                 .build().inject(this);
     }
 
@@ -295,28 +290,12 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     }
 
     @Override
-    public void setData(MainPageData data) {
+    public void dataSuccess(List<DataMultiItem> dataMultiItems) {
         swipeRefreshLayout.setRefreshing(false);
-        if (data.getResultCode() != 200) {
-            toastUtils.showShort(data.getMessage());
-        } else {
-            dataMultiItems.clear();
-            dataMultiItems.add(new SelfCenterHeader(ACache.get(getContext()).getAsObject(CacheConfig.USER_INFO)));
-            if (data.getData().getTopicInfoList() != null
-                    && data.getData().getTopicInfoList().getTopicList() != null) {
-                for (MainPageData.DataBean.TopicInfoListBean.TopicListBean bean : data.getData().getTopicInfoList().getTopicList()) {
-                    dataMultiItems.add(new FriendDynamic(bean));
-                }
-            }
-            adapter.notifyDataSetChanged();
-        }
-        if (data.getResultCode() == 401) {
-            spUtils.putString(Context.MODE_PRIVATE
-                    , SharedPreferenceConfig.SHARED_PREFERENCE
-                    , SharedPreferenceConfig.SESSION_ID
-                    , "");
-            rxBus.post(new LogInAction(false));
-        }
+        this.dataMultiItems.clear();
+        this.dataMultiItems.add(new SelfCenterHeader(ACache.get(getContext()).getAsObject(CacheConfig.USER_INFO)));
+        this.dataMultiItems.addAll(dataMultiItems);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

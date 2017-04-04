@@ -20,6 +20,9 @@ import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
 import com.yan.campusbbs.module.selfcenter.api.MainPage;
 import com.yan.campusbbs.module.selfcenter.data.MainPageData;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 
@@ -29,9 +32,8 @@ import okhttp3.ResponseBody;
 public interface SelfCenterContract {
 
     interface View extends BaseView<Presenter> {
-        void setData(MainPageData data);
+        void dataSuccess(List<DataMultiItem> dataMultiItems);
         void dataError();
-
     }
 
     interface Presenter extends BasePresenter {

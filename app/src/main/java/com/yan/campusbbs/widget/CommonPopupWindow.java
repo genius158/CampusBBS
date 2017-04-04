@@ -4,10 +4,12 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import java.util.TimerTask;
 
 /**
@@ -22,7 +24,7 @@ public abstract class CommonPopupWindow {
     OnDismissFinishListener onDismissFinishListener;
 
 
-    public CommonPopupWindow(View pView, int layoutRes, int widthPx, int animationRes) {
+    public CommonPopupWindow(View pView, int layoutRes, int widthPx, int widthPy, int animationRes) {
         parentView = pView;
         this.context = parentView.getContext();
         popupWindowView = LayoutInflater.from(context).inflate(layoutRes, null);
@@ -31,7 +33,7 @@ public abstract class CommonPopupWindow {
         //内容，高度，宽度
         popupWindow = new PopupWindow(popupWindowView,
                 widthPx,
-                RelativeLayout.LayoutParams.MATCH_PARENT,
+                widthPy,
                 true
         );
         if (animationRes != -1) {
@@ -58,7 +60,11 @@ public abstract class CommonPopupWindow {
     }
 
     public CommonPopupWindow(View pView, int layoutRes, int widthPx) {
-        this(pView, layoutRes, widthPx, -1);
+        this(pView, layoutRes, widthPx, ViewGroup.LayoutParams.MATCH_PARENT, -1);
+    }
+
+    public CommonPopupWindow(View pView, int layoutRes) {
+        this(pView, layoutRes, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, -1);
     }
 
     public void show() {
