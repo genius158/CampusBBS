@@ -26,18 +26,16 @@ public class SelfCenterModule {
     private final SelfCenterContract.View mView;
     private final View parent;
     private final List<DataMultiItem> dataMultiItems;
-    private PopPhotoView popPhotoView;
 
     public SelfCenterModule(SelfCenterContract.View view, View popParent) {
         this.mView = view;
         this.parent = popParent;
         dataMultiItems = new ArrayList<>();
-        popPhotoView = new PopPhotoView(popParent);
     }
 
     @Provides
     SelfCenterPresenter getSelfCenterPresenter(Context context, AppRetrofit appRetrofit, ToastUtils toastUtils, SPUtils spUtils, RxBus rxBus) {
-        return new SelfCenterPresenter(context, mView, appRetrofit,toastUtils,spUtils,rxBus);
+        return new SelfCenterPresenter(context, mView, appRetrofit, toastUtils, spUtils, rxBus);
     }
 
     @Provides
@@ -46,15 +44,12 @@ public class SelfCenterModule {
     }
 
     @Provides
-    SelfCenterMultiItemAdapter getSelfCenterMultiItemAdapter(Context context) {
-       SelfCenterMultiItemAdapter selfCenterMultiItemAdapter=
-               new SelfCenterMultiItemAdapter(dataMultiItems,context);
-        selfCenterMultiItemAdapter.setPopPhotoView(popPhotoView);
+    SelfCenterMultiItemAdapter getSelfCenterMultiItemAdapter(Context context, ToastUtils toastUtils) {
+        SelfCenterMultiItemAdapter selfCenterMultiItemAdapter =
+                new SelfCenterMultiItemAdapter(dataMultiItems, context);
+        selfCenterMultiItemAdapter.setPopPhotoView(
+                new PopPhotoView(parent, toastUtils));
         return selfCenterMultiItemAdapter;
     }
 
-    @Provides
-    PopPhotoView getPopPhotoView() {
-        return popPhotoView;
-    }
 }

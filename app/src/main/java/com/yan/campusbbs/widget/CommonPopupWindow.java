@@ -17,11 +17,11 @@ import java.util.TimerTask;
  */
 public abstract class CommonPopupWindow {
 
-    PopupWindow popupWindow;//弹窗
-    View popupWindowView;
-    View parentView;
-    Context context;
-    OnDismissFinishListener onDismissFinishListener;
+    protected PopupWindow popupWindow;//弹窗
+    protected View popupWindowView;
+    protected View parentView;
+    protected Context context;
+    protected OnDismissFinishListener onDismissFinishListener;
 
 
     public CommonPopupWindow(View pView, int layoutRes, int widthPx, int widthPy, int animationRes) {

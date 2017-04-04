@@ -70,6 +70,16 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     FrameLayout appBar;
     @BindView(R.id.fl_container)
     View container;
+    @Inject
+    List<DataMultiItem> dataMultiItems;
+    @BindView(R.id.app_bar_setting)
+    ImageView appBarSetting;
+    @BindView(R.id.btn_search)
+    ImageView btnSearch;
+    @BindView(R.id.app_bar_search_layout)
+    FrameLayout appBarSearchLayout;
+    @BindView(R.id.app_bar_search_main_layout)
+    FrameLayout appBarSearchMainLayout;
 
     @Inject
     SettingHelper changeSkinHelper;
@@ -87,16 +97,6 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     SelfCenterPresenter mPresenter;
     @Inject
     SelfCenterMultiItemAdapter adapter;
-    @Inject
-    List<DataMultiItem> dataMultiItems;
-    @BindView(R.id.app_bar_setting)
-    ImageView appBarSetting;
-    @BindView(R.id.btn_search)
-    ImageView btnSearch;
-    @BindView(R.id.app_bar_search_layout)
-    FrameLayout appBarSearchLayout;
-    @BindView(R.id.app_bar_search_main_layout)
-    FrameLayout appBarSearchMainLayout;
 
     private int actionBarPinHeight;
     private boolean isNeedAdjustBar;
@@ -252,8 +252,12 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         int position = layoutManager.findFirstVisibleItemPosition();
         View firstVisibleChildView = layoutManager.findViewByPosition(position);
-        int itemHeight = firstVisibleChildView.getHeight();
-        return (position) * itemHeight - firstVisibleChildView.getTop();
+
+        if (firstVisibleChildView != null) {
+            int itemHeight = firstVisibleChildView.getHeight();
+            return (position) * itemHeight - firstVisibleChildView.getTop();
+        }
+        return 0;
     }
 
     @Override

@@ -14,12 +14,21 @@
 
     <ImageView
         android:id="@+id/iv_pop_close"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="left|top"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/pop_close"/>
+
+    <ImageView
+        android:id="@+id/iv_pop_save"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:layout_gravity="right|top"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/pop_close"/>
+        android:src="@drawable/pop_save"/>
 
 
 </android.support.design.widget.CoordinatorLayout>
