@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.yan.campusbbs.module.MainActivity">
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/action_bar_height">
@@ -85,7 +85,7 @@
                 android:minHeight="100dp" />
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
