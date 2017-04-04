@@ -102,7 +102,7 @@ public class SelfCenterActivity extends BaseActivity {
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        title.setText(R.string.self_center_friend);
+        title.setText(R.string.self_center);
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );

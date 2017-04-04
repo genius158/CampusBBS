@@ -93,7 +93,7 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        title.setText(R.string.self_center);
+        title.setText(R.string.self_center_friend);
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
