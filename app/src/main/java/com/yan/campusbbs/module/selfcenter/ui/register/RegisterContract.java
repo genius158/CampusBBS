@@ -25,9 +25,20 @@ import com.yan.campusbbs.base.BaseView;
 public interface RegisterContract {
 
     interface View extends BaseView<Presenter> {
+        void error(String error);
+        void success();
+        void netError();
     }
 
     interface Presenter extends BasePresenter {
-
+        void register(
+                String phoneNum
+                , String passworod
+                , String nickname
+                , String mood
+                , String email
+                , String school
+                , String birth
+        );
     }
 }

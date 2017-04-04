@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter.ChatAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.util.AppRetrofit;
+import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +23,8 @@ public class RegisterModule {
     }
 
     @Provides
-    RegisterPresenter getPresenter(Context context) {
-        return new RegisterPresenter(context, view);
+    RegisterPresenter getPresenter(Context context, AppRetrofit appRetrofit, ToastUtils toastUtils) {
+        return new RegisterPresenter(context, view, appRetrofit, toastUtils);
     }
 
 }

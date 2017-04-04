@@ -50,8 +50,7 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
     @Override
     public void getMainPageData(int pageNo) {
         MainPage mainPage = appRetrofit.retrofit().create(MainPage.class);
-
-        Observable.zip(mainPage.getMainPageSelfData()
+        view.addDisposable(Observable.zip(mainPage.getMainPageSelfData()
                 , mainPage.getMainPageData(String.valueOf(pageNo))
                 , (mainPageData, othersData) -> {
                     List<DataMultiItem> dataMultiItems = new ArrayList<>();
@@ -90,6 +89,6 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                 }, throwable -> {
                     view.dataError();
                     throwable.printStackTrace();
-                });
+                }));
     }
 }

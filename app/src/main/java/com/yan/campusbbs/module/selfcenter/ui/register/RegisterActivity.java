@@ -1,6 +1,5 @@
 package com.yan.campusbbs.module.selfcenter.ui.register;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.module.setting.SettingActivity;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -96,6 +94,9 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     private boolean isAbleToGetCode = true;
     private Disposable verifyTwiceDisposable;
 
+    private boolean canRegisterUserInfoAble = true;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,16 +137,10 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
             if (result == SMSSDK.RESULT_COMPLETE) {
                 //回调完成
-                addDisposable(Observable.just("回调完成")
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(str -> toastUtils.showShort(str)));
-                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                   if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     //提交验证码成功
-                    addDisposable(
-                            Observable.just("验证正确")
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(str -> toastUtils.showShort(str)));
                     isVerify = true;
+                    registerUserInfo();
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                     //获取验证码成功
                     isAbleToGetCode = false;
@@ -214,11 +209,16 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     //验证 验证码
     private void verifyCode() {
         if (!isVerify) {
+            toastUtils.showShort("正在注册中...");
             String code = etCode.getText().toString().trim();
             String zh = etPhone.getText().toString().trim();
             SMSSDK.submitVerificationCode("86", zh, code);
+            return;
+        }
+        if (canRegisterUserInfoAble) {
+            registerUserInfo();
         } else {
-            toastUtils.showShort("已经验证成功");
+            toastUtils.showShort("正在注册中...");
         }
     }
 
@@ -235,7 +235,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
             case R.id.tv_btn_register:
                 register();
                 break;
-
         }
     }
 
@@ -250,8 +249,18 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         }
     }
 
-    private void sendSMSCode() {
+    private void registerUserInfo() {
+        registerPresenter.register(etPhone.getText().toString()
+                , etPassword.getText().toString()
+                , etNikeName.getText().toString()
+                , etSign.getText().toString()
+                , etEmail.getText().toString()
+                , etCampus.getText().toString()
+                , etBirthday.getText().toString()
+        );
+    }
 
+    private void sendSMSCode() {
         if (!isVerify) {
             if (isAbleToGetCode) {
                 String zh = etPhone.getText().toString().trim();
@@ -259,9 +268,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
             }
             return;
         }
-        toastUtils.showShort("已经验证成功");
     }
-
 
     private void verifyTwiceTrigger() {
         if (verifyTwiceDisposable == null) {
@@ -284,4 +291,22 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     }
 
 
+    @Override
+    public void error(String error) {
+        canRegisterUserInfoAble = true;
+        addDisposable(toastUtils.showUIShort(error));
+    }
+
+    @Override
+    public void success() {
+        canRegisterUserInfoAble = true;
+        toastUtils.showShort("注册成功");
+    }
+
+    @Override
+    public void netError() {
+        canRegisterUserInfoAble = true;
+        toastUtils.showShort("网络错误");
+
+    }
 }
