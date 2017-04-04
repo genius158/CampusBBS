@@ -137,7 +137,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
             if (result == SMSSDK.RESULT_COMPLETE) {
                 //回调完成
-                   if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                     //提交验证码成功
                     isVerify = true;
                     registerUserInfo();
@@ -216,6 +216,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
             return;
         }
         if (canRegisterUserInfoAble) {
+            canRegisterUserInfoAble = false;
             registerUserInfo();
         } else {
             toastUtils.showShort("正在注册中...");
