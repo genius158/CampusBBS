@@ -266,7 +266,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                 String zh = etPhone.getText().toString().trim();
                 SMSSDK.getVerificationCode("86", zh);
             }
-            return;
         }
     }
 
