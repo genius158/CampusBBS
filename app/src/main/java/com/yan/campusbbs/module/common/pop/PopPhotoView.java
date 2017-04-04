@@ -1,6 +1,5 @@
-package com.yan.campusbbs.module.common;
+package com.yan.campusbbs.module.common.pop;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;

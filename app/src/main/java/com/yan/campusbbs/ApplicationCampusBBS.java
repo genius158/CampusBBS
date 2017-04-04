@@ -9,10 +9,12 @@ import com.yan.campusbbs.util.SPUtils;
 import javax.inject.Inject;
 
 import cn.smssdk.SMSSDK;
+import imsdk.data.IMSDK;
 
 public class ApplicationCampusBBS extends Application {
     public static ApplicationCampusBBS campusBBS;
 
+    private static final String IM_APP_KEY="277a62910b19c827677b6613";
 
     @Inject
     SPUtils spUtils;
@@ -35,6 +37,7 @@ public class ApplicationCampusBBS extends Application {
     }
 
     private void init() {
+        IMSDK.init(getApplicationContext(), IM_APP_KEY);
     }
 
     public ApplicationComponent getApplicationComponent() {

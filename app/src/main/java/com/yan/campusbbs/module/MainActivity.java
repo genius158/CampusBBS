@@ -31,15 +31,15 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.ui.CampusBBSFragment;
 import com.yan.campusbbs.module.campusbbs.ui.publish.PublishActivity;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.search.SearchActivity;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
+import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.ui.MainPageFragment;
-import com.yan.campusbbs.module.selfcenter.ui.login.LogInFragment;
-import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterFragment;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -48,6 +48,7 @@ import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
@@ -62,6 +63,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import imsdk.data.IMMyself;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -165,6 +167,18 @@ public class MainActivity extends BaseActivity {
 
         initNavigationBar();
         rxActionInit();
+
+        imIMLogin();
+    }
+
+    private void imIMLogin() {
+        if (ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO) != null
+                &&!TextUtils.isEmpty(((ApplicationCampusBBS)(getApplication())).getSessionId())) {
+            LoginInfoData loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
+            IMMyself.setCustomUserID(loginInfoData.getData().getUserInfo().getUserAccount());
+            IMMyself.setPassword(loginInfoData.getData().getUserInfo().getUserPassword());
+            IMMyself.login(false, 5, null);
+        }
     }
 
     private void rxActionInit() {
@@ -210,6 +224,9 @@ public class MainActivity extends BaseActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(logInAction -> {
+                    if (logInAction.isLogIn){
+                        imIMLogin();
+                    }
                     pageScrolled(0, 0);
                 }, Throwable::printStackTrace));
     }

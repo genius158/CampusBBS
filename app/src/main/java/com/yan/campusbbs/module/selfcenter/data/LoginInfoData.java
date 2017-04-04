@@ -82,7 +82,7 @@ public class LoginInfoData implements Serializable {
 
             private String userId;
             private String userAccount;
-            private Object userPassword;
+            private String userPassword;
             private String cookiePassword;
             private String userNickname;
             private String userRealName;
@@ -106,11 +106,11 @@ public class LoginInfoData implements Serializable {
                 this.userAccount = userAccount;
             }
 
-            public Object getUserPassword() {
+            public String getUserPassword() {
                 return userPassword;
             }
 
-            public void setUserPassword(Object userPassword) {
+            public void setUserPassword(String userPassword) {
                 this.userPassword = userPassword;
             }
 

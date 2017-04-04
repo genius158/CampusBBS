@@ -72,4 +72,5 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile name: 'SMSSDK-2.1.4', ext: 'aar'
     compile project(':ijkplayer')
+    compile files('libs/IMSDK_1.3.9.jar')
 }

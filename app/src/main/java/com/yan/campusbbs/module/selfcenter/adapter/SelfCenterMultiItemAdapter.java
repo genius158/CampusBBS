@@ -9,7 +9,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.SelfCenterActivity;
-import com.yan.campusbbs.module.common.PopPhotoView;
+import com.yan.campusbbs.module.common.pop.PopPhotoView;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.MainPageData;
 import com.yan.campusbbs.repository.entity.DataMultiItem;

@@ -4,7 +4,7 @@ package com.yan.campusbbs.module.selfcenter.ui.mainpage;
 import android.content.Context;
 import android.view.View;
 
-import com.yan.campusbbs.module.common.PopPhotoView;
+import com.yan.campusbbs.module.common.pop.PopPhotoView;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.AppRetrofit;
