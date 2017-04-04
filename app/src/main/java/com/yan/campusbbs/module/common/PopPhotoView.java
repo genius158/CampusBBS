@@ -66,15 +66,6 @@ public class PopPhotoView extends CommonPopupWindow implements View.OnClickListe
     }
 
     private String getNameByUrl(String url) {
-//        int startPosition = url.lastIndexOf("/");
-//        if (startPosition == -1) {
-//            startPosition = url.lastIndexOf("\\");
-//        }
-//        if (startPosition == -1) {
-//            startPosition = Math.min(url.length(), 5);
-//        }
-//        startPosition++;
-//        return url.substring(startPosition, url.length());
         return String.valueOf("/"+System.currentTimeMillis()+".jpg");
     }
 
