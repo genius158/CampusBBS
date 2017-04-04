@@ -75,7 +75,7 @@ public class PopPhotoView extends CommonPopupWindow implements View.OnClickListe
 //        }
 //        startPosition++;
 //        return url.substring(startPosition, url.length());
-        return String.valueOf(System.currentTimeMillis());
+        return String.valueOf("/"+System.currentTimeMillis()+".jpg");
     }
 
     private Bitmap getViewBitmap(View view) {
