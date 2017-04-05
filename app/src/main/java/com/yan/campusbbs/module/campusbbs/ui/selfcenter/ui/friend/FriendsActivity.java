@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter.FriendAdapter;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.FriendData;
 import com.yan.campusbbs.module.setting.ImageControl;
@@ -20,6 +21,7 @@ import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,6 +29,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import imsdk.data.IMSDK;
 
 
 /**
@@ -75,15 +78,18 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(friendAdapter);
-        friendDatas.add(new FriendData());
-        friendDatas.add(new FriendData());
-        friendDatas.add(new FriendData());
-        friendDatas.add(new FriendData());
-        friendDatas.add(new FriendData());
-        friendDatas.add(new FriendData());
-        friendDatas.add(new FriendData());
-        friendAdapter.notifyDataSetChanged();
+        onDataChangedListener.onDataChanged();
+        ImManager.getImManager().setOnDataChangedListener(onDataChangedListener);
     }
+
+   private IMSDK.OnDataChangedListener onDataChangedListener = () -> {
+        ArrayList<String> stringUserIds = ImManager.getImManager().getUsersList();
+        for (String userId : stringUserIds) {
+            friendDatas.add(new FriendData(userId));
+        }
+        friendAdapter.notifyDataSetChanged();
+
+    };
 
     @Override
     protected SPUtils sPUtils() {

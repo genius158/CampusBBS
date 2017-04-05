@@ -7,8 +7,10 @@ import android.util.Log;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.config.CacheConfig;
+import com.yan.campusbbs.module.selfcenter.data.ChatMessageData;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.util.ACache;
+import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 
 import imsdk.data.IMMyself;
 import imsdk.data.IMSDK;
+import imsdk.data.localchatmessagehistory.IMChatMessage;
+import imsdk.data.localchatmessagehistory.IMMyselfLocalChatMessageHistory;
 import imsdk.data.recentcontacts.IMMyselfRecentContacts;
 import imsdk.data.relations.IMMyselfRelations;
 
@@ -27,6 +31,8 @@ public class ImManager {
     private static final String TAG = "ImManager";
 
     private static ImManager imManager;
+    private final SPUtils spUtils;
+    private final RxBus rxBus;
 
     private Context context;
     private ToastUtils toastUtils;
@@ -34,15 +40,18 @@ public class ImManager {
     public static ImManager getImManager() {
         return imManager;
     }
-    private ImManager(Context context, ToastUtils toastUtils, SPUtils spUtils) {
+
+    private ImManager(Context context, ToastUtils toastUtils, SPUtils spUtils, RxBus rxBus) {
         this.context = context;
         this.toastUtils = toastUtils;
+        this.spUtils = spUtils;
+        this.rxBus = rxBus;
         init();
     }
 
-    public static ImManager install(Context context, ToastUtils toastUtils, SPUtils spUtils) {
+    public static ImManager install(Context context, ToastUtils toastUtils, SPUtils spUtils, RxBus rxBus) {
         if (imManager == null) {
-            return imManager = new ImManager(context, toastUtils, spUtils);
+            return imManager = new ImManager(context, toastUtils, spUtils, rxBus);
         }
         return imManager;
     }
@@ -71,6 +80,10 @@ public class ImManager {
 
     public boolean isMyFriend(String userId) {
         return IMMyselfRelations.isMyFriend(userId);
+    }
+
+    public IMChatMessage getChatMessage(String userId, int latestIndex) {
+        return IMMyselfLocalChatMessageHistory.getChatMessage(userId, latestIndex);
     }
 
     public void sendFriendRequest(String userId, IMMyself.OnActionListener onActionListener) {
@@ -118,14 +131,8 @@ public class ImManager {
     public void setOnRelationsEventListener(IMMyselfRelations.OnRelationsEventListener onRelationsEventListener) {
         IMMyselfRelations.setOnRelationsEventListener(onRelationsEventListener);
     }
-
-    public void setOnDataChangedListener() {
-        IMMyselfRelations.setOnDataChangedListener(new IMSDK.OnDataChangedListener() {
-            @Override
-            public void onDataChanged() {
-                Log.e(TAG, "onDataChanged: ");
-            }
-        });
+    public void setOnDataChangedListener(IMSDK.OnDataChangedListener onDataChangedListener) {
+        IMMyselfRelations.setOnDataChangedListener(onDataChangedListener);
     }
 
     public void setOnRelationsEventListener() {
@@ -216,6 +223,8 @@ public class ImManager {
 
             @Override
             public void onReceivedText(String s, String s1, String s2, long l) {
+                rxBus.post(new ChatMessageData(s, s1, s2));
+
                 toastUtils.showUIShort("s:" + s + "   s1:" + s1 + "   s2:" + s2 + "    l:" + l);
                 Log.e(TAG, "onReceivedText: " + "time:" + s + "   text:" + s1
                         + "   fromUserId:" + s2 + "    l:" + l);
@@ -309,11 +318,10 @@ public class ImManager {
             IMMyself.setPassword(loginInfoData.getData().getUserInfo().getUserPassword());
             // 执行该代码则会执行自动登录，并监听登录状态。
 
-            IMMyself.login(true, 5, new IMMyself.OnActionListener() {
+            IMMyself.login(true, 10, new IMMyself.OnActionListener() {
                 @Override
                 public void onSuccess() {
                     Log.e(TAG, "onSuccess: " + "一键登录成功");
-
                     toastUtils.showUIShort("一键登录成功");
                 }
 
@@ -321,6 +329,7 @@ public class ImManager {
                 public void onFailure(String error) {
                     if (error.equals("Timeout")) {
                         error = "一键登录超时";
+                        login();
                     } else if (error.equals("Wrong Password")) {
                         error = "密码错误";
                     }

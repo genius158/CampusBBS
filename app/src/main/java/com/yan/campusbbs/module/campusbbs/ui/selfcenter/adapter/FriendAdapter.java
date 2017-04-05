@@ -2,8 +2,6 @@ package com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -37,6 +35,7 @@ public class FriendAdapter extends BaseQuickAdapter<FriendData, BaseViewHolder> 
         View view = holder.getView(R.id.container);
         view.setTag(item);
         view.setOnClickListener(onClickListener);
+        holder.setText(R.id.tv_user_name, item.userId);
         ((SimpleDraweeView) holder.getView(R.id.sdv_head))
                 .setImageURI("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
     }

@@ -5,4 +5,9 @@ package com.yan.campusbbs.module.campusbbs.ui.selfcenter.data;
  */
 
 public class FriendData {
+    public String userId;
+
+    public FriendData(String userId) {
+        this.userId = userId;
+    }
 }

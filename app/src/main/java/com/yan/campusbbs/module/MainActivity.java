@@ -156,7 +156,7 @@ public class MainActivity extends BaseActivity {
 
         initNavigationBar();
         rxActionInit();
-        imManager = ImManager.install(getBaseContext(), toastUtils, spUtils);
+        imManager = ImManager.install(getBaseContext(), toastUtils, spUtils,rxBus);
     }
 
 

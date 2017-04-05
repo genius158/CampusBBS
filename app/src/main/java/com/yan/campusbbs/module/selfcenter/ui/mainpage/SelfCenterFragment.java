@@ -23,7 +23,6 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.config.CacheConfig;
-import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
