@@ -3,6 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.yan.campusbbs">
 
+
+    <!-- 读取SD卡状态所需权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- 读取或更改系统设置 所需权限 -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- 手机震动所需权限 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 创建和删除文件所需权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 调用系统窗口所需权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- 用户定位所需权限 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <!-- 相机的权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 允许程序修改全局音频设置 比如说：存储位置 -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <!-- 录制语音权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CONTACTS"/>

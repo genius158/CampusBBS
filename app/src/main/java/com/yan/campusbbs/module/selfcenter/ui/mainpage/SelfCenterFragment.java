@@ -35,6 +35,7 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.rxbusaction.ActionSelfDataSuccess;
 import com.yan.campusbbs.rxbusaction.ActionSelfSearchControl;
 import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
@@ -293,9 +294,15 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         }
     }
 
+    private  boolean isPostSelfData;
+
     @Override
     public void dataSuccess(List<DataMultiItem> dataMultiItems) {
         swipeRefreshLayout.setRefreshing(false);
+        if (!isPostSelfData){
+            isPostSelfData=true;
+            rxBus.post(new ActionSelfDataSuccess());
+        }
         this.dataMultiItems.clear();
         this.dataMultiItems.add(new SelfCenterHeader(ACache.get(getContext()).getAsObject(CacheConfig.USER_INFO)));
         this.dataMultiItems.addAll(dataMultiItems);

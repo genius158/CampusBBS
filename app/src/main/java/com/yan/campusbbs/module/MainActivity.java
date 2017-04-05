@@ -47,6 +47,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
 import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
+import com.yan.campusbbs.rxbusaction.ActionSelfDataSuccess;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
 import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.AnimationUtils;
@@ -57,6 +58,7 @@ import com.yan.campusbbs.widget.FloatingButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -64,7 +66,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import imsdk.data.IMMyself;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
@@ -113,6 +117,8 @@ public class MainActivity extends BaseActivity {
     float[] fabShowAnimationValue = new float[1];
     private ValueAnimator fabShowAnimation;
     private ValueAnimator fabHideAnimation;
+
+    private ImManager imManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,19 +173,9 @@ public class MainActivity extends BaseActivity {
 
         initNavigationBar();
         rxActionInit();
-
-        imIMLogin();
+        imManager = ImManager.install(getBaseContext(), toastUtils, spUtils);
     }
 
-    private void imIMLogin() {
-        if (ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO) != null
-                &&!TextUtils.isEmpty(((ApplicationCampusBBS)(getApplication())).getSessionId())) {
-            LoginInfoData loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
-            IMMyself.setCustomUserID(loginInfoData.getData().getUserInfo().getUserAccount());
-            IMMyself.setPassword(loginInfoData.getData().getUserInfo().getUserPassword());
-            IMMyself.login(false, 5, null);
-        }
-    }
 
     private void rxActionInit() {
         addDisposable(rxBus.getEvent(ActionFloatingButton.class)
@@ -224,10 +220,25 @@ public class MainActivity extends BaseActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(logInAction -> {
-                    if (logInAction.isLogIn){
-                        imIMLogin();
+                    if (logInAction.isLogIn) {
                     }
                     pageScrolled(0, 0);
+                }, Throwable::printStackTrace));
+
+        addDisposable(rxBus.getEvent(ActionSelfDataSuccess.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(logInAction -> {
+                    imManager.login();
+
+                    Observable.interval(2000, TimeUnit.MILLISECONDS)
+                            .subscribe(new Consumer<Long>() {
+                                @Override
+                                public void accept(Long aLong) throws Exception {
+                                    imManager.sendText("sdfsdf", IMMyself.getCustomUserID());
+                                }
+                            });
+
                 }, Throwable::printStackTrace));
     }
 
@@ -281,6 +292,12 @@ public class MainActivity extends BaseActivity {
 
         bottomNavigationBar.setAnimationDuration(100);
         bottomNavigationBar.setTabSelectedListener(getOnTabSelectedListener());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        IMMyself.logout();
     }
 
     private void initFragment() {
