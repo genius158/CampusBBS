@@ -217,8 +217,8 @@ public class ImManager {
             @Override
             public void onReceivedText(String s, String s1, String s2, long l) {
                 toastUtils.showUIShort("s:" + s + "   s1:" + s1 + "   s2:" + s2 + "    l:" + l);
-                Log.e(TAG, "onReceivedText: " + "text:" + s + "   toCustomUserID:" + s1
-                        + "   timeoutInterval:" + s2 + "    l:" + l);
+                Log.e(TAG, "onReceivedText: " + "time:" + s + "   text:" + s1
+                        + "   fromUserId:" + s2 + "    l:" + l);
             }
 
             @Override
