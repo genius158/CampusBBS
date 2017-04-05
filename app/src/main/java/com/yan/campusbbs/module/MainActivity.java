@@ -215,7 +215,6 @@ public class MainActivity extends BaseActivity {
                     }
                 }));
 
-
         addDisposable(rxBus.getEvent(LogInAction.class)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -230,15 +229,6 @@ public class MainActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(logInAction -> {
                     imManager.login();
-
-                    Observable.interval(2000, TimeUnit.MILLISECONDS)
-                            .subscribe(new Consumer<Long>() {
-                                @Override
-                                public void accept(Long aLong) throws Exception {
-                                    imManager.sendText("sdfsdf", IMMyself.getCustomUserID());
-                                }
-                            });
-
                 }, Throwable::printStackTrace));
     }
 
