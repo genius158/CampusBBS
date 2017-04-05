@@ -34,6 +34,11 @@ public class ImManager {
     public static ImManager getImManager() {
         return imManager;
     }
+    private ImManager(Context context, ToastUtils toastUtils, SPUtils spUtils) {
+        this.context = context;
+        this.toastUtils = toastUtils;
+        init();
+    }
 
     public static ImManager install(Context context, ToastUtils toastUtils, SPUtils spUtils) {
         if (imManager == null) {
@@ -114,11 +119,11 @@ public class ImManager {
         IMMyselfRelations.setOnRelationsEventListener(onRelationsEventListener);
     }
 
-    public void setOnDataChangedListener( ) {
+    public void setOnDataChangedListener() {
         IMMyselfRelations.setOnDataChangedListener(new IMSDK.OnDataChangedListener() {
             @Override
             public void onDataChanged() {
-                Log.e(TAG, "onDataChanged: " );
+                Log.e(TAG, "onDataChanged: ");
             }
         });
     }
@@ -204,11 +209,6 @@ public class ImManager {
         return IMMyselfRecentContacts.clearUnreadChatMessage(userId);
     }
 
-    private ImManager(Context context, ToastUtils toastUtils, SPUtils spUtils) {
-        this.context = context;
-        this.toastUtils = toastUtils;
-        init();
-    }
 
     private void init() {
         // 设置监听器
@@ -267,12 +267,10 @@ public class ImManager {
             }
         });
 
-
         // 1. 获取是否已初始化
-// 只有在返回为 true 后，调用 IMMyselfRelations 的数据接口（比如好友列表）才有数据返回
         boolean isInitialized = IMMyselfRelations.isInitialized();
 
-// 2. 监听初始化通知
+        // 2. 监听初始化通知
         IMMyselfRelations.setOnRelationsEventListener(new IMMyselfRelations.OnRelationsEventListener() {
             @Override
             public void onInitialized() {
