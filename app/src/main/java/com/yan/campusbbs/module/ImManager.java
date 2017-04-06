@@ -54,6 +54,7 @@ public class ImManager {
 
     public static ImManager install(Context context, ToastUtils toastUtils, SPUtils spUtils, RxBus rxBus) {
         if (imManager == null) {
+            IMMyself.logout();
             return imManager = new ImManager(context, toastUtils, spUtils, rxBus);
         }
         return imManager;
@@ -356,7 +357,6 @@ public class ImManager {
         if (ACache.get(context).getAsObject(CacheConfig.USER_INFO) != null
                 && !TextUtils.isEmpty(((ApplicationCampusBBS) (context.getApplicationContext())).getSessionId()))
         {
-            IMMyself.logout();
             LoginInfoData loginInfoData = (LoginInfoData) ACache.get(context).getAsObject(CacheConfig.USER_INFO);
             IMMyself.setCustomUserID(loginInfoData.getData().getUserInfo().getUserAccount());
             IMMyself.setPassword(loginInfoData.getData().getUserInfo().getUserPassword());
