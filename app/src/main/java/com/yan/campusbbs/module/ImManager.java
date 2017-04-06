@@ -15,6 +15,7 @@ import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import imsdk.data.IMMyself;
 import imsdk.data.IMSDK;
@@ -22,6 +23,7 @@ import imsdk.data.localchatmessagehistory.IMChatMessage;
 import imsdk.data.localchatmessagehistory.IMMyselfLocalChatMessageHistory;
 import imsdk.data.recentcontacts.IMMyselfRecentContacts;
 import imsdk.data.relations.IMMyselfRelations;
+import io.reactivex.Observable;
 
 /**
  * Created by Administrator on 2017/4/5 0005.
@@ -367,12 +369,20 @@ public class ImManager {
                 public void onSuccess() {
                     Log.e(TAG, "onSuccess: " + "一键登录成功");
                     toastUtils.showUIShort("一键登录成功");
+                    Observable.timer(2000, TimeUnit.MILLISECONDS)
+                            .subscribe(aLong -> {
+                                if (! IMMyselfRelations.isInitialized()){
+                                    IMMyself.logout();
+                                    login();
+                                }
+                            });
                 }
 
                 @Override
                 public void onFailure(String error) {
                     if (error.equals("Timeout")) {
                         error = "一键登录超时";
+                        IMMyself.logout();
                         login();
                     } else if (error.equals("Wrong Password")) {
                         error = "密码错误";
