@@ -368,7 +368,6 @@ public class ImManager {
                 @Override
                 public void onSuccess() {
                     Log.e(TAG, "onSuccess: " + "一键登录成功");
-                    toastUtils.showUIShort("一键登录成功");
                     Observable.timer(2000, TimeUnit.MILLISECONDS)
                             .subscribe(aLong -> {
                                 if (! IMMyselfRelations.isInitialized()){
