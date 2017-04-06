@@ -12,11 +12,10 @@ import dagger.Component;
 @Component(
         dependencies = ApplicationComponent.class
         , modules = {
-        AppBarHelperModule.class,
         SelfCenterModule.class,
         SettingModule.class,
 }
 )
-public interface SelfCenterComponent {
-    void inject(SelfCenterFragment selfCenterFragment);
+public interface SelfCenterOtherComponent {
+    void inject(FriendPageActivity friendPageActivity);
 }

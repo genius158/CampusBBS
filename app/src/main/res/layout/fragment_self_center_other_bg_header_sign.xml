@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/crFFFFFF"
+    android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/other_part_one_img"
+        style="@style/ImageBase.FocusCrop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/other_part_one_img"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="20dp">
+
+        <TextView
+            android:id="@+id/tv_sign"
+            style="@style/TextShadow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@string/test_text"
+            android:textColor="@color/crFFFFFF" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/other_part_one_img"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="20dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/other_part_one_header"
+            style="@style/ImageBase.Circle.Border"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="15dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="65dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_nike_name"
+                style="@style/TextShadow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="飞翔的蝴蝶"
+                android:textColor="@color/crFFFFFF"
+                android:textSize="@dimen/size_sp_16" />
+
+            <TextView
+                android:id="@+id/tv_plus"
+                style="@style/TextShadow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="等级:18"
+                android:textColor="@color/crFFFFFF"
+                android:textSize="@dimen/size_sp_14" />
+
+            <LinearLayout
+                android:id="@+id/ll_chat"
+                android:clickable="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/chat_icon" />
+
+                <TextView
+                    style="@style/TextShadow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="微聊"
+                    android:textColor="@color/crFFFFFF"
+                    android:textSize="@dimen/size_sp_12" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/other_part_one_img"
+        android:background="@color/crE9E9E9"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="动态"
+            android:textColor="@color/cr777777" />
+    </FrameLayout>
+
+</RelativeLayout>

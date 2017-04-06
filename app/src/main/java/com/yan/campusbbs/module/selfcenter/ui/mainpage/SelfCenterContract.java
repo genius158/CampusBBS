@@ -39,6 +39,7 @@ public interface SelfCenterContract {
     interface Presenter extends BasePresenter {
 
         void getMainPageData(int pageNo);
+        void getFriendData(int pageNo,String userId);
 
     }
 }

@@ -8,6 +8,7 @@ import com.yan.campusbbs.module.selfcenter.api.MainPage;
 import com.yan.campusbbs.module.selfcenter.data.FriendDynamic;
 import com.yan.campusbbs.module.selfcenter.data.FriendTitle;
 import com.yan.campusbbs.module.selfcenter.data.MainPageData;
+import com.yan.campusbbs.module.selfcenter.data.OtherCenterHeader;
 import com.yan.campusbbs.module.selfcenter.data.SelfDynamic;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.AppRetrofit;
@@ -90,5 +91,29 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                     view.dataError();
                     throwable.printStackTrace();
                 }));
+    }
+
+    @Override
+    public void getFriendData(int pageNo, String userId) {
+        MainPage mainPage = appRetrofit.retrofit().create(MainPage.class);
+        view.addDisposable(mainPage.getMainPageData(String.valueOf(pageNo)).subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .map(mainPageData -> {
+            List<DataMultiItem> dataMultiItems = new ArrayList<>();
+            dataMultiItems.add(new OtherCenterHeader(""));
+            if (mainPageData.getData().getTopicInfoList() != null
+                    && mainPageData.getData().getTopicInfoList().getTopicList() != null) {
+                for (MainPageData.DataBean.TopicInfoListBean.TopicListBean bean : mainPageData.getData().getTopicInfoList().getTopicList()) {
+                    dataMultiItems.add(new FriendDynamic(bean));
+                }
+            }
+            return dataMultiItems;
+        }).subscribe(dataMultiItems -> {
+                    view.dataSuccess(dataMultiItems);
+                },throwable -> {
+                    throwable.printStackTrace();
+                    view.dataError();
+                }));
+
     }
 }
