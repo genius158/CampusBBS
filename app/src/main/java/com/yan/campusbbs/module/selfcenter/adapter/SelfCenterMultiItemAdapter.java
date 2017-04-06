@@ -88,7 +88,14 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
                     FrescoUtils.display(holder.getView(R.id.other_part_one_header)
                             , String.valueOf(multiItem.data));
-
+                    holder.getView(R.id.ll_chat)
+                            .setOnClickListener(v -> {
+                                context.startActivity(new Intent(context, ChatActivity.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        .putExtra("userId", loginInfoData.getData().getUserInfo().getUserAccount())
+                                        .putExtra("chatUserInfo", loginInfoData.getData().getUserInfo())
+                                );
+                            });
                 }
                 otherSDV.setOnClickListener(v -> {
                     if (popPhotoView != null) {
@@ -96,11 +103,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                         popPhotoView.setImageUrl(String.valueOf(multiItem.data));
                     }
                 });
-                holder.getView(R.id.ll_chat)
-                        .setOnClickListener(v -> {
-                            context.startActivity(new Intent(context, ChatActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                        });
+
                 break;
 
             case ITEM_TYPE_FRIEND_TITLE:

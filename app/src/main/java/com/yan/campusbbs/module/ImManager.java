@@ -37,6 +37,9 @@ public class ImManager {
     private Context context;
     private ToastUtils toastUtils;
 
+    private String currentChatId;
+
+
     public static ImManager getImManager() {
         return imManager;
     }
@@ -54,6 +57,9 @@ public class ImManager {
             return imManager = new ImManager(context, toastUtils, spUtils, rxBus);
         }
         return imManager;
+    }
+    public void setCurrentChatId(String currentChatId) {
+        this.currentChatId = currentChatId;
     }
 
     // 1. 获取最近联系人
@@ -131,9 +137,11 @@ public class ImManager {
     public void setOnRelationsEventListener(IMMyselfRelations.OnRelationsEventListener onRelationsEventListener) {
         IMMyselfRelations.setOnRelationsEventListener(onRelationsEventListener);
     }
+
     public void setOnDataChangedListener(IMSDK.OnDataChangedListener onDataChangedListener) {
         IMMyselfRelations.setOnDataChangedListener(onDataChangedListener);
     }
+
 
     public void setOnRelationsEventListener() {
         IMMyselfRelations.setOnRelationsEventListener(new IMMyselfRelations.OnRelationsEventListener() {
@@ -216,6 +224,11 @@ public class ImManager {
         return IMMyselfRecentContacts.clearUnreadChatMessage(userId);
     }
 
+    private IMMyself.OnReceivedMessageListener chatViewListener;
+
+    public void setChatViewListener(IMMyself.OnReceivedMessageListener chatViewListener) {
+        this.chatViewListener = chatViewListener;
+    }
 
     private void init() {
         // 设置监听器
@@ -223,41 +236,69 @@ public class ImManager {
 
             @Override
             public void onReceivedText(String s, String s1, String s2, long l) {
+                if (chatViewListener != null) {
+                    chatViewListener.onReceivedText(s, s1, s2, l);
+                }else {
+
+                }
                 rxBus.post(new ChatMessageData(s, s1, s2));
 
-                toastUtils.showUIShort("s:" + s + "   s1:" + s1 + "   s2:" + s2 + "    l:" + l);
                 Log.e(TAG, "onReceivedText: " + "time:" + s + "   text:" + s1
                         + "   fromUserId:" + s2 + "    l:" + l);
             }
 
             @Override
             public void onReceivedBitmap(String s, String s1, long l) {
+                if (chatViewListener != null) {
+                    chatViewListener.onReceivedBitmap(s, s1, l);
+                }else {
 
+                }
             }
 
             @Override
             public void onReceivedBitmapProgress(double v, String s, String s1, long l) {
+                if (chatViewListener != null) {
+                    chatViewListener.onReceivedBitmapProgress(v, s, s1, l);
+                }else {
 
+                }
             }
 
             @Override
             public void onReceivedBitmapFinish(Uri uri, String s, String s1, long l) {
+                if (chatViewListener != null) {
+                    chatViewListener.onReceivedBitmapFinish(uri, s, s1, l);
+                }else {
 
+                }
             }
 
             @Override
             public void onReceivedAudio(String s, String s1, long l) {
+                if (chatViewListener != null) {
+                    chatViewListener.onReceivedAudio(s, s1, l);
+                }else {
 
+                }
             }
 
             @Override
             public void onReceivedAudioProgress(double v, String s, String s1, long l) {
+                if (chatViewListener != null) {
+                    chatViewListener.onReceivedAudioProgress(v, s, s1, l);
+                }else {
 
+                }
             }
 
             @Override
             public void onReceivedAudioFinish(Uri uri, String s, String s1, long l) {
+                if (chatViewListener != null) {
+                    chatViewListener.onReceivedAudioFinish(uri, s, s1, l);
+                }else {
 
+                }
             }
         });
 

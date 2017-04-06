@@ -6,8 +6,12 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.data.ChatData;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,15 +34,31 @@ public class ChatAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, BaseVi
 
     @Override
     protected void convert(BaseViewHolder holder, DataMultiItem item) {
+        ChatData chatData = (ChatData) item.data;
+
         switch (holder.getItemViewType()) {
             case ITEM_TYPE_CHAT_SELF:
                 ((SimpleDraweeView) holder.getView(R.id.sdv_head))
                         .setImageURI("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
+                holder.setText(R.id.tv_text, chatData.text);
+                holder.setText(R.id.tv_time, getTime(chatData.time));
                 break;
             case ITEM_TYPE_CHAT_OTHER:
                 ((SimpleDraweeView) holder.getView(R.id.sdv_head))
                         .setImageURI("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
+                holder.setText(R.id.tv_text, chatData.text);
+                holder.setText(R.id.tv_time, getTime(chatData.time));
+
                 break;
         }
     }
+
+    private String getTime(long time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = calendar.getTime();
+        return simpleDateFormat.format(date);
+    }
+
 }
