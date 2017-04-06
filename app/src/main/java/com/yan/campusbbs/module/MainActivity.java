@@ -211,6 +211,7 @@ public class MainActivity extends BaseActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(logInAction -> {
+
                     imManager.login();
                 }, Throwable::printStackTrace));
     }
@@ -267,11 +268,6 @@ public class MainActivity extends BaseActivity {
         bottomNavigationBar.setTabSelectedListener(getOnTabSelectedListener());
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        IMMyself.logout();
-    }
 
     private void initFragment() {
         fragments = new ArrayList<>();

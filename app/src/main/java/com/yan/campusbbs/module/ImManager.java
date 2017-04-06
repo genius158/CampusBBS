@@ -58,6 +58,7 @@ public class ImManager {
         }
         return imManager;
     }
+
     public void setCurrentChatId(String currentChatId) {
         this.currentChatId = currentChatId;
     }
@@ -238,7 +239,7 @@ public class ImManager {
             public void onReceivedText(String s, String s1, String s2, long l) {
                 if (chatViewListener != null) {
                     chatViewListener.onReceivedText(s, s1, s2, l);
-                }else {
+                } else {
 
                 }
                 rxBus.post(new ChatMessageData(s, s1, s2));
@@ -251,7 +252,7 @@ public class ImManager {
             public void onReceivedBitmap(String s, String s1, long l) {
                 if (chatViewListener != null) {
                     chatViewListener.onReceivedBitmap(s, s1, l);
-                }else {
+                } else {
 
                 }
             }
@@ -260,7 +261,7 @@ public class ImManager {
             public void onReceivedBitmapProgress(double v, String s, String s1, long l) {
                 if (chatViewListener != null) {
                     chatViewListener.onReceivedBitmapProgress(v, s, s1, l);
-                }else {
+                } else {
 
                 }
             }
@@ -269,7 +270,7 @@ public class ImManager {
             public void onReceivedBitmapFinish(Uri uri, String s, String s1, long l) {
                 if (chatViewListener != null) {
                     chatViewListener.onReceivedBitmapFinish(uri, s, s1, l);
-                }else {
+                } else {
 
                 }
             }
@@ -278,7 +279,7 @@ public class ImManager {
             public void onReceivedAudio(String s, String s1, long l) {
                 if (chatViewListener != null) {
                     chatViewListener.onReceivedAudio(s, s1, l);
-                }else {
+                } else {
 
                 }
             }
@@ -287,7 +288,7 @@ public class ImManager {
             public void onReceivedAudioProgress(double v, String s, String s1, long l) {
                 if (chatViewListener != null) {
                     chatViewListener.onReceivedAudioProgress(v, s, s1, l);
-                }else {
+                } else {
 
                 }
             }
@@ -296,7 +297,7 @@ public class ImManager {
             public void onReceivedAudioFinish(Uri uri, String s, String s1, long l) {
                 if (chatViewListener != null) {
                     chatViewListener.onReceivedAudioFinish(uri, s, s1, l);
-                }else {
+                } else {
 
                 }
             }
@@ -353,7 +354,9 @@ public class ImManager {
 
     public void login() {
         if (ACache.get(context).getAsObject(CacheConfig.USER_INFO) != null
-                && !TextUtils.isEmpty(((ApplicationCampusBBS) (context.getApplicationContext())).getSessionId())) {
+                && !TextUtils.isEmpty(((ApplicationCampusBBS) (context.getApplicationContext())).getSessionId()))
+        {
+            IMMyself.logout();
             LoginInfoData loginInfoData = (LoginInfoData) ACache.get(context).getAsObject(CacheConfig.USER_INFO);
             IMMyself.setCustomUserID(loginInfoData.getData().getUserInfo().getUserAccount());
             IMMyself.setPassword(loginInfoData.getData().getUserInfo().getUserPassword());
