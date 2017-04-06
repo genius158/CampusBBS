@@ -182,6 +182,8 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
             rxBus.post(new LogInAction(true));
 
             ACache.get(getContext()).put(CacheConfig.USER_INFO, loginInfoData);
+            ACache.get(getContext()).put(CacheConfig.USER_ACCOUNT, tielUserName.getText().toString());
+            ACache.get(getContext()).put(CacheConfig.USER_PASSWORD, tielUserPassword.getText().toString());
 
         } else {
             toastUtils.showShort(loginInfoData.getMessage());

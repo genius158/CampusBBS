@@ -353,24 +353,44 @@ public class ImManager {
                 Log.e(TAG, "onBuildFriendshipWithUser: " + "customUserID:" + customUserID);
             }
         });
+
+        // 执行该代码则会执行自动登录，并监听登录状态。
+        IMMyself.setOnAutoLoginListener(new IMMyself.OnAutoLoginListener() {
+
+            @Override
+            public void onAutoLoginBegan() {
+                //开始自动登录
+            }
+
+            @Override
+            public void onAutoLoginSuccess() {
+                //自动登录成功
+            }
+
+            @Override
+            public void onAutoLoginFailure(boolean loginConflict) {
+                //自动登录失败，loginConflict表示是否登录冲突
+
+            }
+        });
     }
 
     public void login() {
         if (ACache.get(context).getAsObject(CacheConfig.USER_INFO) != null
-                && !TextUtils.isEmpty(((ApplicationCampusBBS) (context.getApplicationContext())).getSessionId()))
-        {
-            LoginInfoData loginInfoData = (LoginInfoData) ACache.get(context).getAsObject(CacheConfig.USER_INFO);
-            IMMyself.setCustomUserID(loginInfoData.getData().getUserInfo().getUserAccount());
-            IMMyself.setPassword(loginInfoData.getData().getUserInfo().getUserPassword());
+                && !TextUtils.isEmpty(((ApplicationCampusBBS) (context.getApplicationContext())).getSessionId())) {
+            String userId = ACache.get(context).getAsString(CacheConfig.USER_ACCOUNT);
+            String password = ACache.get(context).getAsString(CacheConfig.USER_PASSWORD);
+            IMMyself.setCustomUserID(userId);
+            IMMyself.setPassword(password);
             // 执行该代码则会执行自动登录，并监听登录状态。
 
             IMMyself.login(true, 10, new IMMyself.OnActionListener() {
                 @Override
                 public void onSuccess() {
                     Log.e(TAG, "onSuccess: " + "一键登录成功");
-                    Observable.timer(2000, TimeUnit.MILLISECONDS)
+                    Observable.timer(10000, TimeUnit.MILLISECONDS)
                             .subscribe(aLong -> {
-                                if (! IMMyselfRelations.isInitialized()){
+                                if (!IMMyselfRelations.isInitialized()) {
                                     IMMyself.logout();
                                     login();
                                 }
@@ -387,10 +407,55 @@ public class ImManager {
                         error = "密码错误";
                     }
                     Log.e(TAG, "onFailure: " + error);
-                    toastUtils.showUIShort(error);
                 }
             });
 
+        }
+    }
+
+
+    public void login2() {
+        if (ACache.get(context).getAsObject(CacheConfig.USER_INFO) != null
+                && !TextUtils.isEmpty(((ApplicationCampusBBS) (context.getApplicationContext())).getSessionId())) {
+            String userId = ACache.get(context).getAsString(CacheConfig.USER_ACCOUNT);
+            String password = ACache.get(context).getAsString(CacheConfig.USER_PASSWORD);
+            IMMyself.setCustomUserID(userId);
+            IMMyself.setPassword(password);
+
+            // 设置超时时长为5秒
+            IMMyself.register(5, new IMMyself.OnActionListener() {
+                @Override
+                public void onSuccess() {
+                    Log.e(TAG, "onSuccess: ");
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    if (error.equals("Timeout")) {
+                        error = "注册超时";
+                    }
+
+                    Log.e(TAG, "onFailure: " + error);
+                }
+            });
+
+            // 设置超时时长为5秒
+            IMMyself.login(false, 5, new IMMyself.OnActionListener() {
+                @Override
+                public void onSuccess() {
+                    Log.e(TAG, "onSuccess: ");
+                }
+
+                @Override
+                public void onFailure(String error) {
+                    if (error.equals("Timeout")) {
+                        error = "登录超时";
+                    } else if (error.equals("Wrong Password")) {
+                        error = "密码错误";
+                    }
+                    Log.e(TAG, "onFailure: " + error);
+                }
+            });
         }
     }
 
