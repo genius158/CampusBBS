@@ -318,6 +318,12 @@ public class MainActivity extends BaseActivity {
         }, 100);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        IMMyself.logout();
+    }
+
     private BottomNavigationBar.OnTabSelectedListener getOnTabSelectedListener() {
         return new BottomNavigationBar.OnTabSelectedListener() {
             @Override

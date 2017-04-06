@@ -110,10 +110,11 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     IMMyself.OnReceivedMessageListener messageListener = new IMMyself.OnReceivedMessageListener() {
         @Override
         public void onReceivedText(String s, String s1, String s2, long l) {
+            long time=System.currentTimeMillis();
             dataMultiItems.add(new ChatOtherData(new ChatData(
                     null
                     , s1
-                    , l
+                    , System.currentTimeMillis()
             )));
             chatAdapter.notifyDataSetChanged();
         }
