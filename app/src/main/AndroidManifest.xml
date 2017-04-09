@@ -71,17 +71,17 @@
             android:name=".module.campusbbs.ui.selfcenter.SelfCenterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.campusbbs.ui.selfcenter.ui.friend.FriendsActivity"
+            android:name=".module.campusbbs.ui.selfcenter.friend.FriendsActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".module.campusbbs.ui.selfcenter.ui.chat.ChatActivity"
+            android:name=".module.campusbbs.ui.selfcenter.chat.ChatActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.search.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.campusbbs.ui.selfcenter.ui.message.MessageActivity"
+            android:name=".module.campusbbs.ui.selfcenter.message.MessageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.campusbbs.ui.publish.PublishActivity"

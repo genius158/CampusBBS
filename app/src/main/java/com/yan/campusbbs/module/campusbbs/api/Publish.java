@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.campusbbs.ui.publish.api;
+package com.yan.campusbbs.module.campusbbs.api;
 
 import com.yan.campusbbs.repository.DataAddress;
 

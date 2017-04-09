@@ -384,14 +384,13 @@ public class ImManager {
             IMMyself.setPassword(password);
             // 执行该代码则会执行自动登录，并监听登录状态。
 
-            IMMyself.login(true, 10, new IMMyself.OnActionListener() {
+            IMMyself.login(true, 20, new IMMyself.OnActionListener() {
                 @Override
                 public void onSuccess() {
                     Log.e(TAG, "onSuccess: " + "一键登录成功");
                     Observable.timer(10000, TimeUnit.MILLISECONDS)
                             .subscribe(aLong -> {
                                 if (!IMMyselfRelations.isInitialized()) {
-                                    IMMyself.logout();
                                     login();
                                 }
                             });
@@ -401,7 +400,6 @@ public class ImManager {
                 public void onFailure(String error) {
                     if (error.equals("Timeout")) {
                         error = "一键登录超时";
-                        IMMyself.logout();
                         login();
                     } else if (error.equals("Wrong Password")) {
                         error = "密码错误";
@@ -423,7 +421,7 @@ public class ImManager {
             IMMyself.setPassword(password);
 
             // 设置超时时长为5秒
-            IMMyself.register(5, new IMMyself.OnActionListener() {
+            IMMyself.register(15, new IMMyself.OnActionListener() {
                 @Override
                 public void onSuccess() {
                     Log.e(TAG, "onSuccess: ");
@@ -440,7 +438,7 @@ public class ImManager {
             });
 
             // 设置超时时长为5秒
-            IMMyself.login(false, 5, new IMMyself.OnActionListener() {
+            IMMyself.login(false, 15, new IMMyself.OnActionListener() {
                 @Override
                 public void onSuccess() {
                     Log.e(TAG, "onSuccess: ");

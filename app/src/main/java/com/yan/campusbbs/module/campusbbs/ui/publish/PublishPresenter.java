@@ -2,18 +2,15 @@ package com.yan.campusbbs.module.campusbbs.ui.publish;
 
 import android.content.Context;
 
-import com.yan.campusbbs.module.campusbbs.ui.publish.api.Publish;
+import com.yan.campusbbs.module.campusbbs.api.Publish;
 import com.yan.campusbbs.util.AppRetrofit;
 
 import org.json.JSONObject;
 
 import javax.inject.Inject;
 
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 
 public class PublishPresenter implements PublishContract.Presenter {
     private PublishContract.View view;
