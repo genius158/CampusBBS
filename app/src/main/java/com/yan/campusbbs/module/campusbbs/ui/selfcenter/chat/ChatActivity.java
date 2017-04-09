@@ -17,6 +17,7 @@ import com.tencent.TIMElem;
 import com.tencent.TIMElemType;
 import com.tencent.TIMMessage;
 import com.tencent.TIMMessageListener;
+import com.tencent.TIMTextElem;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
@@ -113,10 +114,11 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                     TIMElemType elemType = elem.getType();
                     Log.d(TAG, "elem type: " + elemType.name());
                     if (elemType == TIMElemType.Text) {
+                        TIMTextElem textElem = (TIMTextElem) elem;
                         dataMultiItems.add(new SelfCenterChatOtherData(new SelfCenterChatData(
                                 null
-                                , elemType.toString()
-                                , timestamp
+                                , textElem.getText()
+                                , timestamp*1000
                         )));
                         chatAdapter.notifyDataSetChanged();
                     }

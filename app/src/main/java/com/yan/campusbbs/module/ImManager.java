@@ -207,7 +207,8 @@ public class ImManager {
                         Log.e(TAG, "elem type: " + elemType.name());
                         if (elemType == TIMElemType.Text) {
                             //处理文本消息
-                            notifyMessage(sederStr, elem.toString());
+                            TIMTextElem textElem = (TIMTextElem) elem;
+                            notifyMessage(sederStr, textElem.getText());
                         }
                     }
                 }
