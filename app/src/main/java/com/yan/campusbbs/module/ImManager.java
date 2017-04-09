@@ -1,476 +1,556 @@
 package com.yan.campusbbs.module;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
-import android.net.Uri;
-import android.text.TextUtils;
+import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.yan.campusbbs.ApplicationCampusBBS;
-import com.yan.campusbbs.config.CacheConfig;
-import com.yan.campusbbs.module.selfcenter.data.ChatMessageData;
-import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
-import com.yan.campusbbs.util.ACache;
+import com.tencent.TIMCallBack;
+import com.tencent.TIMConnListener;
+import com.tencent.TIMConversation;
+import com.tencent.TIMConversationType;
+import com.tencent.TIMElem;
+import com.tencent.TIMElemType;
+import com.tencent.TIMLogLevel;
+import com.tencent.TIMLogListener;
+import com.tencent.TIMManager;
+import com.tencent.TIMMessage;
+import com.tencent.TIMMessageListener;
+import com.tencent.TIMTextElem;
+import com.tencent.TIMUser;
+import com.tencent.TIMUserStatusListener;
+import com.tencent.TIMValueCallBack;
+import com.yan.campusbbs.R;
 import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.ToastUtils;
 
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
-import imsdk.data.IMMyself;
-import imsdk.data.IMSDK;
-import imsdk.data.localchatmessagehistory.IMChatMessage;
-import imsdk.data.localchatmessagehistory.IMMyselfLocalChatMessageHistory;
-import imsdk.data.recentcontacts.IMMyselfRecentContacts;
-import imsdk.data.relations.IMMyselfRelations;
-import io.reactivex.Observable;
+import tencent.tls.platform.TLSAccountHelper;
+import tencent.tls.platform.TLSErrInfo;
+import tencent.tls.platform.TLSLoginHelper;
+import tencent.tls.platform.TLSPwdLoginListener;
+import tencent.tls.platform.TLSPwdRegListener;
+import tencent.tls.platform.TLSUserInfo;
 
 /**
- * Created by Administrator on 2017/4/5 0005.
+ * Created by yan on 2017/4/9.
  */
 
 public class ImManager {
     private static final String TAG = "ImManager";
 
+    private static final int SDK_APP_ID = 1400028200;
+    private static final int ACCOUNT_TYPE = 11891;
+    private static final String APP_VER = "1.0";
+
+    private String userSig;
+    private String identifier;
+
     private static ImManager imManager;
-    private final SPUtils spUtils;
-    private final RxBus rxBus;
-
     private Context context;
-    private ToastUtils toastUtils;
+    private TLSAccountHelper accountHelper;
+    private TLSLoginHelper loginHelper;
 
-    private String currentChatId;
+    private RxBus rxBus;
 
+    public static void init(Context context, RxBus rxBus) {
+        imManager = new ImManager(context, rxBus);
+    }
+
+    public TIMManager getTIM() {
+        return TIMManager.getInstance();
+    }
 
     public static ImManager getImManager() {
         return imManager;
     }
 
-    private ImManager(Context context, ToastUtils toastUtils, SPUtils spUtils, RxBus rxBus) {
-        this.context = context;
-        this.toastUtils = toastUtils;
-        this.spUtils = spUtils;
-        this.rxBus = rxBus;
-        init();
-    }
+    public void sendText(String peer, String text) {
 
-    public static ImManager install(Context context, ToastUtils toastUtils, SPUtils spUtils, RxBus rxBus) {
-        if (imManager == null) {
-            IMMyself.logout();
-            return imManager = new ImManager(context, toastUtils, spUtils, rxBus);
+        //获取单聊会话
+        TIMConversation conversation = TIMManager.getInstance().getConversation(
+                TIMConversationType.C2C,    //会话类型：单聊
+                "86-" + peer);
+
+        //构造一条消息
+        TIMMessage msg = new TIMMessage();
+
+        //添加文本内容
+        TIMTextElem elem = new TIMTextElem();
+        elem.setText(text);
+
+        //将elem添加到消息
+        if (msg.addElement(elem) != 0) {
+            Log.e(TAG, "addElement failed");
+            return;
         }
-        return imManager;
-    }
 
-    public void setCurrentChatId(String currentChatId) {
-        this.currentChatId = currentChatId;
-    }
-
-    // 1. 获取最近联系人
-    public ArrayList<String> getUsersList() {
-        return IMMyselfRecentContacts.getUsersList();
-    }
-
-    // 1. 获取好友列表（得到 CustomUserID 列表，本地数据，同步）
-    public ArrayList<String> getFriendsList() {
-        return IMMyselfRelations.getFriendsList();
-    }
-
-    public String getUser(int index) {
-        return IMMyselfRecentContacts.getUser(index);
-    }
-
-    public long getUnreadChatMessageCount() {
-        return IMMyselfRecentContacts.getUnreadChatMessageCount();
-    }
-
-    public boolean removeUser(String userId) {
-        return IMMyselfRecentContacts.removeUser(userId);
-    }
-
-    public boolean isMyFriend(String userId) {
-        return IMMyselfRelations.isMyFriend(userId);
-    }
-
-    public IMChatMessage getChatMessage(String userId, int latestIndex) {
-        return IMMyselfLocalChatMessageHistory.getChatMessage(userId, latestIndex);
-    }
-
-    public void sendFriendRequest(String userId, IMMyself.OnActionListener onActionListener) {
-        IMMyselfRelations.sendFriendRequest("你好，在吗？", userId, 10, onActionListener);
-    }
-
-
-    public void removeUserFromFriendsList(String userId) {
-        // 5. 移除好友
-        IMMyselfRelations.removeUserFromFriendsList(userId, 10, new IMMyself.OnActionListener() {
+        //发送消息
+        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
             @Override
-            public void onSuccess() {
-                // 移除执行成功（注意！移除和添加不一样，移除不需要对方授权）
+            public void onError(int code, String desc) {//发送消息失败
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code含义请参见错误码表
+                Log.e(TAG, "send message failed. code: " + code + " errmsg: " + desc);
             }
 
             @Override
-            public void onFailure(String error) {
-                // 移除失败
+            public void onSuccess(TIMMessage msg) {//发送消息成功
+                Log.e(TAG, "SendMsg ok");
             }
         });
     }
 
+    public void initStorage() {
+        // identifier为用户名，userSig 为用户登录凭证
 
-    public void rejectToFriendRequest(String reason, String userId) {
-        // 7. 发送请求回执之拒绝加为好友
-        IMMyselfRelations.rejectToFriendRequest(reason, userId, 10, new IMMyself.OnActionListener() {
-            @Override
-            public void onSuccess() {
-                // 回执发送成功
-            }
+        TIMUser user = new TIMUser();
+        user.setIdentifier(identifier);
 
-            @Override
-            public void onFailure(String error) {
-                // 回执发送失败
-            }
-        });
+//发起登录请求
+        TIMManager.getInstance().initStorage(
+                SDK_APP_ID,                   //sdkAppId，由腾讯分配
+                user,
+                userSig,                    //用户帐号签名，由私钥加密获得，具体请参考文档
+                new TIMCallBack() {//回调接口
 
-    }
+                    @Override
+                    public void onSuccess() {//登录成功
+                        Log.e(TAG, "init succ");
+                    }
 
-    public void rejectToFriendRequest(String reason, String userId, IMMyself.OnActionListener onActionListener) {
-        // 7. 发送请求回执之拒绝加为好友
-        IMMyselfRelations.rejectToFriendRequest(reason, userId, 10, onActionListener);
-    }
+                    @Override
+                    public void onError(int code, String desc) {//登录失败
 
-    public void setOnRelationsEventListener(IMMyselfRelations.OnRelationsEventListener onRelationsEventListener) {
-        IMMyselfRelations.setOnRelationsEventListener(onRelationsEventListener);
-    }
-
-    public void setOnDataChangedListener(IMSDK.OnDataChangedListener onDataChangedListener) {
-        IMMyselfRelations.setOnDataChangedListener(onDataChangedListener);
-    }
-
-
-    public void setOnRelationsEventListener() {
-        IMMyselfRelations.setOnRelationsEventListener(new IMMyselfRelations.OnRelationsEventListener() {
-            @Override
-            public void onInitialized() {
-                Log.e(TAG, "onInitialized: ");
-            }
-
-            @Override
-            public void onReceiveFriendRequest(String s, String s1, long l) {
-                Log.e(TAG, "onReceiveFriendRequest: " + s + "      " + s1);
-            }
-
-            @Override
-            public void onReceiveAgreeToFriendRequest(String s, long l) {
-                Log.e(TAG, "onReceiveAgreeToFriendRequest: " + s + "    ");
-            }
-
-            @Override
-            public void onReceiveRejectToFriendRequest(String s, String s1, long l) {
-                Log.e(TAG, "onReceiveRejectToFriendRequest: " + s + "   " + s1);
-            }
-
-            @Override
-            public void onBuildFriendshipWithUser(String s, long l) {
-                Log.e(TAG, "onBuildFriendshipWithUser: " + s);
-            }
-        });
-    }
-
-    public void removeUserFromFriendsList(String userId, IMMyself.OnActionListener onActionListener) {
-        // 5. 移除好友
-        IMMyselfRelations.removeUserFromFriendsList(userId, 10, onActionListener);
-    }
-
-
-    public void sendFriendRequest(String userId) {
-        IMMyselfRelations.sendFriendRequest("你好，在吗？", userId, 10, new IMMyself.OnActionListener() {
-            @Override
-            public void onSuccess() {
-                Log.e(TAG, "onSuccess: ");
-                // 发送成功（注意！不是添加成功）
-            }
-
-            @Override
-            public void onFailure(String error) {
-                Log.e(TAG, "onFailure: " + error);
-                // 发送失败
-            }
-        });
-    }
-
-    public void agreeToFriendRequest(String userId) {
-        // 6. 发送请求回执之同意加为好友
-        IMMyselfRelations.agreeToFriendRequest(userId, 10, new IMMyself.OnActionListener() {
-            @Override
-            public void onSuccess() {
-                Log.e(TAG, "onSuccess: ");
-                // 发送成功（注意！不是添加成功）
-            }
-
-            @Override
-            public void onFailure(String error) {
-                Log.e(TAG, "onFailure: " + error);
-                // 发送失败
-            }
-        });
-    }
-
-    public void agreeToFriendRequest(String userId, IMMyself.OnActionListener onActionListener) {
-        // 6. 发送请求回执之同意加为好友
-        IMMyselfRelations.agreeToFriendRequest(userId, 10, onActionListener);
-    }
-
-    public boolean clearUnreadChatMessage() {
-        return IMMyselfRecentContacts.clearUnreadChatMessage();
-    }
-
-    public boolean clearUnreadChatMessage(String userId) {
-        return IMMyselfRecentContacts.clearUnreadChatMessage(userId);
-    }
-
-    private IMMyself.OnReceivedMessageListener chatViewListener;
-
-    public void setChatViewListener(IMMyself.OnReceivedMessageListener chatViewListener) {
-        this.chatViewListener = chatViewListener;
-    }
-
-    private void init() {
-        // 设置监听器
-        IMMyself.setOnReceivedMessageListener(new IMMyself.OnReceivedMessageListener() {
-
-            @Override
-            public void onReceivedText(String s, String s1, String s2, long l) {
-                if (chatViewListener != null) {
-                    chatViewListener.onReceivedText(s, s1, s2, l);
-                } else {
-
-                }
-                rxBus.post(new ChatMessageData(s, s1, s2));
-
-                Log.e(TAG, "onReceivedText: " + "time:" + s + "   text:" + s1
-                        + "   fromUserId:" + s2 + "    l:" + l);
-            }
-
-            @Override
-            public void onReceivedBitmap(String s, String s1, long l) {
-                if (chatViewListener != null) {
-                    chatViewListener.onReceivedBitmap(s, s1, l);
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onReceivedBitmapProgress(double v, String s, String s1, long l) {
-                if (chatViewListener != null) {
-                    chatViewListener.onReceivedBitmapProgress(v, s, s1, l);
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onReceivedBitmapFinish(Uri uri, String s, String s1, long l) {
-                if (chatViewListener != null) {
-                    chatViewListener.onReceivedBitmapFinish(uri, s, s1, l);
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onReceivedAudio(String s, String s1, long l) {
-                if (chatViewListener != null) {
-                    chatViewListener.onReceivedAudio(s, s1, l);
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onReceivedAudioProgress(double v, String s, String s1, long l) {
-                if (chatViewListener != null) {
-                    chatViewListener.onReceivedAudioProgress(v, s, s1, l);
-                } else {
-
-                }
-            }
-
-            @Override
-            public void onReceivedAudioFinish(Uri uri, String s, String s1, long l) {
-                if (chatViewListener != null) {
-                    chatViewListener.onReceivedAudioFinish(uri, s, s1, l);
-                } else {
-
-                }
-            }
-        });
-
-        // 监听最近联系人列表变化
-        IMMyselfRecentContacts.setOnDataChangedListener(new IMSDK.OnDataChangedListener() {
-            @Override
-            public void onDataChanged() {
-                Log.e(TAG, "onDataChanged: ");
-            }
-        });
-
-        IMMyself.setOnReceivedSystemMessageListener(new IMMyself.OnReceivedSystemMessageListener() {
-            @Override
-            public void onReceivedSystemText(String s, long l) {
-                Log.e(TAG, "onReceivedSystemText: " + s + "  l:" + l);
-            }
-        });
-
-        // 1. 获取是否已初始化
-        boolean isInitialized = IMMyselfRelations.isInitialized();
-
-        // 2. 监听初始化通知
-        IMMyselfRelations.setOnRelationsEventListener(new IMMyselfRelations.OnRelationsEventListener() {
-            @Override
-            public void onInitialized() {
-                Log.e(TAG, "onInitialized: ");
-                // 初始化回调。 当前回调表示服务器和本地的数据已经初始化。
-            }
-
-            @Override
-            public void onReceiveFriendRequest(String text, String fromCustomUserID, long serverSendTime) {
-                Log.e(TAG, "onReceiveFriendRequest: " + text + "   fromCustomUserID:" + fromCustomUserID);
-            }
-
-            @Override
-            public void onReceiveAgreeToFriendRequest(String fromCustomUserID, long serverSendTime) {
-                Log.e(TAG, "onReceiveAgreeToFriendRequest: " + " fromCustomUserID:" + fromCustomUserID);
-
-            }
-
-            @Override
-            public void onReceiveRejectToFriendRequest(String reason, String fromCustomUserID, long serverSendTime) {
-                Log.e(TAG, "onReceiveRejectToFriendRequest: " + "reason:" + reason + " fromCustomUserID:" + fromCustomUserID);
-            }
-
-            @Override
-            public void onBuildFriendshipWithUser(String customUserID, long serverSendTime) {
-                Log.e(TAG, "onBuildFriendshipWithUser: " + "customUserID:" + customUserID);
-            }
-        });
-
-        // 执行该代码则会执行自动登录，并监听登录状态。
-        IMMyself.setOnAutoLoginListener(new IMMyself.OnAutoLoginListener() {
-
-            @Override
-            public void onAutoLoginBegan() {
-                //开始自动登录
-            }
-
-            @Override
-            public void onAutoLoginSuccess() {
-                //自动登录成功
-            }
-
-            @Override
-            public void onAutoLoginFailure(boolean loginConflict) {
-                //自动登录失败，loginConflict表示是否登录冲突
-
-            }
-        });
+                        //错误码code和错误描述desc，可用于定位请求失败原因
+                        //错误码code含义请参见错误码表
+                        Log.e(TAG, "init failed. code: " + code + " errmsg: " + desc);
+                    }
+                });
     }
 
     public void login() {
-        if (ACache.get(context).getAsObject(CacheConfig.USER_INFO) != null
-                && !TextUtils.isEmpty(((ApplicationCampusBBS) (context.getApplicationContext())).getSessionId())) {
-            String userId = ACache.get(context).getAsString(CacheConfig.USER_ACCOUNT);
-            String password = ACache.get(context).getAsString(CacheConfig.USER_PASSWORD);
-            IMMyself.setCustomUserID(userId);
-            IMMyself.setPassword(password);
-            // 执行该代码则会执行自动登录，并监听登录状态。
+        // identifier为用户名，userSig 为用户登录凭证
+        TIMUser user = new TIMUser();
+        user.setIdentifier(identifier);
 
-            IMMyself.login(true, 20, new IMMyself.OnActionListener() {
-                @Override
-                public void onSuccess() {
-                    Log.e(TAG, "onSuccess: " + "一键登录成功");
-                    Observable.timer(10000, TimeUnit.MILLISECONDS)
-                            .subscribe(aLong -> {
-                                if (!IMMyselfRelations.isInitialized()) {
-                                    login();
-                                }
-                            });
-                }
+        //发起登录请求
+        TIMManager.getInstance().login(
+                SDK_APP_ID,                   //sdkAppId，由腾讯分配
+                user,
+                userSig,                    //用户帐号签名，由私钥加密获得，具体请参考文档
+                new TIMCallBack() {//回调接口
 
-                @Override
-                public void onFailure(String error) {
-                    if (error.equals("Timeout")) {
-                        error = "一键登录超时";
-                        login();
-                    } else if (error.equals("Wrong Password")) {
-                        error = "密码错误";
+                    @Override
+                    public void onSuccess() {//登录成功
+                        Log.e(TAG, "login succ");
                     }
-                    Log.e(TAG, "onFailure: " + error);
-                }
-            });
 
-        }
+                    @Override
+                    public void onError(int code, String desc) {//登录失败
+
+                        //错误码code和错误描述desc，可用于定位请求失败原因
+                        //错误码code含义请参见错误码表
+                        Log.e(TAG, "login failed. code: " + code + " errmsg: " + desc);
+                    }
+                });
     }
 
+    public void logout() {
+        //登出
+        TIMManager.getInstance().logout(new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
 
-    public void login2() {
-        if (ACache.get(context).getAsObject(CacheConfig.USER_INFO) != null
-                && !TextUtils.isEmpty(((ApplicationCampusBBS) (context.getApplicationContext())).getSessionId())) {
-            String userId = ACache.get(context).getAsString(CacheConfig.USER_ACCOUNT);
-            String password = ACache.get(context).getAsString(CacheConfig.USER_PASSWORD);
-            IMMyself.setCustomUserID(userId);
-            IMMyself.setPassword(password);
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code列表请参见错误码表
+                Log.e(TAG, "logout failed. code: " + code + " errmsg: " + desc);
+            }
 
-            // 设置超时时长为5秒
-            IMMyself.register(15, new IMMyself.OnActionListener() {
-                @Override
-                public void onSuccess() {
-                    Log.e(TAG, "onSuccess: ");
-                }
-
-                @Override
-                public void onFailure(String error) {
-                    if (error.equals("Timeout")) {
-                        error = "注册超时";
-                    }
-
-                    Log.e(TAG, "onFailure: " + error);
-                }
-            });
-
-            // 设置超时时长为5秒
-            IMMyself.login(false, 15, new IMMyself.OnActionListener() {
-                @Override
-                public void onSuccess() {
-                    Log.e(TAG, "onSuccess: ");
-                }
-
-                @Override
-                public void onFailure(String error) {
-                    if (error.equals("Timeout")) {
-                        error = "登录超时";
-                    } else if (error.equals("Wrong Password")) {
-                        error = "密码错误";
-                    }
-                    Log.e(TAG, "onFailure: " + error);
-                }
-            });
-        }
-    }
-
-    public void sendText(String text, String friendId) {
-        // 动态配置超时时长
-        IMMyself.sendText(text, friendId, (text.length() / 400 + 1) * 5, new IMMyself.OnActionListener() {
             @Override
             public void onSuccess() {
-                Log.e(TAG, "onSuccess: " + "发送成功:");
+                //登出成功
+            }
+        });
+    }
+
+    private ImManager(Context context, RxBus rxBus) {
+        this.context = context;
+        this.rxBus = rxBus;
+        getTIM().init(this.context);
+        getTIM().disableCrashReport();
+        getTIM().setLogLevel(TIMLogLevel.ERROR);
+        accountHelper = TLSAccountHelper.getInstance();
+        accountHelper = TLSAccountHelper.getInstance()
+                .init(context, SDK_APP_ID, ACCOUNT_TYPE, APP_VER);
+        loginHelper = TLSLoginHelper.getInstance()
+                .init(context, SDK_APP_ID, ACCOUNT_TYPE, APP_VER);
+        listenerInit();
+    }
+
+    private void listenerInit() {
+        //设置消息监听器，收到新消息时，通过此监听器回调
+        getTIM().addMessageListener(new TIMMessageListener() {
+            //消息监听器
+            @Override
+            public boolean onNewMessages(List<TIMMessage> list) {//收到新消息
+                for (TIMMessage msg : list) {
+                    String sederStr = msg.getSender();
+                    long timestamp = msg.timestamp();
+                    for (int i = 0; i < msg.getElementCount(); ++i) {
+                        TIMElem elem = msg.getElement(i);
+                        //获取当前元素的类型
+                        TIMElemType elemType = elem.getType();
+                        Log.e(TAG, "elem type: " + elemType.name());
+                        if (elemType == TIMElemType.Text) {
+                            //处理文本消息
+                            notifyMessage(sederStr, elem.toString());
+                        }
+                    }
+                }
+
+                //消息的内容解析请参考 4.5 消息解析
+                return false; //返回true将终止回调链，不再调用下一个新消息监听器
+            }
+        });
+
+        //设置网络连接监听器，连接建立／断开时回调
+        getTIM().setConnectionListener(new TIMConnListener() {//连接监听器
+            @Override
+            public void onConnected() {//连接建立
+                Log.e(TAG, "connected");
             }
 
             @Override
-            public void onFailure(String error) {
-                toastUtils.showUIShort("发送失败");
-                Log.e(TAG, "onFailure: " + "发送失败:" + error);
+            public void onDisconnected(int code, String desc) {//连接断开
+                //接口返回了错误码code和错误描述desc，可用于定位连接断开原因
+                //错误码code含义请参见错误码表
+                Log.e(TAG, "disconnected");
+            }
+
+            @Override
+            public void onWifiNeedAuth(String s) {
+
             }
         });
+
+        //设置日志回调，sdk输出的日志将通过此接口回传一份副本
+        //[NOTE] 请注意level定义在TIMManager中，如TIMManager.ERROR等， 并不同于Android系统定义
+        getTIM().setLogListener(new TIMLogListener() {
+            @Override
+            public void log(int level, String tag, String msg) {
+                //可以通过此回调将sdk的log输出到自己的日志系统中
+            }
+        });
+
+        //设置用户状态变更监听器，在回调中进行相应的处理
+        getTIM().setUserStatusListener(new TIMUserStatusListener() {
+            @Override
+            public void onForceOffline() {
+                //被踢下线
+            }
+
+            @Override
+            public void onUserSigExpired() {
+                //票据过期，需要换票后重新登录
+            }
+        });
+    }
+
+    public void notifyMessage(String senderStr, String contentStr) {
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent intent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+        mBuilder.setContentTitle(senderStr)//设置通知栏标题
+                .setContentText(contentStr)
+                .setContentIntent(intent) //设置通知栏点击意图
+                .setNumber(1) //设置通知集合的数量
+                .setTicker(senderStr + ":" + contentStr) //通知首次出现在通知栏，带上升动画效果的
+                .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
+                .setDefaults(Notification.DEFAULT_ALL)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合
+                .setSmallIcon(R.mipmap.ic_launcher);//设置通知小ICON
+        Notification notify = mBuilder.build();
+        notify.flags |= Notification.FLAG_AUTO_CANCEL;
+        mNotificationManager.notify(0, notify);
+    }
+
+    public void verifyCode(String code) {
+        accountHelper.TLSPwdRegVerifyCode(code, new TLSPwdRegListener() {
+            @Override
+            public void OnPwdRegAskCodeSuccess(int i, int i1) {
+                Log.e(TAG, "OnPwdRegAskCodeSuccess: " + i + "    " + i1);
+            }
+
+            @Override
+            public void OnPwdRegReaskCodeSuccess(int i, int i1) {
+                Log.e(TAG, "OnPwdRegReaskCodeSuccess: " + i + "    " + i1);
+
+            }
+
+            @Override
+            public void OnPwdRegVerifyCodeSuccess() {
+                Log.e(TAG, "OnPwdRegVerifyCodeSuccess: ");
+                rxBus.post(new Action.ActionCodeVerify(1));
+            }
+
+            @Override
+            public void OnPwdRegCommitSuccess(TLSUserInfo tlsUserInfo) {
+                Log.e(TAG, "OnPwdRegCommitSuccess: " + tlsUserInfo.identifier);
+
+            }
+
+            @Override
+            public void OnPwdRegFail(TLSErrInfo tlsErrInfo) {
+                Log.e(TAG, "OnPwdRegFail: " + tlsErrInfo.Msg);
+                rxBus.post(new Action.ActionCodeVerify(-1));
+            }
+
+            @Override
+            public void OnPwdRegTimeout(TLSErrInfo tlsErrInfo) {
+                Log.e(TAG, "OnPwdRegTimeout: " + tlsErrInfo.Msg);
+                rxBus.post(new Action.ActionCodeVerify(0));
+            }
+        });
+    }
+
+    public void getMSMCode(String userPhone) {
+        accountHelper.TLSPwdRegAskCode("86-" + userPhone, new TLSPwdRegListener() {
+            @Override
+            public void OnPwdRegAskCodeSuccess(int i, int i1) {
+                Log.e(TAG, "OnPwdRegAskCodeSuccess: " + i + "    " + i1);
+                rxBus.post(new Action.ActionStateGetMessage(String.valueOf(i), 1));
+
+            }
+
+            @Override
+            public void OnPwdRegReaskCodeSuccess(int i, int i1) {
+                Log.e(TAG, "OnPwdRegReaskCodeSuccess: " + i + "    " + i1);
+
+            }
+
+            @Override
+            public void OnPwdRegVerifyCodeSuccess() {
+                Log.e(TAG, "OnPwdRegVerifyCodeSuccess: ");
+
+            }
+
+            @Override
+            public void OnPwdRegCommitSuccess(TLSUserInfo tlsUserInfo) {
+                Log.e(TAG, "OnPwdRegCommitSuccess: " + tlsUserInfo.identifier);
+            }
+
+            @Override
+            public void OnPwdRegFail(TLSErrInfo tlsErrInfo) {
+                Log.e(TAG, "OnPwdRegFail: " + tlsErrInfo.Msg);
+                rxBus.post(new Action.ActionStateGetMessage(tlsErrInfo.Msg, -1));
+
+            }
+
+            @Override
+            public void OnPwdRegTimeout(TLSErrInfo tlsErrInfo) {
+                Log.e(TAG, "OnPwdRegTimeout: " + tlsErrInfo.Msg);
+                rxBus.post(new Action.ActionStateGetMessage("", 0));
+            }
+        });
+    }
+
+
+    public void pwdCommit(String password) {
+        accountHelper.TLSPwdRegCommit(password, new TLSPwdRegListener() {
+            @Override
+            public void OnPwdRegAskCodeSuccess(int i, int i1) {
+
+            }
+
+            @Override
+            public void OnPwdRegReaskCodeSuccess(int i, int i1) {
+
+            }
+
+            @Override
+            public void OnPwdRegVerifyCodeSuccess() {
+
+            }
+
+            @Override
+            public void OnPwdRegCommitSuccess(TLSUserInfo tlsUserInfo) {
+                Log.e(TAG, "OnPwdRegCommitSuccess: " + tlsUserInfo.identifier);
+                rxBus.post(new Action.ActionPWDCommit(tlsUserInfo.identifier, 1));
+            }
+
+            @Override
+            public void OnPwdRegFail(TLSErrInfo tlsErrInfo) {
+                Log.e(TAG, "OnPwdRegFail: " + tlsErrInfo.Msg);
+                rxBus.post(new Action.ActionPWDCommit("", -1));
+
+            }
+
+            @Override
+            public void OnPwdRegTimeout(TLSErrInfo tlsErrInfo) {
+                Log.e(TAG, "OnPwdRegTimeout: " + tlsErrInfo.Msg);
+                rxBus.post(new Action.ActionPWDCommit("", 0));
+
+            }
+        });
+
+    }
+
+//    pwdRegListener = new TLSPwdRegListener() {
+//        @Override
+//        public void OnPwdRegAskCodeSuccess(int reaskDuration, int expireDuration) {
+//      /* 请求下发短信成功，可以跳转到输入验证码进行校验的界面，同时可以开始倒计时, (reaskDuration 秒内不可以重发短信，如果在expireDuration 秒之后仍然没有进行短信验证，则应该回到上一步，重新开始流程)；在用户输入收到的短信验证码之后，可以调用PwdRegVerifyCode 进行验证。*/
+//        }
+//
+//        @Override
+//        public void OnPwdRegReaskCodeSuccess(int reaskDuration, int expireDuration) {
+//      /* 重新请求下发短信成功，可以跳转到输入验证码进行校验的界面，并开始倒计时，(reaskDuration 秒内不可以再次请求重发，在expireDuration 秒之后仍然没有进行短信验证，则应该回到第一步，重新开始流程)；在用户输入收到的短信验证码之后，可以调用PwdRegVerifyCode 进行验证。*/
+//        }
+//
+//        @Override
+//        public void OnPwdRegVerifyCodeSuccess() {
+//           /* 短信验证成功，接下来可以引导用户输入密码，然后调用PwdRegCommit 进行注册的最后一步*/
+//        }
+//
+//        @Override
+//        public void OnPwdRegCommitSuccess(TLSUserInfo userInfo) {
+//      /* 最终注册成功，接下来可以引导用户进行密码登录了，登录流程请查看相应章节*/
+//        }
+//
+//        @Override
+//        public void OnPwdRegFail(TLSErrInfo tlsErrInfo) {
+//       /* 密码注册过程中任意一步都可以到达这里，可以根据tlsErrInfo 中ErrCode, Title, Msg 给用户弹提示语，引导相关操作*/
+//        }
+//
+//        @Override
+//        public void OnPwdRegTimeout(TLSErrInfo tlsErrInfo) {
+//      /* 密码注册过程中任意一步都可以到达这里，顾名思义，网络超时，可能是用户网络环境不稳定，一般让用户重试即可*/
+//        }
+//    };
+
+    public void verifyImgcode(String imageCode) {
+        loginHelper.TLSPwdLoginVerifyImgcode(imageCode, new TLSPwdLoginListener() {
+            @Override
+            public void OnPwdLoginSuccess(TLSUserInfo tlsUserInfo) {
+
+            }
+
+            @Override
+            public void OnPwdLoginReaskImgcodeSuccess(byte[] bytes) {
+
+            }
+
+            @Override
+            public void OnPwdLoginNeedImgcode(byte[] bytes, TLSErrInfo tlsErrInfo) {
+
+            }
+
+            @Override
+            public void OnPwdLoginFail(TLSErrInfo tlsErrInfo) {
+
+            }
+
+            @Override
+            public void OnPwdLoginTimeout(TLSErrInfo tlsErrInfo) {
+
+            }
+        });
+    }
+
+    public void getSin(String userPhone, String password) {
+
+        loginHelper.TLSPwdLogin("86-" + userPhone, password.getBytes(), new TLSPwdLoginListener() {
+            @Override
+            public void OnPwdLoginSuccess(TLSUserInfo tlsUserInfo) {
+                userSig = loginHelper.getUserSig(tlsUserInfo.identifier);
+                identifier = tlsUserInfo.identifier;
+                login();
+                Log.e(TAG, "OnPwdLoginSuccess: " + tlsUserInfo.identifier);
+            }
+
+            @Override
+            public void OnPwdLoginReaskImgcodeSuccess(byte[] bytes) {
+                Log.e(TAG, "OnPwdLoginReaskImgcodeSuccess: " + bytes);
+            }
+
+            @Override
+            public void OnPwdLoginNeedImgcode(byte[] bytes, TLSErrInfo tlsErrInfo) {
+                Log.e(TAG, "OnPwdLoginNeedImgcode: " + tlsErrInfo.Msg);
+            }
+
+            @Override
+            public void OnPwdLoginFail(TLSErrInfo tlsErrInfo) {
+                Log.e(TAG, "OnPwdLoginFail: " + tlsErrInfo.Msg);
+            }
+
+            @Override
+            public void OnPwdLoginTimeout(TLSErrInfo tlsErrInfo) {
+                Log.e(TAG, "OnPwdLoginTimeout: " + tlsErrInfo.Msg);
+
+            }
+        });
+    }
+
+//    pwdLoginListener = new TLSPwdLoginListener() {
+//        @Override
+//        public void OnPwdLoginSuccess(TLSUserInfo userInfo) {
+//          /* 登录成功了，在这里可以获取用户票据*/
+//            String usersig = loginHelper.getUserSig(userInfo.identifier);
+//        }
+//
+//        @Override
+//        public void OnPwdLoginReaskImgcodeSuccess(byte[] picData) {
+//          /* 请求刷新图片验证码成功，此时需要用picData 更新验证码图片，原先的验证码已经失效*/
+//        }
+//
+//        @Override
+//        public void OnPwdLoginNeedImgcode(byte[] picData, TLSErrInfo errInfo) {
+//          /* 用户需要进行图片验证码的验证，需要把验证码图片展示给用户，并引导用户输入；如果验证码输入错误，仍然会到达此回调并更新图片验证码*/
+//        }
+//
+//        @Override
+//        public void OnPwdLoginFail(TLSErrInfo errInfo) {
+//          /* 登录失败，比如说密码错误，用户帐号不存在等，通过errInfo.ErrCode, errInfo.Title, errInfo.Msg等可以得到更具体的错误信息*/
+//        }
+//        @Override
+//        public void OnPwdLoginTimeout(TLSErrInfo errInfo) {
+//          /* 密码登录过程中任意一步都可以到达这里，顾名思义，网络超时，可能是用户网络环境不稳定，一般让用户重试即可*/
+//        }
+//    };
+
+
+    public static class Action {
+        public static class ActionStateGetMessage {
+            public String code;
+            public int state;
+
+            public ActionStateGetMessage(String code, int state) {
+                this.code = code;
+                this.state = state;
+            }
+        }
+
+        public static class ActionCodeVerify {
+            public int state;
+
+            public ActionCodeVerify(int state) {
+                this.state = state;
+            }
+        }
+
+        public static class ActionPWDCommit {
+            public int state;
+            public String imUserName;
+
+            public ActionPWDCommit(String imUserName, int state) {
+                this.state = state;
+                this.imUserName = imUserName;
+            }
+        }
     }
 
 }

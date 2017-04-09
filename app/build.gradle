@@ -10,6 +10,7 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     repositories {
@@ -70,7 +71,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
-    compile name: 'SMSSDK-2.1.4', ext: 'aar'
     compile project(':ijkplayer')
-    compile files('libs/IMSDK_1.3.9.jar')
+    compile project(':imsdk')
+    compile 'com.android.support:multidex:1.0.1'
 }

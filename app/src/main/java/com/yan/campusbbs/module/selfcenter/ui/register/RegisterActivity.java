@@ -3,12 +3,12 @@ package com.yan.campusbbs.module.selfcenter.ui.register;
 import android.content.res.ColorStateList;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,14 +16,13 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,8 +31,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.smssdk.EventHandler;
-import cn.smssdk.SMSSDK;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -45,14 +42,14 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class RegisterActivity extends BaseActivity implements RegisterContract.View {
-
-    public static String APP_KEY = "1c9e60261fea0";
-    public static String APP_SECRET = "56eadbb181aa5792b62d8537331bd971";
+    private static final String TAG = "RegisterActivity";
 
     @Inject
     SettingHelper changeSkinHelper;
     @Inject
     SPUtils spUtils;
+    @Inject
+    RxBus rxBus;
 
     @BindView(R.id.common_app_bar)
     CardView commonAppBar;
@@ -109,69 +106,93 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SMSSDK.unregisterAllEventHandler();
     }
 
     private void daggerInject() {
         DaggerRegisterComponent.builder().applicationComponent(
-                ((ApplicationCampusBBS) getApplication()).getApplicationComponent()
-        ).registerModule(new RegisterModule(this))
+                ((ApplicationCampusBBS) getApplication()).getApplicationComponent())
+                .registerModule(new RegisterModule(this))
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .build().inject(this);
     }
 
     private void init() {
-        SMSSDK.initSDK(this, APP_KEY, APP_SECRET);
-        addDisposable(Observable.timer(1000, TimeUnit.MILLISECONDS)
+        addDisposable(rxBus.getEvent(ImManager.Action.ActionStateGetMessage.class)
                 .subscribeOn(Schedulers.io())
-                .subscribe(aLong -> SMSSDK.registerEventHandler(eventHandler)));
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(actionStateGetMessage -> {
+                            switch (actionStateGetMessage.state) {
+                                case 1:
+                                    isAbleToGetCode = false;
+                                    toastUtils.showUIShort("获取验证码成功");
+                                    verifyTwiceTrigger();
+                                    break;
+                                case 0:
+                                    isAbleToGetCode = true;
+                                    toastUtils.showUIShort("请求超时");
+                                    break;
+                                case -1:
+                                    isAbleToGetCode = true;
+                                    toastUtils.showUIShort(actionStateGetMessage.code);
+                                    break;
+                            }
+                        },
+                        throwable -> {
+                            toastUtils.showUIShort("操作出错");
+                            throwable.printStackTrace();
+                        })
+
+        );
+
+        addDisposable(rxBus.getEvent(ImManager.Action.ActionCodeVerify.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(actionCodeVerify -> {
+                            switch (actionCodeVerify.state) {
+                                case 1:
+                                    isVerify = true;
+                                    toastUtils.showUIShort("验证成功");
+                                    registerUserInfo();
+                                    break;
+                                case 0:
+                                    toastUtils.showUIShort("请求超时");
+                                    break;
+                                case -1:
+                                    toastUtils.showUIShort("验证失败");
+                                    break;
+                            }
+                        },
+                        throwable -> {
+                            toastUtils.showUIShort("操作出错");
+                            throwable.printStackTrace();
+                        })
+
+        );
+
+        addDisposable(rxBus.getEvent(ImManager.Action.ActionPWDCommit.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(actionPWDCommit -> {
+                            switch (actionPWDCommit.state) {
+                                case 1:
+                                    Log.e(TAG, "init: " + "success");
+                                    toastUtils.showShort("注册成功");
+                                    break;
+                                case 0:
+                                    toastUtils.showUIShort("请求超时");
+                                    break;
+                                case -1:
+                                    toastUtils.showUIShort("操作失败");
+                                    break;
+                            }
+                        },
+                        throwable -> {
+                            toastUtils.showUIShort("操作出错");
+                            throwable.printStackTrace();
+                        })
+
+        );
     }
-
-    private EventHandler eventHandler = new EventHandler() {
-        @Override
-        public void afterEvent(int event, int result, Object data) {
-            Message msg = Message.obtain();
-            msg.arg1 = event;
-            msg.arg2 = result;
-            msg.obj = data;
-
-            if (result == SMSSDK.RESULT_COMPLETE) {
-                //回调完成
-                if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-                    //提交验证码成功
-                    isVerify = true;
-                    registerUserInfo();
-                } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-                    //获取验证码成功
-                    isAbleToGetCode = false;
-                    verifyTwiceTrigger();
-                    addDisposable(
-                            Observable.just("获取验证码成功")
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(str -> toastUtils.showShort(str))
-                    );
-                } else if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
-                    //返回支持发送验证码的国家列表
-                    addDisposable(Observable.just("返回支持发送验证码的国家列表")
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(str -> toastUtils.showShort(str)
-                            ));
-                }
-            } else {
-                //回调失败
-                try {
-                    JSONObject jsonObject = new JSONObject(((Throwable) data).getMessage());
-                    addDisposable(Observable.just(jsonObject.getString("detail"))
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(str -> toastUtils.showShort(str)
-                            ));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                ((Throwable) data).printStackTrace();
-            }
-        }
-    };
 
     @Override
     protected SPUtils sPUtils() {
@@ -211,8 +232,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         if (!isVerify) {
             toastUtils.showShort("正在注册中...");
             String code = etCode.getText().toString().trim();
-            String zh = etPhone.getText().toString().trim();
-            SMSSDK.submitVerificationCode("86", zh, code);
+            ImManager.getImManager().verifyCode(code);
             return;
         }
         if (canRegisterUserInfoAble) {
@@ -264,8 +284,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     private void sendSMSCode() {
         if (!isVerify) {
             if (isAbleToGetCode) {
-                String zh = etPhone.getText().toString().trim();
-                SMSSDK.getVerificationCode("86", zh);
+                String userPhone = etPhone.getText().toString().trim();
+                ImManager.getImManager().getMSMCode(userPhone);
             }
         }
     }
@@ -299,14 +319,14 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     @Override
     public void success() {
-        canRegisterUserInfoAble = true;
-        toastUtils.showShort("注册成功");
+        canRegisterUserInfoAble = false;
+        Log.e(TAG, "success: " + "注册成功");
+        ImManager.getImManager().pwdCommit(etPassword.getText().toString());
     }
 
     @Override
     public void netError() {
         canRegisterUserInfoAble = true;
         toastUtils.showShort("网络错误");
-
     }
 }

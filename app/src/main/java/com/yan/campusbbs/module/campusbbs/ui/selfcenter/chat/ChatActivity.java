@@ -1,6 +1,5 @@
 package com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat;
 
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,10 +8,15 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.tencent.TIMElem;
+import com.tencent.TIMElemType;
+import com.tencent.TIMMessage;
+import com.tencent.TIMMessageListener;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
@@ -40,7 +44,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import imsdk.data.IMMyself;
 
 
 /**
@@ -100,55 +103,32 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                 .getSerializableExtra("chatUserInfo");
         loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
 
-        ImManager.getImManager().setCurrentChatId(userId);
-        ImManager.getImManager().setChatViewListener(messageListener);
+        ImManager.getImManager().getTIM().addMessageListener(list -> {
+            for (TIMMessage msg : list) {
+                String sederStr = msg.getSender();
+                long timestamp = msg.timestamp();
+                for (int i = 0; i < msg.getElementCount(); ++i) {
+                    TIMElem elem = msg.getElement(i);
+                    //获取当前元素的类型
+                    TIMElemType elemType = elem.getType();
+                    Log.d(TAG, "elem type: " + elemType.name());
+                    if (elemType == TIMElemType.Text) {
+                        dataMultiItems.add(new SelfCenterChatOtherData(new SelfCenterChatData(
+                                null
+                                , elemType.toString()
+                                , timestamp
+                        )));
+                        chatAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+            return false;
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(chatAdapter);
     }
 
-    IMMyself.OnReceivedMessageListener messageListener = new IMMyself.OnReceivedMessageListener() {
-        @Override
-        public void onReceivedText(String s, String s1, String s2, long l) {
-            long time=System.currentTimeMillis();
-            dataMultiItems.add(new SelfCenterChatOtherData(new SelfCenterChatData(
-                    null
-                    , s1
-                    , System.currentTimeMillis()
-            )));
-            chatAdapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onReceivedBitmap(String s, String s1, long l) {
-
-        }
-
-        @Override
-        public void onReceivedBitmapProgress(double v, String s, String s1, long l) {
-
-        }
-
-        @Override
-        public void onReceivedBitmapFinish(Uri uri, String s, String s1, long l) {
-
-        }
-
-        @Override
-        public void onReceivedAudio(String s, String s1, long l) {
-
-        }
-
-        @Override
-        public void onReceivedAudioProgress(double v, String s, String s1, long l) {
-
-        }
-
-        @Override
-        public void onReceivedAudioFinish(Uri uri, String s, String s1, long l) {
-
-        }
-    };
 
     @Override
     protected SPUtils sPUtils() {
@@ -171,8 +151,6 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
 
     @Override
     protected void onDestroy() {
-        ImManager.getImManager().setCurrentChatId(null);
-        ImManager.getImManager().setChatViewListener(null);
         super.onDestroy();
     }
 
@@ -196,8 +174,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                     , System.currentTimeMillis()
             )));
             chatAdapter.notifyDataSetChanged();
-
-            ImManager.getImManager().sendText(editText.getText().toString(), userId);
+            ImManager.getImManager().sendText(userId, editText.getText().toString());
         }
     }
 }

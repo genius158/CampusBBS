@@ -1,6 +1,5 @@
 package com.yan.campusbbs.module;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -31,6 +30,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.ui.CampusBBSFragment;
 import com.yan.campusbbs.module.campusbbs.ui.publish.PublishActivity;
@@ -47,6 +47,7 @@ import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionSelfDataSuccess;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
@@ -61,7 +62,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import imsdk.data.IMMyself;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -112,7 +112,6 @@ public class MainActivity extends BaseActivity {
     private ValueAnimator fabShowAnimation;
     private ValueAnimator fabHideAnimation;
 
-    private ImManager imManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,7 +155,6 @@ public class MainActivity extends BaseActivity {
 
         initNavigationBar();
         rxActionInit();
-        imManager = ImManager.install(getBaseContext(), toastUtils, spUtils,rxBus);
     }
 
 
@@ -211,8 +209,11 @@ public class MainActivity extends BaseActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(logInAction -> {
+                    ImManager.getImManager().getSin(
+                            ACache.get(getBaseContext()).getAsString(CacheConfig.USER_ACCOUNT)
+                            , ACache.get(getBaseContext()).getAsString(CacheConfig.USER_PASSWORD)
+                     );
 
-                    imManager.login();
                 }, Throwable::printStackTrace));
     }
 
@@ -321,7 +322,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        IMMyself.logout();
     }
 
     private BottomNavigationBar.OnTabSelectedListener getOnTabSelectedListener() {

@@ -2,22 +2,22 @@ package com.yan.campusbbs;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDexApplication;
 
 import com.yan.campusbbs.config.SharedPreferenceConfig;
+import com.yan.campusbbs.module.ImManager;
+import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
 import javax.inject.Inject;
 
-import cn.smssdk.SMSSDK;
-import imsdk.data.IMSDK;
-
-public class ApplicationCampusBBS extends Application {
+public class ApplicationCampusBBS extends MultiDexApplication {
     public static ApplicationCampusBBS campusBBS;
-
-    private static final String IM_APP_KEY="277a62910b19c827677b6613";
 
     @Inject
     SPUtils spUtils;
+    @Inject
+    RxBus rxBus;
 
     private ApplicationComponent applicationComponent;
 
@@ -28,16 +28,17 @@ public class ApplicationCampusBBS extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        init();
+
         campusBBS = this;
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule((getApplicationContext())))
                 .build();
         applicationComponent.inject(this);
+        init();
     }
 
     private void init() {
-        IMSDK.init(getApplicationContext(), IM_APP_KEY);
+        ImManager.init(getApplicationContext(),rxBus);
     }
 
     public ApplicationComponent getApplicationComponent() {

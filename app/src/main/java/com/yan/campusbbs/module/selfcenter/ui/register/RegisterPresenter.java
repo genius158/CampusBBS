@@ -38,6 +38,7 @@ public class RegisterPresenter implements RegisterContract.Presenter {
         ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(responseBody -> {
+                    view.success();
                 }, throwable -> {
                     throwable.printStackTrace();
                     view.netError();

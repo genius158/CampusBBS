@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterFriendAdapter;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterFriendData;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.friend.FriendContract;
@@ -30,8 +29,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import imsdk.data.IMSDK;
-
 
 /**
  * Created by yan on 2017/2/15.
@@ -79,18 +76,7 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(friendAdapter);
-        onDataChangedListener.onDataChanged();
-        ImManager.getImManager().setOnDataChangedListener(onDataChangedListener);
     }
-
-   private IMSDK.OnDataChangedListener onDataChangedListener = () -> {
-        ArrayList<String> stringUserIds = ImManager.getImManager().getUsersList();
-        for (String userId : stringUserIds) {
-            friendDatas.add(new SelfCenterFriendData(userId));
-        }
-        friendAdapter.notifyDataSetChanged();
-
-    };
 
     @Override
     protected SPUtils sPUtils() {
