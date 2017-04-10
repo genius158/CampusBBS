@@ -11,31 +11,24 @@ public class SelfCenterMessageData implements Serializable {
     private String identifier;
     private String nikeName;
     private String userId;
+    private String messageNotice;
     private long time;
+    private String headUrl;
 
-    public SelfCenterMessageData(String data, String identifier) {
+
+    public SelfCenterMessageData(String messageNotice, String data) {
         this.data = data;
-        this.identifier = identifier;
+        this.messageNotice = messageNotice;
     }
 
-    public SelfCenterMessageData(String data) {
-        this.data = data;
+    public String getMessageNotice() {
+        return messageNotice;
     }
 
     public long getTime() {
         return time;
     }
 
-    public SelfCenterMessageData setTime(long time) {
-        this.time = time;
-        return this;
-    }
-
-    public SelfCenterMessageData(String data, String userId, String nikeName) {
-        this.data = data;
-        this.nikeName = nikeName;
-        this.userId = userId;
-    }
 
     public String getIdentifier() {
         return identifier;
@@ -53,13 +46,22 @@ public class SelfCenterMessageData implements Serializable {
         return nikeName;
     }
 
-    public SelfCenterMessageData setNikeName(String nikeName) {
-        this.nikeName = nikeName;
+
+    public String getHeadUrl() {
+        return headUrl;
+    }
+
+    public SelfCenterMessageData setHeadUrl(String headUrl) {
+        this.headUrl = headUrl;
+        return this;
+    }
+    public SelfCenterMessageData setTime(long time) {
+        this.time = time;
         return this;
     }
 
-    public SelfCenterMessageData setData(String data) {
-        this.data = data;
+    public SelfCenterMessageData setNikeName(String nikeName) {
+        this.nikeName = nikeName;
         return this;
     }
 

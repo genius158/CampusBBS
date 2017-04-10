@@ -16,25 +16,24 @@ import android.widget.TextView;
 import com.tencent.TIMElem;
 import com.tencent.TIMElemType;
 import com.tencent.TIMMessage;
+import com.tencent.TIMMessageListener;
 import com.tencent.TIMTextElem;
 import com.tencent.TIMUserProfile;
+import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterChatAdapter;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatOtherData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatSelfData;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.chat.ChatContract;
-import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
@@ -45,7 +44,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 
 /**
  * Created by yan on 2017/2/15.
@@ -76,9 +74,11 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     @BindView(R.id.title)
     TextView title;
 
-    private LoginInfoData loginInfoData;
+    private TIMUserProfile selfProfile;
     private String identifier;
-    private TIMUserProfile timUserProfile;
+    private TIMUserProfile otherProfile;
+
+    private int identifierType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,35 +100,65 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
 
     private void init() {
         identifier = getIntent().getStringExtra("identifier");
-        loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
-
-        ImManager.getImManager().getTIM().addMessageListener(list -> {
-            for (TIMMessage msg : list) {
-                String sederStr = msg.getSender();
-                long timestamp = msg.timestamp();
-                for (int i = 0; i < msg.getElementCount(); ++i) {
-                    TIMElem elem = msg.getElement(i);
-                    //获取当前元素的类型
-                    TIMElemType elemType = elem.getType();
-                    Log.d(TAG, "elem type: " + elemType.name());
-                    if (elemType == TIMElemType.Text) {
-                        TIMTextElem textElem = (TIMTextElem) elem;
-                        dataMultiItems.add(new SelfCenterChatOtherData(new SelfCenterChatData(
-                                null
-                                , textElem.getText()
-                                , timestamp * 1000
-                        )));
-                        chatAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-            return false;
-        });
+        identifierType = getIntent().getIntExtra("identifierType", 0);
+        if (identifierType == 0) {
+            identifier = "86-" + identifier;
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(chatAdapter);
+
+        ImManager.getImManager().getSelfProfile(selfInfoCallBack);
+        ImManager.getImManager().getTIM().addMessageListener(messageListener);
+        ImManager.getImManager().getUsersProfile(otherInfoCallBack, identifier);
     }
 
+    private TIMValueCallBack<TIMUserProfile> selfInfoCallBack = new TIMValueCallBack<TIMUserProfile>() {
+        @Override
+        public void onError(int i, String s) {
+            Log.e(TAG, "onError: " + s);
+        }
+
+        @Override
+        public void onSuccess(TIMUserProfile timUserProfile) {
+            selfProfile = timUserProfile;
+        }
+    };
+
+    private TIMValueCallBack<List<TIMUserProfile>> otherInfoCallBack = new TIMValueCallBack<List<TIMUserProfile>>() {
+        @Override
+        public void onError(int i, String s) {
+            Log.e(TAG, "onError: " + s);
+        }
+
+        @Override
+        public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+            for (TIMUserProfile userProfile : timUserProfiles) {
+                otherProfile = userProfile;
+            }
+        }
+    };
+    private TIMMessageListener messageListener = list -> {
+        for (TIMMessage msg : list) {
+            long timestamp = msg.timestamp();
+            for (int i = 0; i < msg.getElementCount(); ++i) {
+                TIMElem elem = msg.getElement(i);
+                //获取当前元素的类型
+                TIMElemType elemType = elem.getType();
+                Log.d(TAG, "elem type: " + elemType.name());
+                if (elemType == TIMElemType.Text) {
+                    TIMTextElem textElem = (TIMTextElem) elem;
+                    dataMultiItems.add(new SelfCenterChatOtherData(new SelfCenterChatData(
+                            otherProfile.getFaceUrl()
+                            , textElem.getText()
+                            , timestamp * 1000
+                    )));
+                    chatAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+        return false;
+    };
 
     @Override
     protected SPUtils sPUtils() {
@@ -169,7 +199,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     private void sendMessage() {
         if (!TextUtils.isEmpty(editText.getText())) {
             dataMultiItems.add(new SelfCenterChatSelfData(new SelfCenterChatData(
-                    null
+                    selfProfile.getFaceUrl()
                     , editText.getText().toString()
                     , System.currentTimeMillis()
             )));

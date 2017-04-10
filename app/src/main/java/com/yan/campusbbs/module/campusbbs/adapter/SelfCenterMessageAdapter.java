@@ -30,15 +30,15 @@ public class SelfCenterMessageAdapter extends BaseQuickAdapter<SelfCenterMessage
     @Override
     protected void convert(BaseViewHolder holder, SelfCenterMessageData item) {
         holder.setText(R.id.tv_message, item.getData());
-        String messageName = "";
-        if (!TextUtils.isEmpty(item.getNikeName())) {
-            messageName = item.getUserId();
-        } else if (!TextUtils.isEmpty(item.getIdentifier())) {
-            messageName = item.getIdentifier();
-        } else if (!TextUtils.isEmpty(item.getUserId())) {
-            messageName = item.getUserId();
-        }
-        holder.setText(R.id.tv_message_name, messageName);
+//        String messageName = "";
+//        if (!TextUtils.isEmpty(item.getNikeName())) {
+//            messageName = item.getUserId();
+//        } else if (!TextUtils.isEmpty(item.getIdentifier())) {
+//            messageName = item.getIdentifier();
+//        } else if (!TextUtils.isEmpty(item.getUserId())) {
+//            messageName = item.getUserId();
+//        }
+        holder.setText(R.id.tv_message_name, item.getMessageNotice());
         holder.setText(R.id.tv_time, TimeUtils.getTime(item.getTime()));
 
         if (titleColor != -1) {

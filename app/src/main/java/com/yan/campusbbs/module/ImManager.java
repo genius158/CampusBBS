@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.tencent.TIMAddFriendRequest;
@@ -92,7 +93,7 @@ public class ImManager {
         //获取单聊会话
         TIMConversation conversation = TIMManager.getInstance().getConversation(
                 TIMConversationType.C2C,    //会话类型：单聊
-                "86-" + peer);
+                peer);
 
         //构造一条消息
         TIMMessage msg = new TIMMessage();
@@ -237,8 +238,7 @@ public class ImManager {
                             TIMSNSSystemElem systemElem = (TIMSNSSystemElem) elem;
                             TIMSNSSystemType timsnsSystemType = systemElem.getSubType();
                             if (timsnsSystemType == TIMSNSSystemType.TIM_SNS_SYSTEM_ADD_FRIEND) {
-                                notifyMessage("系统信息", sederStr + "添加你为好友");
-                                saveAsMessage(sederStr, systemElem, timestamp);
+                                saveAsMessage(sederStr, timestamp);
                             }
                         }
                     }
@@ -378,20 +378,87 @@ public class ImManager {
 
     }
 
-    private void saveAsMessage(String senderStr, TIMSNSSystemElem textElem, long timestamp) {
-        SelfCenterMessageCacheData messageCacheData;
 
-        if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO) == null) {
-            messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
-        } else {
-            messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO);
-        }
-        messageCacheData.getCenterMessageDatas()
-                .add(new SelfCenterMessageData(senderStr + "添加你为好友", senderStr)
-                        .setTime(timestamp * 1000));
-        ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
-        rxBus.post(new Action.ActionGetMessage());
+    private void addCompleteMessage(String senderStr, long timestamp) {
+        getUsersProfile(new TIMValueCallBack<List<TIMUserProfile>>() {
+            @Override
+            public void onError(int i, String s) {
+                Log.e(TAG, "onError: " + s);
+            }
 
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                for (TIMUserProfile userProfile : timUserProfiles) {
+
+                    SelfCenterMessageCacheData messageCacheData;
+
+                    if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO) == null) {
+                        messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
+                    } else {
+                        messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO);
+                    }
+                    String messageName;
+                    if (!TextUtils.isEmpty(userProfile.getNickName())) {
+                        messageName = userProfile.getNickName();
+                    } else {
+                        messageName = senderStr;
+                    }
+                    messageCacheData.getCenterMessageDatas()
+                            .add(new SelfCenterMessageData("新朋友", messageName + " 添加你为好友")
+                                    .setIdentifier(senderStr)
+                                    .setNikeName(userProfile.getNickName())
+                                    .setHeadUrl(userProfile.getFaceUrl())
+                                    .setTime(timestamp * 1000));
+                    ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
+                    rxBus.post(new Action.ActionGetMessage());
+
+                    notifyMessage("新朋友", messageName + "添加你为好友");
+
+                }
+            }
+        }, senderStr);
+    }
+
+
+    private void saveAsMessage(String senderStr, long timestamp) {
+        addCompleteMessage(senderStr, timestamp);
+    }
+
+    private void addCompleteMessage(String senderStr, TIMTextElem textElem, long timestamp) {
+        getUsersProfile(new TIMValueCallBack<List<TIMUserProfile>>() {
+            @Override
+            public void onError(int i, String s) {
+                Log.e(TAG, "onError: " + s);
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                for (TIMUserProfile userProfile : timUserProfiles) {
+
+                    SelfCenterMessageCacheData messageCacheData;
+
+                    if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO) == null) {
+                        messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
+                    } else {
+                        messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO);
+                    }
+                    String messageName;
+                    if (!TextUtils.isEmpty(userProfile.getNickName())) {
+                        messageName = userProfile.getNickName();
+                    } else {
+                        messageName = senderStr;
+                    }
+                    messageCacheData.getCenterMessageDatas()
+                            .add(new SelfCenterMessageData("陌生人", messageName + " 对你说: " + textElem.getText())
+                                    .setIdentifier(senderStr)
+                                    .setNikeName(userProfile.getNickName())
+                                    .setHeadUrl(userProfile.getFaceUrl())
+                                    .setTime(timestamp * 1000));
+                    ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
+                    rxBus.post(new Action.ActionGetMessage());
+                }
+            }
+        }, senderStr);
     }
 
     private void saveAsMessage(String senderStr, TIMTextElem textElem, long timestamp) {
@@ -407,19 +474,8 @@ public class ImManager {
                         return;
                     }
                 }
+                addCompleteMessage(senderStr, textElem, timestamp);
 
-                SelfCenterMessageCacheData messageCacheData;
-
-                if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO) == null) {
-                    messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
-                } else {
-                    messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO);
-                }
-                messageCacheData.getCenterMessageDatas()
-                        .add(new SelfCenterMessageData(textElem.getText(), senderStr)
-                                .setTime(timestamp * 1000));
-                ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
-                rxBus.post(new Action.ActionGetMessage());
             }
         });
     }
@@ -748,6 +804,17 @@ public class ImManager {
                 }
             }
         });
+    }
+
+
+    public void getUsersProfile(TIMValueCallBack<List<TIMUserProfile>> timValueCallBack, String... userIds) {
+        //待获取用户资料的用户列表
+        List<String> users = new ArrayList<String>();
+        for (String userId : userIds) {
+            users.add(userId);
+        }
+        //获取用户资料
+        TIMFriendshipManager.getInstance().getUsersProfile(users, timValueCallBack);
     }
 
 
