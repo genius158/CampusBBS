@@ -10,8 +10,8 @@
         style="@style/ImageBase.FocusCrop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:background="?selectableItemBackgroundBorderless" />
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -45,8 +45,8 @@
             style="@style/ImageBase.Circle.Border"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:clickable="true"
-            android:background="?selectableItemBackgroundBorderless" />
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -86,9 +86,11 @@
         android:background="@color/crFFFFFF"
         android:gravity="center_vertical"
         android:hint="@string/say_some_things"
+        android:imeOptions="actionDone"
         android:orientation="vertical"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:singleLine="true"
         android:textColor="@color/cr3C3B41"
         android:textSize="@dimen/size_sp_16" />
 

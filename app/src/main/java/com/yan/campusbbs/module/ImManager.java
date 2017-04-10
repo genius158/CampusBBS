@@ -34,6 +34,10 @@ import com.tencent.TIMUserProfile;
 import com.tencent.TIMUserStatusListener;
 import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.config.CacheConfig;
+import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageCacheData;
+import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
@@ -158,11 +162,11 @@ public class ImManager {
                     @Override
                     public void onSuccess() {//登录成功
                         Log.e(TAG, "login success");
+                        rxBus.post(new Action.ActionImLogin());
                     }
 
                     @Override
                     public void onError(int code, String desc) {//登录失败
-
                         //错误码code和错误描述desc，可用于定位请求失败原因
                         //错误码code含义请参见错误码表
                         Log.e(TAG, "login failed. code: " + code + " errmsg: " + desc);
@@ -210,6 +214,7 @@ public class ImManager {
             public boolean onNewMessages(List<TIMMessage> list) {//收到新消息
                 for (TIMMessage msg : list) {
                     String sederStr = msg.getSender();
+
                     long timestamp = msg.timestamp();
                     for (int i = 0; i < msg.getElementCount(); ++i) {
                         TIMElem elem = msg.getElement(i);
@@ -220,6 +225,9 @@ public class ImManager {
                             //处理文本消息
                             TIMTextElem textElem = (TIMTextElem) elem;
                             notifyMessage(sederStr, textElem.getText());
+
+                            saveAsMessage(sederStr, textElem, timestamp);
+
                         }
                     }
                 }
@@ -358,6 +366,36 @@ public class ImManager {
             }
         });
 
+    }
+
+    private void saveAsMessage(String senderStr, TIMTextElem textElem, long timestamp) {
+        TIMFriendshipManager.getInstance().getFriendList(new TIMValueCallBack<List<TIMUserProfile>>() {
+            @Override
+            public void onError(int code, String desc) {
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> result) {
+                for (TIMUserProfile res : result) {
+                    if (res.getIdentifier().equals(senderStr)) {
+                        return;
+                    }
+                }
+
+                SelfCenterMessageCacheData messageCacheData;
+
+                if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO) == null) {
+                    messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
+                } else {
+                    messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO);
+                }
+                messageCacheData.getCenterMessageDatas()
+                        .add(new SelfCenterMessageData(senderStr, textElem.getText())
+                                .setTime(timestamp * 1000));
+                ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
+                rxBus.post(new Action.ActionGetMessage());
+            }
+        });
     }
 
     public void notifyMessage(String senderStr, String contentStr) {
@@ -638,23 +676,24 @@ public class ImManager {
         });
     }
 
-    public void getSelfProfile() {
+    public void getSelfProfile(TIMValueCallBack<TIMUserProfile> userProfileTIMValueCallBack) {
         //获取自己的资料
-        TIMFriendshipManager.getInstance().getSelfProfile(new TIMValueCallBack<TIMUserProfile>() {
-            @Override
-            public void onError(int code, String desc) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
-                Log.e(TAG, "getSelfProfile failed: " + code + " desc");
-            }
-
-            @Override
-            public void onSuccess(TIMUserProfile result) {
-                Log.e(TAG, "getSelfProfile success");
-                Log.e(TAG, "identifier: " + result.getIdentifier() + " nickName: " + result.getNickName()
-                        + " remark: " + result.getRemark() + " allow: " + result.getAllowType());
-            }
-        });
+        TIMFriendshipManager.getInstance().getSelfProfile(userProfileTIMValueCallBack);
+//        new TIMValueCallBack<TIMUserProfile>() {
+//            @Override
+//            public void onError(int code, String desc) {
+//                //错误码code和错误描述desc，可用于定位请求失败原因
+//                //错误码code列表请参见错误码表
+//                Log.e(TAG, "getSelfProfile failed: " + code + " desc");
+//            }
+//
+//            @Override
+//            public void onSuccess(TIMUserProfile result) {
+//                Log.e(TAG, "getSelfProfile success");
+//                Log.e(TAG, "identifier: " + result.getIdentifier() + " nickName: " + result.getNickName()
+//                        + " remark: " + result.getRemark() + " allow: " + result.getAllowType());
+//            }
+//        });
     }
 
 
@@ -701,6 +740,11 @@ public class ImManager {
                 Log.e(TAG, "setNickName success");
             }
         });
+    }
+
+    public void setSelfSignature(String signature, TIMCallBack timCallBack) {
+
+        TIMFriendshipManager.getInstance().setSelfSignature(signature, timCallBack);
     }
 
     public void setNikeName(String nikeName) {
@@ -751,7 +795,6 @@ public class ImManager {
         });
     }
 
-
     public void getFriendList() {
         //获取好友列表
         TIMFriendshipManager.getInstance().getFriendList(new TIMValueCallBack<List<TIMUserProfile>>() {
@@ -789,12 +832,8 @@ public class ImManager {
             public void onSuccess(TIMFriendResult timFriendResult) {
                 Log.e(TAG, "onSuccess: " + timFriendResult);
             }
-
-
         });
-
     }
-
 
     /**
      * action
@@ -826,6 +865,14 @@ public class ImManager {
                 this.state = state;
                 this.imUserName = imUserName;
             }
+        }
+
+        public static class ActionGetMessage {
+
+        }
+
+        public static class ActionImLogin {
+
         }
     }
 

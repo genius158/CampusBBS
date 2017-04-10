@@ -139,7 +139,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                         .getApplication()).getApplicationComponent())
                 .appBarHelperModule(new AppBarHelperModule(appBar))
                 .settingModule(new SettingModule(this, compositeDisposable))
-                .selfCenterModule(new SelfCenterModule(this, container))
+                .selfCenterModule(new SelfCenterModule(this, container, compositeDisposable))
                 .build().inject(this);
     }
 
@@ -293,13 +293,13 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         }
     }
 
-    private  boolean isPostSelfData;
+    private boolean isPostSelfData;
 
     @Override
     public void dataSuccess(List<DataMultiItem> dataMultiItems) {
         swipeRefreshLayout.setRefreshing(false);
-        if (!isPostSelfData){
-            isPostSelfData=true;
+        if (!isPostSelfData) {
+            isPostSelfData = true;
             rxBus.post(new ActionSelfDataSuccess());
         }
         this.dataMultiItems.clear();

@@ -2,12 +2,14 @@ package com.yan.campusbbs.module.campusbbs.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
 import com.yan.campusbbs.module.setting.SkinControl;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.TimeUtils;
 
 import java.util.List;
 
@@ -26,7 +28,10 @@ public class SelfCenterMessageAdapter extends BaseQuickAdapter<SelfCenterMessage
 
     @Override
     protected void convert(BaseViewHolder holder, SelfCenterMessageData item) {
-        holder.setText(R.id.tv_message, item.data);
+        holder.setText(R.id.tv_message, item.getData());
+        holder.setText(R.id.tv_message_name, item.getUserId());
+        holder.setText(R.id.tv_time, TimeUtils.getTime(item.getTime()));
+
         if (titleColor != -1) {
             holder.setTextColor(R.id.tv_message_name
                     , ContextCompat.getColor(context, titleColor)

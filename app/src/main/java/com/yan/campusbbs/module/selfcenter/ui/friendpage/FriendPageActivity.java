@@ -105,7 +105,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
         DaggerSelfCenterOtherComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getApplication()).getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
-                .selfCenterModule(new SelfCenterModule(this, container))
+                .selfCenterModule(new SelfCenterModule(this, container,compositeDisposable ))
                 .build().inject(this);
 
     }

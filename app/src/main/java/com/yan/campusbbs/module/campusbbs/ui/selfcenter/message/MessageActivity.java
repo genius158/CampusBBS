@@ -12,13 +12,18 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.config.CacheConfig;
+import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterMessageAdapter;
+import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageCacheData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.message.MessageContract;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.ACache;
+import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
 import java.util.List;
@@ -28,6 +33,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -40,6 +46,8 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
     SettingHelper changeSkinHelper;
     @Inject
     SPUtils spUtils;
+    @Inject
+    RxBus rxBus;
     @Inject
     ImageControl imageControl;
     @Inject
@@ -62,7 +70,16 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
         ButterKnife.bind(this);
         daggerInject();
         imageControl.frescoInit();
+        initRxAction();
         init();
+    }
+
+    private void initRxAction() {
+        addDisposable(rxBus.getEvent(ImManager.Action.ActionGetMessage.class)
+                .subscribeOn(Schedulers.io())
+                .subscribe(actionGetMessage -> {
+                    getMessage();
+                }, Throwable::printStackTrace));
     }
 
     private void daggerInject() {
@@ -76,12 +93,15 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(messageAdapter);
-        messageDatas.add(new SelfCenterMessageData("点赞了你的说说    阿三的生活"));
-        messageDatas.add(new SelfCenterMessageData("点赞了你的说说    阿三的生活"));
-        messageDatas.add(new SelfCenterMessageData("点赞了你的说说    阿三的生活"));
-        messageDatas.add(new SelfCenterMessageData("点赞了你的说说    阿三的生活"));
-        messageDatas.add(new SelfCenterMessageData("点赞了你的说说    阿三的生活"));
-        messageAdapter.notifyDataSetChanged();
+        getMessage();
+    }
+
+    private void getMessage() {
+        if (ACache.get(getBaseContext()).getAsObject(CacheConfig.MESSAGE_INFO) != null) {
+            SelfCenterMessageCacheData messageCacheData = (SelfCenterMessageCacheData) ACache.get(getBaseContext()).getAsObject(CacheConfig.MESSAGE_INFO);
+            messageDatas.addAll(messageCacheData.getCenterMessageDatas());
+            messageAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

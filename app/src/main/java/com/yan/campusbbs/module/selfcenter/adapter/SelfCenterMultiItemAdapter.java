@@ -2,12 +2,20 @@ package com.yan.campusbbs.module.selfcenter.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.tencent.TIMCallBack;
+import com.tencent.TIMUserProfile;
+import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.SelfCenterActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.ChatActivity;
 import com.yan.campusbbs.module.common.pop.PopPhotoView;
@@ -16,10 +24,15 @@ import com.yan.campusbbs.module.selfcenter.data.MainPageData;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.FrescoUtils;
+import com.yan.campusbbs.util.RxBus;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yan on 2017/2/7.
@@ -37,12 +50,18 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
     private PopPhotoView popPhotoView;
 
+    private TextView tvSign;
+    private String signStr;
+
+    private CompositeDisposable compositeDisposable;
+    private RxBus rxBus;
+
     public void setPopPhotoView(PopPhotoView popPhotoView) {
         this.popPhotoView = popPhotoView;
     }
 
     @Inject
-    public SelfCenterMultiItemAdapter(List<DataMultiItem> data, Context context) {
+    public SelfCenterMultiItemAdapter(List<DataMultiItem> data, Context context, CompositeDisposable compositeDisposable, RxBus rxBus) {
         super(data);
         addItemType(ITEM_TYPE_SELF_HEADER, R.layout.fragment_self_center_bg_header_sign);
         addItemType(ITEM_TYPE_OTHER_HEADER, R.layout.fragment_self_center_other_bg_header_sign);
@@ -50,6 +69,19 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
         addItemType(ITEM_TYPE_FRIEND_TITLE, R.layout.fragment_self_center_friend_dynamic_title);
         addItemType(ITEM_TYPE_FRIEND_DYNAMIC, R.layout.fragment_self_center_friend_dynamic_item);
         this.context = context;
+        this.rxBus = rxBus;
+        this.compositeDisposable = compositeDisposable;
+
+        initRxAction();
+    }
+
+    private void initRxAction() {
+        compositeDisposable.add(rxBus.getEvent(ImManager.Action.ActionImLogin.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(actionImLogin -> {
+                    setSign();
+                }));
     }
 
     @Override
@@ -63,20 +95,28 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     holder.setText(R.id.tv_nike_name, loginInfoData.getData().getUserInfo().getUserNickname());
                     holder.setText(R.id.tv_plus, "等级:" + loginInfoData.getData().getUserInfo().getUserRank());
 
+                    tvSign = holder.getView(R.id.tv_sign);
+                    if (!TextUtils.isEmpty(signStr)) {
+                        tvSign.setText(signStr);
+                    }
+
                     FrescoUtils.display(holder.getView(R.id.self_part_one_header)
                             , String.valueOf(multiItem.data));
                 }
                 selfImg.setOnClickListener(v -> {
-                if (popPhotoView != null) {
-                    popPhotoView.show();
-                    popPhotoView.setImageUrl(String.valueOf(multiItem.data));
-                }
-            });
+                    if (popPhotoView != null) {
+                        popPhotoView.show();
+                        popPhotoView.setImageUrl(String.valueOf(multiItem.data));
+                    }
+                });
                 holder.getView(R.id.self_part_one_header)
                         .setOnClickListener(v -> {
                             context.startActivity(new Intent(context, SelfCenterActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                         });
+
+                ((EditText) holder.getView(R.id.fragment_self_center_sign)).setOnEditorActionListener(onEditorActionListener);
+
                 break;
             case ITEM_TYPE_OTHER_HEADER:
                 SimpleDraweeView otherSDV = holder.getView(R.id.other_part_one_img);
@@ -124,6 +164,8 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                         popPhotoView.setImageUrl(selfBean.getUserHeadImg());
                     }
                 });
+
+
                 break;
             case ITEM_TYPE_FRIEND_DYNAMIC:
                 MainPageData.DataBean.TopicInfoListBean.TopicListBean otherBean =
@@ -153,4 +195,44 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
         }
     }
 
+    private void setSign() {
+        ImManager.getImManager().getSelfProfile(
+                new TIMValueCallBack<TIMUserProfile>() {
+                    @Override
+                    public void onError(int code, String desc) {
+                        Log.e(TAG, "getSelfProfile failed: " + code + " desc");
+                    }
+
+                    @Override
+                    public void onSuccess(TIMUserProfile result) {
+                        signStr = result.getSelfSignature();
+                        if (tvSign != null) {
+                            tvSign.setText(signStr);
+                        }
+                    }
+                }
+        );
+    }
+
+    private TextView.OnEditorActionListener onEditorActionListener = (v, actionId, event) -> {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            if (!TextUtils.isEmpty(v.getText())) {
+                signStr = v.getText().toString();
+                ImManager.getImManager().setSelfSignature(v.getText().toString(), new TIMCallBack() {
+                    @Override
+                    public void onError(int i, String s) {
+                        Log.e(TAG, "onError: ");
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        if (tvSign != null) {
+                            tvSign.setText(signStr);
+                        }
+                    }
+                });
+            }
+        }
+        return false;
+    };
 }

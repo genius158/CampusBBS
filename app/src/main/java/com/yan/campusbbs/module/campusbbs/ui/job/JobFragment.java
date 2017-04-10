@@ -62,8 +62,6 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
     @Inject
     ToastUtils toastUtils;
     @Inject
-    SelfCenterMultiItemAdapter multiItemAdapter;
-    @Inject
     AnimationUtils animationUtils;
     @BindView(R.id.pager_bar_more_layout)
     FrameLayout pagerBarMoreLayout;
@@ -119,7 +117,6 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
 
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(multiItemAdapter);
     }
 
     public static JobFragment newInstance() {
