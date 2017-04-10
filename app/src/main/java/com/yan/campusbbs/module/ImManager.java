@@ -31,7 +31,6 @@ import com.tencent.TIMMessageListener;
 import com.tencent.TIMSNSChangeInfo;
 import com.tencent.TIMSNSSystemElem;
 import com.tencent.TIMSNSSystemType;
-import com.tencent.TIMSnapshot;
 import com.tencent.TIMTextElem;
 import com.tencent.TIMUser;
 import com.tencent.TIMUserProfile;
@@ -39,6 +38,10 @@ import com.tencent.TIMUserStatusListener;
 import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.CacheConfig;
+import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatCacheData;
+import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatData;
+import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatOtherData;
+import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatSelfData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageCacheData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
 import com.yan.campusbbs.util.ACache;
@@ -88,7 +91,7 @@ public class ImManager {
         return imManager;
     }
 
-    public void sendText(String peer, String text) {
+    public void sendText(String peer, String text, TIMUserProfile selfProfile) {
 
         //获取单聊会话
         TIMConversation conversation = TIMManager.getInstance().getConversation(
@@ -120,6 +123,21 @@ public class ImManager {
             @Override
             public void onSuccess(TIMMessage msg) {//发送消息成功
                 Log.e(TAG, "SendMsg ok");
+                SelfCenterChatCacheData centerChatCacheData;
+
+                if (ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + peer) == null) {
+                    centerChatCacheData = new SelfCenterChatCacheData(new ArrayList<>());
+                } else {
+                    centerChatCacheData = (SelfCenterChatCacheData) ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + peer);
+                }
+                centerChatCacheData.getChatData()
+                        .add(new SelfCenterChatSelfData(new SelfCenterChatData(
+                                selfProfile.getFaceUrl()
+                                , text
+                                , System.currentTimeMillis()
+                        )));
+                ACache.get(context).put(CacheConfig.CHAT_DATA + peer, centerChatCacheData);
+                rxBus.post(new Action.ActionGetChatMessage(peer));
             }
         });
     }
@@ -229,8 +247,6 @@ public class ImManager {
                         if (elemType == TIMElemType.Text) {
                             //处理文本消息
                             TIMTextElem textElem = (TIMTextElem) elem;
-                            notifyMessage(sederStr, textElem.getText());
-
                             saveAsMessage(sederStr, textElem, timestamp);
                         }
 
@@ -456,6 +472,24 @@ public class ImManager {
                                     .setTime(timestamp * 1000));
                     ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
                     rxBus.post(new Action.ActionGetMessage());
+
+                //--------------------------------------------------------------------------
+
+                    SelfCenterChatCacheData centerChatCacheData;
+
+                    if (ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + senderStr) == null) {
+                        centerChatCacheData = new SelfCenterChatCacheData(new ArrayList<>());
+                    } else {
+                        centerChatCacheData = (SelfCenterChatCacheData) ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + senderStr);
+                    }
+                    centerChatCacheData.getChatData()
+                            .add(new SelfCenterChatSelfData(new SelfCenterChatData(
+                                    userProfile.getFaceUrl()
+                                    , textElem.getText()
+                                    , timestamp * 1000
+                            )));
+                    ACache.get(context).put(CacheConfig.CHAT_DATA + senderStr, centerChatCacheData);
+                    rxBus.post(new Action.ActionGetChatMessage(senderStr));
                 }
             }
         }, senderStr);
@@ -471,6 +505,7 @@ public class ImManager {
             public void onSuccess(List<TIMUserProfile> result) {
                 for (TIMUserProfile res : result) {
                     if (res.getIdentifier().equals(senderStr)) {
+                        addChatData(senderStr, textElem, timestamp);
                         return;
                     }
                 }
@@ -478,6 +513,45 @@ public class ImManager {
 
             }
         });
+    }
+
+    private void addChatData(String senderStr, TIMTextElem textElem, long timestamp) {
+        getUsersProfile(new TIMValueCallBack<List<TIMUserProfile>>() {
+            @Override
+            public void onError(int i, String s) {
+                Log.e(TAG, "onError: " + s);
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                for (TIMUserProfile userProfile : timUserProfiles) {
+                    SelfCenterChatCacheData centerChatCacheData;
+
+                    if (ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + senderStr) == null) {
+                        centerChatCacheData = new SelfCenterChatCacheData(new ArrayList<>());
+                    } else {
+                        centerChatCacheData = (SelfCenterChatCacheData) ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + senderStr);
+                    }
+                    centerChatCacheData.getChatData()
+                            .add(new SelfCenterChatOtherData(new SelfCenterChatData(
+                                    userProfile.getFaceUrl()
+                                    , textElem.getText()
+                                    , timestamp * 1000
+                            )));
+                    ACache.get(context).put(CacheConfig.CHAT_DATA + senderStr, centerChatCacheData);
+                    rxBus.post(new Action.ActionGetChatMessage(senderStr));
+
+                    String other;
+                    if (!TextUtils.isEmpty(userProfile.getNickName())) {
+                        other = userProfile.getNickName();
+                    } else {
+                        other = userProfile.getIdentifier();
+                    }
+                    notifyMessage(other, textElem.getText());
+
+                }
+            }
+        }, senderStr);
     }
 
     public void notifyMessage(String senderStr, String contentStr) {
@@ -968,6 +1042,14 @@ public class ImManager {
 
         public static class ActionGetMessage {
 
+        }
+
+        public static class ActionGetChatMessage {
+            public String identifer;
+
+            public ActionGetChatMessage(String identifer) {
+                this.identifer = identifer;
+            }
         }
 
         public static class ActionImLogin {

@@ -13,30 +13,27 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.tencent.TIMElem;
-import com.tencent.TIMElemType;
-import com.tencent.TIMMessage;
-import com.tencent.TIMMessageListener;
-import com.tencent.TIMTextElem;
 import com.tencent.TIMUserProfile;
 import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterChatAdapter;
-import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatData;
-import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatOtherData;
-import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatSelfData;
+import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatCacheData;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.chat.ChatContract;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.ACache;
+import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,6 +41,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yan on 2017/2/15.
@@ -60,6 +59,8 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     ImageControl imageControl;
     @Inject
     SelfCenterChatAdapter chatAdapter;
+    @Inject
+    RxBus rxBus;
     @Inject
     List<DataMultiItem> dataMultiItems;
     @Inject
@@ -88,6 +89,24 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         daggerInject();
         imageControl.frescoInit();
         init();
+        initRxAction();
+    }
+
+    private void initRxAction() {
+        addDisposable(rxBus.getEvent(ImManager.Action.ActionGetChatMessage.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(actionGetChatMessage -> {
+                    if (actionGetChatMessage.identifer.equals(identifier)) {
+                        SelfCenterChatCacheData selfCenterChatCacheData = (SelfCenterChatCacheData)
+                                ACache.get(getBaseContext())
+                                        .getAsObject(CacheConfig.CHAT_DATA + identifier);
+                        dataMultiItems.clear();
+                        dataMultiItems.addAll(selfCenterChatCacheData.getChatData());
+                        Collections.reverse(dataMultiItems);
+                        chatAdapter.notifyDataSetChanged();
+                    }
+                }));
     }
 
     private void daggerInject() {
@@ -109,8 +128,17 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         recyclerView.setAdapter(chatAdapter);
 
         ImManager.getImManager().getSelfProfile(selfInfoCallBack);
-        ImManager.getImManager().getTIM().addMessageListener(messageListener);
         ImManager.getImManager().getUsersProfile(otherInfoCallBack, identifier);
+
+        if (ACache.get(getBaseContext())
+                .getAsObject(CacheConfig.CHAT_DATA + identifier) != null) {
+            SelfCenterChatCacheData selfCenterChatCacheData = (SelfCenterChatCacheData)
+                    ACache.get(getBaseContext())
+                            .getAsObject(CacheConfig.CHAT_DATA + identifier);
+            dataMultiItems.addAll(selfCenterChatCacheData.getChatData());
+            Collections.reverse(dataMultiItems);
+            chatAdapter.notifyDataSetChanged();
+        }
     }
 
     private TIMValueCallBack<TIMUserProfile> selfInfoCallBack = new TIMValueCallBack<TIMUserProfile>() {
@@ -135,29 +163,15 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         public void onSuccess(List<TIMUserProfile> timUserProfiles) {
             for (TIMUserProfile userProfile : timUserProfiles) {
                 otherProfile = userProfile;
-            }
-        }
-    };
-    private TIMMessageListener messageListener = list -> {
-        for (TIMMessage msg : list) {
-            long timestamp = msg.timestamp();
-            for (int i = 0; i < msg.getElementCount(); ++i) {
-                TIMElem elem = msg.getElement(i);
-                //获取当前元素的类型
-                TIMElemType elemType = elem.getType();
-                Log.d(TAG, "elem type: " + elemType.name());
-                if (elemType == TIMElemType.Text) {
-                    TIMTextElem textElem = (TIMTextElem) elem;
-                    dataMultiItems.add(new SelfCenterChatOtherData(new SelfCenterChatData(
-                            otherProfile.getFaceUrl()
-                            , textElem.getText()
-                            , timestamp * 1000
-                    )));
-                    chatAdapter.notifyDataSetChanged();
+                String other;
+                if (!TextUtils.isEmpty(otherProfile.getNickName())) {
+                    other = otherProfile.getNickName();
+                } else {
+                    other = otherProfile.getIdentifier();
                 }
+                title.setText("与 " + other + " 聊天中...");
             }
         }
-        return false;
     };
 
     @Override
@@ -198,13 +212,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
 
     private void sendMessage() {
         if (!TextUtils.isEmpty(editText.getText())) {
-            dataMultiItems.add(new SelfCenterChatSelfData(new SelfCenterChatData(
-                    selfProfile.getFaceUrl()
-                    , editText.getText().toString()
-                    , System.currentTimeMillis()
-            )));
-            chatAdapter.notifyDataSetChanged();
-            ImManager.getImManager().sendText(identifier, editText.getText().toString());
+            ImManager.getImManager().sendText(identifier, editText.getText().toString(), selfProfile);
         }
     }
 }

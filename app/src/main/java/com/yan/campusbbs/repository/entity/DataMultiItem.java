@@ -3,11 +3,13 @@ package com.yan.campusbbs.repository.entity;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.yan.campusbbs.util.sort.Sort;
 
+import java.io.Serializable;
+
 /**
  * Created by yan on 2017/2/10.
  */
 
-public class DataMultiItem<T> implements MultiItemEntity ,Sort {
+public class DataMultiItem<T> implements MultiItemEntity ,Sort ,Serializable{
     public T data;
     public int type;
 
