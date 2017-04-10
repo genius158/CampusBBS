@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
+            android:lines="1"
             android:text="阿三"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -26,6 +27,7 @@
             android:id="@+id/tv_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minWidth="200dp"
             android:layout_weight="1"
             android:lines="1"
             android:text="点赞了你的    日志-我的生活" />
@@ -35,8 +37,8 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="12sp"
-            android:text="sdfsdf" />
+            android:text="sdfsdf"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
