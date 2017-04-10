@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/ijkplayer/ijkplayer.iml" filepath="$PROJECT_DIR$/ijkplayer/ijkplayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/imsdk/imsdk.iml" filepath="$PROJECT_DIR$/imsdk/imsdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imsdk/imsdk.iml" filepath="$PROJECT_DIR$/imsdk/imsdk.iml" />
     </modules>
   </component>
 </project>

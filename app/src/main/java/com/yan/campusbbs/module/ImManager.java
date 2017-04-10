@@ -14,6 +14,7 @@ import com.tencent.TIMConversation;
 import com.tencent.TIMConversationType;
 import com.tencent.TIMElem;
 import com.tencent.TIMElemType;
+import com.tencent.TIMFriendshipManager;
 import com.tencent.TIMLogLevel;
 import com.tencent.TIMLogListener;
 import com.tencent.TIMManager;
@@ -21,11 +22,13 @@ import com.tencent.TIMMessage;
 import com.tencent.TIMMessageListener;
 import com.tencent.TIMTextElem;
 import com.tencent.TIMUser;
+import com.tencent.TIMUserProfile;
 import com.tencent.TIMUserStatusListener;
 import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.util.RxBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tencent.tls.platform.TLSAccountHelper;
@@ -119,7 +122,7 @@ public class ImManager {
 
                     @Override
                     public void onSuccess() {//登录成功
-                        Log.e(TAG, "init succ");
+                        Log.e(TAG, "init success");
                     }
 
                     @Override
@@ -146,7 +149,7 @@ public class ImManager {
 
                     @Override
                     public void onSuccess() {//登录成功
-                        Log.e(TAG, "login succ");
+                        Log.e(TAG, "login success");
                     }
 
                     @Override
@@ -242,7 +245,7 @@ public class ImManager {
         //[NOTE] 请注意level定义在TIMManager中，如TIMManager.ERROR等， 并不同于Android系统定义
         getTIM().setLogListener(new TIMLogListener() {
             @Override
-            public void log(int level, String tag, String msg) {
+            public void log(int level, String TAG, String msg) {
                 //可以通过此回调将sdk的log输出到自己的日志系统中
             }
         });
@@ -523,7 +526,108 @@ public class ImManager {
 //        }
 //    };
 
+    public void setHeader(String headUrl) {
+        TIMFriendshipManager.getInstance().setFaceUrl(headUrl, new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code列表请参见错误码表
+                Log.e(TAG, "setFaceUrl failed: " + code + " desc" + desc);
+            }
 
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "setFaceUrl success");
+            }
+        });
+    }
+
+    public void getSelfProfile(){
+        //获取自己的资料
+        TIMFriendshipManager.getInstance().getSelfProfile(new TIMValueCallBack<TIMUserProfile>(){
+            @Override
+            public void onError(int code, String desc){
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code列表请参见错误码表
+                Log.e(TAG, "getSelfProfile failed: " + code + " desc");
+            }
+
+            @Override
+            public void onSuccess(TIMUserProfile result){
+                Log.e(TAG, "getSelfProfile success");
+                Log.e(TAG, "identifier: " + result.getIdentifier() + " nickName: " + result.getNickName()
+                        + " remark: " + result.getRemark() + " allow: " + result.getAllowType());
+            }
+        });
+    }
+
+
+
+    public void getUsersProfile(String... userIds){
+        //待获取用户资料的用户列表
+        List<String> users = new ArrayList<String>();
+        for (String userId: userIds){
+            users.add(userId);
+        }
+
+        //获取用户资料
+        TIMFriendshipManager.getInstance().getUsersProfile(users, new TIMValueCallBack<List<TIMUserProfile>>(){
+            @Override
+            public void onError(int code, String desc){
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code列表请参见错误码表
+                Log.e(TAG, "getUsersProfile failed: " + code + " desc");
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> result){
+                Log.e(TAG, "getUsersProfile success");
+                for(TIMUserProfile res : result){
+                    Log.e(TAG, "identifier: " + res.getIdentifier() + " nickName: " + res.getNickName()
+                            + " remark: " + res.getRemark());
+                }
+            }
+        });
+    }
+
+
+    public void setSelfSignature(String signature) {
+
+        TIMFriendshipManager.getInstance().setSelfSignature(signature, new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code列表请参见错误码表
+                Log.e(TAG, "setNickName failed: " + " desc");
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "setNickName success");
+            }
+        });
+    }
+
+    public void setNikeName(String nikeName) {
+        //设置新昵称为cat
+        TIMFriendshipManager.getInstance().setNickName(nikeName, new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code列表请参见错误码表
+                Log.e(TAG, "setNickName failed: " + code + " desc");
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "setNickName success");
+            }
+        });
+    }
+
+    /**
+     * action
+     */
     public static class Action {
         public static class ActionStateGetMessage {
             public String code;
