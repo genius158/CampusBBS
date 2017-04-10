@@ -16,8 +16,8 @@ import android.widget.TextView;
 import com.tencent.TIMElem;
 import com.tencent.TIMElemType;
 import com.tencent.TIMMessage;
-import com.tencent.TIMMessageListener;
 import com.tencent.TIMTextElem;
+import com.tencent.TIMUserProfile;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
@@ -76,9 +76,9 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     @BindView(R.id.title)
     TextView title;
 
-    private LoginInfoData.DataBean.UserInfoBean chatUserInfo;
     private LoginInfoData loginInfoData;
-    private String userId;
+    private String identifier;
+    private TIMUserProfile timUserProfile;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,9 +99,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     }
 
     private void init() {
-        userId = getIntent().getStringExtra("userId");
-        chatUserInfo = (LoginInfoData.DataBean.UserInfoBean) getIntent()
-                .getSerializableExtra("chatUserInfo");
+        identifier = getIntent().getStringExtra("identifier");
         loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
 
         ImManager.getImManager().getTIM().addMessageListener(list -> {
@@ -118,7 +116,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                         dataMultiItems.add(new SelfCenterChatOtherData(new SelfCenterChatData(
                                 null
                                 , textElem.getText()
-                                , timestamp*1000
+                                , timestamp * 1000
                         )));
                         chatAdapter.notifyDataSetChanged();
                     }
@@ -176,7 +174,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                     , System.currentTimeMillis()
             )));
             chatAdapter.notifyDataSetChanged();
-            ImManager.getImManager().sendText(userId, editText.getText().toString());
+            ImManager.getImManager().sendText(identifier, editText.getText().toString());
         }
     }
 }

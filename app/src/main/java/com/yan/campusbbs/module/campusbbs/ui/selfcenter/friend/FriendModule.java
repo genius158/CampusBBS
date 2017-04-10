@@ -6,8 +6,6 @@ import android.content.Context;
 
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterFriendAdapter;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterFriendData;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.friend.FriendContract;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.friend.FriendPresenter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.friend;
+package com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend;
 
 import android.content.Context;
 

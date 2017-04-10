@@ -132,8 +132,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                             .setOnClickListener(v -> {
                                 context.startActivity(new Intent(context, ChatActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                        .putExtra("userId", loginInfoData.getData().getUserInfo().getUserAccount())
-                                        .putExtra("chatUserInfo", loginInfoData.getData().getUserInfo())
+                                        .putExtra("identifier", loginInfoData.getData().getUserInfo().getUserAccount())
                                 );
                             });
                 }

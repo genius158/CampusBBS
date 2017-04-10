@@ -2,6 +2,7 @@ package com.yan.campusbbs.module.campusbbs.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -29,7 +30,15 @@ public class SelfCenterMessageAdapter extends BaseQuickAdapter<SelfCenterMessage
     @Override
     protected void convert(BaseViewHolder holder, SelfCenterMessageData item) {
         holder.setText(R.id.tv_message, item.getData());
-        holder.setText(R.id.tv_message_name, item.getUserId());
+        String messageName = "";
+        if (!TextUtils.isEmpty(item.getNikeName())) {
+            messageName = item.getUserId();
+        } else if (!TextUtils.isEmpty(item.getIdentifier())) {
+            messageName = item.getIdentifier();
+        } else if (!TextUtils.isEmpty(item.getUserId())) {
+            messageName = item.getUserId();
+        }
+        holder.setText(R.id.tv_message_name, messageName);
         holder.setText(R.id.tv_time, TimeUtils.getTime(item.getTime()));
 
         if (titleColor != -1) {

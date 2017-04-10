@@ -1,13 +1,15 @@
 package com.yan.campusbbs.module.campusbbs.data;
 
+import com.tencent.TIMUserProfile;
+
 /**
  * Created by yan on 2017/3/13.
  */
 
 public class SelfCenterFriendData {
-    public String userId;
+    public TIMUserProfile timUserProfile;
 
-    public SelfCenterFriendData(String userId) {
-        this.userId = userId;
+    public SelfCenterFriendData(TIMUserProfile timUserProfile) {
+        this.timUserProfile = timUserProfile;
     }
 }

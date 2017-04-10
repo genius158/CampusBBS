@@ -28,6 +28,9 @@ import com.tencent.TIMManager;
 import com.tencent.TIMMessage;
 import com.tencent.TIMMessageListener;
 import com.tencent.TIMSNSChangeInfo;
+import com.tencent.TIMSNSSystemElem;
+import com.tencent.TIMSNSSystemType;
+import com.tencent.TIMSnapshot;
 import com.tencent.TIMTextElem;
 import com.tencent.TIMUser;
 import com.tencent.TIMUserProfile;
@@ -52,6 +55,7 @@ import tencent.tls.platform.TLSUserInfo;
 
 /**
  * Created by yan on 2017/4/9.
+ * 即时通讯
  */
 
 public class ImManager {
@@ -227,13 +231,19 @@ public class ImManager {
                             notifyMessage(sederStr, textElem.getText());
 
                             saveAsMessage(sederStr, textElem, timestamp);
+                        }
 
+                        if (elemType == TIMElemType.SNSTips) {
+                            TIMSNSSystemElem systemElem = (TIMSNSSystemElem) elem;
+                            TIMSNSSystemType timsnsSystemType = systemElem.getSubType();
+                            if (timsnsSystemType == TIMSNSSystemType.TIM_SNS_SYSTEM_ADD_FRIEND) {
+                                notifyMessage("系统信息", sederStr + "添加你为好友");
+                                saveAsMessage(sederStr, systemElem, timestamp);
+                            }
                         }
                     }
                 }
-
-                //消息的内容解析请参考 4.5 消息解析
-                return false; //返回true将终止回调链，不再调用下一个新消息监听器
+                return false;
             }
         });
 
@@ -298,7 +308,7 @@ public class ImManager {
              */
             @Override
             public void OnAddFriends(List<TIMUserProfile> list) {
-
+                Log.e(TAG, "OnAddFriends: ");
             }
 
             /**
@@ -368,6 +378,22 @@ public class ImManager {
 
     }
 
+    private void saveAsMessage(String senderStr, TIMSNSSystemElem textElem, long timestamp) {
+        SelfCenterMessageCacheData messageCacheData;
+
+        if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO) == null) {
+            messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
+        } else {
+            messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO);
+        }
+        messageCacheData.getCenterMessageDatas()
+                .add(new SelfCenterMessageData(senderStr + "添加你为好友", senderStr)
+                        .setTime(timestamp * 1000));
+        ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
+        rxBus.post(new Action.ActionGetMessage());
+
+    }
+
     private void saveAsMessage(String senderStr, TIMTextElem textElem, long timestamp) {
         TIMFriendshipManager.getInstance().getFriendList(new TIMValueCallBack<List<TIMUserProfile>>() {
             @Override
@@ -390,7 +416,7 @@ public class ImManager {
                     messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO);
                 }
                 messageCacheData.getCenterMessageDatas()
-                        .add(new SelfCenterMessageData(senderStr, textElem.getText())
+                        .add(new SelfCenterMessageData(textElem.getText(), senderStr)
                                 .setTime(timestamp * 1000));
                 ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
                 rxBus.post(new Action.ActionGetMessage());
@@ -813,6 +839,12 @@ public class ImManager {
                 }
             }
         });
+    }
+
+
+    public void getFriendList(TIMValueCallBack<List<TIMUserProfile>> timValueCallBack) {
+        //获取好友列表
+        TIMFriendshipManager.getInstance().getFriendList(timValueCallBack);
     }
 
 

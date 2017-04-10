@@ -9,19 +9,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.tencent.TIMUserProfile;
+import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterFriendAdapter;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterFriendData;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.friend.FriendContract;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.util.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,6 +42,8 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     SettingHelper changeSkinHelper;
     @Inject
     SPUtils spUtils;
+    @Inject
+    ToastUtils toastUtils;
     @Inject
     ImageControl imageControl;
     @Inject
@@ -76,7 +80,24 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(friendAdapter);
+
+        ImManager.getImManager().getFriendList(timValueCallBack);
     }
+
+    private TIMValueCallBack<List<TIMUserProfile>> timValueCallBack = new TIMValueCallBack<List<TIMUserProfile>>() {
+        @Override
+        public void onError(int i, String s) {
+            toastUtils.showShort(s);
+        }
+
+        @Override
+        public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+            for (TIMUserProfile userProfile : timUserProfiles) {
+                friendDatas.add(new SelfCenterFriendData(userProfile));
+            }
+            friendAdapter.notifyDataSetChanged();
+        }
+    };
 
     @Override
     protected SPUtils sPUtils() {
