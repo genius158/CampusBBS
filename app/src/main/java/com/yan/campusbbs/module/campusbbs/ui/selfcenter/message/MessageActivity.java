@@ -26,6 +26,7 @@ import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -91,18 +92,18 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
     }
 
     private void init() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
-        layoutManager.setReverseLayout(true);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(messageAdapter);
         getMessage();
     }
 
     private void getMessage() {
         if (ACache.get(getBaseContext()).getAsObject(CacheConfig.MESSAGE_INFO) != null) {
-            SelfCenterMessageCacheData messageCacheData = (SelfCenterMessageCacheData) ACache.get(getBaseContext()).getAsObject(CacheConfig.MESSAGE_INFO);
+            SelfCenterMessageCacheData messageCacheData =
+                    (SelfCenterMessageCacheData) ACache.get(getBaseContext()).getAsObject(CacheConfig.MESSAGE_INFO);
             messageDatas.clear();
             messageDatas.addAll(messageCacheData.getCenterMessageDatas());
+            Collections.reverse(messageDatas);
             messageAdapter.notifyDataSetChanged();
         }
     }

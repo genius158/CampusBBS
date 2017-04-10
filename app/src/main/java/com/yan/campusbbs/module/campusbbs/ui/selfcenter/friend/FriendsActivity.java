@@ -24,6 +24,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -78,9 +79,7 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     }
 
     private void init() {
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getBaseContext());
-        layoutManager.setReverseLayout(true);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(friendAdapter);
         ImManager.getImManager().getFriendList(timValueCallBack);
     }
@@ -97,6 +96,7 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
             for (TIMUserProfile userProfile : timUserProfiles) {
                 friendDatas.add(new SelfCenterFriendData(userProfile));
             }
+            Collections.reverse(friendDatas);
             friendAdapter.notifyDataSetChanged();
         }
     };
