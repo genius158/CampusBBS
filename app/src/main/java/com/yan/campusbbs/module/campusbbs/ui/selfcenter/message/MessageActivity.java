@@ -99,6 +99,7 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
     private void getMessage() {
         if (ACache.get(getBaseContext()).getAsObject(CacheConfig.MESSAGE_INFO) != null) {
             SelfCenterMessageCacheData messageCacheData = (SelfCenterMessageCacheData) ACache.get(getBaseContext()).getAsObject(CacheConfig.MESSAGE_INFO);
+            messageDatas.clear();
             messageDatas.addAll(messageCacheData.getCenterMessageDatas());
             messageAdapter.notifyDataSetChanged();
         }
