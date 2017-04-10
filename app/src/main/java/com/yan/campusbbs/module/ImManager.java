@@ -8,18 +8,26 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.tencent.TIMAddFriendRequest;
 import com.tencent.TIMCallBack;
 import com.tencent.TIMConnListener;
 import com.tencent.TIMConversation;
 import com.tencent.TIMConversationType;
 import com.tencent.TIMElem;
 import com.tencent.TIMElemType;
+import com.tencent.TIMFriendAddResponse;
+import com.tencent.TIMFriendGroup;
+import com.tencent.TIMFriendResponseType;
+import com.tencent.TIMFriendResult;
 import com.tencent.TIMFriendshipManager;
+import com.tencent.TIMFriendshipProxyListener;
+import com.tencent.TIMFriendshipProxyStatus;
 import com.tencent.TIMLogLevel;
 import com.tencent.TIMLogListener;
 import com.tencent.TIMManager;
 import com.tencent.TIMMessage;
 import com.tencent.TIMMessageListener;
+import com.tencent.TIMSNSChangeInfo;
 import com.tencent.TIMTextElem;
 import com.tencent.TIMUser;
 import com.tencent.TIMUserProfile;
@@ -262,6 +270,94 @@ public class ImManager {
                 //票据过期，需要换票后重新登录
             }
         });
+
+
+        getTIM().setFriendshipProxyListener(new TIMFriendshipProxyListener() {
+            /**
+             *  收到代理状态变更通知
+             *
+             *  @param timFriendshipProxyStatus 当前状态
+             */
+            @Override
+            public void OnProxyStatusChange(TIMFriendshipProxyStatus timFriendshipProxyStatus) {
+
+            }
+
+            /**
+             *  添加好友通知
+             *
+             *  @param list 好友列表，详见{@see TIMUserProfile}
+             */
+            @Override
+            public void OnAddFriends(List<TIMUserProfile> list) {
+
+            }
+
+            /**
+             *  删除好友通知
+             *
+             *  @param list 用户id列表
+             */
+            @Override
+            public void OnDelFriends(List<String> list) {
+
+            }
+
+            /**
+             *  好友资料更新通知
+             *
+             *  @param list 资料列表,详见{@see TIMUserProfile}
+             */
+            @Override
+            public void OnFriendProfileUpdate(List<TIMUserProfile> list) {
+
+            }
+
+            /**
+             *  好友申请通知
+             *
+             *  @param list 好友申请者id列表，详见{@see TIMSNSChangeInfo}
+             */
+            @Override
+            public void OnAddFriendReqs(List<TIMSNSChangeInfo> list) {
+
+                for (TIMSNSChangeInfo changeInfo : list) {
+                    Log.e(TAG, "OnAddFriendReqs: " + changeInfo.getIdentifier());
+                }
+
+            }
+
+            /**
+             *  添加好友分组通知
+             *
+             *  @param list 好友分组列表，详见{@see TIMFriendGroup}
+             */
+            @Override
+            public void OnAddFriendGroups(List<TIMFriendGroup> list) {
+
+            }
+
+            /**
+             *  删除好友分组通知
+             *
+             *  @param list 好友分组名称列表
+             */
+            @Override
+            public void OnDelFriendGroups(List<String> list) {
+
+            }
+
+            /**
+             *  好友分组更新通知
+             *
+             *  @param list 好友分组列表, 详见{@see TIMFriendGroup}
+             */
+            @Override
+            public void OnFriendGroupUpdate(List<TIMFriendGroup> list) {
+
+            }
+        });
+
     }
 
     public void notifyMessage(String senderStr, String contentStr) {
@@ -542,18 +638,18 @@ public class ImManager {
         });
     }
 
-    public void getSelfProfile(){
+    public void getSelfProfile() {
         //获取自己的资料
-        TIMFriendshipManager.getInstance().getSelfProfile(new TIMValueCallBack<TIMUserProfile>(){
+        TIMFriendshipManager.getInstance().getSelfProfile(new TIMValueCallBack<TIMUserProfile>() {
             @Override
-            public void onError(int code, String desc){
+            public void onError(int code, String desc) {
                 //错误码code和错误描述desc，可用于定位请求失败原因
                 //错误码code列表请参见错误码表
                 Log.e(TAG, "getSelfProfile failed: " + code + " desc");
             }
 
             @Override
-            public void onSuccess(TIMUserProfile result){
+            public void onSuccess(TIMUserProfile result) {
                 Log.e(TAG, "getSelfProfile success");
                 Log.e(TAG, "identifier: " + result.getIdentifier() + " nickName: " + result.getNickName()
                         + " remark: " + result.getRemark() + " allow: " + result.getAllowType());
@@ -562,27 +658,26 @@ public class ImManager {
     }
 
 
-
-    public void getUsersProfile(String... userIds){
+    public void getUsersProfile(String... userIds) {
         //待获取用户资料的用户列表
         List<String> users = new ArrayList<String>();
-        for (String userId: userIds){
+        for (String userId : userIds) {
             users.add(userId);
         }
 
         //获取用户资料
-        TIMFriendshipManager.getInstance().getUsersProfile(users, new TIMValueCallBack<List<TIMUserProfile>>(){
+        TIMFriendshipManager.getInstance().getUsersProfile(users, new TIMValueCallBack<List<TIMUserProfile>>() {
             @Override
-            public void onError(int code, String desc){
+            public void onError(int code, String desc) {
                 //错误码code和错误描述desc，可用于定位请求失败原因
                 //错误码code列表请参见错误码表
                 Log.e(TAG, "getUsersProfile failed: " + code + " desc");
             }
 
             @Override
-            public void onSuccess(List<TIMUserProfile> result){
+            public void onSuccess(List<TIMUserProfile> result) {
                 Log.e(TAG, "getUsersProfile success");
-                for(TIMUserProfile res : result){
+                for (TIMUserProfile res : result) {
                     Log.e(TAG, "identifier: " + res.getIdentifier() + " nickName: " + res.getNickName()
                             + " remark: " + res.getRemark());
                 }
@@ -624,6 +719,82 @@ public class ImManager {
             }
         });
     }
+
+    public void addFriend() {
+        //创建请求列表
+        List<TIMAddFriendRequest> reqList = new ArrayList<TIMAddFriendRequest>();
+
+        //添加好友请求
+        TIMAddFriendRequest req = new TIMAddFriendRequest();
+        req.setAddrSource("DemoApp");
+        req.setAddWording("add me");
+        req.setIdentifier(identifier);
+        req.setRemark("Cat");
+        reqList.add(req);
+
+        //申请添加好友
+        TIMFriendshipManager.getInstance().addFriend(reqList, new TIMValueCallBack<List<TIMFriendResult>>() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code列表请参见错误码表
+                Log.e(TAG, "addFriend failed: " + code + " desc");
+            }
+
+            @Override
+            public void onSuccess(List<TIMFriendResult> result) {
+                Log.e(TAG, "addFriend success");
+                for (TIMFriendResult res : result) {
+                    Log.e(TAG, "identifier: " + res.getIdentifer() + " status: " + res.getStatus());
+                }
+            }
+        });
+    }
+
+
+    public void getFriendList() {
+        //获取好友列表
+        TIMFriendshipManager.getInstance().getFriendList(new TIMValueCallBack<List<TIMUserProfile>>() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code列表请参见错误码表
+                Log.e(TAG, "getFriendList failed: " + code + " desc");
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> result) {
+                for (TIMUserProfile res : result) {
+                    Log.e(TAG, "identifier: " + res.getIdentifier() + " nickName: " + res.getNickName()
+                            + " remark: " + res.getRemark());
+                }
+            }
+        });
+    }
+
+
+    public void addFriendResponse(String userId) {
+        TIMFriendAddResponse friendAddResponse = new TIMFriendAddResponse();
+        friendAddResponse.setIdentifier(userId);
+        friendAddResponse.setType(TIMFriendResponseType.AgreeAndAdd);
+        TIMFriendshipManager.getInstance().addFriendResponse(friendAddResponse, new TIMValueCallBack<TIMFriendResult>() {
+            @Override
+            public void onError(int code, String s) {
+                //错误码code和错误描述desc，可用于定位请求失败原因
+                //错误码code列表请参见错误码表
+                Log.e(TAG, "getFriendList failed: " + code + " desc");
+            }
+
+            @Override
+            public void onSuccess(TIMFriendResult timFriendResult) {
+                Log.e(TAG, "onSuccess: " + timFriendResult);
+            }
+
+
+        });
+
+    }
+
 
     /**
      * action
