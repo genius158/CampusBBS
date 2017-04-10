@@ -19,7 +19,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"
+            android:ellipsize="end"
             android:lines="1"
+            android:maxWidth="80dp"
             android:text="阿三"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -27,9 +29,9 @@
             android:id="@+id/tv_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minWidth="200dp"
             android:layout_weight="1"
             android:lines="1"
+            android:minWidth="200dp"
             android:text="点赞了你的    日志-我的生活" />
 
 
