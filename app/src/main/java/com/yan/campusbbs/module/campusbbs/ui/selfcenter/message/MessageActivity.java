@@ -91,7 +91,9 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
     }
 
     private void init() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getBaseContext());
+        layoutManager.setReverseLayout(true);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(messageAdapter);
         getMessage();
     }

@@ -78,9 +78,10 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     }
 
     private void init() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getBaseContext());
+        layoutManager.setReverseLayout(true);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(friendAdapter);
-
         ImManager.getImManager().getFriendList(timValueCallBack);
     }
 
@@ -92,6 +93,7 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
 
         @Override
         public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+            friendDatas.clear();
             for (TIMUserProfile userProfile : timUserProfiles) {
                 friendDatas.add(new SelfCenterFriendData(userProfile));
             }
