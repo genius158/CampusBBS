@@ -37,8 +37,12 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                 phoneNum, password, nickname, mood, email, school, birth
         ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(responseBody -> {
-                    view.success();
+                .subscribe(registerData -> {
+                    if (registerData.getResultCode() == 200) {
+                        view.success();
+                    } else {
+                        toastUtils.showShort(registerData.getMessage());
+                    }
                 }, throwable -> {
                     throwable.printStackTrace();
                     view.netError();

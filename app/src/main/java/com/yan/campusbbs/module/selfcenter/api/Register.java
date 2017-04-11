@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.selfcenter.api;
 
+import com.yan.campusbbs.module.selfcenter.data.RegisterData;
 import com.yan.campusbbs.repository.DataAddress;
 
 import io.reactivex.Observable;
@@ -14,7 +15,7 @@ import retrofit2.http.Query;
 public interface Register {
 
     @GET(DataAddress.URL_REGISTER)
-    Observable<ResponseBody> register(
+    Observable<RegisterData> register(
             @Query("phoneNum") String phoneNum
             , @Query("password") String password
             , @Query("nickname") String nickname
