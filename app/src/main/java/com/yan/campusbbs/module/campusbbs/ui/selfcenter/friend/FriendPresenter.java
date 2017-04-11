@@ -58,7 +58,7 @@ public class FriendPresenter implements FriendContract.Presenter {
     private void initConversation() {
         List<TIMConversation> list = TIMManager.getInstance().getConversionList();
         List<TIMConversation> result = new ArrayList<>();
-        if (result.isEmpty()){
+        if (list.isEmpty()){
             view.update();
         }
         for (TIMConversation conversation : list) {
