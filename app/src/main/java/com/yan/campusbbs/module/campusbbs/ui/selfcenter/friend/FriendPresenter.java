@@ -91,10 +91,10 @@ public class FriendPresenter implements FriendContract.Presenter {
                             }
                         }
                     }
+                    view.update();
                 }
             });
         }
-        view.update();
     }
 
 

@@ -173,9 +173,12 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         if (data == null
                 || data.isEmpty()) {
             canLoadMore = false;
+            chatAdapter.setEnableLoadMore(false);
             return;
         }
-        chatAdapter.setEnableLoadMore(true);
+        if (dataMultiItems.size() > 5) {
+            chatAdapter.setEnableLoadMore(true);
+        }
 
         canLoadMore = true;
         dataMultiItems.clear();
