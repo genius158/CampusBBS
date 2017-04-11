@@ -48,7 +48,7 @@ public interface ChatContract {
 
         void getMoreChatData();
 
-        void getLastData();
+        void getLatestData();
 
         TIMUserProfile getSelfProfile();
 

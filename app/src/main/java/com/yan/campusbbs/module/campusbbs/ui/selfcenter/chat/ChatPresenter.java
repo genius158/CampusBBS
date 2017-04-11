@@ -122,7 +122,7 @@ public class ChatPresenter implements ChatContract.Presenter {
     }
 
     @Override
-    public void getLastData() {
+    public void getLatestData() {
         conversation.getMessage(1, null, new TIMValueCallBack<List<TIMMessage>>() {
             @Override
             public void onError(int i, String s) {

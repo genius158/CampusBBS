@@ -45,6 +45,9 @@ import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatOtherData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatSelfData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageCacheData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.ChatActivity;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend.FriendsActivity;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.message.MessageActivity;
 import com.yan.campusbbs.module.common.data.UserProfile;
 import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
@@ -93,7 +96,7 @@ public class ImManager {
         return imManager;
     }
 
-    public void sendText(String peer, String text ) {
+    public void sendText(String peer, String text) {
 
         TIMConversation conversation = TIMManager.getInstance().getConversation(
                 TIMConversationType.C2C,
@@ -390,7 +393,7 @@ public class ImManager {
                     ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
                     rxBus.post(new Action.ActionGetMessage());
 
-                    notifyMessage("新朋友", messageName + "添加你为好友");
+                    notifyMessage("新朋友", messageName + "添加你为好友", 0, null);
                 }
             }
         }, identifier);
@@ -419,31 +422,11 @@ public class ImManager {
                         .setTime(timestamp * 1000));
         ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
         rxBus.post(new Action.ActionGetMessage());
-
-        //--------------------------------------------------------------------------
-
-        SelfCenterChatCacheData centerChatCacheData;
-
-        if (ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + userProfile.getIdentifier()) == null) {
-            centerChatCacheData = new SelfCenterChatCacheData(new ArrayList<>());
-        } else {
-            centerChatCacheData = (SelfCenterChatCacheData) ACache.get(context)
-                    .getAsObject(CacheConfig.CHAT_DATA + userProfile.getIdentifier());
-        }
-        centerChatCacheData.getChatData()
-                .add(new SelfCenterChatSelfData(new SelfCenterChatData(
-                        textElem.getText()
-                        , timestamp * 1000)
-                        .setUserProfile(new UserProfile(userProfile))));
-        ACache.get(context).put(CacheConfig.CHAT_DATA + userProfile.getIdentifier(), centerChatCacheData);
-        rxBus.post(new Action.ActionGetChatMessage(userProfile.getIdentifier()));
-
+        notifyMessage("陌生人", messageName + " 对你说: " + textElem.getText(), 0, null);
     }
 
     private void saveAsMessage(String sender, TIMUserProfile userProfile, TIMTextElem textElem, long timestamp) {
-
         if (userProfile == null) {
-
             SelfCenterMessageCacheData messageCacheData;
 
             if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO) == null) {
@@ -458,7 +441,7 @@ public class ImManager {
                             .setTime(timestamp * 1000));
             ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
             rxBus.post(new Action.ActionGetMessage());
-            notifyMessage(sender, textElem.getText());
+            notifyMessage("管理员", sender + " 对你说: " + textElem.getText(), 0, null);
             return;
         }
 
@@ -474,7 +457,7 @@ public class ImManager {
             public void onSuccess(List<TIMUserProfile> result) {
                 for (TIMUserProfile res : result) {
                     if (res.getIdentifier().equals(userProfile.getIdentifier())) {
-                        addChatData(userProfile, textElem, timestamp);
+                        addChatData(userProfile, textElem);
                         return;
                     }
                 }
@@ -484,36 +467,29 @@ public class ImManager {
         });
     }
 
-    private void addChatData(TIMUserProfile userProfile, TIMTextElem textElem, long timestamp) {
-        SelfCenterChatCacheData centerChatCacheData;
-
-        if (ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + userProfile.getIdentifier()) == null) {
-            centerChatCacheData = new SelfCenterChatCacheData(new ArrayList<>());
-        } else {
-            centerChatCacheData = (SelfCenterChatCacheData) ACache.get(context)
-                    .getAsObject(CacheConfig.CHAT_DATA + userProfile.getIdentifier());
-        }
-        centerChatCacheData.getChatData()
-                .add(new SelfCenterChatOtherData(new SelfCenterChatData(
-                        textElem.getText()
-                        , timestamp * 1000)
-                        .setUserProfile(new UserProfile(userProfile))));
-        ACache.get(context).put(CacheConfig.CHAT_DATA + userProfile.getIdentifier(), centerChatCacheData);
-        rxBus.post(new Action.ActionGetChatMessage(userProfile.getIdentifier()));
-
+    private void addChatData(TIMUserProfile userProfile, TIMTextElem textElem) {
         String other;
         if (!TextUtils.isEmpty(userProfile.getNickName())) {
             other = userProfile.getNickName();
         } else {
             other = userProfile.getIdentifier();
         }
-        notifyMessage(other, textElem.getText());
+        notifyMessage(other, textElem.getText(), 1, userProfile.getIdentifier());
+        rxBus.post(new Action.ActionGetChatMessage(userProfile.getIdentifier()));
     }
 
-    public void notifyMessage(String senderStr, String contentStr) {
+    public void notifyMessage(String senderStr, String contentStr, int type, String identifier) {
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-        Intent notificationIntent = new Intent(context, MainActivity.class);
+        Intent notificationIntent = null;
+        if (type == 0) {
+            notificationIntent = new Intent(context, MessageActivity.class);
+        } else if (type == 1) {
+            notificationIntent = new Intent(context, ChatActivity.class);
+            notificationIntent.putExtra("identifier", identifier);
+        } else if (type == 2) {
+            notificationIntent = new Intent(context, FriendsActivity.class);
+        }
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent intent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
         mBuilder.setContentTitle(senderStr)//设置通知栏标题

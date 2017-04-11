@@ -120,7 +120,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(actionGetChatMessage -> {
                     if (actionGetChatMessage.identifer.equals(identifier)) {
-                        presenter.getLastData();
+                        presenter.getLatestData();
                     }
                 }));
     }
