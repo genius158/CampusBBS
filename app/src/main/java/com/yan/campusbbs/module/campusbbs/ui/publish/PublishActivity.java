@@ -214,6 +214,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
     @Override
     public void stateSuccess() {
         toastUtils.showShort("发布成功");
+        finish();
     }
 
     @Override

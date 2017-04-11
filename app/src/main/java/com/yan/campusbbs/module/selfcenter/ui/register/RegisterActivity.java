@@ -322,6 +322,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         canRegisterUserInfoAble = false;
         Log.e(TAG, "success: " + "注册成功");
         ImManager.getImManager().pwdCommit(etPassword.getText().toString());
+        finish();
     }
 
     @Override
