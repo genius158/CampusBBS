@@ -1,5 +1,7 @@
 package com.yan.campusbbs.module.campusbbs.data;
 
+import com.yan.campusbbs.module.common.data.UserProfile;
+
 import java.io.Serializable;
 
 /**
@@ -8,13 +10,10 @@ import java.io.Serializable;
 
 public class SelfCenterMessageData implements Serializable {
     private String data;
-    private String identifier;
-    private String nikeName;
+    private UserProfile userProfile;
     private String userId;
     private String messageNotice;
     private long time;
-    private String headUrl;
-
 
     public SelfCenterMessageData(String messageNotice, String data) {
         this.data = data;
@@ -29,9 +28,13 @@ public class SelfCenterMessageData implements Serializable {
         return time;
     }
 
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
 
-    public String getIdentifier() {
-        return identifier;
+    public SelfCenterMessageData setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+        return this;
     }
 
     public String getUserId() {
@@ -42,31 +45,8 @@ public class SelfCenterMessageData implements Serializable {
         return data;
     }
 
-    public String getNikeName() {
-        return nikeName;
-    }
-
-
-    public String getHeadUrl() {
-        return headUrl;
-    }
-
-    public SelfCenterMessageData setHeadUrl(String headUrl) {
-        this.headUrl = headUrl;
-        return this;
-    }
     public SelfCenterMessageData setTime(long time) {
         this.time = time;
-        return this;
-    }
-
-    public SelfCenterMessageData setNikeName(String nikeName) {
-        this.nikeName = nikeName;
-        return this;
-    }
-
-    public SelfCenterMessageData setIdentifier(String identifier) {
-        this.identifier = identifier;
         return this;
     }
 

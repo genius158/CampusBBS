@@ -11,12 +11,11 @@ public class SelfCenterMessageCacheData implements Serializable {
     public List<SelfCenterMessageData> centerMessageDatas;
 
 
-
     public SelfCenterMessageCacheData(List<SelfCenterMessageData> centerMessageDatas) {
         this.centerMessageDatas = centerMessageDatas;
     }
 
-    public SelfCenterMessageCacheData( ) {
+    public SelfCenterMessageCacheData() {
     }
 
     public List<SelfCenterMessageData> getCenterMessageDatas() {

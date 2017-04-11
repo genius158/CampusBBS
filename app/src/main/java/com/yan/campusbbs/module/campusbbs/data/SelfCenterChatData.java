@@ -1,5 +1,7 @@
 package com.yan.campusbbs.module.campusbbs.data;
 
+import com.yan.campusbbs.module.common.data.UserProfile;
+
 import java.io.Serializable;
 
 /**
@@ -7,21 +9,17 @@ import java.io.Serializable;
  */
 
 public class SelfCenterChatData implements Serializable {
-    public String head;
     public String text;
-    public String identifier;
     public long time;
+    public UserProfile userProfile;
 
-    public SelfCenterChatData(String head, String text, long time) {
-        this.head = head;
+    public SelfCenterChatData(String text, long time) {
         this.text = text;
         this.time = time;
     }
 
-    public SelfCenterChatData(String identifier, String header, String text, long time) {
-        this.head = header;
-        this.identifier = identifier;
-        this.text = text;
-        this.time = time;
+    public SelfCenterChatData setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+        return this;
     }
 }

@@ -2,7 +2,6 @@ package com.yan.campusbbs.module.campusbbs.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

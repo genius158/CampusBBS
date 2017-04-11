@@ -40,16 +40,15 @@ public class SelfCenterChatAdapter extends BaseMultiItemQuickAdapter<DataMultiIt
         switch (holder.getItemViewType()) {
             case ITEM_TYPE_CHAT_SELF:
                 ((SimpleDraweeView) holder.getView(R.id.sdv_head))
-                        .setImageURI("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
+                        .setImageURI(chatData.userProfile.faceUrl);
                 holder.setText(R.id.tv_text, chatData.text);
                 holder.setText(R.id.tv_time, TimeUtils.getTime(chatData.time));
                 break;
             case ITEM_TYPE_CHAT_OTHER:
                 ((SimpleDraweeView) holder.getView(R.id.sdv_head))
-                        .setImageURI("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
+                        .setImageURI(chatData.userProfile.faceUrl);
                 holder.setText(R.id.tv_text, chatData.text);
                 holder.setText(R.id.tv_time, TimeUtils.getTime(chatData.time));
-
                 break;
         }
     }

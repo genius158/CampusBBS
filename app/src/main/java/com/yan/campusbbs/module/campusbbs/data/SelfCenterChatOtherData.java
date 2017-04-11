@@ -1,7 +1,5 @@
 package com.yan.campusbbs.module.campusbbs.data;
 
-
-//import com.yan.campusbbs.module.campusbbs.ui.selfcenter.adapter.ChatAdapter;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterChatAdapter;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;

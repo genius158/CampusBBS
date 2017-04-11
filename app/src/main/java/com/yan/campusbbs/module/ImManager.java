@@ -44,6 +44,7 @@ import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatOtherData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatSelfData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageCacheData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
+import com.yan.campusbbs.module.common.data.UserProfile;
 import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
 
@@ -131,11 +132,9 @@ public class ImManager {
                     centerChatCacheData = (SelfCenterChatCacheData) ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + peer);
                 }
                 centerChatCacheData.getChatData()
-                        .add(new SelfCenterChatSelfData(new SelfCenterChatData(
-                                selfProfile.getFaceUrl()
-                                , text
-                                , System.currentTimeMillis()
-                        )));
+                        .add(new SelfCenterChatSelfData(new SelfCenterChatData(text
+                                , System.currentTimeMillis())
+                                .setUserProfile(new UserProfile(selfProfile))));
                 ACache.get(context).put(CacheConfig.CHAT_DATA + peer, centerChatCacheData);
                 rxBus.post(new Action.ActionGetChatMessage(peer));
             }
@@ -236,7 +235,8 @@ public class ImManager {
             @Override
             public boolean onNewMessages(List<TIMMessage> list) {//收到新消息
                 for (TIMMessage msg : list) {
-                    String sederStr = msg.getSender();
+                    TIMUserProfile senderProfile = msg.getSenderProfile();
+                    String sender = msg.getSender();
 
                     long timestamp = msg.timestamp();
                     for (int i = 0; i < msg.getElementCount(); ++i) {
@@ -247,14 +247,14 @@ public class ImManager {
                         if (elemType == TIMElemType.Text) {
                             //处理文本消息
                             TIMTextElem textElem = (TIMTextElem) elem;
-                            saveAsMessage(sederStr, textElem, timestamp);
+                            saveAsMessage(sender, senderProfile, textElem, timestamp);
                         }
 
                         if (elemType == TIMElemType.SNSTips) {
                             TIMSNSSystemElem systemElem = (TIMSNSSystemElem) elem;
                             TIMSNSSystemType timsnsSystemType = systemElem.getSubType();
                             if (timsnsSystemType == TIMSNSSystemType.TIM_SNS_SYSTEM_ADD_FRIEND) {
-                                saveAsMessage(sederStr, timestamp);
+                                addNewFriendMessage(sender, timestamp);
                             }
                         }
                     }
@@ -395,7 +395,8 @@ public class ImManager {
     }
 
 
-    private void addCompleteMessage(String senderStr, long timestamp) {
+    private void addNewFriendMessage(String identifier, long timestamp) {
+
         getUsersProfile(new TIMValueCallBack<List<TIMUserProfile>>() {
             @Override
             public void onError(int i, String s) {
@@ -404,8 +405,8 @@ public class ImManager {
 
             @Override
             public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                if (timUserProfiles == null) return;
                 for (TIMUserProfile userProfile : timUserProfiles) {
-
                     SelfCenterMessageCacheData messageCacheData;
 
                     if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO) == null) {
@@ -417,141 +418,133 @@ public class ImManager {
                     if (!TextUtils.isEmpty(userProfile.getNickName())) {
                         messageName = userProfile.getNickName();
                     } else {
-                        messageName = senderStr;
+                        messageName = userProfile.getIdentifier();
                     }
                     messageCacheData.getCenterMessageDatas()
                             .add(new SelfCenterMessageData("新朋友", messageName + " 添加你为好友")
-                                    .setIdentifier(senderStr)
-                                    .setNikeName(userProfile.getNickName())
-                                    .setHeadUrl(userProfile.getFaceUrl())
+                                    .setUserProfile(new UserProfile(userProfile))
                                     .setTime(timestamp * 1000));
                     ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
                     rxBus.post(new Action.ActionGetMessage());
 
                     notifyMessage("新朋友", messageName + "添加你为好友");
-
                 }
             }
-        }, senderStr);
+        }, identifier);
+
+
     }
 
+    private void addIncognizanceMessage(TIMUserProfile userProfile, TIMTextElem textElem, long timestamp) {
 
-    private void saveAsMessage(String senderStr, long timestamp) {
-        addCompleteMessage(senderStr, timestamp);
+        SelfCenterMessageCacheData messageCacheData;
+
+        if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO) == null) {
+            messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
+        } else {
+            messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO);
+        }
+        String messageName;
+        if (!TextUtils.isEmpty(userProfile.getNickName())) {
+            messageName = userProfile.getNickName();
+        } else {
+            messageName = userProfile.getIdentifier();
+        }
+        messageCacheData.getCenterMessageDatas()
+                .add(new SelfCenterMessageData("陌生人", messageName + " 对你说: " + textElem.getText())
+                        .setUserProfile(new UserProfile(userProfile))
+                        .setTime(timestamp * 1000));
+        ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
+        rxBus.post(new Action.ActionGetMessage());
+
+        //--------------------------------------------------------------------------
+
+        SelfCenterChatCacheData centerChatCacheData;
+
+        if (ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + userProfile.getIdentifier()) == null) {
+            centerChatCacheData = new SelfCenterChatCacheData(new ArrayList<>());
+        } else {
+            centerChatCacheData = (SelfCenterChatCacheData) ACache.get(context)
+                    .getAsObject(CacheConfig.CHAT_DATA + userProfile.getIdentifier());
+        }
+        centerChatCacheData.getChatData()
+                .add(new SelfCenterChatSelfData(new SelfCenterChatData(
+                        textElem.getText()
+                        , timestamp * 1000)
+                        .setUserProfile(new UserProfile(userProfile))));
+        ACache.get(context).put(CacheConfig.CHAT_DATA + userProfile.getIdentifier(), centerChatCacheData);
+        rxBus.post(new Action.ActionGetChatMessage(userProfile.getIdentifier()));
+
     }
 
-    private void addCompleteMessage(String senderStr, TIMTextElem textElem, long timestamp) {
-        getUsersProfile(new TIMValueCallBack<List<TIMUserProfile>>() {
-            @Override
-            public void onError(int i, String s) {
-                Log.e(TAG, "onError: " + s);
+    private void saveAsMessage(String sender, TIMUserProfile userProfile, TIMTextElem textElem, long timestamp) {
+
+        if (userProfile == null) {
+
+            SelfCenterMessageCacheData messageCacheData;
+
+            if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO) == null) {
+                messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
+            } else {
+                messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO);
             }
 
-            @Override
-            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
-                for (TIMUserProfile userProfile : timUserProfiles) {
+            messageCacheData.getCenterMessageDatas()
+                    .add(new SelfCenterMessageData("管理员", sender + " 对你说: " + textElem.getText())
+                            .setUserProfile(new UserProfile(sender))
+                            .setTime(timestamp * 1000));
+            ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
+            rxBus.post(new Action.ActionGetMessage());
+            notifyMessage(sender, textElem.getText());
+            return;
+        }
 
-                    SelfCenterMessageCacheData messageCacheData;
+        //-------------------------------------------------------------------------------------------
 
-                    if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO) == null) {
-                        messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
-                    } else {
-                        messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO);
-                    }
-                    String messageName;
-                    if (!TextUtils.isEmpty(userProfile.getNickName())) {
-                        messageName = userProfile.getNickName();
-                    } else {
-                        messageName = senderStr;
-                    }
-                    messageCacheData.getCenterMessageDatas()
-                            .add(new SelfCenterMessageData("陌生人", messageName + " 对你说: " + textElem.getText())
-                                    .setIdentifier(senderStr)
-                                    .setNikeName(userProfile.getNickName())
-                                    .setHeadUrl(userProfile.getFaceUrl())
-                                    .setTime(timestamp * 1000));
-                    ACache.get(context).put(CacheConfig.MESSAGE_INFO, messageCacheData);
-                    rxBus.post(new Action.ActionGetMessage());
-
-                //--------------------------------------------------------------------------
-
-                    SelfCenterChatCacheData centerChatCacheData;
-
-                    if (ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + senderStr) == null) {
-                        centerChatCacheData = new SelfCenterChatCacheData(new ArrayList<>());
-                    } else {
-                        centerChatCacheData = (SelfCenterChatCacheData) ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + senderStr);
-                    }
-                    centerChatCacheData.getChatData()
-                            .add(new SelfCenterChatSelfData(new SelfCenterChatData(
-                                    userProfile.getFaceUrl()
-                                    , textElem.getText()
-                                    , timestamp * 1000
-                            )));
-                    ACache.get(context).put(CacheConfig.CHAT_DATA + senderStr, centerChatCacheData);
-                    rxBus.post(new Action.ActionGetChatMessage(senderStr));
-                }
-            }
-        }, senderStr);
-    }
-
-    private void saveAsMessage(String senderStr, TIMTextElem textElem, long timestamp) {
         TIMFriendshipManager.getInstance().getFriendList(new TIMValueCallBack<List<TIMUserProfile>>() {
             @Override
             public void onError(int code, String desc) {
+                Log.e(TAG, "onError: " + desc);
             }
 
             @Override
             public void onSuccess(List<TIMUserProfile> result) {
                 for (TIMUserProfile res : result) {
-                    if (res.getIdentifier().equals(senderStr)) {
-                        addChatData(senderStr, textElem, timestamp);
+                    if (res.getIdentifier().equals(userProfile.getIdentifier())) {
+                        addChatData(userProfile, textElem, timestamp);
                         return;
                     }
                 }
-                addCompleteMessage(senderStr, textElem, timestamp);
+                addIncognizanceMessage(userProfile, textElem, timestamp);
 
             }
         });
     }
 
-    private void addChatData(String senderStr, TIMTextElem textElem, long timestamp) {
-        getUsersProfile(new TIMValueCallBack<List<TIMUserProfile>>() {
-            @Override
-            public void onError(int i, String s) {
-                Log.e(TAG, "onError: " + s);
-            }
+    private void addChatData(TIMUserProfile userProfile, TIMTextElem textElem, long timestamp) {
+        SelfCenterChatCacheData centerChatCacheData;
 
-            @Override
-            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
-                for (TIMUserProfile userProfile : timUserProfiles) {
-                    SelfCenterChatCacheData centerChatCacheData;
+        if (ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + userProfile.getIdentifier()) == null) {
+            centerChatCacheData = new SelfCenterChatCacheData(new ArrayList<>());
+        } else {
+            centerChatCacheData = (SelfCenterChatCacheData) ACache.get(context)
+                    .getAsObject(CacheConfig.CHAT_DATA + userProfile.getIdentifier());
+        }
+        centerChatCacheData.getChatData()
+                .add(new SelfCenterChatOtherData(new SelfCenterChatData(
+                        textElem.getText()
+                        , timestamp * 1000)
+                        .setUserProfile(new UserProfile(userProfile))));
+        ACache.get(context).put(CacheConfig.CHAT_DATA + userProfile.getIdentifier(), centerChatCacheData);
+        rxBus.post(new Action.ActionGetChatMessage(userProfile.getIdentifier()));
 
-                    if (ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + senderStr) == null) {
-                        centerChatCacheData = new SelfCenterChatCacheData(new ArrayList<>());
-                    } else {
-                        centerChatCacheData = (SelfCenterChatCacheData) ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + senderStr);
-                    }
-                    centerChatCacheData.getChatData()
-                            .add(new SelfCenterChatOtherData(new SelfCenterChatData(
-                                    userProfile.getFaceUrl()
-                                    , textElem.getText()
-                                    , timestamp * 1000
-                            )));
-                    ACache.get(context).put(CacheConfig.CHAT_DATA + senderStr, centerChatCacheData);
-                    rxBus.post(new Action.ActionGetChatMessage(senderStr));
-
-                    String other;
-                    if (!TextUtils.isEmpty(userProfile.getNickName())) {
-                        other = userProfile.getNickName();
-                    } else {
-                        other = userProfile.getIdentifier();
-                    }
-                    notifyMessage(other, textElem.getText());
-
-                }
-            }
-        }, senderStr);
+        String other;
+        if (!TextUtils.isEmpty(userProfile.getNickName())) {
+            other = userProfile.getNickName();
+        } else {
+            other = userProfile.getIdentifier();
+        }
+        notifyMessage(other, textElem.getText());
     }
 
     public void notifyMessage(String senderStr, String contentStr) {
