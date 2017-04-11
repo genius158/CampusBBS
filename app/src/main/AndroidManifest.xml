@@ -116,6 +116,9 @@
             android:name=".module.campusbbs.ui.selfcenter.chat.ChatActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.campusbbs.ui.selfcenter.chat.NotifyChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.search.SearchActivity"
             android:screenOrientation="portrait" />
         <activity

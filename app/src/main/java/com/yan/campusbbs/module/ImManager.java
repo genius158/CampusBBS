@@ -46,6 +46,7 @@ import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatSelfData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageCacheData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.ChatActivity;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.NotifyChatActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend.FriendsActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.message.MessageActivity;
 import com.yan.campusbbs.module.common.data.UserProfile;
@@ -485,12 +486,13 @@ public class ImManager {
         if (type == 0) {
             notificationIntent = new Intent(context, MessageActivity.class);
         } else if (type == 1) {
-            notificationIntent = new Intent(context, ChatActivity.class);
-            notificationIntent.putExtra("identifier", identifier);
+            ACache.get(context).put(CacheConfig.INTENT_CHAT_DATA, identifier);
+            notificationIntent = new Intent(context, NotifyChatActivity.class);
         } else if (type == 2) {
             notificationIntent = new Intent(context, FriendsActivity.class);
         }
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent intent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
         mBuilder.setContentTitle(senderStr)//设置通知栏标题
                 .setContentText(contentStr)
