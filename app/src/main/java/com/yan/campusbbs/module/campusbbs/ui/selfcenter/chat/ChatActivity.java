@@ -171,7 +171,6 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     public void setData(List<TIMMessage> data) {
         dataMultiItems.clear();
         addMessage(data);
-        Collections.reverse(dataMultiItems);
         chatAdapter.notifyDataSetChanged();
     }
 
