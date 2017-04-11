@@ -58,6 +58,9 @@ public class FriendPresenter implements FriendContract.Presenter {
     private void initConversation() {
         List<TIMConversation> list = TIMManager.getInstance().getConversionList();
         List<TIMConversation> result = new ArrayList<>();
+        if (result.isEmpty()){
+            view.update();
+        }
         for (TIMConversation conversation : list) {
             if (conversation.getType() != TIMConversationType.C2C
                     ) continue;
