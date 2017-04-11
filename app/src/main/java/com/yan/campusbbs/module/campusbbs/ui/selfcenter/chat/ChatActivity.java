@@ -37,6 +37,9 @@ import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import javax.inject.Inject;
 
@@ -80,11 +83,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     TextView title;
 
     private String identifier;
-
-    private int identifierType;
-
     private boolean canLoadMore = true;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,11 +97,20 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         initRxAction();
     }
 
+    public boolean isChinaPhoneLegal(String str) throws PatternSyntaxException {
+        String regExp = "^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(147))\\d{8}$";
+        Pattern p = Pattern.compile(regExp);
+        Matcher m = p.matcher(str);
+        return m.matches();
+    }
+
     private void initIntentData() {
         identifier = getIntent().getStringExtra("identifier");
-        identifierType = getIntent().getIntExtra("identifierType", 0);
-        if (identifierType == 0) {
-            identifier = "86-" + identifier;
+
+        if (!identifier.startsWith("86-")) {
+            if (isChinaPhoneLegal(identifier)) {
+                identifier = "86-" + identifier;
+            }
         }
     }
 
