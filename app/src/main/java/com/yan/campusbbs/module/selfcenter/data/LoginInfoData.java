@@ -9,8 +9,8 @@ import java.io.Serializable;
 public class LoginInfoData implements Serializable {
 
     /**
-     * data : {"userInfo":{"userId":"A1","userAccount":"admin","userPassword":null,"cookiePassword":"4QrcOUm6Wau+VuBX8g+IPg==","userNickname":"會飛的青蛙","userRealName":"張三","userRank":99,"userEmail":"A1@gmqil.com","userCreateTime":"16-12-25 06:12:03"}}
-     * jsessionId : 8C445A4DCCED15EBAC21EBD55997680D
+     * data : {"userInfo":{"userId":"U15B524C6A3DU01AH","friendCode":"F15B524C6A3D3M5MW","userAccount":"17780701147","userPassword":null,"cookiePassword":"XG3G50VGYT","userNickname":"U17780701147","userRealName":null,"userRank":0,"userHeadImg":"http://www.youlanw.com/static/images/man.jpg","userMood":"","userEmail":"","userCreateTime":"2017-04-09 18:39:51"}}
+     * jsessionId : 3D82DDBD96908BA3B5DBB8DF8EA8966D
      * resultCode : 200
      * message : 登录成功
      */
@@ -54,7 +54,7 @@ public class LoginInfoData implements Serializable {
 
     public static class DataBean implements Serializable {
         /**
-         * userInfo : {"userId":"A1","userAccount":"admin","userPassword":null,"cookiePassword":"4QrcOUm6Wau+VuBX8g+IPg==","userNickname":"會飛的青蛙","userRealName":"張三","userRank":99,"userEmail":"A1@gmqil.com","userCreateTime":"16-12-25 06:12:03"}
+         * userInfo : {"userId":"U15B524C6A3DU01AH","friendCode":"F15B524C6A3D3M5MW","userAccount":"17780701147","userPassword":null,"cookiePassword":"XG3G50VGYT","userNickname":"U17780701147","userRealName":null,"userRank":0,"userHeadImg":"http://www.youlanw.com/static/images/man.jpg","userMood":"","userEmail":"","userCreateTime":"2017-04-09 18:39:51"}
          */
 
         private UserInfoBean userInfo;
@@ -69,24 +69,30 @@ public class LoginInfoData implements Serializable {
 
         public static class UserInfoBean implements Serializable {
             /**
-             * userId : A1
-             * userAccount : admin
+             * userId : U15B524C6A3DU01AH
+             * friendCode : F15B524C6A3D3M5MW
+             * userAccount : 17780701147
              * userPassword : null
-             * cookiePassword : 4QrcOUm6Wau+VuBX8g+IPg==
-             * userNickname : 會飛的青蛙
-             * userRealName : 張三
-             * userRank : 99
-             * userEmail : A1@gmqil.com
-             * userCreateTime : 16-12-25 06:12:03
+             * cookiePassword : XG3G50VGYT
+             * userNickname : U17780701147
+             * userRealName : null
+             * userRank : 0
+             * userHeadImg : http://www.youlanw.com/static/images/man.jpg
+             * userMood :
+             * userEmail :
+             * userCreateTime : 2017-04-09 18:39:51
              */
 
             private String userId;
+            private String friendCode;
             private String userAccount;
-            private String userPassword;
+            private Object userPassword;
             private String cookiePassword;
             private String userNickname;
-            private String userRealName;
+            private Object userRealName;
             private int userRank;
+            private String userHeadImg;
+            private String userMood;
             private String userEmail;
             private String userCreateTime;
 
@@ -98,6 +104,14 @@ public class LoginInfoData implements Serializable {
                 this.userId = userId;
             }
 
+            public String getFriendCode() {
+                return friendCode;
+            }
+
+            public void setFriendCode(String friendCode) {
+                this.friendCode = friendCode;
+            }
+
             public String getUserAccount() {
                 return userAccount;
             }
@@ -106,11 +120,11 @@ public class LoginInfoData implements Serializable {
                 this.userAccount = userAccount;
             }
 
-            public String getUserPassword() {
+            public Object getUserPassword() {
                 return userPassword;
             }
 
-            public void setUserPassword(String userPassword) {
+            public void setUserPassword(Object userPassword) {
                 this.userPassword = userPassword;
             }
 
@@ -130,11 +144,11 @@ public class LoginInfoData implements Serializable {
                 this.userNickname = userNickname;
             }
 
-            public String getUserRealName() {
+            public Object getUserRealName() {
                 return userRealName;
             }
 
-            public void setUserRealName(String userRealName) {
+            public void setUserRealName(Object userRealName) {
                 this.userRealName = userRealName;
             }
 
@@ -144,6 +158,22 @@ public class LoginInfoData implements Serializable {
 
             public void setUserRank(int userRank) {
                 this.userRank = userRank;
+            }
+
+            public String getUserHeadImg() {
+                return userHeadImg;
+            }
+
+            public void setUserHeadImg(String userHeadImg) {
+                this.userHeadImg = userHeadImg;
+            }
+
+            public String getUserMood() {
+                return userMood;
+            }
+
+            public void setUserMood(String userMood) {
+                this.userMood = userMood;
             }
 
             public String getUserEmail() {

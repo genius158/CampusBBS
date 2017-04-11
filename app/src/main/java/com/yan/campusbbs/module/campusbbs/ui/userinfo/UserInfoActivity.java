@@ -14,9 +14,12 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.config.CacheConfig;
+import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
@@ -46,8 +49,6 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     CardView commonAppBar;
     @BindView(R.id.et_nike_name)
     EditText etNikeName;
-    @BindView(R.id.et_sign)
-    EditText etSign;
     @BindView(R.id.et_email)
     EditText etEmail;
     @BindView(R.id.et_campus)
@@ -67,6 +68,20 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
         setContentView(R.layout.activity_user_info);
         ButterKnife.bind(this);
         daggerInit();
+        init();
+    }
+
+    private void init() {
+        if (ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO) == null) {
+            return;
+        }
+        LoginInfoData loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
+        if (loginInfoData.getData() != null
+                && loginInfoData.getData().getUserInfo() != null
+                ) {
+            etPhone.setText(loginInfoData.getData().getUserInfo().getUserAccount());
+            etNikeName.setText(loginInfoData.getData().getUserInfo().getUserNickname());
+        }
     }
 
     private void daggerInit() {
@@ -93,7 +108,6 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
         ViewCompat.setBackgroundTintList(etPhone, colorStateList);
         ViewCompat.setBackgroundTintList(etCampus, colorStateList);
         ViewCompat.setBackgroundTintList(etSex, colorStateList);
-        ViewCompat.setBackgroundTintList(etSign, colorStateList);
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );

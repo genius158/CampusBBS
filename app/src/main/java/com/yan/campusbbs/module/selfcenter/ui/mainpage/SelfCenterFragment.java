@@ -27,6 +27,7 @@ import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.selfcenter.data.FriendTitle;
+import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.SelfCenterHeader;
 import com.yan.campusbbs.module.setting.AdapterImageControl;
 import com.yan.campusbbs.module.setting.SettingActivity;
@@ -303,7 +304,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
             rxBus.post(new ActionSelfDataSuccess());
         }
         this.dataMultiItems.clear();
-        this.dataMultiItems.add(new SelfCenterHeader(ACache.get(getContext()).getAsObject(CacheConfig.USER_INFO)));
+        this.dataMultiItems.add(new SelfCenterHeader((LoginInfoData)ACache.get(getContext()).getAsObject(CacheConfig.USER_INFO)));
         this.dataMultiItems.addAll(dataMultiItems);
         adapter.notifyDataSetChanged();
     }

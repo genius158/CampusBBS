@@ -101,14 +101,17 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     }
 
                     FrescoUtils.display(holder.getView(R.id.self_part_one_header)
-                            , String.valueOf(multiItem.data));
+                            , String.valueOf(loginInfoData.getData().getUserInfo().getUserHeadImg()));
+
+                    FrescoUtils.display(selfImg,loginInfoData.getData().getUserInfo().getUserHeadImg());
+                    selfImg.setOnClickListener(v -> {
+                        if (popPhotoView != null) {
+                            popPhotoView.show();
+                            popPhotoView.setImageUrl(String.valueOf(loginInfoData.getData().getUserInfo().getUserHeadImg()));
+                        }
+                    });
                 }
-                selfImg.setOnClickListener(v -> {
-                    if (popPhotoView != null) {
-                        popPhotoView.show();
-                        popPhotoView.setImageUrl(String.valueOf(multiItem.data));
-                    }
-                });
+
                 holder.getView(R.id.self_part_one_header)
                         .setOnClickListener(v -> {
                             context.startActivity(new Intent(context, SelfCenterActivity.class)
@@ -127,7 +130,12 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     holder.setText(R.id.tv_plus, "等级:" + loginInfoData.getData().getUserInfo().getUserRank());
 
                     FrescoUtils.display(holder.getView(R.id.other_part_one_header)
-                            , String.valueOf(multiItem.data));
+                            , loginInfoData.getData().getUserInfo().getUserHeadImg());
+
+
+                   FrescoUtils.display(otherSDV
+                            , loginInfoData.getData().getUserInfo().getUserHeadImg());
+
                     holder.getView(R.id.ll_chat)
                             .setOnClickListener(v -> {
                                 context.startActivity(new Intent(context, ChatActivity.class)
@@ -172,7 +180,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
                 SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
                 SimpleDraweeView head = holder.getView(R.id.sdv_head);
-                head.setImageURI(String.valueOf(multiItem.data));
+                head.setImageURI(String.valueOf(otherBean.getUserHeadImg()));
                 head.setOnClickListener(v -> {
                     context.startActivity(new Intent(context, FriendPageActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

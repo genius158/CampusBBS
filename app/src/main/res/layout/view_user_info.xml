@@ -13,16 +13,6 @@
         android:textSize="13sp" />
 
     <EditText
-        android:id="@+id/et_sign"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:hint="请输入你的签名"
-        android:textColor="@color/cr3C3B41"
-        android:textSize="13sp" />
-
-    <EditText
         android:id="@+id/et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

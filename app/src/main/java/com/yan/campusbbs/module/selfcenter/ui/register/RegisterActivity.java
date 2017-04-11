@@ -72,8 +72,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     TextView tvCodeNotice;
     @BindView(R.id.et_nike_name)
     EditText etNikeName;
-    @BindView(R.id.et_sign)
-    EditText etSign;
     @BindView(R.id.et_email)
     EditText etEmail;
     @BindView(R.id.et_campus)
@@ -216,7 +214,6 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         ViewCompat.setBackgroundTintList(etNikeName, colorStateList);
         ViewCompat.setBackgroundTintList(etCampus, colorStateList);
         ViewCompat.setBackgroundTintList(etSex, colorStateList);
-        ViewCompat.setBackgroundTintList(etSign, colorStateList);
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );
@@ -274,7 +271,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
         registerPresenter.register(etPhone.getText().toString()
                 , etPassword.getText().toString()
                 , etNikeName.getText().toString()
-                , etSign.getText().toString()
+                , ""
                 , etEmail.getText().toString()
                 , etCampus.getText().toString()
                 , etBirthday.getText().toString()
