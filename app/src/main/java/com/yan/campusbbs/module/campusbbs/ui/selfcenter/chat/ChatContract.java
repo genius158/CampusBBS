@@ -14,20 +14,44 @@
  * limitations under the License.
  */
 
-package com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.chat;
+package com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat;
 
+import com.tencent.TIMMessage;
+import com.tencent.TIMUserProfile;
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend.FriendContract;
+
+import java.util.List;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
 public interface ChatContract {
 
-    interface View extends BaseView<Presenter> {
+
+    interface View extends BaseView<FriendContract.Presenter> {
+        void setData(List<TIMMessage> data);
+
+        void setLoadMoreData(List<TIMMessage> data);
+
+        void getDataError();
+
+        void addLatestData(TIMMessage timMessage);
+
+        void setTitle(String title);
     }
 
     interface Presenter extends BasePresenter {
 
+        void initData();
+
+        void getMoreChatData();
+
+        void getLastData();
+
+        TIMUserProfile getSelfProfile();
+
+        void getOtherProfile();
     }
 }

@@ -24,13 +24,13 @@ public class FriendModule {
     }
 
     @Provides
-    FriendContract.Presenter getStudyPresenter(Context context) {
+    FriendPresenter getStudyPresenter(Context context) {
         return new FriendPresenter(context, view);
     }
 
     @Provides
     SelfCenterFriendAdapter getDataAdapter(Context context) {
-        return new SelfCenterFriendAdapter(context,friendDatas);
+        return new SelfCenterFriendAdapter(context, friendDatas);
     }
 
     @Provides

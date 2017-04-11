@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.campusbbs.data;
 
+import com.tencent.TIMMessage;
 import com.tencent.TIMUserProfile;
 
 /**
@@ -8,8 +9,13 @@ import com.tencent.TIMUserProfile;
 
 public class SelfCenterFriendData {
     public TIMUserProfile timUserProfile;
+    public String timMessage;
 
     public SelfCenterFriendData(TIMUserProfile timUserProfile) {
         this.timUserProfile = timUserProfile;
+    }
+    public SelfCenterFriendData(TIMUserProfile timUserProfile,String timMessage) {
+        this.timUserProfile = timUserProfile;
+        this.timMessage = timMessage;
     }
 }

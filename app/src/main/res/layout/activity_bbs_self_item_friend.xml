@@ -42,7 +42,7 @@
                 android:textSize="@dimen/sp_16" />
 
             <TextView
-                android:id="@+id/tv_sign"
+                android:id="@+id/tv_word"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

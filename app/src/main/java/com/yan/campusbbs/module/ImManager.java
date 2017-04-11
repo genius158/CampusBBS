@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -92,118 +93,86 @@ public class ImManager {
         return imManager;
     }
 
-    public void sendText(String peer, String text, TIMUserProfile selfProfile) {
+    public void sendText(String peer, String text ) {
 
-        //获取单聊会话
         TIMConversation conversation = TIMManager.getInstance().getConversation(
-                TIMConversationType.C2C,    //会话类型：单聊
+                TIMConversationType.C2C,
                 peer);
 
-        //构造一条消息
         TIMMessage msg = new TIMMessage();
 
-        //添加文本内容
         TIMTextElem elem = new TIMTextElem();
         elem.setText(text);
 
-        //将elem添加到消息
         if (msg.addElement(elem) != 0) {
             Log.e(TAG, "addElement failed");
             return;
         }
 
-        //发送消息
-        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {//发送消息回调
+        conversation.sendMessage(msg, new TIMValueCallBack<TIMMessage>() {
             @Override
-            public void onError(int code, String desc) {//发送消息失败
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code含义请参见错误码表
+            public void onError(int code, String desc) {
                 Log.e(TAG, "send message failed. code: " + code + " errmsg: " + desc);
             }
 
             @Override
             public void onSuccess(TIMMessage msg) {//发送消息成功
-                Log.e(TAG, "SendMsg ok");
-                SelfCenterChatCacheData centerChatCacheData;
-
-                if (ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + peer) == null) {
-                    centerChatCacheData = new SelfCenterChatCacheData(new ArrayList<>());
-                } else {
-                    centerChatCacheData = (SelfCenterChatCacheData) ACache.get(context).getAsObject(CacheConfig.CHAT_DATA + peer);
-                }
-                centerChatCacheData.getChatData()
-                        .add(new SelfCenterChatSelfData(new SelfCenterChatData(text
-                                , System.currentTimeMillis())
-                                .setUserProfile(new UserProfile(selfProfile))));
-                ACache.get(context).put(CacheConfig.CHAT_DATA + peer, centerChatCacheData);
                 rxBus.post(new Action.ActionGetChatMessage(peer));
             }
         });
     }
 
     public void initStorage() {
-        // identifier为用户名，userSig 为用户登录凭证
-
         TIMUser user = new TIMUser();
         user.setIdentifier(identifier);
 
-//发起登录请求
         TIMManager.getInstance().initStorage(
-                SDK_APP_ID,                   //sdkAppId，由腾讯分配
+                SDK_APP_ID,
                 user,
-                userSig,                    //用户帐号签名，由私钥加密获得，具体请参考文档
-                new TIMCallBack() {//回调接口
+                userSig,
+                new TIMCallBack() {
 
                     @Override
-                    public void onSuccess() {//登录成功
+                    public void onSuccess() {
                         Log.e(TAG, "init success");
                     }
 
                     @Override
-                    public void onError(int code, String desc) {//登录失败
-
-                        //错误码code和错误描述desc，可用于定位请求失败原因
-                        //错误码code含义请参见错误码表
+                    public void onError(int code, String desc) {
                         Log.e(TAG, "init failed. code: " + code + " errmsg: " + desc);
                     }
                 });
     }
 
     public void login() {
-        // identifier为用户名，userSig 为用户登录凭证
         TIMUser user = new TIMUser();
         user.setIdentifier(identifier);
 
-        //发起登录请求
         TIMManager.getInstance().login(
-                SDK_APP_ID,                   //sdkAppId，由腾讯分配
+                SDK_APP_ID,
                 user,
-                userSig,                    //用户帐号签名，由私钥加密获得，具体请参考文档
-                new TIMCallBack() {//回调接口
+                userSig,
+                new TIMCallBack() {
 
                     @Override
-                    public void onSuccess() {//登录成功
+                    public void onSuccess() {
                         Log.e(TAG, "login success");
                         rxBus.post(new Action.ActionImLogin());
+//                        initStorage();
+
                     }
 
                     @Override
-                    public void onError(int code, String desc) {//登录失败
-                        //错误码code和错误描述desc，可用于定位请求失败原因
-                        //错误码code含义请参见错误码表
+                    public void onError(int code, String desc) {
                         Log.e(TAG, "login failed. code: " + code + " errmsg: " + desc);
                     }
                 });
     }
 
     public void logout() {
-        //登出
         TIMManager.getInstance().logout(new TIMCallBack() {
             @Override
             public void onError(int code, String desc) {
-
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
                 Log.e(TAG, "logout failed. code: " + code + " errmsg: " + desc);
             }
 
@@ -225,6 +194,7 @@ public class ImManager {
                 .init(context, SDK_APP_ID, ACCOUNT_TYPE, APP_VER);
         loginHelper = TLSLoginHelper.getInstance()
                 .init(context, SDK_APP_ID, ACCOUNT_TYPE, APP_VER);
+
         listenerInit();
     }
 
@@ -263,17 +233,14 @@ public class ImManager {
             }
         });
 
-        //设置网络连接监听器，连接建立／断开时回调
-        getTIM().setConnectionListener(new TIMConnListener() {//连接监听器
+        getTIM().setConnectionListener(new TIMConnListener() {
             @Override
-            public void onConnected() {//连接建立
+            public void onConnected() {
                 Log.e(TAG, "connected");
             }
 
             @Override
-            public void onDisconnected(int code, String desc) {//连接断开
-                //接口返回了错误码code和错误描述desc，可用于定位连接断开原因
-                //错误码code含义请参见错误码表
+            public void onDisconnected(int code, String desc) {
                 Log.e(TAG, "disconnected");
             }
 
@@ -283,16 +250,12 @@ public class ImManager {
             }
         });
 
-        //设置日志回调，sdk输出的日志将通过此接口回传一份副本
-        //[NOTE] 请注意level定义在TIMManager中，如TIMManager.ERROR等， 并不同于Android系统定义
         getTIM().setLogListener(new TIMLogListener() {
             @Override
             public void log(int level, String TAG, String msg) {
-                //可以通过此回调将sdk的log输出到自己的日志系统中
             }
         });
 
-        //设置用户状态变更监听器，在回调中进行相应的处理
         getTIM().setUserStatusListener(new TIMUserStatusListener() {
             @Override
             public void onForceOffline() {
@@ -813,8 +776,6 @@ public class ImManager {
         TIMFriendshipManager.getInstance().setFaceUrl(headUrl, new TIMCallBack() {
             @Override
             public void onError(int code, String desc) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
                 Log.e(TAG, "setFaceUrl failed: " + code + " desc" + desc);
             }
 
@@ -857,8 +818,6 @@ public class ImManager {
         TIMFriendshipManager.getInstance().getUsersProfile(users, new TIMValueCallBack<List<TIMUserProfile>>() {
             @Override
             public void onError(int code, String desc) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
                 Log.e(TAG, "getUsersProfile failed: " + code + " desc");
             }
 
@@ -890,8 +849,6 @@ public class ImManager {
         TIMFriendshipManager.getInstance().setSelfSignature(signature, new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
                 Log.e(TAG, "setNickName failed: " + " desc");
             }
 
@@ -912,8 +869,6 @@ public class ImManager {
         TIMFriendshipManager.getInstance().setNickName(nikeName, new TIMCallBack() {
             @Override
             public void onError(int code, String desc) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
                 Log.e(TAG, "setNickName failed: " + code + " desc");
             }
 
@@ -940,8 +895,6 @@ public class ImManager {
         TIMFriendshipManager.getInstance().addFriend(reqList, new TIMValueCallBack<List<TIMFriendResult>>() {
             @Override
             public void onError(int code, String desc) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
                 Log.e(TAG, "addFriend failed: " + code + " desc");
             }
 
@@ -960,8 +913,6 @@ public class ImManager {
         TIMFriendshipManager.getInstance().getFriendList(new TIMValueCallBack<List<TIMUserProfile>>() {
             @Override
             public void onError(int code, String desc) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
                 Log.e(TAG, "getFriendList failed: " + code + " desc");
             }
 
@@ -981,7 +932,6 @@ public class ImManager {
         TIMFriendshipManager.getInstance().getFriendList(timValueCallBack);
     }
 
-
     public void addFriendResponse(String userId) {
         TIMFriendAddResponse friendAddResponse = new TIMFriendAddResponse();
         friendAddResponse.setIdentifier(userId);
@@ -989,14 +939,29 @@ public class ImManager {
         TIMFriendshipManager.getInstance().addFriendResponse(friendAddResponse, new TIMValueCallBack<TIMFriendResult>() {
             @Override
             public void onError(int code, String s) {
-                //错误码code和错误描述desc，可用于定位请求失败原因
-                //错误码code列表请参见错误码表
                 Log.e(TAG, "getFriendList failed: " + code + " desc");
             }
 
             @Override
             public void onSuccess(TIMFriendResult timFriendResult) {
                 Log.e(TAG, "onSuccess: " + timFriendResult);
+            }
+        });
+    }
+
+    public void getMessage(@Nullable TIMMessage message, String peer, String num) {
+        TIMConversation conversation = TIMManager.getInstance().getConversation(
+                TIMConversationType.C2C,    //会话类型：单聊
+                peer);
+        conversation.getMessage(Integer.parseInt(num), message, new TIMValueCallBack<List<TIMMessage>>() {
+            @Override
+            public void onError(int i, String s) {
+                Log.e(TAG, "get message error" + s);
+            }
+
+            @Override
+            public void onSuccess(List<TIMMessage> timMessages) {
+
             }
         });
     }

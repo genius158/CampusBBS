@@ -17,7 +17,6 @@ import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterMessageAdapter;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageCacheData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.message.MessageContract;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;

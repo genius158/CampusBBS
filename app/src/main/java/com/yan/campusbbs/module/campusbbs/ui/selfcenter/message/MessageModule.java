@@ -6,8 +6,6 @@ import android.content.Context;
 
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterMessageAdapter;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.message.MessageContract;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.message.MessagePresenter;
 
 import java.util.ArrayList;
 import java.util.List;

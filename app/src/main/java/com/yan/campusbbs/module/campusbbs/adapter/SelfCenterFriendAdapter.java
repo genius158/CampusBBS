@@ -45,7 +45,7 @@ public class SelfCenterFriendAdapter extends BaseQuickAdapter<SelfCenterFriendDa
             userName = userProfile.getIdentifier();
         }
         holder.setText(R.id.tv_user_name, userName);
-        holder.setText(R.id.tv_sign, userProfile.getSelfSignature());
+        holder.setText(R.id.tv_word, item.timMessage);
 
         ((SimpleDraweeView) holder.getView(R.id.sdv_head))
                 .setImageURI(userProfile.getFaceUrl());

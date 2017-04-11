@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.message;
+package com.yan.campusbbs.module.campusbbs.ui.selfcenter.message;
 
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;

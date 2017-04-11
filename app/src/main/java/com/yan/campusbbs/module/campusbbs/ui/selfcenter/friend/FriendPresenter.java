@@ -1,12 +1,32 @@
 package com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend;
 
 import android.content.Context;
+import android.util.Log;
+
+import com.tencent.TIMConversation;
+import com.tencent.TIMConversationType;
+import com.tencent.TIMElem;
+import com.tencent.TIMElemType;
+import com.tencent.TIMManager;
+import com.tencent.TIMMessage;
+import com.tencent.TIMTextElem;
+import com.tencent.TIMUserProfile;
+import com.tencent.TIMValueCallBack;
+import com.yan.campusbbs.module.ImManager;
+import com.yan.campusbbs.module.campusbbs.data.SelfCenterFriendData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 public class FriendPresenter implements FriendContract.Presenter {
+    private static final String TAG = "FriendPresenter";
+
     private FriendContract.View view;
     private Context context;
+
+    private List<TIMUserProfile> friendUserProfiles;
 
     @Inject
     public FriendPresenter(Context context, FriendContract.View view) {
@@ -17,5 +37,62 @@ public class FriendPresenter implements FriendContract.Presenter {
     @Override
     public void start() {
 
+    }
+
+    private TIMValueCallBack<List<TIMUserProfile>> timValueCallBack = new TIMValueCallBack<List<TIMUserProfile>>() {
+        @Override
+        public void onError(int i, String s) {
+            view.error(s);
+        }
+
+        @Override
+        public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+            friendUserProfiles = timUserProfiles;
+            initConversation();
+        }
+    };
+
+    private void initConversation() {
+
+        List<TIMConversation> list = TIMManager.getInstance().getConversionList();
+        List<TIMConversation> result = new ArrayList<>();
+        for (TIMConversation conversation : list) {
+            if (conversation.getType() != TIMConversationType.C2C
+                    ) continue;
+            result.add(conversation);
+            conversation.getMessage(1, null, new TIMValueCallBack<List<TIMMessage>>() {
+                @Override
+                public void onError(int i, String s) {
+                    Log.e(TAG, "get message error" + s);
+                }
+
+                @Override
+                public void onSuccess(List<TIMMessage> timMessages) {
+                    for (TIMMessage msg : timMessages) {
+                        TIMUserProfile senderProfile = msg.getSenderProfile();
+                        String sender = msg.getSender();
+                        for (int i = 0; i < msg.getElementCount(); ++i) {
+                            TIMElem elem = msg.getElement(i);
+                            TIMElemType elemType = elem.getType();
+                            if (elemType == TIMElemType.Text) {
+                                TIMTextElem textElem = (TIMTextElem) elem;
+                                for (TIMUserProfile userProfile : friendUserProfiles) {
+                                    if (userProfile.getIdentifier().equals(sender)) {
+                                        view.addConversationData(new SelfCenterFriendData(senderProfile, textElem.getText()));
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        view.update();
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void getConversation() {
+        ImManager.getImManager().getFriendList(timValueCallBack);
     }
 }

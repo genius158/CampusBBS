@@ -1,4 +1,4 @@
-package com.yan.campusbbs.module.campusbbs.ui.selfcenter.ui.message;
+package com.yan.campusbbs.module.campusbbs.ui.selfcenter.message;
 
 import android.content.Context;
 

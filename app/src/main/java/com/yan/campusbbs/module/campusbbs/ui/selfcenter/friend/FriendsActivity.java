@@ -9,12 +9,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.tencent.TIMMessage;
 import com.tencent.TIMUserProfile;
-import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterFriendAdapter;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterFriendData;
 import com.yan.campusbbs.module.setting.ImageControl;
@@ -24,7 +23,6 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,13 +36,15 @@ import butterknife.OnClick;
  */
 
 public class FriendsActivity extends BaseActivity implements FriendContract.View {
-
+    private static final String TAG = "FriendsActivity";
     @Inject
     SettingHelper changeSkinHelper;
     @Inject
     SPUtils spUtils;
     @Inject
     ToastUtils toastUtils;
+    @Inject
+    FriendPresenter presenter;
     @Inject
     ImageControl imageControl;
     @Inject
@@ -60,6 +60,7 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     @BindView(R.id.title)
     TextView title;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +69,7 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
         daggerInject();
         imageControl.frescoInit();
         init();
+
     }
 
     private void daggerInject() {
@@ -81,25 +83,8 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(friendAdapter);
-        ImManager.getImManager().getFriendList(timValueCallBack);
+        presenter.getConversation();
     }
-
-    private TIMValueCallBack<List<TIMUserProfile>> timValueCallBack = new TIMValueCallBack<List<TIMUserProfile>>() {
-        @Override
-        public void onError(int i, String s) {
-            toastUtils.showShort(s);
-        }
-
-        @Override
-        public void onSuccess(List<TIMUserProfile> timUserProfiles) {
-            friendDatas.clear();
-            for (TIMUserProfile userProfile : timUserProfiles) {
-                friendDatas.add(new SelfCenterFriendData(userProfile));
-            }
-            Collections.reverse(friendDatas);
-            friendAdapter.notifyDataSetChanged();
-        }
-    };
 
     @Override
     protected SPUtils sPUtils() {
@@ -125,5 +110,20 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     @OnClick(R.id.arrow_back)
     public void onClick() {
         finish();
+    }
+
+    @Override
+    public void addConversationData(SelfCenterFriendData timMessage) {
+        friendDatas.add(timMessage);
+    }
+
+    @Override
+    public void update() {
+        friendAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void error(String s) {
+
     }
 }
