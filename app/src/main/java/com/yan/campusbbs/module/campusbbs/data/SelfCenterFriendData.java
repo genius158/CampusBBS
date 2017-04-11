@@ -10,15 +10,21 @@ import com.tencent.TIMUserProfile;
 public class SelfCenterFriendData {
     public TIMUserProfile timUserProfile;
     public boolean isSelf;
-    public String timMessage;
+    public String message;
+    public TIMMessage timMessage;
 
     public SelfCenterFriendData(TIMUserProfile timUserProfile) {
         this.timUserProfile = timUserProfile;
     }
 
-    public SelfCenterFriendData(TIMUserProfile timUserProfile, String timMessage,boolean isSelf) {
+    public SelfCenterFriendData(TIMUserProfile timUserProfile, String message, boolean isSelf) {
         this.timUserProfile = timUserProfile;
         this.isSelf = isSelf;
+        this.message = message;
+    }
+
+    public SelfCenterFriendData setTimMessage(TIMMessage timMessage) {
         this.timMessage = timMessage;
+        return this;
     }
 }

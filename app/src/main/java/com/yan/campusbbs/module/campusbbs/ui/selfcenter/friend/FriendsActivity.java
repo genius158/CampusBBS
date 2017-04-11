@@ -9,8 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
-import com.tencent.TIMMessage;
-import com.tencent.TIMUserProfile;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
@@ -23,6 +21,8 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -131,6 +131,19 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
 
     @Override
     public void update() {
+        Collections.sort(friendDatas, (o1, o2) -> {
+            if (o1.timMessage == null
+                    || o2.timMessage == null) {
+
+                return 0;
+            }
+            if (o1.timMessage.timestamp() > o2.timMessage.timestamp()) {
+                return 1;
+            } else if (o1.timMessage.timestamp() < o2.timMessage.timestamp()) {
+                return -1;
+            }
+            return 0;
+        });
         friendAdapter.notifyDataSetChanged();
     }
 

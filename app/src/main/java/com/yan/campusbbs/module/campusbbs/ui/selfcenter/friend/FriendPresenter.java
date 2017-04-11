@@ -58,7 +58,7 @@ public class FriendPresenter implements FriendContract.Presenter {
     private void initConversation() {
         List<TIMConversation> list = TIMManager.getInstance().getConversionList();
         List<TIMConversation> result = new ArrayList<>();
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             view.update();
         }
         for (TIMConversation conversation : list) {
@@ -87,7 +87,8 @@ public class FriendPresenter implements FriendContract.Presenter {
                                         setDataFromSelf(peer, textElem.getText());
                                         break;
                                     } else if (userProfile.getIdentifier().equals(sender)) {
-                                        view.addConversationData(new SelfCenterFriendData(senderProfile, textElem.getText(), false));
+                                        view.addConversationData(new SelfCenterFriendData(senderProfile, textElem.getText(), false)
+                                                .setTimMessage(msg));
                                         break;
                                     }
                                 }

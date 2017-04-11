@@ -2,7 +2,6 @@ package com.yan.campusbbs.module.campusbbs.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -55,7 +54,7 @@ public class SelfCenterFriendAdapter extends BaseQuickAdapter<SelfCenterFriendDa
                     ContextCompat.getColor(context, R.color.cr777777));
 
         }
-        holder.setText(R.id.tv_word, item.timMessage);
+        holder.setText(R.id.tv_word, item.message);
 
         ((SimpleDraweeView) holder.getView(R.id.sdv_head))
                 .setImageURI(userProfile.getFaceUrl());
