@@ -111,7 +111,9 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(actionGetChatMessage -> {
-                    presenter.getLastData();
+                    if (actionGetChatMessage.identifer.equals(identifier)) {
+                        presenter.getLastData();
+                    }
                 }));
     }
 
@@ -263,7 +265,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                             ).setUserProfile(new UserProfile(senderProfile))));
                 }
                 chatAdapter.notifyItemInserted(0);
-                recyclerView.scrollTo(0, 0);
+                recyclerView.smoothScrollToPosition(0);
             }
         }
     }
