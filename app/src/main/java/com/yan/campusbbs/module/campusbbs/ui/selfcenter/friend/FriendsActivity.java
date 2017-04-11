@@ -132,15 +132,10 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     @Override
     public void update() {
         Collections.sort(friendDatas, (o1, o2) -> {
-            if (o1.timMessage == null
-                    || o2.timMessage == null) {
-
-                return 0;
-            }
-            if (o1.timMessage.timestamp() > o2.timMessage.timestamp()) {
-                return 1;
-            } else if (o1.timMessage.timestamp() < o2.timMessage.timestamp()) {
+            if (o1.timestamp > o2.timestamp) {
                 return -1;
+            } else if (o1.timestamp < o2.timestamp) {
+                return 1;
             }
             return 0;
         });

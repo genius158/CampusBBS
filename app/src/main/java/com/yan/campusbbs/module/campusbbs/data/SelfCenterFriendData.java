@@ -13,6 +13,8 @@ public class SelfCenterFriendData {
     public String message;
     public TIMMessage timMessage;
 
+    public long timestamp;
+
     public SelfCenterFriendData(TIMUserProfile timUserProfile) {
         this.timUserProfile = timUserProfile;
     }
@@ -25,6 +27,11 @@ public class SelfCenterFriendData {
 
     public SelfCenterFriendData setTimMessage(TIMMessage timMessage) {
         this.timMessage = timMessage;
+        return this;
+    }
+
+    public SelfCenterFriendData setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
         return this;
     }
 }

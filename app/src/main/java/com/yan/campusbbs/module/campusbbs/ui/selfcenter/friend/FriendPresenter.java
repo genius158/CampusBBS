@@ -49,7 +49,8 @@ public class FriendPresenter implements FriendContract.Presenter {
         public void onSuccess(List<TIMUserProfile> timUserProfiles) {
             friendUserProfiles = timUserProfiles;
             for (TIMUserProfile userProfile : timUserProfiles) {
-                view.addFriends(new SelfCenterFriendData(userProfile, userProfile.getSelfSignature(), false));
+                view.addFriends(new SelfCenterFriendData(userProfile, userProfile.getSelfSignature(), false)
+                        .setTimestamp(0));
             }
             initConversation();
         }
@@ -88,7 +89,7 @@ public class FriendPresenter implements FriendContract.Presenter {
                                         break;
                                     } else if (userProfile.getIdentifier().equals(sender)) {
                                         view.addConversationData(new SelfCenterFriendData(senderProfile, textElem.getText(), false)
-                                                .setTimMessage(msg));
+                                                .setTimestamp(msg.timestamp()));
                                         break;
                                     }
                                 }
