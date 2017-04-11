@@ -48,12 +48,14 @@ public class FriendPresenter implements FriendContract.Presenter {
         @Override
         public void onSuccess(List<TIMUserProfile> timUserProfiles) {
             friendUserProfiles = timUserProfiles;
+            for (TIMUserProfile userProfile : timUserProfiles) {
+                view.addFriends(new SelfCenterFriendData(userProfile, userProfile.getSelfSignature(), false));
+            }
             initConversation();
         }
     };
 
     private void initConversation() {
-
         List<TIMConversation> list = TIMManager.getInstance().getConversionList();
         List<TIMConversation> result = new ArrayList<>();
         for (TIMConversation conversation : list) {
@@ -77,18 +79,42 @@ public class FriendPresenter implements FriendContract.Presenter {
                             if (elemType == TIMElemType.Text) {
                                 TIMTextElem textElem = (TIMTextElem) elem;
                                 for (TIMUserProfile userProfile : friendUserProfiles) {
-                                    if (userProfile.getIdentifier().equals(sender)) {
-                                        view.addConversationData(new SelfCenterFriendData(senderProfile, textElem.getText()));
+                                    if (msg.isSelf()) {
+                                        String peer = msg.getConversation().getPeer();
+                                        setDataFromSelf(peer, textElem.getText());
+                                        break;
+                                    } else if (userProfile.getIdentifier().equals(sender)) {
+                                        view.addConversationData(new SelfCenterFriendData(senderProfile, textElem.getText(), false));
                                         break;
                                     }
                                 }
                             }
                         }
-                        view.update();
                     }
                 }
             });
         }
+        view.update();
+    }
+
+
+    private void setDataFromSelf(String peer, String text) {
+
+        ImManager.getImManager().getUsersProfile(new TIMValueCallBack<List<TIMUserProfile>>() {
+            @Override
+            public void onError(int i, String s) {
+                Log.e(TAG, "onError: " + s);
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                for (TIMUserProfile userProfile : timUserProfiles) {
+                    view.addConversationData(new SelfCenterFriendData(userProfile, text, true));
+                    view.update();
+                }
+            }
+        }, peer);
+
     }
 
     @Override

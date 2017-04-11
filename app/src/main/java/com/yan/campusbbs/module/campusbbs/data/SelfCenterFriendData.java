@@ -9,13 +9,16 @@ import com.tencent.TIMUserProfile;
 
 public class SelfCenterFriendData {
     public TIMUserProfile timUserProfile;
+    public boolean isSelf;
     public String timMessage;
 
     public SelfCenterFriendData(TIMUserProfile timUserProfile) {
         this.timUserProfile = timUserProfile;
     }
-    public SelfCenterFriendData(TIMUserProfile timUserProfile,String timMessage) {
+
+    public SelfCenterFriendData(TIMUserProfile timUserProfile, String timMessage,boolean isSelf) {
         this.timUserProfile = timUserProfile;
+        this.isSelf = isSelf;
         this.timMessage = timMessage;
     }
 }

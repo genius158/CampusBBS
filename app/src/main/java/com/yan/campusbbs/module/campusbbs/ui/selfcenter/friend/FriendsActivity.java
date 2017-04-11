@@ -112,8 +112,20 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
         finish();
     }
 
+
     @Override
-    public void addConversationData(SelfCenterFriendData timMessage) {
+    public synchronized void addConversationData(SelfCenterFriendData timMessage) {
+        for (SelfCenterFriendData friendData : friendDatas) {
+            if (friendData.timUserProfile.getIdentifier().equals(timMessage.timUserProfile.getIdentifier())) {
+                friendDatas.remove(friendData);
+                friendDatas.add(0, timMessage);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void addFriends(SelfCenterFriendData timMessage) {
         friendDatas.add(timMessage);
     }
 
