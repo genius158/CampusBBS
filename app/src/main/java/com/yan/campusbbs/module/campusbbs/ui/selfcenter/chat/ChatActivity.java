@@ -37,6 +37,7 @@ import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -46,6 +47,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -276,7 +278,12 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                             ).setUserProfile(new UserProfile(senderProfile))));
                 }
                 chatAdapter.notifyItemInserted(0);
-                recyclerView.smoothScrollToPosition(0);
+                Observable.timer(100, TimeUnit.MILLISECONDS)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(aLong -> {
+                            recyclerView.smoothScrollToPosition(0);
+                        });
             }
         }
     }
