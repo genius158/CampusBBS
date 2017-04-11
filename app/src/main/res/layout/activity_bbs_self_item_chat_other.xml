@@ -33,9 +33,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:ellipsize="end"
+            android:gravity="right"
             android:lineSpacingExtra="5dp"
             android:maxLines="2"
-            android:text="test测试test测试test测试test测试test测试test测试"
+            android:text="test测 试test测试test测试"
             android:textColor="@color/cr777777"
             android:textIsSelectable="true"
             android:textSize="@dimen/sp_14" />
