@@ -131,7 +131,7 @@ public class ChatPresenter implements ChatContract.Presenter {
 
             @Override
             public void onSuccess(List<TIMMessage> timMessages) {
-                view.setLoadMoreData(timMessages);
+                view.addLatestData(timMessages.get(0));
             }
         });
     }

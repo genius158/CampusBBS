@@ -36,7 +36,6 @@ import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -169,6 +168,14 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
 
     @Override
     public void setData(List<TIMMessage> data) {
+        if (data == null
+                || data.isEmpty()) {
+            canLoadMore = false;
+            return;
+        }
+        chatAdapter.setEnableLoadMore(true);
+
+        canLoadMore = true;
         dataMultiItems.clear();
         addMessage(data);
         chatAdapter.notifyDataSetChanged();
@@ -177,9 +184,10 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     @Override
     public void setLoadMoreData(List<TIMMessage> data) {
         if (data == null
-                ||data.isEmpty()) {
+                || data.isEmpty()) {
             canLoadMore = false;
             chatAdapter.loadMoreComplete();
+            chatAdapter.setEnableLoadMore(false);
             return;
         }
         addMessage(data);
@@ -254,9 +262,10 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                                     , timestamp * 1000
                             ).setUserProfile(new UserProfile(senderProfile))));
                 }
+                chatAdapter.notifyItemInserted(0);
+                recyclerView.scrollTo(0, 0);
             }
         }
-        chatAdapter.notifyItemInserted(0);
     }
 
     @Override
