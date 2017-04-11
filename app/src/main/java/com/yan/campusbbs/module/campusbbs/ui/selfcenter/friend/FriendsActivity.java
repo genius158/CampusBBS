@@ -131,6 +131,7 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
 
     @Override
     public void update() {
+        Collections.reverse(friendDatas);
         Collections.sort(friendDatas, (o1, o2) -> {
             if (o1.timMessage == null
                     || o2.timMessage == null) {
