@@ -442,8 +442,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        Intent home = new Intent(Intent.ACTION_MAIN);
-        home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent home= new Intent(Intent.ACTION_MAIN);
+        home.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         home.addCategory(Intent.CATEGORY_HOME);
         startActivity(home);
 
