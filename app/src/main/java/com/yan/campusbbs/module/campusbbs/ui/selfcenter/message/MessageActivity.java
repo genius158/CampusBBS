@@ -97,9 +97,9 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
     }
 
     private void getMessage() {
-        if (ACache.get(getBaseContext()).getAsObject(CacheConfig.MESSAGE_INFO) != null) {
+        if (ACache.get(getBaseContext()).getAsObject(CacheConfig.MESSAGE_INFO+ImManager.getImManager().getIdentifier()) != null) {
             SelfCenterMessageCacheData messageCacheData =
-                    (SelfCenterMessageCacheData) ACache.get(getBaseContext()).getAsObject(CacheConfig.MESSAGE_INFO);
+                    (SelfCenterMessageCacheData) ACache.get(getBaseContext()).getAsObject(CacheConfig.MESSAGE_INFO+ImManager.getImManager().getIdentifier());
             messageDatas.clear();
             messageDatas.addAll(messageCacheData.getCenterMessageDatas());
             Collections.reverse(messageDatas);
