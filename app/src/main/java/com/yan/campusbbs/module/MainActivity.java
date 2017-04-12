@@ -127,7 +127,7 @@ public class MainActivity extends BaseActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         rxBus.post(new ActionMainActivityShowComplete());
-       startService(new Intent(this, CampusBBSService.class));
+        startService(new Intent(this, CampusBBSService.class));
 
     }
 
@@ -154,7 +154,6 @@ public class MainActivity extends BaseActivity {
     private void init() {
         initFragment();
         imageControl.frescoInit();
-
         initNavigationBar();
         rxActionInit();
     }
@@ -214,7 +213,7 @@ public class MainActivity extends BaseActivity {
                     ImManager.getImManager().getSin(
                             ACache.get(getBaseContext()).getAsString(CacheConfig.USER_ACCOUNT)
                             , ACache.get(getBaseContext()).getAsString(CacheConfig.USER_PASSWORD)
-                     );
+                    );
 
                 }, Throwable::printStackTrace));
     }
@@ -251,21 +250,6 @@ public class MainActivity extends BaseActivity {
     private void initNavigationBar() {
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
-
-        BadgeItem numberBadgeItem = new BadgeItem()
-                .setBorderWidth(4)
-                .setBackgroundColorResource(R.color.crFF0000)
-                .setText("5");
-
-        bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.self_main_page, getString(R.string.self_main_page))
-                        .setBadgeItem(numberBadgeItem))
-                .addItem(new BottomNavigationItem(R.drawable.campus_bbs, getString(R.string.campus_bbs)))
-                .addItem(new BottomNavigationItem(R.drawable.res_center, getString(R.string.file_center)))
-                .setActiveColor(R.color.colorPrimary)
-                .setInActiveColor(R.color.crABABAB)
-                .setFirstSelectedPosition(0)
-                .initialise();
 
         bottomNavigationBar.setAnimationDuration(100);
         bottomNavigationBar.setTabSelectedListener(getOnTabSelectedListener());
@@ -446,14 +430,8 @@ public class MainActivity extends BaseActivity {
         setupFab(actionChangeSkin);
 
         bottomNavigationBar.clearAll();
-        BadgeItem numberBadgeItem = new BadgeItem()
-                .setBorderWidth(4)
-                .setBackgroundColorResource(R.color.crFF0000)
-                .setText("5");
-
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.self_main_page, getString(R.string.self_main_page))
-                        .setBadgeItem(numberBadgeItem))
+                .addItem(new BottomNavigationItem(R.drawable.self_main_page, getString(R.string.self_main_page)))
                 .addItem(new BottomNavigationItem(R.drawable.campus_bbs, getString(R.string.campus_bbs)))
                 .addItem(new BottomNavigationItem(R.drawable.res_center, getString(R.string.file_center)))
                 .setActiveColor(actionChangeSkin.getColorPrimaryId())

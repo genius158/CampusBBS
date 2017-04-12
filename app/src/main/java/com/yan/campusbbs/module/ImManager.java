@@ -499,7 +499,7 @@ public class ImManager {
                 .setTicker(senderStr + ":" + contentStr) //通知首次出现在通知栏，带上升动画效果的
                 .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
                 .setDefaults(Notification.DEFAULT_ALL)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合
-                .setSmallIcon(R.drawable.campus_logo);//设置通知小ICON
+                .setSmallIcon(R.drawable.icon_friend);//设置通知小ICON
         Notification notify = mBuilder.build();
         notify.flags |= Notification.FLAG_AUTO_CANCEL;
         mNotificationManager.notify(0, notify);
