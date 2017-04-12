@@ -379,10 +379,10 @@ public class ImManager {
                 for (TIMUserProfile userProfile : timUserProfiles) {
                     SelfCenterMessageCacheData messageCacheData;
 
-                    if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO+identifier) == null) {
+                    if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO + identifier) == null) {
                         messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
                     } else {
-                        messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO+identifier);
+                        messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO + identifier);
                     }
                     String messageName;
                     if (!TextUtils.isEmpty(userProfile.getNickName())) {
@@ -394,7 +394,7 @@ public class ImManager {
                             .add(new SelfCenterMessageData("新朋友", messageName + " 添加你为好友")
                                     .setUserProfile(new UserProfile(userProfile))
                                     .setTime(timestamp * 1000));
-                    ACache.get(context).put(CacheConfig.MESSAGE_INFO+identifier, messageCacheData);
+                    ACache.get(context).put(CacheConfig.MESSAGE_INFO + identifier, messageCacheData);
                     rxBus.post(new Action.ActionGetMessage());
 
                     notifyMessage("新朋友", messageName + "添加你为好友", 0, null);
@@ -409,10 +409,10 @@ public class ImManager {
 
         SelfCenterMessageCacheData messageCacheData;
 
-        if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO+identifier) == null) {
+        if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO + identifier) == null) {
             messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
         } else {
-            messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO+identifier);
+            messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO + identifier);
         }
         String messageName;
         if (!TextUtils.isEmpty(userProfile.getNickName())) {
@@ -424,7 +424,7 @@ public class ImManager {
                 .add(new SelfCenterMessageData("陌生人", messageName + " 对你说: " + textElem.getText())
                         .setUserProfile(new UserProfile(userProfile))
                         .setTime(timestamp * 1000));
-        ACache.get(context).put(CacheConfig.MESSAGE_INFO+identifier, messageCacheData);
+        ACache.get(context).put(CacheConfig.MESSAGE_INFO + identifier, messageCacheData);
         rxBus.post(new Action.ActionGetMessage());
         notifyMessage("陌生人", messageName + " 对你说: " + textElem.getText(), 0, null);
     }
@@ -433,17 +433,17 @@ public class ImManager {
         if (userProfile == null) {
             SelfCenterMessageCacheData messageCacheData;
 
-            if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO+identifier) == null) {
+            if (ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO + identifier) == null) {
                 messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
             } else {
-                messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO+identifier);
+                messageCacheData = (SelfCenterMessageCacheData) ACache.get(context).getAsObject(CacheConfig.MESSAGE_INFO + identifier);
             }
 
             messageCacheData.getCenterMessageDatas()
                     .add(new SelfCenterMessageData("管理员", sender + " 对你说: " + textElem.getText())
                             .setUserProfile(new UserProfile(sender))
                             .setTime(timestamp * 1000));
-            ACache.get(context).put(CacheConfig.MESSAGE_INFO+identifier, messageCacheData);
+            ACache.get(context).put(CacheConfig.MESSAGE_INFO + identifier, messageCacheData);
             rxBus.post(new Action.ActionGetMessage());
             notifyMessage("管理员", sender + " 对你说: " + textElem.getText(), 0, null);
             return;
@@ -465,8 +465,8 @@ public class ImManager {
                         return;
                     }
                 }
+                getTIM().getConversation(TIMConversationType.C2C, sender).setReadMessage();
                 addIncognizanceMessage(userProfile, textElem, timestamp);
-
             }
         });
     }
