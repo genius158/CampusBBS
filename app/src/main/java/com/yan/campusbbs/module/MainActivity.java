@@ -127,6 +127,8 @@ public class MainActivity extends BaseActivity {
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         rxBus.post(new ActionMainActivityShowComplete());
+       startService(new Intent(this, CampusBBSService.class));
+
     }
 
     @Override
@@ -256,10 +258,10 @@ public class MainActivity extends BaseActivity {
                 .setText("5");
 
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.self_main_page))
+                .addItem(new BottomNavigationItem(R.drawable.self_main_page, getString(R.string.self_main_page))
                         .setBadgeItem(numberBadgeItem))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.campus_bbs)))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.file_center)))
+                .addItem(new BottomNavigationItem(R.drawable.campus_bbs, getString(R.string.campus_bbs)))
+                .addItem(new BottomNavigationItem(R.drawable.res_center, getString(R.string.file_center)))
                 .setActiveColor(R.color.colorPrimary)
                 .setInActiveColor(R.color.crABABAB)
                 .setFirstSelectedPosition(0)
@@ -504,4 +506,5 @@ public class MainActivity extends BaseActivity {
         }
         materialSheetFab.hideSheet();
     }
+
 }

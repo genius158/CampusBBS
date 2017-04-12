@@ -40,7 +40,7 @@
     <application
         android:name=".ApplicationCampusBBS"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/campus_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
@@ -139,6 +139,8 @@
         <activity
             android:name=".module.selfcenter.ui.friendpage.FriendPageActivity"
             android:screenOrientation="portrait" />
+
+        <service android:name="com.yan.campusbbs.module.CampusBBSService"/>
     </application>
 
 </manifest>

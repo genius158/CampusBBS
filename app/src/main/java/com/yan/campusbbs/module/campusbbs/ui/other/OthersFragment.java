@@ -54,9 +54,9 @@ public class OthersFragment extends BaseFragment {
     }
 
     private void initData() {
-        othersItems.add(new OthersAdapter.OthersItem("NBA", R.mipmap.ic_launcher));
-        othersItems.add(new OthersAdapter.OthersItem("二手市场", R.mipmap.ic_launcher));
-        othersItems.add(new OthersAdapter.OthersItem("NBA", R.mipmap.ic_launcher));
+        othersItems.add(new OthersAdapter.OthersItem("NBA", R.drawable.campus_logo));
+        othersItems.add(new OthersAdapter.OthersItem("二手市场",  R.drawable.campus_logo));
+        othersItems.add(new OthersAdapter.OthersItem("NBA", R.drawable.campus_logo));
 
         adapter.notifyDataSetChanged();
     }
