@@ -35,6 +35,7 @@ import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ACache;
+import com.yan.campusbbs.util.RegExpUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -102,18 +103,13 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         initRxAction();
     }
 
-    public boolean isChinaPhoneLegal(String str) throws PatternSyntaxException {
-        String regExp = "^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(147))\\d{8}$";
-        Pattern p = Pattern.compile(regExp);
-        Matcher m = p.matcher(str);
-        return m.matches();
-    }
+
 
     protected void initIntentData() {
         identifier = getIntent().getStringExtra("identifier");
 
         if (!identifier.startsWith("86-")) {
-            if (isChinaPhoneLegal(identifier)) {
+            if (RegExpUtils.isChinaPhoneLegal(identifier)) {
                 identifier = "86-" + identifier;
             }
         }

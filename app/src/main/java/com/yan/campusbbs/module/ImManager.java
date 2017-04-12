@@ -39,18 +39,14 @@ import com.tencent.TIMUserStatusListener;
 import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.CacheConfig;
-import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatCacheData;
-import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatData;
-import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatOtherData;
-import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatSelfData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageCacheData;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
-import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.ChatActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.NotifyChatActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend.FriendsActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.message.MessageActivity;
 import com.yan.campusbbs.module.common.data.UserProfile;
 import com.yan.campusbbs.util.ACache;
+import com.yan.campusbbs.util.RegExpUtils;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
@@ -84,6 +80,8 @@ public class ImManager {
     private TLSLoginHelper loginHelper;
 
     private RxBus rxBus;
+
+    private boolean isLogin;
 
     public static void init(Context context, RxBus rxBus) {
         imManager = new ImManager(context, rxBus);
@@ -163,7 +161,7 @@ public class ImManager {
                         Log.e(TAG, "login success");
                         rxBus.post(new Action.ActionImLogin());
 //                        initStorage();
-
+                        isLogin = true;
                     }
 
                     @Override
@@ -690,8 +688,15 @@ public class ImManager {
     }
 
     public void getSin(String userPhone, String password) {
+        if (isLogin) return;
 
-        loginHelper.TLSPwdLogin("86-" + userPhone, password.getBytes(), new TLSPwdLoginListener() {
+        if (!userPhone.startsWith("86-")) {
+            if (RegExpUtils.isChinaPhoneLegal(userPhone)) {
+                userPhone = "86-" + userPhone;
+            }
+        }
+
+        loginHelper.TLSPwdLogin(userPhone, password.getBytes(), new TLSPwdLoginListener() {
             @Override
             public void OnPwdLoginSuccess(TLSUserInfo tlsUserInfo) {
                 userSig = loginHelper.getUserSig(tlsUserInfo.identifier);

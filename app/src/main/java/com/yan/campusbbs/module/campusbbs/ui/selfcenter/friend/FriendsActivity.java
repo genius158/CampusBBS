@@ -130,15 +130,19 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     }
 
     @Override
-    public void update() {
-        Collections.sort(friendDatas, (o1, o2) -> {
-            if (o1.timestamp > o2.timestamp) {
-                return -1;
-            } else if (o1.timestamp < o2.timestamp) {
-                return 1;
-            }
-            return 0;
-        });
+    public synchronized void update() {
+        Collections.sort(friendDatas,
+                new Comparator<SelfCenterFriendData>() {
+                    @Override
+                    public int compare(SelfCenterFriendData o1, SelfCenterFriendData o2) {
+                        if (o1.timestamp > o2.timestamp) {
+                            return -1;
+                        } else if (o1.timestamp < o2.timestamp) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
         friendAdapter.notifyDataSetChanged();
     }
 
