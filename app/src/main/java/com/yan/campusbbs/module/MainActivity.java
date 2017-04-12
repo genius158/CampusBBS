@@ -440,16 +440,12 @@ public class MainActivity extends BaseActivity {
                 .initialise();
     }
 
-    private long lastBackPressedTime;
-
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() - lastBackPressedTime < 1000) {
-            super.onBackPressed();
-        } else {
-            lastBackPressedTime = System.currentTimeMillis();
-            toastUtils.showShort(getString(R.string.more_pressed_exit));
-        }
+        Intent home = new Intent(Intent.ACTION_MAIN);
+        home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        home.addCategory(Intent.CATEGORY_HOME);
+        startActivity(home);
     }
 
     @Override
