@@ -41,4 +41,10 @@ public class CampusBBSService extends Service {
                 .setContentIntent(pIntent);
         startForeground(1, builder.build());
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 }

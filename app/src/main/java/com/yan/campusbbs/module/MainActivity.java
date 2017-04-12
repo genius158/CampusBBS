@@ -126,7 +126,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        rxBus.post(new ActionMainActivityShowComplete());
+//        rxBus.post(new ActionMainActivityShowComplete());
         startService(new Intent(this, CampusBBSService.class));
 
     }
@@ -444,12 +444,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() - lastBackPressedTime < 1000) {
-            super.onBackPressed();
-        } else {
-            lastBackPressedTime = System.currentTimeMillis();
-            toastUtils.showShort(getString(R.string.more_pressed_exit));
-        }
+       moveTaskToBack(true);
     }
 
     @Override
