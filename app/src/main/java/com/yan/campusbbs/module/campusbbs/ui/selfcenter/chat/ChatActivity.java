@@ -104,7 +104,6 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
     }
 
 
-
     protected void initIntentData() {
         identifier = getIntent().getStringExtra("identifier");
 
@@ -194,10 +193,10 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         if (dataMultiItems.size() > 5) {
             chatAdapter.setEnableLoadMore(true);
         }
-
         canLoadMore = true;
         dataMultiItems.clear();
         addMessage(data);
+        presenter.setReadMessage();
         chatAdapter.notifyDataSetChanged();
     }
 

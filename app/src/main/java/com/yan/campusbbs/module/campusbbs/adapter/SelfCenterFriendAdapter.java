@@ -39,6 +39,14 @@ public class SelfCenterFriendAdapter extends BaseQuickAdapter<SelfCenterFriendDa
         View view = holder.getView(R.id.container);
         view.setTag(item);
         view.setOnClickListener(onClickListener);
+
+        if (item.timMessage != null
+                && !item.timMessage.isSelf()) {
+            holder.setVisible(R.id.iv_tag_is_read, !item.timMessage.isRead());
+        } else {
+            holder.setVisible(R.id.iv_tag_is_read, false);
+        }
+
         String userName;
         if (!TextUtils.isEmpty(userProfile.getNickName())) {
             userName = userProfile.getNickName();

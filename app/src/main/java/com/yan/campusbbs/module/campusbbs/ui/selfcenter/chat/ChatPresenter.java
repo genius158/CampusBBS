@@ -137,6 +137,11 @@ public class ChatPresenter implements ChatContract.Presenter {
     }
 
     @Override
+    public void setReadMessage() {
+        conversation.setReadMessage();
+    }
+
+    @Override
     public TIMUserProfile getSelfProfile() {
         return selfProfile;
     }

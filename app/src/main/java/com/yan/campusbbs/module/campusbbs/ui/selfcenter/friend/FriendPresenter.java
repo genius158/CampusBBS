@@ -85,10 +85,11 @@ public class FriendPresenter implements FriendContract.Presenter {
                                 for (TIMUserProfile userProfile : friendUserProfiles) {
                                     if (msg.isSelf()) {
                                         String peer = msg.getConversation().getPeer();
-                                        setDataFromSelf(peer, textElem.getText(),msg);
+                                        setDataFromSelf(peer, msg, textElem.getText(), msg);
                                         break;
                                     } else if (userProfile.getIdentifier().equals(sender)) {
                                         view.addConversationData(new SelfCenterFriendData(senderProfile, textElem.getText(), false)
+                                                .setTimMessage(msg)
                                                 .setTimestamp(msg.timestamp()));
                                         break;
                                     }
@@ -103,7 +104,7 @@ public class FriendPresenter implements FriendContract.Presenter {
     }
 
 
-    private void setDataFromSelf(String peer, String text,TIMMessage  timMessage) {
+    private void setDataFromSelf(String peer, TIMMessage msg, String text, TIMMessage timMessage) {
 
         ImManager.getImManager().getUsersProfile(new TIMValueCallBack<List<TIMUserProfile>>() {
             @Override
@@ -115,7 +116,9 @@ public class FriendPresenter implements FriendContract.Presenter {
             public void onSuccess(List<TIMUserProfile> timUserProfiles) {
                 for (TIMUserProfile userProfile : timUserProfiles) {
                     view.addConversationData(new SelfCenterFriendData(userProfile, text, true)
-                    .setTimestamp(timMessage.timestamp()));
+                            .setTimestamp(timMessage.timestamp())
+                            .setTimMessage(msg)
+                    );
                     view.update();
                 }
             }

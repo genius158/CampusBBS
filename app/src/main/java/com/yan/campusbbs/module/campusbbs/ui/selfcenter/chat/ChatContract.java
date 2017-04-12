@@ -49,6 +49,7 @@ public interface ChatContract {
         void getMoreChatData();
 
         void getLatestData();
+        void setReadMessage();
 
         TIMUserProfile getSelfProfile();
 
