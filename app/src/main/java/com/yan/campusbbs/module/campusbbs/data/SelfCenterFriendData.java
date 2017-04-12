@@ -1,5 +1,7 @@
 package com.yan.campusbbs.module.campusbbs.data;
 
+import android.support.annotation.NonNull;
+
 import com.tencent.TIMMessage;
 import com.tencent.TIMUserProfile;
 
@@ -7,7 +9,7 @@ import com.tencent.TIMUserProfile;
  * Created by yan on 2017/3/13.
  */
 
-public class SelfCenterFriendData {
+public class SelfCenterFriendData implements Comparable<SelfCenterFriendData> {
     public TIMUserProfile timUserProfile;
     public boolean isSelf;
     public String message;
@@ -33,5 +35,15 @@ public class SelfCenterFriendData {
     public SelfCenterFriendData setTimestamp(long timestamp) {
         this.timestamp = timestamp;
         return this;
+    }
+
+    @Override
+    public int compareTo(@NonNull SelfCenterFriendData friendData) {
+        if (this.timestamp > friendData.timestamp) {
+            return -1;
+        } else if (this.timestamp < friendData.timestamp) {
+            return 1;
+        }
+        return 0;
     }
 }

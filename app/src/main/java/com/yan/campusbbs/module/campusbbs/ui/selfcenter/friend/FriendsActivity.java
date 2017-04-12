@@ -131,18 +131,7 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
 
     @Override
     public synchronized void update() {
-        Collections.sort(friendDatas,
-                new Comparator<SelfCenterFriendData>() {
-                    @Override
-                    public int compare(SelfCenterFriendData o1, SelfCenterFriendData o2) {
-                        if (o1.timestamp > o2.timestamp) {
-                            return -1;
-                        } else if (o1.timestamp < o2.timestamp) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                });
+        Collections.sort(friendDatas);
         friendAdapter.notifyDataSetChanged();
     }
 
