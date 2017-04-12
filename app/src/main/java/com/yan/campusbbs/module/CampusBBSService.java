@@ -37,7 +37,7 @@ public class CampusBBSService extends Service {
                 .setLargeIcon(BitmapFactory
                         .decodeResource(getApplication().getResources(), R.drawable.campus_logo))
                 .setContentTitle("校园论坛")
-                .setSubText("校园论坛运行中...")
+                .setSubText("校园论坛正在后台运行")
                 .setContentIntent(pIntent);
         startForeground(1, builder.build());
     }
