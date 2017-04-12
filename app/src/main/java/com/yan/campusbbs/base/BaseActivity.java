@@ -3,12 +3,19 @@ package com.yan.campusbbs.base;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
+
+import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
+import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.module.setting.SettingControl;
 
@@ -20,6 +27,8 @@ import io.reactivex.disposables.Disposable;
  */
 
 public abstract class BaseActivity extends AppCompatActivity implements SettingControl {
+    private static final String TAG = "BaseActivity";
+
     protected CompositeDisposable compositeDisposable;
 
 
@@ -69,5 +78,24 @@ public abstract class BaseActivity extends AppCompatActivity implements SettingC
         super.finish();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.e(TAG, "onRestoreInstanceState: ");
+        if (!TextUtils.isEmpty(ACache.get(getBaseContext()).getAsString(CacheConfig.USER_ACCOUNT))
+                && !TextUtils.isEmpty(ACache.get(getBaseContext()).getAsString(CacheConfig.USER_PASSWORD))) {
+            ImManager.getImManager().getSin(
+                    ACache.get(getBaseContext()).getAsString(CacheConfig.USER_ACCOUNT)
+                    , ACache.get(getBaseContext()).getAsString(CacheConfig.USER_PASSWORD)
+            );
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        Log.e(TAG, "onSaveInstanceState: ");
     }
 }
