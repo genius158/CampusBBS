@@ -446,6 +446,7 @@ public class MainActivity extends BaseActivity {
         home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         home.addCategory(Intent.CATEGORY_HOME);
         startActivity(home);
+
     }
 
     @Override
