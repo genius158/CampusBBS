@@ -22,6 +22,7 @@ import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
@@ -55,6 +56,8 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     @Inject
     FriendPresenter presenter;
     @Inject
+    RxBus rxBus;
+    @Inject
     ImageControl imageControl;
     @Inject
     SelfCenterFriendAdapter friendAdapter;
@@ -77,12 +80,17 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
         daggerInject();
         imageControl.frescoInit();
         init();
+        initRxAction();
+        presenter.getConversation();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.getConversation();
+    private void initRxAction() {
+        addDisposable(rxBus.getEvent(ImManager.Action.ActionGetChatMessage.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(actionGetChatMessage -> {
+                    presenter.getConversation();
+                }));
     }
 
     private void daggerInject() {
@@ -129,21 +137,17 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
 
     @Override
     public synchronized void addConversationData(SelfCenterFriendData timMessage) {
-
         List<SelfCenterFriendData> oldDatas = new ArrayList<>();
         oldDatas.addAll(friendDatas);
 
         for (int j = 0; j < friendDatas.size(); j++) {
             if (timMessage.timUserProfile.getIdentifier()
-                    .equals(friendDatas.get(j).timUserProfile.getIdentifier())) {
-                if (friendDatas.get(j).timestamp != timMessage.timestamp) {
-                    friendDatas.remove(j);
-                    friendDatas.add(0, timMessage);
-                    Collections.sort(friendDatas);
-                } else {
-                    friendDatas.remove(j);
-                    friendDatas.add(j, timMessage);
-                }
+                    .equals(friendDatas.get(j).timUserProfile.getIdentifier())
+                    && friendDatas.get(j).timestamp != timMessage.timestamp
+                    ) {
+                friendDatas.remove(j);
+                friendDatas.add(0, timMessage);
+                Collections.sort(friendDatas);
                 break;
             }
         }
@@ -161,8 +165,6 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
             for (int j = 0; j < friendDatas.size(); j++) {
                 if (timMessages.get(i).timUserProfile.getIdentifier()
                         .equals(friendDatas.get(j).timUserProfile.getIdentifier())) {
-                    friendDatas.remove(j);
-                    friendDatas.add(j, timMessages.get(i));
                     isNeedAdd = false;
                     break;
                 }
