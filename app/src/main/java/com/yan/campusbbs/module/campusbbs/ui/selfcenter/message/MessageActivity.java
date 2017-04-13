@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
@@ -24,6 +25,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +46,8 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
 
     @Inject
     SettingHelper changeSkinHelper;
+    @Inject
+    ToastUtils toastUtils;
     @Inject
     SPUtils spUtils;
     @Inject
@@ -91,6 +95,10 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
     }
 
     private void init() {
+        if (TextUtils.isEmpty(ImManager.getImManager().getTIM().getLoginUser())) {
+            toastUtils.showShort("请先登录");
+            return;
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(messageAdapter);
         getMessage();

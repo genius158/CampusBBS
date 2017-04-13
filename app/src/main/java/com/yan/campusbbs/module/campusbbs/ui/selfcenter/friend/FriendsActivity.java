@@ -7,11 +7,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterFriendAdapter;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterFriendData;
 import com.yan.campusbbs.module.setting.ImageControl;
@@ -81,6 +83,10 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     }
 
     private void init() {
+        if (TextUtils.isEmpty(ImManager.getImManager().getTIM().getLoginUser())) {
+            toastUtils.showShort("请先登录");
+            return;
+        }
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(friendAdapter);
         presenter.getConversation();
