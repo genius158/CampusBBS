@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
+import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.ui.login.LogInFragment;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterFragment;
@@ -65,6 +66,7 @@ public class MainPageFragment extends BaseFragment {
                                 .commit();
                     }
                 }, Throwable::printStackTrace));
+
     }
 
     public static MainPageFragment newInstance() {

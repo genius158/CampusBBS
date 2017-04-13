@@ -46,9 +46,11 @@ import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.NotifyChatActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend.FriendsActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.message.MessageActivity;
 import com.yan.campusbbs.module.common.data.UserProfile;
+import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RegExpUtils;
 import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,11 +83,10 @@ public class ImManager {
     private TLSLoginHelper loginHelper;
 
     private RxBus rxBus;
+    private ToastUtils toastUtils;
 
-    private boolean isLogin;
-
-    public static void init(Context context, RxBus rxBus) {
-        imManager = new ImManager(context, rxBus);
+    public static void init(Context context, RxBus rxBus, ToastUtils toastUtils) {
+        imManager = new ImManager(context, rxBus, toastUtils);
     }
 
     public String getIdentifier() {
@@ -166,12 +167,17 @@ public class ImManager {
                         Log.e(TAG, "login success");
                         rxBus.post(new Action.ActionImLogin());
 //                        initStorage();
-                        isLogin = true;
                     }
 
                     @Override
                     public void onError(int code, String desc) {
                         Log.e(TAG, "login failed. code: " + code + " errmsg: " + desc);
+
+                        if (code == 6208) {//errmsg: Kicked off by other device
+                            getSin();
+                        } else if (code == 70001) {
+
+                        }
                     }
                 });
     }
@@ -185,14 +191,16 @@ public class ImManager {
 
             @Override
             public void onSuccess() {
+                Log.e(TAG, "onSuccess:  登出成功");
                 //登出成功
             }
         });
     }
 
-    private ImManager(Context context, RxBus rxBus) {
+    private ImManager(Context context, RxBus rxBus, ToastUtils toastUtils) {
         this.context = context;
         this.rxBus = rxBus;
+        this.toastUtils = toastUtils;
         getTIM().init(this.context);
         getTIM().disableCrashReport();
         getTIM().setLogLevel(TIMLogLevel.ERROR);
@@ -267,11 +275,17 @@ public class ImManager {
             @Override
             public void onForceOffline() {
                 //被踢下线
+                Log.e(TAG, "onForceOffline: ");
+                rxBus.post(new LogInAction(false));
+                toastUtils.showShort("您已在其他设备登录");
             }
 
             @Override
             public void onUserSigExpired() {
+                Log.e(TAG, "onUserSigExpired: ");
                 //票据过期，需要换票后重新登录
+
+                getSin();
             }
         });
 
@@ -284,7 +298,7 @@ public class ImManager {
              */
             @Override
             public void OnProxyStatusChange(TIMFriendshipProxyStatus timFriendshipProxyStatus) {
-
+                Log.e(TAG, "OnProxyStatusChange: ");
             }
 
             /**
@@ -694,8 +708,11 @@ public class ImManager {
         });
     }
 
-    public void getSin(String userPhone, String password) {
-        if (isLogin) return;
+    public void getSin() {
+        if (!TextUtils.isEmpty(getTIM().getLoginUser())) return;
+
+        String userPhone = ACache.get(context).getAsString(CacheConfig.USER_ACCOUNT);
+        String password = ACache.get(context).getAsString(CacheConfig.USER_PASSWORD);
 
         if (!userPhone.startsWith("86-")) {
             if (RegExpUtils.isChinaPhoneLegal(userPhone)) {
@@ -1001,6 +1018,10 @@ public class ImManager {
         }
 
         public static class ActionImLogin {
+
+        }
+
+        public static class ForceOffline {
 
         }
     }

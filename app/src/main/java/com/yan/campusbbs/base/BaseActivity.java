@@ -84,13 +84,6 @@ public abstract class BaseActivity extends AppCompatActivity implements SettingC
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         Log.e(TAG, "onRestoreInstanceState: ");
-        if (!TextUtils.isEmpty(ACache.get(getBaseContext()).getAsString(CacheConfig.USER_ACCOUNT))
-                && !TextUtils.isEmpty(ACache.get(getBaseContext()).getAsString(CacheConfig.USER_PASSWORD))) {
-            ImManager.getImManager().getSin(
-                    ACache.get(getBaseContext()).getAsString(CacheConfig.USER_ACCOUNT)
-                    , ACache.get(getBaseContext()).getAsString(CacheConfig.USER_PASSWORD)
-            );
-        }
     }
 
     @Override

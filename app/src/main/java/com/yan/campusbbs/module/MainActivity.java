@@ -202,6 +202,8 @@ public class MainActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(logInAction -> {
                     if (logInAction.isLogIn) {
+                    } else {
+                        ImManager.getImManager().logout();
                     }
                     pageScrolled(0, 0);
                 }, Throwable::printStackTrace));
@@ -210,12 +212,10 @@ public class MainActivity extends BaseActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(logInAction -> {
-                    ImManager.getImManager().getSin(
-                            ACache.get(getBaseContext()).getAsString(CacheConfig.USER_ACCOUNT)
-                            , ACache.get(getBaseContext()).getAsString(CacheConfig.USER_PASSWORD)
-                    );
+                    ImManager.getImManager().getSin();
 
                 }, Throwable::printStackTrace));
+
     }
 
     private ValueAnimator getFabShowAnimation() {
@@ -444,7 +444,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-       moveTaskToBack(true);
+        moveTaskToBack(true);
     }
 
     @Override

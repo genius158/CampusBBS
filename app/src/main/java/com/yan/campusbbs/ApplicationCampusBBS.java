@@ -7,6 +7,7 @@ import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.util.ToastUtils;
 
 import javax.inject.Inject;
 
@@ -15,6 +16,8 @@ public class ApplicationCampusBBS extends MultiDexApplication {
 
     @Inject
     SPUtils spUtils;
+    @Inject
+    ToastUtils toastUtils;
     @Inject
     RxBus rxBus;
 
@@ -37,7 +40,7 @@ public class ApplicationCampusBBS extends MultiDexApplication {
     }
 
     private void init() {
-        ImManager.init(getApplicationContext(),rxBus);
+        ImManager.init(getApplicationContext(),rxBus,toastUtils);
     }
 
     public ApplicationComponent getApplicationComponent() {
