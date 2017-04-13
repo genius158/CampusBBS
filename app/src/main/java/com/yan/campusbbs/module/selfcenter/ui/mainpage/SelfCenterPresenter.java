@@ -10,7 +10,6 @@ import com.yan.campusbbs.module.selfcenter.data.FriendDynamic;
 import com.yan.campusbbs.module.selfcenter.data.FriendTitle;
 import com.yan.campusbbs.module.selfcenter.data.MainPageData;
 import com.yan.campusbbs.module.selfcenter.data.OtherCenterHeader;
-import com.yan.campusbbs.module.selfcenter.data.SelfCenterHeader;
 import com.yan.campusbbs.module.selfcenter.data.SelfDynamic;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.ACache;
@@ -51,6 +50,11 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
 
     }
 
+    /**
+     * 得到个人主页动态数据部分
+     *
+     * @param pageNo
+     */
     @Override
     public void getMainPageData(int pageNo) {
         MainPage mainPage = appRetrofit.retrofit().create(MainPage.class);
@@ -61,6 +65,10 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                     if (mainPageData.getResultCode() != 200
                             && othersData.getResultCode() != 200) {
                         view.addDisposable(toastUtils.showUIShort(mainPageData.getMessage()));
+                        if (mainPageData.getResultCode() == 401
+                                || othersData.getResultCode() == 401) {
+                            rxBus.post(new LogInAction(false));
+                        }
                     } else {
                         if (mainPageData.getData().getTopicInfoList() != null
                                 && mainPageData.getData().getTopicInfoList().getTopicList() != null) {
@@ -75,14 +83,6 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                                 dataMultiItems.add(new FriendDynamic(bean));
                             }
                         }
-                    }
-
-                    if (mainPageData.getResultCode() == 401) {
-                        spUtils.putString(Context.MODE_PRIVATE
-                                , SharedPreferenceConfig.SHARED_PREFERENCE
-                                , SharedPreferenceConfig.SESSION_ID
-                                , "");
-                        rxBus.post(new LogInAction(false));
                     }
                     return dataMultiItems;
                 })
@@ -100,22 +100,22 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
     public void getFriendData(int pageNo, String userId) {
         MainPage mainPage = appRetrofit.retrofit().create(MainPage.class);
         view.addDisposable(mainPage.getMainPageData(String.valueOf(pageNo)).subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .map(mainPageData -> {
-            List<DataMultiItem> dataMultiItems = new ArrayList<>();
-            dataMultiItems.add(new OtherCenterHeader(ACache.get(context)
-                    .getAsObject(CacheConfig.USER_INFO)));
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(mainPageData -> {
+                    List<DataMultiItem> dataMultiItems = new ArrayList<>();
+                    dataMultiItems.add(new OtherCenterHeader(ACache.get(context)
+                            .getAsObject(CacheConfig.USER_INFO)));
 
-            if (mainPageData.getData().getTopicInfoList() != null
-                    && mainPageData.getData().getTopicInfoList().getTopicList() != null) {
-                for (MainPageData.DataBean.TopicInfoListBean.TopicListBean bean : mainPageData.getData().getTopicInfoList().getTopicList()) {
-                    dataMultiItems.add(new FriendDynamic(bean));
-                }
-            }
-            return dataMultiItems;
-        }).subscribe(dataMultiItems -> {
+                    if (mainPageData.getData().getTopicInfoList() != null
+                            && mainPageData.getData().getTopicInfoList().getTopicList() != null) {
+                        for (MainPageData.DataBean.TopicInfoListBean.TopicListBean bean : mainPageData.getData().getTopicInfoList().getTopicList()) {
+                            dataMultiItems.add(new FriendDynamic(bean));
+                        }
+                    }
+                    return dataMultiItems;
+                }).subscribe(dataMultiItems -> {
                     view.dataSuccess(dataMultiItems);
-                },throwable -> {
+                }, throwable -> {
                     throwable.printStackTrace();
                     view.dataError();
                 }));

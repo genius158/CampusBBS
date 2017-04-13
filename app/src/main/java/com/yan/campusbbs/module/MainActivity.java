@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
@@ -28,6 +29,7 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.ui.CampusBBSFragment;
 import com.yan.campusbbs.module.campusbbs.ui.publish.PublishActivity;
@@ -43,6 +45,7 @@ import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionSelfDataSuccess;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
@@ -153,7 +156,6 @@ public class MainActivity extends BaseActivity {
         rxActionInit();
     }
 
-
     private void rxActionInit() {
         addDisposable(rxBus.getEvent(ActionFloatingButton.class)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -200,10 +202,20 @@ public class MainActivity extends BaseActivity {
                         isIMLogin = true;
                     } else {
                         isIMLogin = false;
-                        ImManager.getImManager().logout();
+                        if (!TextUtils.isEmpty(ImManager.getImManager().getTIM().getLoginUser())) {
+                            ImManager.getImManager().logout();
+
+                            spUtils.putString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                                    , SharedPreferenceConfig.SESSION_ID, "");
+                            ACache.get(getBaseContext()).put(CacheConfig.USER_PASSWORD, "");
+                            ACache.get(getBaseContext()).put(CacheConfig.USER_ACCOUNT, "");
+                        }
                     }
                     pageScrolled(0, 0);
-                }, Throwable::printStackTrace));
+                }, throwable -> {
+                    throwable.getMessage();
+                    Log.e(TAG, "rxActionInit: " + throwable.getMessage());
+                }));
 
         addDisposable(rxBus.getEvent(ActionSelfDataSuccess.class)
                 .subscribeOn(Schedulers.io())
