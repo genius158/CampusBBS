@@ -69,7 +69,8 @@ public class MainPageFragment extends BaseFragment {
                     } else {
                         spUtils.putString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
                                 , SharedPreferenceConfig.SESSION_ID, "");
-                        ACache.get(getContext()).clear();
+                        ACache.get(getContext()).put(CacheConfig.USER_PASSWORD, "");
+                        ACache.get(getContext()).put(CacheConfig.USER_ACCOUNT, "");
                         getChildFragmentManager().beginTransaction()
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .replace(R.id.fl_fragment_container, LogInFragment.newInstance(), "LOGIN")

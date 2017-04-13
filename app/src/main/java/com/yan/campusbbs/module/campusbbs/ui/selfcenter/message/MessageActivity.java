@@ -135,7 +135,6 @@ public class MessageActivity extends BaseActivity implements MessageContract.Vie
         messageAdapter.changeSkin(actionChangeSkin);
     }
 
-
     @OnClick(R.id.arrow_back)
     public void onClick() {
         finish();
