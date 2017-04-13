@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.selfcenter.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,11 +13,15 @@ import android.view.ViewGroup;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
+import com.yan.campusbbs.config.CacheConfig;
+import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.ui.login.LogInFragment;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterFragment;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.util.SPUtils;
 
 import javax.inject.Inject;
 
@@ -31,6 +36,8 @@ import io.reactivex.schedulers.Schedulers;
 public class MainPageFragment extends BaseFragment {
     @Inject
     RxBus rxBus;
+    @Inject
+    SPUtils spUtils;
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,12 +64,15 @@ public class MainPageFragment extends BaseFragment {
                     if (logInAction.isLogIn) {
                         getChildFragmentManager().beginTransaction()
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.fl_fragment_container, new SelfCenterFragment(),"SELF_CENTER")
+                                .replace(R.id.fl_fragment_container, new SelfCenterFragment(), "SELF_CENTER")
                                 .commit();
                     } else {
+                        spUtils.putString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
+                                , SharedPreferenceConfig.SESSION_ID, "");
+                        ACache.get(getContext()).clear();
                         getChildFragmentManager().beginTransaction()
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .replace(R.id.fl_fragment_container, LogInFragment.newInstance(),"LOGIN")
+                                .replace(R.id.fl_fragment_container, LogInFragment.newInstance(), "LOGIN")
                                 .commit();
                     }
                 }, Throwable::printStackTrace));
@@ -95,7 +105,7 @@ public class MainPageFragment extends BaseFragment {
             if (fragment == null || !fragment.isAdded()) {
                 fragment = LogInFragment.newInstance();
                 getChildFragmentManager().beginTransaction().add(R.id.fl_fragment_container, fragment, "LOGIN").commit();
-            }else {
+            } else {
                 getChildFragmentManager().beginTransaction().show(fragment).commit();
             }
         } else {
@@ -103,7 +113,7 @@ public class MainPageFragment extends BaseFragment {
             if (fragment == null || !fragment.isAdded()) {
                 fragment = new SelfCenterFragment();
                 getChildFragmentManager().beginTransaction().add(R.id.fl_fragment_container, fragment, "SELF_CENTER").commit();
-            }else {
+            } else {
                 getChildFragmentManager().beginTransaction().show(fragment).commit();
             }
         }
