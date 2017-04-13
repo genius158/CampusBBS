@@ -17,7 +17,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.ashokvarma.bottomnavigation.BadgeItem;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.gordonwong.materialsheetfab.DimOverlayFrameLayout;
@@ -26,11 +25,9 @@ import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.ui.CampusBBSFragment;
 import com.yan.campusbbs.module.campusbbs.ui.publish.PublishActivity;
@@ -43,11 +40,9 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
-import com.yan.campusbbs.rxbusaction.ActionMainActivityShowComplete;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionSelfDataSuccess;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
-import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
@@ -202,7 +197,9 @@ public class MainActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(logInAction -> {
                     if (logInAction.isLogIn) {
+                        isIMLogin = true;
                     } else {
+                        isIMLogin = false;
                         ImManager.getImManager().logout();
                     }
                     pageScrolled(0, 0);
@@ -254,7 +251,6 @@ public class MainActivity extends BaseActivity {
         bottomNavigationBar.setAnimationDuration(100);
         bottomNavigationBar.setTabSelectedListener(getOnTabSelectedListener());
     }
-
 
     private void initFragment() {
         fragments = new ArrayList<>();
@@ -439,8 +435,6 @@ public class MainActivity extends BaseActivity {
                 .setFirstSelectedPosition(viewPager.getCurrentItem())
                 .initialise();
     }
-
-    private long lastBackPressedTime;
 
     @Override
     public void onBackPressed() {

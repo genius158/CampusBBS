@@ -28,24 +28,38 @@ import io.reactivex.disposables.Disposable;
 
 public abstract class BaseActivity extends AppCompatActivity implements SettingControl {
     private static final String TAG = "BaseActivity";
+    private String BUNDLE_IS_LOGIN = "isIMLogin";
 
     protected CompositeDisposable compositeDisposable;
 
+    protected boolean isIMLogin;
 
-    public void addDisposable(Disposable disposable) {
-        compositeDisposable.add(disposable);
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         compositeDisposable = new CompositeDisposable();
+
+        onReLoadBundle(savedInstanceState);
     }
 
     @Override
     protected void onDestroy() {
         compositeDisposable.clear();
         super.onDestroy();
+    }
+
+    public void addDisposable(Disposable disposable) {
+        compositeDisposable.add(disposable);
+    }
+
+    private void onReLoadBundle(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean(BUNDLE_IS_LOGIN, false)
+                    && TextUtils.isEmpty(ImManager.getImManager().getTIM().getLoginUser())) {
+                ImManager.getImManager().getSin();
+            }
+        }
     }
 
     @Override
@@ -81,14 +95,8 @@ public abstract class BaseActivity extends AppCompatActivity implements SettingC
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        Log.e(TAG, "onRestoreInstanceState: ");
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        Log.e(TAG, "onSaveInstanceState: ");
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(BUNDLE_IS_LOGIN, isIMLogin);
     }
 }
