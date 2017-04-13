@@ -76,7 +76,9 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                                 dataMultiItems.add(new SelfDynamic(bean));
                             }
                         }
-                        dataMultiItems.add(new FriendTitle());
+                        if (pageNo==1) {
+                            dataMultiItems.add(new FriendTitle());
+                        }
                         if (othersData.getData().getTopicInfoList() != null
                                 && othersData.getData().getTopicInfoList().getTopicList() != null) {
                             for (MainPageData.DataBean.TopicInfoListBean.TopicListBean bean : othersData.getData().getTopicInfoList().getTopicList()) {

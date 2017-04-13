@@ -102,7 +102,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     private int actionBarPinHeight;
     private boolean isNeedAdjustBar;
 
-    int pageNo = 0;
+    int pageNo = 1;
 
     @Override
     public void onResume() {
@@ -172,15 +172,8 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
         recyclerView.clearOnScrollListeners();
         adapterImageControl.attachRecyclerView(recyclerView);
         recyclerView.addOnScrollListener(getOnScrollListener());
-        adapter.setEnableLoadMore(true);
+        adapter.setEnableLoadMore(false);
 
-        adapter.setOnLoadMoreListener(
-                () -> {
-                    recyclerView.postDelayed(
-                            () -> {
-                                adapter.loadMoreComplete();
-                            }, 100);
-                });
     }
 
     public static SelfCenterFragment newInstance() {
@@ -203,6 +196,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
     @Override
     public void onRefresh() {
+        pageNo = 1;
         mPresenter.getMainPageData(pageNo);
     }
 
@@ -298,20 +292,46 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
 
     @Override
     public void dataSuccess(List<DataMultiItem> dataMultiItems) {
-        swipeRefreshLayout.setRefreshing(false);
-        if (!isPostSelfData) {
-            isPostSelfData = true;
-            rxBus.post(new ActionSelfDataSuccess());
+        if (pageNo == 1) {
+            swipeRefreshLayout.setRefreshing(false);
+            if (!isPostSelfData) {
+                isPostSelfData = true;
+                rxBus.post(new ActionSelfDataSuccess());
+            }
+            this.dataMultiItems.clear();
+            this.dataMultiItems.add(new SelfCenterHeader((LoginInfoData) ACache.get(getContext()).getAsObject(CacheConfig.USER_INFO)));
+            this.dataMultiItems.addAll(dataMultiItems);
+
+            adapter.notifyDataSetChanged();
+
+            if (dataMultiItems.size() > 3) {
+                adapter.setEnableLoadMore(true);
+                adapter.setOnLoadMoreListener(
+                        () -> {
+                            recyclerView.postDelayed(
+                                    () -> {
+                                        mPresenter.getMainPageData(++pageNo);
+                                    }, 100);
+                        });
+            }
+        } else {
+            adapter.loadMoreComplete();
+            if (dataMultiItems == null || dataMultiItems.isEmpty()) {
+                adapter.setEnableLoadMore(false);
+            }
+            int tempSize = this.dataMultiItems.size();
+            this.dataMultiItems.addAll(dataMultiItems);
+            adapter.notifyItemRangeInserted(tempSize, this.dataMultiItems.size());
         }
-        this.dataMultiItems.clear();
-        this.dataMultiItems.add(new SelfCenterHeader((LoginInfoData)ACache.get(getContext()).getAsObject(CacheConfig.USER_INFO)));
-        this.dataMultiItems.addAll(dataMultiItems);
-        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void dataError() {
-        swipeRefreshLayout.setRefreshing(false);
         toastUtils.showShort("网络错误");
+        if (pageNo == 1) {
+            swipeRefreshLayout.setRefreshing(false);
+        } else {
+            adapter.loadMoreComplete();
+        }
     }
 }
