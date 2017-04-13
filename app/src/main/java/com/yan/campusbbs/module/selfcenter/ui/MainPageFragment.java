@@ -65,17 +65,16 @@ public class MainPageFragment extends BaseFragment {
                         getChildFragmentManager().beginTransaction()
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .replace(R.id.fl_fragment_container, new SelfCenterFragment(), "SELF_CENTER")
-                                .commit();
+                                .commitAllowingStateLoss();
                     } else {
-
                         getChildFragmentManager().beginTransaction()
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .replace(R.id.fl_fragment_container, LogInFragment.newInstance(), "LOGIN")
-                                .commit();
+                                .commitAllowingStateLoss();
                     }
                 }, throwable -> {
                     throwable.printStackTrace();
-                    Log.e(TAG, "initRxAction: "+throwable.getMessage() );
+                    Log.e(TAG, "initRxAction: " + throwable.getMessage());
                 }));
 
     }
