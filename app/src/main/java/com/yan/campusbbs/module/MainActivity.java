@@ -202,14 +202,13 @@ public class MainActivity extends BaseActivity {
                         isIMLogin = true;
                     } else {
                         isIMLogin = false;
+                        ACache.get(getBaseContext()).put(CacheConfig.SESSION_ID, "");
+                        ACache.get(getBaseContext()).put(CacheConfig.USER_PASSWORD, "");
+                        ACache.get(getBaseContext()).put(CacheConfig.USER_ACCOUNT, "");
+
                         if (!TextUtils.isEmpty(ImManager.getImManager().getTIM().getLoginUser())) {
                             ImManager.getImManager().logout();
-
-                            spUtils.putString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                                    , SharedPreferenceConfig.SESSION_ID, "");
-                            ACache.get(getBaseContext()).put(CacheConfig.USER_PASSWORD, "");
-                            ACache.get(getBaseContext()).put(CacheConfig.USER_ACCOUNT, "");
-                        }
+                          }
                     }
                     pageScrolled(0, 0);
                 }, throwable -> {
@@ -400,9 +399,7 @@ public class MainActivity extends BaseActivity {
             btnSearch.setScaleY(1 - positionOffset);
 
             boolean isNotFirstPageShow = position == 0
-                    && !TextUtils.isEmpty(spUtils
-                    .getString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                            , SharedPreferenceConfig.SESSION_ID));
+                    && !TextUtils.isEmpty(ACache.get(getBaseContext()).getAsString(CacheConfig.SESSION_ID));
 
             if (isNotFirstPageShow) {
                 if (btnSearch.getAlpha() != 0f) {

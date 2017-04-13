@@ -177,10 +177,8 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
     @Override
     public void loginSuccess(LoginInfoData loginInfoData) {
         if (loginInfoData.getResultCode() == 200) {
-            spUtils.putString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                    , SharedPreferenceConfig.SESSION_ID, loginInfoData.getJsessionId());
             rxBus.post(new LogInAction(true));
-
+            ACache.get(getContext()).put(CacheConfig.SESSION_ID,loginInfoData.getJsessionId());
             ACache.get(getContext()).put(CacheConfig.USER_INFO, loginInfoData);
             ACache.get(getContext()).put(CacheConfig.USER_ACCOUNT, tielUserName.getText().toString());
             ACache.get(getContext()).put(CacheConfig.USER_PASSWORD, tielUserPassword.getText().toString());

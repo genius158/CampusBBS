@@ -10,5 +10,4 @@ public class SharedPreferenceConfig {
     public static final String IMAGE_SHOW_ABLE = "canImageShow";
     public static final String SEARCH_DATA = "searchData";
 
-    public static final String SESSION_ID = "sessionId";
 }

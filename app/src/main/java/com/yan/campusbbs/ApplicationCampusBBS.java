@@ -3,8 +3,10 @@ package com.yan.campusbbs;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
+import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.ImManager;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -40,7 +42,7 @@ public class ApplicationCampusBBS extends MultiDexApplication {
     }
 
     private void init() {
-        ImManager.init(getApplicationContext(),rxBus,toastUtils);
+        ImManager.init(getApplicationContext(), rxBus, toastUtils);
     }
 
     public ApplicationComponent getApplicationComponent() {
@@ -48,7 +50,6 @@ public class ApplicationCampusBBS extends MultiDexApplication {
     }
 
     public String getSessionId() {
-        return spUtils.getString(Context.MODE_PRIVATE, SharedPreferenceConfig.SHARED_PREFERENCE
-                , SharedPreferenceConfig.SESSION_ID);
+        return ACache.get(getBaseContext()).getAsString(CacheConfig.SESSION_ID);
     }
 }
