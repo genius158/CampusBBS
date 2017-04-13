@@ -15,9 +15,7 @@ public interface FriendContract {
     interface View extends BaseView<Presenter> {
         void addConversationData(SelfCenterFriendData timMessage);
 
-        void addFriends(SelfCenterFriendData timMessage);
-
-        void update();
+        void addFriends(List<SelfCenterFriendData> timMessage);
 
         void error(String s);
     }

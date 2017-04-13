@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterFriendAdapter;
+import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterFriendDiffCallBack;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterFriendData;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
@@ -23,6 +25,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -32,6 +35,10 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by yan on 2017/2/15.
@@ -62,7 +69,6 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
     @BindView(R.id.title)
     TextView title;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +77,12 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
         daggerInject();
         imageControl.frescoInit();
         init();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getConversation();
     }
 
     private void daggerInject() {
@@ -89,7 +100,6 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(friendAdapter);
-        presenter.getConversation();
     }
 
     @Override
@@ -109,9 +119,7 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
                     ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
             );
         }
-
     }
-
 
     @OnClick(R.id.arrow_back)
     public void onClick() {
@@ -121,24 +129,51 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
 
     @Override
     public synchronized void addConversationData(SelfCenterFriendData timMessage) {
-        for (SelfCenterFriendData friendData : friendDatas) {
-            if (friendData.timUserProfile.getIdentifier().equals(timMessage.timUserProfile.getIdentifier())) {
-                friendDatas.remove(friendData);
-                friendDatas.add(0, timMessage);
-                return;
+
+        List<SelfCenterFriendData> oldDatas = new ArrayList<>();
+        oldDatas.addAll(friendDatas);
+
+        for (int j = 0; j < friendDatas.size(); j++) {
+            if (timMessage.timUserProfile.getIdentifier()
+                    .equals(friendDatas.get(j).timUserProfile.getIdentifier())) {
+                if (friendDatas.get(j).timestamp != timMessage.timestamp) {
+                    friendDatas.remove(j);
+                    friendDatas.add(0, timMessage);
+                    Collections.sort(friendDatas);
+                } else {
+                    friendDatas.remove(j);
+                    friendDatas.add(j, timMessage);
+                }
+                break;
             }
         }
+        DiffUtil.DiffResult diffResult = DiffUtil
+                .calculateDiff(new SelfCenterFriendDiffCallBack(oldDatas, friendDatas), true);
+        diffResult.dispatchUpdatesTo(friendAdapter);
     }
 
     @Override
-    public void addFriends(SelfCenterFriendData timMessage) {
-        friendDatas.add(timMessage);
-    }
-
-    @Override
-    public synchronized void update() {
-        Collections.sort(friendDatas);
-        friendAdapter.notifyDataSetChanged();
+    public synchronized void addFriends(List<SelfCenterFriendData> timMessages) {
+        List<SelfCenterFriendData> oldDatas = new ArrayList<>();
+        oldDatas.addAll(friendDatas);
+        for (int i = 0; i < timMessages.size(); i++) {
+            boolean isNeedAdd = true;
+            for (int j = 0; j < friendDatas.size(); j++) {
+                if (timMessages.get(i).timUserProfile.getIdentifier()
+                        .equals(friendDatas.get(j).timUserProfile.getIdentifier())) {
+                    friendDatas.remove(j);
+                    friendDatas.add(j, timMessages.get(i));
+                    isNeedAdd = false;
+                    break;
+                }
+            }
+            if (isNeedAdd) {
+                friendDatas.add(timMessages.get(i));
+            }
+        }
+        DiffUtil.DiffResult diffResult = DiffUtil
+                .calculateDiff(new SelfCenterFriendDiffCallBack(oldDatas, friendDatas), true);
+        diffResult.dispatchUpdatesTo(friendAdapter);
     }
 
     @Override

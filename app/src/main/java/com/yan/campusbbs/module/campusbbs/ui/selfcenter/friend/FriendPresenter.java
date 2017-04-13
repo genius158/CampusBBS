@@ -48,10 +48,14 @@ public class FriendPresenter implements FriendContract.Presenter {
         @Override
         public void onSuccess(List<TIMUserProfile> timUserProfiles) {
             friendUserProfiles = timUserProfiles;
+
+            List<SelfCenterFriendData> selfCenterFriendDatas=new ArrayList<>();
             for (TIMUserProfile userProfile : timUserProfiles) {
-                view.addFriends(new SelfCenterFriendData(userProfile, userProfile.getSelfSignature(), false)
+                selfCenterFriendDatas.add(new SelfCenterFriendData(userProfile, userProfile.getSelfSignature(), false)
                         .setTimestamp(0));
             }
+            view.addFriends(selfCenterFriendDatas);
+
             initConversation();
         }
     };
@@ -59,9 +63,6 @@ public class FriendPresenter implements FriendContract.Presenter {
     private void initConversation() {
         List<TIMConversation> list = TIMManager.getInstance().getConversionList();
         List<TIMConversation> result = new ArrayList<>();
-        if (list.isEmpty()) {
-            view.update();
-        }
         for (TIMConversation conversation : list) {
             if (conversation.getType() != TIMConversationType.C2C
                     ) continue;
@@ -97,7 +98,6 @@ public class FriendPresenter implements FriendContract.Presenter {
                             }
                         }
                     }
-                    view.update();
                 }
             });
         }
@@ -119,7 +119,6 @@ public class FriendPresenter implements FriendContract.Presenter {
                             .setTimestamp(timMessage.timestamp())
                             .setTimMessage(msg)
                     );
-                    view.update();
                 }
             }
         }, peer);

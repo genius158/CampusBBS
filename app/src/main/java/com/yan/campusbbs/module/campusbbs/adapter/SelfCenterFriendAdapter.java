@@ -2,6 +2,7 @@ package com.yan.campusbbs.module.campusbbs.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -75,4 +76,32 @@ public class SelfCenterFriendAdapter extends BaseQuickAdapter<SelfCenterFriendDa
                 .putExtra("identifier", userProfile.getIdentifier())
         );
     };
+
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int position, List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else {
+            Bundle payload = (Bundle) payloads.get(0);
+            SelfCenterFriendData bean = getData().get(position);
+            for (String key : payload.keySet()) {
+                switch (key) {
+                    case "isSelf":
+                        if (bean.isSelf) {
+                            holder.setTextColor(R.id.tv_word,
+                                    ContextCompat.getColor(context, R.color.crFD8000));
+                        } else {
+                            holder.setTextColor(R.id.tv_word,
+                                    ContextCompat.getColor(context, R.color.cr777777));
+                        }
+                        break;
+                    case "message":
+                        holder.setText(R.id.tv_word, bean.message);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 }
