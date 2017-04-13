@@ -3,10 +3,12 @@ package com.yan.campusbbs.module.common.pop;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
+import android.os.Environment;
 import android.support.design.widget.CoordinatorLayout;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.facebook.common.file.FileUtils;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.util.SizeUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -50,13 +52,15 @@ public class PopPhotoView extends CommonPopupWindow implements View.OnClickListe
                 break;
             case R.id.iv_pop_save:
                 try {
-                    if (context.getExternalFilesDir("image") == null) return;
-                    String imgPath = photoDraweeView.getContext().getExternalFilesDir("image")
-                            .getAbsolutePath() + getNameByUrl(url);
+                    File rootPath = Environment.getExternalStorageDirectory();
+                    FileUtils.mkdirs(new File(rootPath.getAbsolutePath() + "/DCIM/CampusBBS"));
+                    String imgPath = rootPath.getAbsolutePath() + "/DCIM/CampusBBS/" + getNameByUrl(url);
                     getViewBitmap(photoDraweeView).compress(Bitmap.CompressFormat.JPEG, 100
                             , new FileOutputStream(new File(imgPath)));
                     toastUtils.showUIShort("图片已保存至：" + imgPath);
                 } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (FileUtils.CreateDirectoryException e) {
                     e.printStackTrace();
                 }
 
@@ -65,7 +69,7 @@ public class PopPhotoView extends CommonPopupWindow implements View.OnClickListe
     }
 
     private String getNameByUrl(String url) {
-        return String.valueOf("/"+System.currentTimeMillis()+".jpg");
+        return String.valueOf("/" + System.currentTimeMillis() + ".jpg");
     }
 
     private Bitmap getViewBitmap(View view) {
