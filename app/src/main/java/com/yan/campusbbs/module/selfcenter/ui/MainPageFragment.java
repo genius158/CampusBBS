@@ -1,6 +1,5 @@
 package com.yan.campusbbs.module.selfcenter.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,13 +12,9 @@ import android.view.ViewGroup;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseFragment;
-import com.yan.campusbbs.config.CacheConfig;
-import com.yan.campusbbs.config.SharedPreferenceConfig;
-import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.ui.login.LogInFragment;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterFragment;
-import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 
