@@ -18,6 +18,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.SelfCenterActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.ChatActivity;
+import com.yan.campusbbs.module.common.LoadingDialog;
 import com.yan.campusbbs.module.common.pop.PopPhotoView;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.MainPageData;
@@ -195,6 +196,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     });
                     holder.getView(R.id.iv_btn_add_friend)
                             .setOnClickListener(v -> {
+                                LoadingDialog.getInstance(context).show();
                                 ImManager.getImManager().addFriend(finalIdentifier);
                             });
                     holder.getView(R.id.tv_btn_add_friend)

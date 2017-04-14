@@ -15,6 +15,7 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.ImManager;
+import com.yan.campusbbs.module.common.LoadingDialog;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.selfcenter.data.MainPageData;
 import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
@@ -104,6 +105,8 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(addFriend -> {
                     mPresenter.getFriendData(1, userId);
+                    LoadingDialog.getInstance(getBaseContext()).hide();
+                    toastUtils.showShort("添加好友成功");
                 }));
     }
 
