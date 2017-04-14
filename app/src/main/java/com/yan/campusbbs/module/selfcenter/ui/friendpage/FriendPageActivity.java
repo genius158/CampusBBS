@@ -120,7 +120,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
         topicListBean = (MainPageData.DataBean.TopicInfoListBean.TopicListBean) getIntent()
                 .getSerializableExtra("otherBean");
 
-        swipeRefreshLayout.postDelayed(() -> mPresenter.getFriendData(pageNo, userId), 200);
+        swipeRefreshLayout.postDelayed(() -> swipeRefreshLayout.setRefreshing(true), 200);
         adapter.notifyDataSetChanged();
     }
 

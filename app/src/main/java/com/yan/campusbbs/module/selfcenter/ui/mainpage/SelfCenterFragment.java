@@ -182,7 +182,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     }
 
     private void dataInit() {
-        swipeRefreshLayout.postDelayed(() -> mPresenter.getMainPageData(pageNo), 200);
+        swipeRefreshLayout.postDelayed(() ->swipeRefreshLayout.setRefreshing(true), 200);
         dataMultiItems.add(new FriendTitle());
         SortUtils.sort(dataMultiItems);
     }
