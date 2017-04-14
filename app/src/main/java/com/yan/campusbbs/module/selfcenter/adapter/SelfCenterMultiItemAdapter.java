@@ -21,9 +21,11 @@ import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.ChatActivity;
 import com.yan.campusbbs.module.common.pop.PopPhotoView;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.MainPageData;
+import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.FrescoUtils;
+import com.yan.campusbbs.util.RegExpUtils;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.List;
@@ -103,7 +105,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     FrescoUtils.display(holder.getView(R.id.self_part_one_header)
                             , String.valueOf(loginInfoData.getData().getUserInfo().getUserHeadImg()));
 
-                    FrescoUtils.display(selfImg,loginInfoData.getData().getUserInfo().getUserHeadImg());
+                    FrescoUtils.display(selfImg, loginInfoData.getData().getUserInfo().getUserHeadImg());
                     selfImg.setOnClickListener(v -> {
                         if (popPhotoView != null) {
                             popPhotoView.show();
@@ -124,25 +126,83 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
             case ITEM_TYPE_OTHER_HEADER:
                 SimpleDraweeView otherSDV = holder.getView(R.id.other_part_one_img);
                 otherSDV.setAspectRatio(1.50f);
-                if (multiItem.data instanceof LoginInfoData) {
-                    LoginInfoData loginInfoData = (LoginInfoData) multiItem.data;
-                    holder.setText(R.id.tv_nike_name, loginInfoData.getData().getUserInfo().getUserNickname());
-                    holder.setText(R.id.tv_plus, "等级:" + loginInfoData.getData().getUserInfo().getUserRank());
+                if (multiItem.data instanceof UserInfoData) {
+                    UserInfoData loginInfoData = (UserInfoData) multiItem.data;
+
+                    if (loginInfoData.getData() == null
+                            || loginInfoData.getData().getUserDetailInfo() == null) return;
+
+                    holder.setText(R.id.tv_nike_name, loginInfoData.getData().getUserDetailInfo().getUserNickname());
+                    holder.setText(R.id.tv_plus, "等级:" + loginInfoData.getData().getUserDetailInfo().getUserRank());
 
                     FrescoUtils.display(holder.getView(R.id.other_part_one_header)
-                            , loginInfoData.getData().getUserInfo().getUserHeadImg());
+                            , loginInfoData.getData().getUserDetailInfo().getUserHeadImg());
 
+                    FrescoUtils.display(otherSDV
+                            , loginInfoData.getData().getUserDetailInfo().getUserHeadImg());
 
-                   FrescoUtils.display(otherSDV
-                            , loginInfoData.getData().getUserInfo().getUserHeadImg());
-
-                    holder.getView(R.id.ll_chat)
+                    /*
+                     *聊天
+                     */
+                    holder.getView(R.id.iv_btn_chat)
                             .setOnClickListener(v -> {
                                 context.startActivity(new Intent(context, ChatActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                        .putExtra("identifier", loginInfoData.getData().getUserInfo().getUserAccount())
+                                        .putExtra("identifier", loginInfoData.getData().getUserDetailInfo().getUserAccount())
                                 );
                             });
+                    holder.getView(R.id.tv_btn_chat)
+                            .setOnClickListener(v -> {
+                                context.startActivity(new Intent(context, ChatActivity.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        .putExtra("identifier", loginInfoData.getData().getUserDetailInfo().getUserAccount())
+                                );
+                            });
+
+                    /*
+                     *加好友
+                     */
+                    String identifier = loginInfoData.getData().getUserDetailInfo().getUserAccount();
+                    if (!identifier.startsWith("86-")) {
+                        if (RegExpUtils.isChinaPhoneLegal(identifier)) {
+                            identifier = "86-" + identifier;
+                        }
+                    }
+                    String finalIdentifier = identifier;
+                    ImManager.getImManager().getFriendList(new TIMValueCallBack<List<TIMUserProfile>>() {
+                        @Override
+                        public void onError(int i, String s) {
+                            Log.e(TAG, "onError: " + s);
+                        }
+
+                        @Override
+                        public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                            boolean isNeedShow = true;
+                            for (TIMUserProfile userProfile : timUserProfiles) {
+
+                                if (finalIdentifier.equals(userProfile.getIdentifier())) {
+                                    holder.setVisible(R.id.iv_btn_add_friend, false);
+                                    holder.setVisible(R.id.tv_btn_add_friend, false);
+                                    isNeedShow = false;
+                                    break;
+                                }
+                            }
+                            if (isNeedShow) {
+                                holder.setVisible(R.id.iv_btn_add_friend, true);
+                                holder.setVisible(R.id.tv_btn_add_friend, true);
+                            }
+                        }
+                    });
+                    holder.getView(R.id.iv_btn_add_friend)
+                            .setOnClickListener(v -> {
+                                ImManager.getImManager().addFriend(finalIdentifier);
+                            });
+                    holder.getView(R.id.tv_btn_add_friend)
+                            .setOnClickListener(v -> {
+                                ImManager.getImManager().addFriend(finalIdentifier);
+                            });
+
+
                 }
                 otherSDV.setOnClickListener(v -> {
                     if (popPhotoView != null) {

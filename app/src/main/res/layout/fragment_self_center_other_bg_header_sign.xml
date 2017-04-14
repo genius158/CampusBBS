@@ -78,24 +78,43 @@
 
             <LinearLayout
                 android:id="@+id/ll_chat"
-                android:clickable="true"
-                android:background="?selectableItemBackgroundBorderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginTop="5dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_btn_chat"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:src="@drawable/chat_icon" />
 
                 <TextView
+                    android:id="@+id/tv_btn_chat"
                     style="@style/TextShadow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="微聊"
+                    android:textColor="@color/crFFFFFF"
+                    android:textSize="@dimen/size_sp_12" />
+
+
+                <ImageView
+                    android:id="@+id/iv_btn_add_friend"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/icon_add_friends" />
+
+                <TextView
+                    android:id="@+id/tv_btn_add_friend"
+                    style="@style/TextShadow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="添加好友"
                     android:textColor="@color/crFFFFFF"
                     android:textSize="@dimen/size_sp_12" />
 

@@ -1,13 +1,11 @@
 package com.yan.campusbbs.module.selfcenter.ui.mainpage;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +24,6 @@ import com.yan.campusbbs.base.BaseRefreshFragment;
 import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.AppBarHelper;
 import com.yan.campusbbs.module.AppBarHelperModule;
-import com.yan.campusbbs.module.common.utils.DiffCallBack;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.selfcenter.data.FriendTitle;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
@@ -185,7 +182,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     }
 
     private void dataInit() {
-        mPresenter.getMainPageData(pageNo);
+        swipeRefreshLayout.postDelayed(() -> mPresenter.getMainPageData(pageNo), 200);
         dataMultiItems.add(new FriendTitle());
         SortUtils.sort(dataMultiItems);
     }

@@ -415,8 +415,6 @@ public class ImManager {
                 }
             }
         }, identifier);
-
-
     }
 
     private void addIncognizanceMessage(TIMUserProfile userProfile, TIMTextElem textElem, long timestamp) {
@@ -886,16 +884,15 @@ public class ImManager {
         });
     }
 
-    public void addFriend() {
+    public void addFriend(String identifier) {
         //创建请求列表
         List<TIMAddFriendRequest> reqList = new ArrayList<TIMAddFriendRequest>();
 
         //添加好友请求
         TIMAddFriendRequest req = new TIMAddFriendRequest();
-        req.setAddrSource("DemoApp");
-        req.setAddWording("add me");
+        req.setAddrSource("addFriend");
+        req.setAddWording("addFriend");
         req.setIdentifier(identifier);
-        req.setRemark("Cat");
         reqList.add(req);
 
         //申请添加好友
@@ -909,6 +906,7 @@ public class ImManager {
             public void onSuccess(List<TIMFriendResult> result) {
                 Log.e(TAG, "addFriend success");
                 for (TIMFriendResult res : result) {
+                    rxBus.post(new Action.AddFriend(identifier));
                     Log.e(TAG, "identifier: " + res.getIdentifer() + " status: " + res.getStatus());
                 }
             }
@@ -1023,6 +1021,14 @@ public class ImManager {
 
         public static class ForceOffline {
 
+        }
+
+        public static class AddFriend {
+            public String identifer;
+
+            public AddFriend(String identifer) {
+                this.identifer = identifer;
+            }
         }
     }
 

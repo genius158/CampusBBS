@@ -74,7 +74,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
 
     private MainPageData.DataBean.TopicInfoListBean.TopicListBean topicListBean;
     private String userId;
-    int pageNo = 0;
+    int pageNo = 1;
 
     @Override
     public void onResume() {
@@ -102,26 +102,17 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
         DaggerSelfCenterOtherComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getApplication()).getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
-                .selfCenterModule(new SelfCenterModule(this, container,compositeDisposable ))
+                .selfCenterModule(new SelfCenterModule(this, container, compositeDisposable))
                 .build().inject(this);
 
     }
 
     private void init() {
         swipeRefreshLayout.setOnRefreshListener(this);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.clearOnScrollListeners();
         adapterImageControl.attachRecyclerView(recyclerView);
-        adapter.setEnableLoadMore(true);
-        adapter.setOnLoadMoreListener(
-                () -> {
-                    recyclerView.postDelayed(
-                            () -> {
-                                adapter.loadMoreComplete();
-                            }, 100);
-                });
     }
 
     private void dataInit() {
@@ -129,13 +120,14 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
         topicListBean = (MainPageData.DataBean.TopicInfoListBean.TopicListBean) getIntent()
                 .getSerializableExtra("otherBean");
 
-        mPresenter.getFriendData(pageNo, userId);
+        swipeRefreshLayout.postDelayed(() -> mPresenter.getFriendData(pageNo, userId), 200);
         adapter.notifyDataSetChanged();
     }
 
 
     @Override
     public void onRefresh() {
+        pageNo = 1;
         mPresenter.getFriendData(pageNo, userId);
     }
 
@@ -162,10 +154,27 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
 
     @Override
     public void dataSuccess(List<DataMultiItem> dataMultiItems) {
-        swipeRefreshLayout.setRefreshing(false);
-        this.dataMultiItems.clear();
+        if (pageNo == 1) {
+            if (dataMultiItems.size() > 3) {
+                adapter.setEnableLoadMore(true);
+                adapter.setOnLoadMoreListener(
+                        () -> {
+                            mPresenter.getFriendData(++pageNo, userId);
+                        });
+            }
+            swipeRefreshLayout.setRefreshing(false);
+            this.dataMultiItems.clear();
+            this.dataMultiItems.addAll(dataMultiItems);
+            adapter.notifyDataSetChanged();
+            return;
+        }
+        adapter.loadMoreComplete();
+        if (dataMultiItems == null || dataMultiItems.isEmpty()) {
+            adapter.setEnableLoadMore(false);
+        }
+        int tempSize = this.dataMultiItems.size();
         this.dataMultiItems.addAll(dataMultiItems);
-        adapter.notifyDataSetChanged();
+        adapter.notifyItemRangeInserted(tempSize, this.dataMultiItems.size() - tempSize);
     }
 
     @Override

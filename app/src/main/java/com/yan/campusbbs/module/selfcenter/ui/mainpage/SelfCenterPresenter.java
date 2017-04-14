@@ -76,7 +76,7 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                                 dataMultiItems.add(new SelfDynamic(bean));
                             }
                         }
-                        if (pageNo==1) {
+                        if (pageNo == 1) {
                             dataMultiItems.add(new FriendTitle());
                         }
                         if (othersData.getData().getTopicInfoList() != null
@@ -101,13 +101,13 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
     @Override
     public void getFriendData(int pageNo, String userId) {
         MainPage mainPage = appRetrofit.retrofit().create(MainPage.class);
-        view.addDisposable(mainPage.getMainPageData(String.valueOf(pageNo)).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(mainPageData -> {
+        view.addDisposable(Observable.zip(mainPage.getUserInfo(userId)
+                , mainPage.getMainPageData(String.valueOf(pageNo))
+                , (userInfoData, mainPageData) -> {
                     List<DataMultiItem> dataMultiItems = new ArrayList<>();
-                    dataMultiItems.add(new OtherCenterHeader(ACache.get(context)
-                            .getAsObject(CacheConfig.USER_INFO)));
-
+                    if (1 == pageNo) {
+                        dataMultiItems.add(new OtherCenterHeader(userInfoData));
+                    }
                     if (mainPageData.getData().getTopicInfoList() != null
                             && mainPageData.getData().getTopicInfoList().getTopicList() != null) {
                         for (MainPageData.DataBean.TopicInfoListBean.TopicListBean bean : mainPageData.getData().getTopicInfoList().getTopicList()) {
@@ -115,10 +115,12 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                         }
                     }
                     return dataMultiItems;
-                }).subscribe(dataMultiItems -> {
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(dataMultiItems -> {
                     view.dataSuccess(dataMultiItems);
                 }, throwable -> {
-                    throwable.printStackTrace();
+                    throwable.getMessage();
                     view.dataError();
                 }));
 
