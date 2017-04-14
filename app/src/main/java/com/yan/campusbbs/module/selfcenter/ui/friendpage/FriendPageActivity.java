@@ -14,8 +14,10 @@ import android.widget.TextView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.selfcenter.data.MainPageData;
+import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.DaggerSelfCenterOtherComponent;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterContract;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterModule;
@@ -25,6 +27,7 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.rxbusaction.ActionSelfSearchControl;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -36,6 +39,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by Administrator on 2017/4/6 0006.
@@ -95,8 +99,13 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
     }
 
     private void initRxAction() {
-    }
 
+        addDisposable(rxBus.getEvent(ImManager.Action.AddFriend.class)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(addFriend -> {
+                    mPresenter.getFriendData(1, userId);
+                }));
+    }
 
     private void daggerInject() {
         DaggerSelfCenterOtherComponent.builder()
@@ -104,7 +113,6 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .selfCenterModule(new SelfCenterModule(this, container, compositeDisposable))
                 .build().inject(this);
-
     }
 
     private void init() {
@@ -119,11 +127,9 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
         userId = getIntent().getStringExtra("userId");
         topicListBean = (MainPageData.DataBean.TopicInfoListBean.TopicListBean) getIntent()
                 .getSerializableExtra("otherBean");
-
-        swipeRefreshLayout.postDelayed(() -> swipeRefreshLayout.setRefreshing(true), 200);
-        adapter.notifyDataSetChanged();
+        mPresenter.getFriendData(pageNo, userId);
+        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
     }
-
 
     @Override
     public void onRefresh() {
@@ -131,12 +137,10 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
         mPresenter.getFriendData(pageNo, userId);
     }
 
-
     @Override
     protected SPUtils sPUtils() {
         return spUtils;
     }
-
 
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
@@ -150,6 +154,12 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
                     ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
             );
         }
+
+        swipeRefreshLayout.setColorSchemeColors(
+                ContextCompat.getColor(this, R.color.crFEFEFE)
+        );
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ContextCompat
+                .getColor(this, actionChangeSkin.getColorAccentId()));
     }
 
     @Override

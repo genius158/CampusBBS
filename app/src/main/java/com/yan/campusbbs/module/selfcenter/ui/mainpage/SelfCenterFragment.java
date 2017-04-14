@@ -182,7 +182,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
     }
 
     private void dataInit() {
-        swipeRefreshLayout.postDelayed(() ->swipeRefreshLayout.setRefreshing(true), 200);
+        mPresenter.getMainPageData(pageNo);
         dataMultiItems.add(new FriendTitle());
         SortUtils.sort(dataMultiItems);
     }
@@ -300,10 +300,7 @@ public class SelfCenterFragment extends BaseRefreshFragment implements SelfCente
                 adapter.setEnableLoadMore(true);
                 adapter.setOnLoadMoreListener(
                         () -> {
-                            recyclerView.postDelayed(
-                                    () -> {
-                                        mPresenter.getMainPageData(++pageNo);
-                                    }, 100);
+                            mPresenter.getMainPageData(++pageNo);
                         });
             }
         } else {

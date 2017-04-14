@@ -239,7 +239,9 @@ public class ImManager {
                             TIMSNSSystemElem systemElem = (TIMSNSSystemElem) elem;
                             TIMSNSSystemType timsnsSystemType = systemElem.getSubType();
                             if (timsnsSystemType == TIMSNSSystemType.TIM_SNS_SYSTEM_ADD_FRIEND) {
-                                addNewFriendMessage(sender, timestamp);
+                                if (!sender.equals(identifier)) {
+                                    addNewFriendMessage(sender, timestamp);
+                                }
                             }
                         }
                     }
@@ -415,6 +417,20 @@ public class ImManager {
                 }
             }
         }, identifier);
+    }
+
+    public void isFriend(String identifier) {
+        getFriendList(new TIMValueCallBack<List<TIMUserProfile>>() {
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+
+            }
+        });
     }
 
     private void addIncognizanceMessage(TIMUserProfile userProfile, TIMTextElem textElem, long timestamp) {
@@ -890,8 +906,10 @@ public class ImManager {
 
         //添加好友请求
         TIMAddFriendRequest req = new TIMAddFriendRequest();
-        req.setAddrSource("addFriend");
+        req.setAddrSource("AddSource_Type_Android");
         req.setAddWording("addFriend");
+        req.setFriendGroup("friend");
+        req.setRemark("identifier");
         req.setIdentifier(identifier);
         reqList.add(req);
 
