@@ -40,6 +40,7 @@ import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -209,9 +210,11 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
             chatAdapter.setEnableLoadMore(false);
             return;
         }
+        int tempSize = dataMultiItems.size();
         addMessage(data);
-        chatAdapter.notifyDataSetChanged();
         chatAdapter.loadMoreComplete();
+
+        chatAdapter.notifyItemRangeInserted(tempSize,dataMultiItems.size()-tempSize);
     }
 
     @Override
