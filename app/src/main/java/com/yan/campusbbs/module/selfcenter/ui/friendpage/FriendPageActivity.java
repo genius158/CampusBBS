@@ -76,7 +76,6 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
     @Inject
     SelfCenterMultiItemAdapter adapter;
 
-
     private MainPageData.DataBean.TopicInfoListBean.TopicListBean topicListBean;
     private String userId;
     int pageNo = 1;
@@ -100,7 +99,6 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
     }
 
     private void initRxAction() {
-
         addDisposable(rxBus.getEvent(ImManager.Action.AddFriend.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(addFriend -> {

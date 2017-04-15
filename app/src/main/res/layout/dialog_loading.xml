@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,8 +9,11 @@
 
     <TextView
         android:id="@+id/tv_loading"
+        android:textColor="@color/crFFFFFF"
+        android:textSize="20sp"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="loading..." />
 
-</android.support.design.widget.CoordinatorLayout>
+</FrameLayout>

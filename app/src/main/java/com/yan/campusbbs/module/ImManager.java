@@ -45,6 +45,7 @@ import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.NotifyChatActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend.FriendsActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.message.MessageActivity;
+import com.yan.campusbbs.module.common.LoadingDialog;
 import com.yan.campusbbs.module.common.data.UserProfile;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.util.ACache;

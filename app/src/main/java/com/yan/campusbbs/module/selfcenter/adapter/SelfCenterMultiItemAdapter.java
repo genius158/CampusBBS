@@ -201,6 +201,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                             });
                     holder.getView(R.id.tv_btn_add_friend)
                             .setOnClickListener(v -> {
+                                LoadingDialog.getInstance(context).show();
                                 ImManager.getImManager().addFriend(finalIdentifier);
                             });
 
