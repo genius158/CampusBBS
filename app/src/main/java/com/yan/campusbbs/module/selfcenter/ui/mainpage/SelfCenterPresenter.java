@@ -2,17 +2,14 @@ package com.yan.campusbbs.module.selfcenter.ui.mainpage;
 
 import android.content.Context;
 
-import com.yan.campusbbs.config.CacheConfig;
-import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.api.MainPage;
 import com.yan.campusbbs.module.selfcenter.data.FriendDynamic;
 import com.yan.campusbbs.module.selfcenter.data.FriendTitle;
-import com.yan.campusbbs.module.selfcenter.data.MainPageData;
+import com.yan.campusbbs.module.selfcenter.data.PublishData;
 import com.yan.campusbbs.module.selfcenter.data.OtherCenterHeader;
 import com.yan.campusbbs.module.selfcenter.data.SelfDynamic;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
-import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.AppRetrofit;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
@@ -72,7 +69,7 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                     } else {
                         if (mainPageData.getData().getTopicInfoList() != null
                                 && mainPageData.getData().getTopicInfoList().getTopicList() != null) {
-                            for (MainPageData.DataBean.TopicInfoListBean.TopicListBean bean : mainPageData.getData().getTopicInfoList().getTopicList()) {
+                            for (PublishData.DataBean.TopicInfoListBean.TopicListBean bean : mainPageData.getData().getTopicInfoList().getTopicList()) {
                                 dataMultiItems.add(new SelfDynamic(bean));
                             }
                         }
@@ -81,7 +78,7 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                         }
                         if (othersData.getData().getTopicInfoList() != null
                                 && othersData.getData().getTopicInfoList().getTopicList() != null) {
-                            for (MainPageData.DataBean.TopicInfoListBean.TopicListBean bean : othersData.getData().getTopicInfoList().getTopicList()) {
+                            for (PublishData.DataBean.TopicInfoListBean.TopicListBean bean : othersData.getData().getTopicInfoList().getTopicList()) {
                                 dataMultiItems.add(new FriendDynamic(bean));
                             }
                         }
@@ -110,7 +107,7 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                     }
                     if (mainPageData.getData().getTopicInfoList() != null
                             && mainPageData.getData().getTopicInfoList().getTopicList() != null) {
-                        for (MainPageData.DataBean.TopicInfoListBean.TopicListBean bean : mainPageData.getData().getTopicInfoList().getTopicList()) {
+                        for (PublishData.DataBean.TopicInfoListBean.TopicListBean bean : mainPageData.getData().getTopicInfoList().getTopicList()) {
                             dataMultiItems.add(new FriendDynamic(bean));
                         }
                     }

@@ -1,11 +1,10 @@
 package com.yan.campusbbs.module.selfcenter.api;
 
-import com.yan.campusbbs.module.selfcenter.data.MainPageData;
+import com.yan.campusbbs.module.selfcenter.data.PublishData;
 import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.repository.DataAddress;
 
 import io.reactivex.Observable;
-import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -15,12 +14,12 @@ import retrofit2.http.Query;
 
 public interface MainPage {
     @GET(DataAddress.URL_HOME_PAGE_DATA)
-    Observable<MainPageData> getMainPageData(
+    Observable<PublishData> getMainPageData(
             @Query("pageNum") String pageNum
     );
 
     @GET(DataAddress.URL_SELF_TOPIC3)
-    Observable<MainPageData> getMainPageSelfData(
+    Observable<PublishData> getMainPageSelfData(
     );
 
     @GET(DataAddress.URL_USER_DETAIL)

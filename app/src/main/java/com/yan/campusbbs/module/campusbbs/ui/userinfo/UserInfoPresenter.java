@@ -2,9 +2,13 @@ package com.yan.campusbbs.module.campusbbs.ui.userinfo;
 
 import android.content.Context;
 
+import com.yan.campusbbs.module.campusbbs.api.UserInfo;
 import com.yan.campusbbs.util.AppRetrofit;
 
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class UserInfoPresenter implements UserInfoContract.Presenter {
     private UserInfoContract.View view;
@@ -21,5 +25,18 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void modify(String userId, String nickname, String realName, String headImg, String mood, String email, String age, String gender, String birth, String major, String school, String address) {
+        UserInfo login = appRetrofit.retrofit().create(UserInfo.class);
+        view.addDisposable(
+                login.userInfoEdit(userId, nickname, realName, headImg, mood, email, age, gender, birth, major, school, address)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(logInData -> {
+
+                        }, Throwable::printStackTrace)
+        );
     }
 }

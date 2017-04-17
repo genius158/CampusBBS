@@ -72,14 +72,14 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     }
 
     private void init() {
-        if (ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO) == null) {
+        if (ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO) == "") {
             return;
         }
         LoginInfoData loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
         if (loginInfoData.getData() != null
                 && loginInfoData.getData().getUserInfo() != null
                 ) {
-            etPhone.setText(loginInfoData.getData().getUserInfo().getUserAccount());
+            etPhone.setText(loginInfoData.getData().getUserInfo().getUserId());
             etNikeName.setText(loginInfoData.getData().getUserInfo().getUserNickname());
         }
     }
@@ -146,7 +146,25 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
                 finish();
                 break;
             case R.id.tv_btn_register:
+
+                modify();
+
                 break;
         }
+    }
+
+    private void modify() {
+        presenter.modify(etPhone.getText().toString()
+                , etNikeName.getText().toString()
+                , ""
+                , ""
+                , ""
+                , etEmail.getText().toString()
+                , ""
+                , ""
+                , etBirthday.getText().toString()
+                , ""
+                , etCampus.getText().toString()
+                , "");
     }
 }

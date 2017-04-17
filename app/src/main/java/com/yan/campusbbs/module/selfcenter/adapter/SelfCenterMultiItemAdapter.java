@@ -21,7 +21,7 @@ import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.ChatActivity;
 import com.yan.campusbbs.module.common.LoadingDialog;
 import com.yan.campusbbs.module.common.pop.PopPhotoView;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
-import com.yan.campusbbs.module.selfcenter.data.MainPageData;
+import com.yan.campusbbs.module.selfcenter.data.PublishData;
 import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
@@ -220,8 +220,8 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
                 break;
             case ITEM_TYPE_SELF_DYNAMIC:
-                MainPageData.DataBean.TopicInfoListBean.TopicListBean selfBean =
-                        (MainPageData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
+                PublishData.DataBean.TopicInfoListBean.TopicListBean selfBean =
+                        (PublishData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
 
                 SimpleDraweeView selfSimpleDrawee = holder.getView(R.id.self_part_one_img);
                 holder.setText(R.id.message_detail, selfBean.getTopicTitle());
@@ -238,8 +238,8 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
                 break;
             case ITEM_TYPE_FRIEND_DYNAMIC:
-                MainPageData.DataBean.TopicInfoListBean.TopicListBean otherBean =
-                        (MainPageData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
+                PublishData.DataBean.TopicInfoListBean.TopicListBean otherBean =
+                        (PublishData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
 
                 SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
                 SimpleDraweeView head = holder.getView(R.id.sdv_head);

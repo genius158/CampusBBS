@@ -17,8 +17,7 @@ import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.common.LoadingDialog;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
-import com.yan.campusbbs.module.selfcenter.data.MainPageData;
-import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
+import com.yan.campusbbs.module.selfcenter.data.PublishData;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.DaggerSelfCenterOtherComponent;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterContract;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterModule;
@@ -76,7 +75,8 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
     @Inject
     SelfCenterMultiItemAdapter adapter;
 
-    private MainPageData.DataBean.TopicInfoListBean.TopicListBean topicListBean;
+
+    private PublishData.DataBean.TopicInfoListBean.TopicListBean topicListBean;
     private String userId;
     int pageNo = 1;
 
@@ -99,6 +99,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
     }
 
     private void initRxAction() {
+
         addDisposable(rxBus.getEvent(ImManager.Action.AddFriend.class)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(addFriend -> {
@@ -126,7 +127,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
 
     private void dataInit() {
         userId = getIntent().getStringExtra("userId");
-        topicListBean = (MainPageData.DataBean.TopicInfoListBean.TopicListBean) getIntent()
+        topicListBean = (PublishData.DataBean.TopicInfoListBean.TopicListBean) getIntent()
                 .getSerializableExtra("otherBean");
         mPresenter.getFriendData(pageNo, userId);
         swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));

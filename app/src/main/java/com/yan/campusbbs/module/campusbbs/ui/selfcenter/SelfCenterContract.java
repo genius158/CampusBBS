@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package com.yan.campusbbs.module.selfcenter.ui.mainpage;
+package com.yan.campusbbs.module.campusbbs.ui.selfcenter;
 
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
-import com.yan.campusbbs.repository.entity.DataMultiItem;
-
-import java.util.List;
+import com.yan.campusbbs.module.selfcenter.data.PublishData;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -28,14 +26,14 @@ import java.util.List;
 public interface SelfCenterContract {
 
     interface View extends BaseView<Presenter> {
-        void dataSuccess(List<DataMultiItem> dataMultiItems);
-        void dataError();
+        void stateSuccess(PublishData publishData);
+
+        void stateNetError();
+
+        void stateError();
     }
 
     interface Presenter extends BasePresenter {
-
-        void getMainPageData(int pageNo);
-        void getFriendData(int pageNo,String userId);
-
+        void getSelfPublish(int pageNo);
     }
 }

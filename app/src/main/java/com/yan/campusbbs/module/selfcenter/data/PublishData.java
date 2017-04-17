@@ -7,7 +7,7 @@ import java.util.List;
  * Created by yan on 2017/3/30.
  */
 
-public class MainPageData implements Serializable {
+public class PublishData implements Serializable {
 
     /**
      * data : {"topicInfoList":{"totalCount":0,"totalPages":0,"pageNum":0,"previous":false,"next":false,"pageList":null,"topicList":[{"userId":"A1","userNickname":"會飛的青蛙","userHeadImg":"123.jpg","topicId":"T2","topicTitle":"天天向上","topicContent":"好生学习，以后当校长！","typeDiv":1,"contentDiv":0,"likeCount":"0","cmtCount":"0","topicReleaseTime":"2017-02-26 02:27:14"},{"userId":"U1","userNickname":"逃課的中隊長","userHeadImg":"124.jpg","topicId":"T2","topicTitle":"天天向上","topicContent":"好生学习，以后当校长！","typeDiv":1,"contentDiv":0,"likeCount":"0","cmtCount":"0","topicReleaseTime":"2017-02-26 02:27:14"},{"userId":"A1","userNickname":"會飛的青蛙","userHeadImg":"123.jpg","topicId":"T1","topicTitle":"膜蛤大法好","topicContent":"这是一个生气的膜法师世界！","typeDiv":3,"contentDiv":0,"likeCount":"0","cmtCount":"1","topicReleaseTime":"2017-02-26 02:27:12"}]}}

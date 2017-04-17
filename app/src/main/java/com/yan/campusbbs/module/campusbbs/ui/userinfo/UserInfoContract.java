@@ -33,5 +33,19 @@ public interface UserInfoContract {
     }
 
     interface Presenter extends BasePresenter {
+        void modify(
+                String userId,
+                String nickname,
+                String realName,
+                String headImg,
+                String mood,
+                String email,
+                String age,
+                String gender,
+                String birth,
+                String major,
+                String school,
+                String address
+        );
     }
 }
