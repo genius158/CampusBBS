@@ -164,6 +164,7 @@ public class MainActivity extends BaseActivity {
                     if (aBoolean) {
                     } else {
                     }
+                    Log.e(TAG, "permissionInit: "+aBoolean );
                 }, Throwable::printStackTrace);
     }
 

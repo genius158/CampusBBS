@@ -55,44 +55,65 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
     @Override
     public void getMainPageData(int pageNo) {
         MainPage mainPage = appRetrofit.retrofit().create(MainPage.class);
-        view.addDisposable(Observable.zip(mainPage.getMainPageSelfData()
-                , mainPage.getMainPageData(String.valueOf(pageNo))
-                , (mainPageData, othersData) -> {
-                    List<DataMultiItem> dataMultiItems = new ArrayList<>();
-                    if (mainPageData.getResultCode() != 200
-                            && othersData.getResultCode() != 200) {
-                        view.addDisposable(toastUtils.showUIShort(mainPageData.getMessage()));
-                        if (mainPageData.getResultCode() == 401
-                                || othersData.getResultCode() == 401) {
-                            rxBus.post(new LogInAction(false));
-                        }
-                    } else {
-                        if (mainPageData.getData().getTopicInfoList() != null
-                                && mainPageData.getData().getTopicInfoList().getTopicList() != null) {
-                            for (PublishData.DataBean.TopicInfoListBean.TopicListBean bean : mainPageData.getData().getTopicInfoList().getTopicList()) {
-                                dataMultiItems.add(new SelfDynamic(bean));
+
+        if (pageNo == 1) {
+            view.addDisposable(Observable.zip(mainPage.getMainPageSelfData()
+                    , mainPage.getMainPageData(String.valueOf(pageNo))
+                    , (mainPageData, othersData) -> {
+                        List<DataMultiItem> dataMultiItems = new ArrayList<>();
+                        if (mainPageData.getResultCode() != 200
+                                && othersData.getResultCode() != 200) {
+                            view.addDisposable(toastUtils.showUIShort(mainPageData.getMessage()));
+                            if (mainPageData.getResultCode() == 401
+                                    || othersData.getResultCode() == 401) {
+                                rxBus.post(new LogInAction(false));
+                            }
+                        } else {
+                            if (mainPageData.getData().getTopicInfoList() != null
+                                    && mainPageData.getData().getTopicInfoList().getTopicList() != null) {
+                                for (PublishData.DataBean.TopicInfoListBean.TopicListBean bean : mainPageData.getData().getTopicInfoList().getTopicList()) {
+                                    dataMultiItems.add(new SelfDynamic(bean));
+                                }
+                            }
+                            if (pageNo == 1) {
+                                dataMultiItems.add(new FriendTitle());
+                            }
+                            if (othersData.getData().getTopicInfoList() != null
+                                    && othersData.getData().getTopicInfoList().getTopicList() != null) {
+                                for (PublishData.DataBean.TopicInfoListBean.TopicListBean bean : othersData.getData().getTopicInfoList().getTopicList()) {
+                                    dataMultiItems.add(new FriendDynamic(bean));
+                                }
                             }
                         }
-                        if (pageNo == 1) {
-                            dataMultiItems.add(new FriendTitle());
-                        }
-                        if (othersData.getData().getTopicInfoList() != null
-                                && othersData.getData().getTopicInfoList().getTopicList() != null) {
-                            for (PublishData.DataBean.TopicInfoListBean.TopicListBean bean : othersData.getData().getTopicInfoList().getTopicList()) {
-                                dataMultiItems.add(new FriendDynamic(bean));
-                            }
-                        }
-                    }
-                    return dataMultiItems;
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(dataMultiItems -> {
-                    view.dataSuccess(dataMultiItems);
-                }, throwable -> {
-                    view.dataError();
-                    throwable.printStackTrace();
-                }));
+                        return dataMultiItems;
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(dataMultiItems -> {
+                        view.dataSuccess(dataMultiItems);
+                    }, throwable -> {
+                        view.dataError();
+                        throwable.printStackTrace();
+                    }));
+        } else {
+            view.addDisposable(
+                    mainPage.getMainPageData(String.valueOf(pageNo)).subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(othersData -> {
+                                List<DataMultiItem> dataMultiItems = new ArrayList<>();
+                                if (othersData.getData().getTopicInfoList() != null
+                                        && othersData.getData().getTopicInfoList().getTopicList() != null) {
+                                    for (PublishData.DataBean.TopicInfoListBean.TopicListBean bean : othersData.getData().getTopicInfoList().getTopicList()) {
+                                        dataMultiItems.add(new FriendDynamic(bean));
+                                    }
+                                }
+                                view.dataSuccess(dataMultiItems);
+                            }, throwable -> {
+                                throwable.getMessage();
+                                view.dataError();
+                            })
+            );
+        }
     }
 
     @Override
