@@ -1,6 +1,6 @@
 package com.yan.campusbbs.module;
 
-import android.content.Context;
+import android.Manifest;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Build;
@@ -26,11 +26,11 @@ import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ValueAnimator;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.config.CacheConfig;
-import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.campusbbs.ui.CampusBBSFragment;
 import com.yan.campusbbs.module.campusbbs.ui.publish.PublishActivity;
 import com.yan.campusbbs.module.filemanager.FileManagerFragment;
@@ -154,6 +154,17 @@ public class MainActivity extends BaseActivity {
         imageControl.frescoInit();
         initNavigationBar();
         rxActionInit();
+        permissionInit();
+    }
+
+    private void permissionInit() {
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.SYSTEM_ALERT_WINDOW)
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+                    } else {
+                    }
+                }, Throwable::printStackTrace);
     }
 
     private void rxActionInit() {
@@ -208,7 +219,7 @@ public class MainActivity extends BaseActivity {
 
                         if (!TextUtils.isEmpty(ImManager.getImManager().getTIM().getLoginUser())) {
                             ImManager.getImManager().logout();
-                          }
+                        }
                     }
                     pageScrolled(0, 0);
                 }, throwable -> {
