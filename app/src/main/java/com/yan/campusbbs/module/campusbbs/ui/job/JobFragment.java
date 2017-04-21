@@ -128,7 +128,7 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
             if (tagPosition == 0) {
                 mPresenter.getTopicList(String.valueOf(++pageNo), 3);
             } else {
-                mPresenter.getTopicList(String.valueOf(++pageNo), 3, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+                mPresenter.getTopicList(String.valueOf(++pageNo), 3, CampusLabels.JOB_LABELS[tagPosition - 1]);
             }
         });
     }
@@ -148,7 +148,7 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
         if (position == 0) {
             mPresenter.getTopicList(String.valueOf(pageNo), 3);
         } else {
-            mPresenter.getTopicList(String.valueOf(pageNo), 3, CampusLabels.LEAN_LABELS[position - 1]);
+            mPresenter.getTopicList(String.valueOf(pageNo), 3, CampusLabels.JOB_LABELS[position - 1]);
         }
     }
 
@@ -158,7 +158,7 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
         if (tagPosition == 0) {
             mPresenter.getTopicList(String.valueOf(pageNo), 3);
         } else {
-            mPresenter.getTopicList(String.valueOf(pageNo), 3, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+            mPresenter.getTopicList(String.valueOf(pageNo), 3, CampusLabels.JOB_LABELS[tagPosition - 1]);
         }
     }
 

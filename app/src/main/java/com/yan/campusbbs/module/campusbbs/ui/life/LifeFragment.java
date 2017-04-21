@@ -133,7 +133,7 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
             if (tagPosition == 0) {
                 mPresenter.getTopicList(String.valueOf(++pageNo), 2);
             } else {
-                mPresenter.getTopicList(String.valueOf(++pageNo), 2, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+                mPresenter.getTopicList(String.valueOf(++pageNo), 2, CampusLabels.LIFE_LABELS[tagPosition - 1]);
             }
         });
     }
@@ -153,7 +153,7 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
         if (position == 0) {
             mPresenter.getTopicList(String.valueOf(pageNo), 2);
         } else {
-            mPresenter.getTopicList(String.valueOf(pageNo), 2, CampusLabels.LEAN_LABELS[position - 1]);
+            mPresenter.getTopicList(String.valueOf(pageNo), 2, CampusLabels.LIFE_LABELS[position - 1]);
         }
     }
 
@@ -163,7 +163,7 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
         if (tagPosition == 0) {
             mPresenter.getTopicList(String.valueOf(pageNo), 2);
         } else {
-            mPresenter.getTopicList(String.valueOf(pageNo), 2, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+            mPresenter.getTopicList(String.valueOf(pageNo), 2, CampusLabels.LIFE_LABELS[tagPosition - 1]);
         }
     }
 

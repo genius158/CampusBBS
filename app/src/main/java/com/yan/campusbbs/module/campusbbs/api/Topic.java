@@ -16,13 +16,13 @@ public interface Topic {
     @GET(DataAddress.URL_TOPIC_BBS)
     Observable<TopicData> getTopicList(
             @Query("pageNum") String pageNum
-            ,  @Query("typeDiv") int typeDiv
-            ,  @Query("topicLabel") String topicLabel
+            , @Query("typeDiv") int typeDiv
+            , @Query("topicLabel") String topicLabel
     );
 
     @GET(DataAddress.URL_TOPIC_BBS)
     Observable<TopicData> getTopicList(
             @Query("pageNum") String pageNum
-            ,  @Query("typeDiv") int typeDiv
+            , @Query("typeDiv") int typeDiv
     );
 }

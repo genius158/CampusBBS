@@ -27,15 +27,17 @@ public class TopicPresenter implements TopicContract.Presenter {
     @Override
     public void getTopicList(String pageNum, int typeDiv, String topicLabel) {
         Topic search = appRetrofit.retrofit().create(Topic.class);
-        view.addDisposable(search.getTopicList(pageNum, typeDiv, topicLabel)
+        view.addDisposable(search.getTopicList(pageNum, typeDiv, topicLabel.trim())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(topicData -> {
                     view.setTopicTagData(topicData);
                 }, throwable -> {
+                    view.netError();
                     throwable.printStackTrace();
                 })
         );
+
     }
 
     @Override
