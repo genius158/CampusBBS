@@ -104,19 +104,26 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
         switch (subTitle) {
             case "学习":
                 mode = 1;
+                for (int i = 0; i < CampusLabels.LEAN_LABELS.length; i++) {
+                    spDatas.add(CampusLabels.LEAN_LABELS[i]);
+                }
                 break;
             case "生活":
                 mode = 2;
+                for (int i = 0; i < CampusLabels.LIFE_LABELS.length; i++) {
+                    spDatas.add(CampusLabels.LIFE_LABELS[i]);
+                }
                 break;
             case "工作":
                 mode = 3;
+                for (int i = 0; i < CampusLabels.JOB_LABELS.length; i++) {
+                    spDatas.add(CampusLabels.JOB_LABELS[i]);
+                }
                 break;
             default:
                 break;
         }
-        for (int i = 0; i < CampusLabels.LEAN_LABELS.length; i++) {
-            spDatas.add(CampusLabels.LEAN_LABELS[i]);
-        }
+
         spTypes.setAdapter(new ArrayAdapter<>(getBaseContext()
                 , android.R.layout.simple_list_item_1
                 , android.R.id.text1
