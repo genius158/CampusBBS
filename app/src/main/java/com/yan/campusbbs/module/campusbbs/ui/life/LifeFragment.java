@@ -100,7 +100,7 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
             pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem(CampusLabels.LIFE_LABELS[i]));
         }
         campusPagerTabAdapter.notifyDataSetChanged();
-        mPresenter.getTopicList(String.valueOf(pageNo), 1);
+        mPresenter.getTopicList(String.valueOf(pageNo), 2);
         pagerBarMoreRecycler.setLayoutManager(getLayoutManager());
         pagerBarMoreRecycler.setAdapter(campusPagerTabMoreAdapter);
     }
@@ -131,9 +131,9 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
         recyclerView.setAdapter(multiItemAdapter);
         multiItemAdapter.setOnLoadMoreListener(() -> {
             if (tagPosition == 0) {
-                mPresenter.getTopicList(String.valueOf(++pageNo), 1);
+                mPresenter.getTopicList(String.valueOf(++pageNo), 2);
             } else {
-                mPresenter.getTopicList(String.valueOf(++pageNo), 1, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+                mPresenter.getTopicList(String.valueOf(++pageNo), 2, CampusLabels.LEAN_LABELS[tagPosition - 1]);
             }
         });
     }
@@ -151,9 +151,9 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
         tagPosition = position;
         pageNo = 1;
         if (position == 0) {
-            mPresenter.getTopicList(String.valueOf(pageNo), 1);
+            mPresenter.getTopicList(String.valueOf(pageNo), 2);
         } else {
-            mPresenter.getTopicList(String.valueOf(pageNo), 1, CampusLabels.LEAN_LABELS[position - 1]);
+            mPresenter.getTopicList(String.valueOf(pageNo), 2, CampusLabels.LEAN_LABELS[position - 1]);
         }
     }
 
@@ -161,9 +161,9 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     public void onRefresh() {
         pageNo = 1;
         if (tagPosition == 0) {
-            mPresenter.getTopicList(String.valueOf(pageNo), 1);
+            mPresenter.getTopicList(String.valueOf(pageNo), 2);
         } else {
-            mPresenter.getTopicList(String.valueOf(pageNo), 1, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+            mPresenter.getTopicList(String.valueOf(pageNo), 2, CampusLabels.LEAN_LABELS[tagPosition - 1]);
         }
     }
 

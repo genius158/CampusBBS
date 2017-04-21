@@ -315,6 +315,8 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
                 || topicData.getData().getTopicInfoList() == null
                 || topicData.getData().getTopicInfoList().getTopicList() == null
                 ) {
+            swipeRefreshLayout().setRefreshing(false);
+            campusDataAdapter().setEnableLoadMore(false);
             return;
         }
         if (pageNo() == 1) {
@@ -354,18 +356,13 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
                 || topicData.getData().getTopicInfoList() == null
                 || topicData.getData().getTopicInfoList().getTopicList() == null
                 ) {
+            swipeRefreshLayout().setRefreshing(false);
+            campusDataAdapter().setEnableLoadMore(false);
             return;
         }
         if (pageNo() == 1) {
             dataMultiItems().clear();
             swipeRefreshLayout().setRefreshing(false);
-            List<TopicData.DataBean.TopicInfoListBean.TopicListBean> bannerImgs = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                if (topicData.getData().getTopicInfoList().getTopicList().size() > i) {
-                    bannerImgs.add(topicData.getData().getTopicInfoList().getTopicList().get(i));
-                }
-            }
-            dataMultiItems().add(new BannerImgs(bannerImgs));
             for (int i = 0; i < topicData.getData().getTopicInfoList().getTopicList().size(); i++) {
                 dataMultiItems().add(new PostTag(topicData.getData().getTopicInfoList().getTopicList().get(i)));
             }
