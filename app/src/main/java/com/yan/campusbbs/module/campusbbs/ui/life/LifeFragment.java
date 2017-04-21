@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.config.CampusLabels;
 import com.yan.campusbbs.module.campusbbs.adapter.CampusDataAdapter;
 import com.yan.campusbbs.module.campusbbs.adapter.CampusPagerTabAdapter;
 import com.yan.campusbbs.module.campusbbs.data.PostAll;
@@ -59,7 +60,6 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     @BindView(R.id.pager_bar_more_recycler)
     RecyclerView pagerBarMoreRecycler;
 
-
     @Inject
     LifePresenter mPresenter;
     @Inject
@@ -83,6 +83,10 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     @Inject
     CampusDataAdapter multiItemAdapter;
 
+
+    private int tagPosition;
+    private int pageNo = 1;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -91,27 +95,14 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
 
     private void dataInit() {
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("全部", true));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("宿舍风云"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("青涩"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("闺蜜"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("与食堂阿姨的故事"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("小卖铺"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("前桌"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("暗恋"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生活"));
-        campusPagerTabAdapter.notifyDataSetChanged();
 
+        for (int i = 0; i < CampusLabels.LIFE_LABELS.length; i++) {
+            pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem(CampusLabels.LIFE_LABELS[i]));
+        }
+        campusPagerTabAdapter.notifyDataSetChanged();
+        mPresenter.getTopicList(String.valueOf(pageNo), 1);
         pagerBarMoreRecycler.setLayoutManager(getLayoutManager());
         pagerBarMoreRecycler.setAdapter(campusPagerTabMoreAdapter);
-
-        dataMultiItems.add(new PostTag("SSDads"));
-        dataMultiItems.add(new PostTag("SSDads"));
-        dataMultiItems.add(new PostTag("SSDads"));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(multiItemAdapter);
-
     }
 
     @Override
@@ -138,6 +129,13 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(multiItemAdapter);
+        multiItemAdapter.setOnLoadMoreListener(() -> {
+            if (tagPosition == 0) {
+                mPresenter.getTopicList(String.valueOf(++pageNo), 1);
+            } else {
+                mPresenter.getTopicList(String.valueOf(++pageNo), 1, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+            }
+        });
     }
 
     public static LifeFragment newInstance() {
@@ -150,12 +148,23 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     @Override
     protected void onItemClick(int position) {
         super.onItemClick(position);
-        toastUtils.showShort(pagerTabItems.get(position).title);
+        tagPosition = position;
+        pageNo = 1;
+        if (position == 0) {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1);
+        } else {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1, CampusLabels.LEAN_LABELS[position - 1]);
+        }
     }
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+        pageNo = 1;
+        if (tagPosition == 0) {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1);
+        } else {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+        }
     }
 
     @Override
@@ -209,6 +218,22 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     }
 
     @Override
+    protected CampusDataAdapter campusDataAdapter() {
+        return multiItemAdapter;
+    }
+
+    @Override
+    protected List<DataMultiItem> dataMultiItems() {
+        return dataMultiItems;
+    }
+
+
+    @Override
+    protected int pageNo() {
+        return pageNo;
+    }
+
+    @Override
     protected View pagerBarMoreArrow() {
         return pagerBarMoreArrow;
     }
@@ -247,5 +272,12 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     @Override
     protected View appBar() {
         return appBar;
+    }
+
+    @Override
+    public void netError() {
+        toastUtils.showShort("网络错误 ");
+        swipeRefreshLayout.setRefreshing(false);
+        multiItemAdapter.setEnableLoadMore(false);
     }
 }

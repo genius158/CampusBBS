@@ -30,9 +30,9 @@ public class PublishPresenter implements PublishContract.Presenter {
     }
 
     @Override
-    public void publish(String topicTitle, String topicContent, String typeDiv, String contentDiv) {
+    public void publish(String topicTitle, String topicContent, String typeDiv,  String topicLabel, String contentDiv) {
         Publish publish = appRetrofit.retrofit().create(Publish.class);
-        view.addDisposable(publish.publish(topicTitle, topicContent, typeDiv, contentDiv)
+        view.addDisposable(publish.publish(topicTitle, topicContent, typeDiv, topicLabel, contentDiv)
                 .subscribeOn(Schedulers.io())
                 .map(responseBody -> {
                     JSONObject jsonObject = new JSONObject(responseBody.string());

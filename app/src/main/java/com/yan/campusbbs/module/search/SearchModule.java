@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.yan.campusbbs.module.search.adapter.SearchAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.util.AppRetrofit;
 import com.yan.campusbbs.util.RxBus;
 
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public class SearchModule {
     }
 
     @Provides
-    SearchPresenter provideSearchPresenter(Context context) {
-        return new SearchPresenter(context, mView);
+    SearchPresenter provideSearchPresenter(Context context, AppRetrofit appRetrofit) {
+        return new SearchPresenter(context, mView,appRetrofit);
     }
 
     @Provides

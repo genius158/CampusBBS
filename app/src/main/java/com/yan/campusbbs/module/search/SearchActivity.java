@@ -55,6 +55,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     @Inject
     SettingHelper changeSkinHelper;
     @Inject
+    SearchPresenter presenter;
+    @Inject
     RxBus rxBus;
     @Inject
     SPUtils spUtils;
@@ -78,6 +80,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
 
     private List<DataMultiItem> dataMultiItems;
     private List<SearchData> searchItems;
+
+    private int pageNum = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -148,11 +152,12 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
             requestData();
             saveSearchData();
         } else {
-
+            presenter.getTopicList(String.valueOf(pageNum)
+                    , etSearch.getText().toString(), 1);
         }
     }
 
-   private TextWatcher watcher = new TextWatcher() {
+    private TextWatcher watcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -218,7 +223,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
                 .subscribe(actionChangeSearchText -> {
                     etSearch.setText(actionChangeSearchText.searchData.data);
                     etSearch.setSelection(etSearch.getText().toString().length());
-                    Observable.timer(200,TimeUnit.MILLISECONDS)
+                    Observable.timer(200, TimeUnit.MILLISECONDS)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(aLong -> {
                                 etSearch.requestFocus();

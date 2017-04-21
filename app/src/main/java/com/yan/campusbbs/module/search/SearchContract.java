@@ -25,9 +25,24 @@ import com.yan.campusbbs.base.BaseView;
 public interface SearchContract {
 
     interface View extends BaseView<Presenter> {
+//        void netError();
+//
+//        void error(String msg);
+
     }
 
     interface Presenter extends BasePresenter {
+        void getTopicList(
+                String pageNum
+                , String searchKey
+                , int typeDiv
+                , int topicLabel
+        );
 
+        void getTopicList(
+                String pageNum
+                , String searchKey
+                , int typeDiv
+        );
     }
 }

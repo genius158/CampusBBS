@@ -3,6 +3,8 @@ package com.yan.campusbbs.module.campusbbs.ui.study;
 
 import android.content.Context;
 
+import com.yan.campusbbs.util.AppRetrofit;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -16,8 +18,8 @@ public class StudyFragmentModule {
 
 
     @Provides
-    StudyPresenter getStudyPresenter(Context context) {
-        return new StudyPresenter(context, view);
+    StudyPresenter getStudyPresenter(Context context, AppRetrofit appRetrofit) {
+        return new StudyPresenter(context, view,appRetrofit);
     }
 
 }

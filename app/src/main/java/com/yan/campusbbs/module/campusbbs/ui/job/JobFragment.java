@@ -12,12 +12,14 @@ import android.widget.ImageView;
 
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.config.CampusLabels;
+import com.yan.campusbbs.module.campusbbs.adapter.CampusDataAdapter;
 import com.yan.campusbbs.module.campusbbs.adapter.CampusPagerTabAdapter;
 import com.yan.campusbbs.module.campusbbs.ui.common.CampusTabPagerFragment;
 import com.yan.campusbbs.module.campusbbs.ui.common.CampusTabPagerModule;
-import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationUtils;
@@ -62,6 +64,10 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
     @Inject
     ToastUtils toastUtils;
     @Inject
+    List<DataMultiItem> dataMultiItems;
+    @Inject
+    CampusDataAdapter multiItemAdapter;
+    @Inject
     AnimationUtils animationUtils;
     @BindView(R.id.pager_bar_more_layout)
     FrameLayout pagerBarMoreLayout;
@@ -71,6 +77,12 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
     ImageView pagerBarMoreArrow;
     @BindView(R.id.pager_bar_more_recycler)
     RecyclerView pagerBarMoreRecycler;
+
+
+    private int tagPosition;
+    private int pageNo = 1;
+
+
     @Override
     public void onResume() {
         super.onResume();
@@ -79,17 +91,11 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
 
     private void dataInit() {
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("全部", true));
-
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("实习"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("调休"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("烦恼驿站"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("工作"));
-
+        for (int i = 0; i < CampusLabels.JOB_LABELS.length; i++) {
+            pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem(CampusLabels.JOB_LABELS[i]));
+        }
         campusPagerTabAdapter.notifyDataSetChanged();
-
+        mPresenter.getTopicList(String.valueOf(pageNo), 1);
         pagerBarMoreRecycler.setLayoutManager(getLayoutManager());
         pagerBarMoreRecycler.setAdapter(campusPagerTabMoreAdapter);
     }
@@ -117,6 +123,14 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
 
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(multiItemAdapter);
+        multiItemAdapter.setOnLoadMoreListener(() -> {
+            if (tagPosition == 0) {
+                mPresenter.getTopicList(String.valueOf(++pageNo), 1);
+            } else {
+                mPresenter.getTopicList(String.valueOf(++pageNo), 1, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+            }
+        });
     }
 
     public static JobFragment newInstance() {
@@ -125,15 +139,27 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
 
     public JobFragment() {
     }
+
     @Override
     protected void onItemClick(int position) {
         super.onItemClick(position);
-        toastUtils.showShort(pagerTabItems.get(position).title);
+        tagPosition = position;
+        pageNo = 1;
+        if (position == 0) {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1);
+        } else {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1, CampusLabels.LEAN_LABELS[position - 1]);
+        }
     }
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+        pageNo = 1;
+        if (tagPosition == 0) {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1);
+        } else {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+        }
     }
 
     @Override
@@ -175,6 +201,22 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
     @Override
     protected RecyclerView recyclerView() {
         return recyclerView;
+    }
+
+    @Override
+    protected CampusDataAdapter campusDataAdapter() {
+        return multiItemAdapter;
+    }
+
+    @Override
+    protected List<DataMultiItem> dataMultiItems() {
+        return dataMultiItems;
+    }
+
+
+    @Override
+    protected int pageNo() {
+        return pageNo;
     }
 
     @Override
@@ -227,4 +269,10 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
         return pagerBarMoreLayout;
     }
 
+    @Override
+    public void netError() {
+        toastUtils.showShort("网络错误 ");
+        swipeRefreshLayout.setRefreshing(false);
+        multiItemAdapter.setEnableLoadMore(false);
+    }
 }

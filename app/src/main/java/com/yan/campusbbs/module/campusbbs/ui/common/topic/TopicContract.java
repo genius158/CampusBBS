@@ -14,19 +14,35 @@
  * limitations under the License.
  */
 
-package com.yan.campusbbs.module.campusbbs.ui.job;
+package com.yan.campusbbs.module.campusbbs.ui.common.topic;
 
-import com.yan.campusbbs.module.campusbbs.ui.common.topic.TopicContract;
+import com.yan.campusbbs.base.BasePresenter;
+import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.module.campusbbs.data.TopicData;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
-public interface JobContract {
+public interface TopicContract {
 
-    interface View extends TopicContract.View {
+    interface View extends BaseView<Presenter> {
+        void setTopicData(TopicData topicData);
+
+        void setTopicTagData(TopicData topicData);
+
+        void netError();
     }
 
-    interface Presenter extends TopicContract.Presenter {
+    interface Presenter extends BasePresenter {
+        void getTopicList(
+                String pageNum
+                , int typeDiv
+        );
 
+        void getTopicList(
+                String pageNum
+                , int typeDiv
+                , String topicLabel
+        );
     }
 }

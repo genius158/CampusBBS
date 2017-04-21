@@ -3,18 +3,22 @@ package com.yan.campusbbs.module.campusbbs.ui.life;
 import android.content.Context;
 
 
+import com.yan.campusbbs.util.AppRetrofit;
+
 import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class LifeFragmentModule  {
+public class LifeFragmentModule {
     private LifeContract.View view;
+
     public LifeFragmentModule(LifeContract.View view) {
         this.view = view;
     }
+
     @Provides
-    LifePresenter getLifePresenter(Context context) {
-        return new LifePresenter(context, view);
+    LifePresenter getLifePresenter(Context context, AppRetrofit appRetrofit) {
+        return new LifePresenter(context, view, appRetrofit);
     }
 
 }

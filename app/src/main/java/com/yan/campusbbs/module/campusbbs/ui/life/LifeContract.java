@@ -16,18 +16,16 @@
 
 package com.yan.campusbbs.module.campusbbs.ui.life;
 
-import com.yan.campusbbs.base.BasePresenter;
-import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.module.campusbbs.ui.common.topic.TopicContract;
 
 /**
  * This specifies the contract between the view and the presenter.
  */
 public interface LifeContract {
-
-    interface View extends BaseView<Presenter> {
+    interface View extends TopicContract.View {
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends TopicContract.Presenter {
 
     }
 }

@@ -40,6 +40,7 @@ public interface PublishContract {
                 String topicTitle,
                 String topicContent,
                 String typeDiv,
+                String topicLabel,
                 String contentDiv
         );
 

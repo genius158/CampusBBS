@@ -10,14 +10,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.config.CampusLabels;
 import com.yan.campusbbs.module.campusbbs.adapter.CampusDataAdapter;
 import com.yan.campusbbs.module.campusbbs.adapter.CampusPagerTabAdapter;
-import com.yan.campusbbs.module.campusbbs.data.BannerImgs;
-import com.yan.campusbbs.module.campusbbs.data.PostAll;
 import com.yan.campusbbs.module.campusbbs.ui.common.CampusTabPagerFragment;
 import com.yan.campusbbs.module.campusbbs.ui.common.CampusTabPagerModule;
 import com.yan.campusbbs.module.setting.ImageControl;
@@ -31,7 +28,6 @@ import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -89,6 +85,9 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     @BindView(R.id.pager_bar_more_recycler)
     RecyclerView pagerBarMoreRecycler;
 
+    private int tagPosition;
+    private int pageNo = 1;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -107,34 +106,11 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
 
     private void dataInit() {
         pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("全部", true));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("高考冲刺"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("四级"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("计算机"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("航空学院"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("语文"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("数学"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("英语"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("物理"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("化学"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("生物"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("政治"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("地理"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("疯狂英语"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("刘一男"));
-        pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem("快乐学习"));
+        for (int i = 0; i < CampusLabels.LEAN_LABELS.length; i++) {
+            pagerTabItems.add(new CampusPagerTabAdapter.PagerTabItem(CampusLabels.LEAN_LABELS[i]));
+        }
         campusPagerTabAdapter.notifyDataSetChanged();
-
-        //-----------------------------------------------------------------
-        List<String> bannerImgs = new ArrayList<>();
-        bannerImgs.add("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg");
-        bannerImgs.add("http://uploads.xuexila.com/allimg/1603/703-16031Q55132J7.jpg");
-        bannerImgs.add("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg");
-        dataMultiItems.add(new BannerImgs(bannerImgs));
-        dataMultiItems.add(new PostAll("d"));
-        dataMultiItems.add(new PostAll("d"));
-        dataMultiItems.add(new PostAll("d"));
-        multiItemAdapter.notifyDataSetChanged();
-
+        mPresenter.getTopicList(String.valueOf(pageNo), 1);
         pagerBarMoreRecycler.setLayoutManager(getLayoutManager());
         pagerBarMoreRecycler.setAdapter(campusPagerTabMoreAdapter);
     }
@@ -142,7 +118,13 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     @Override
     protected void onItemClick(int position) {
         super.onItemClick(position);
-        toastUtils.showShort(pagerTabItems.get(position).title);
+        tagPosition = position;
+        pageNo = 1;
+        if (position == 0) {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1);
+        } else {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1, CampusLabels.LEAN_LABELS[position - 1]);
+        }
     }
 
     private void daggerInject() {
@@ -154,12 +136,18 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
                 .studyFragmentModule(new StudyFragmentModule(this))
                 .campusTabPagerModule(new CampusTabPagerModule())
                 .build().inject(this);
-
     }
 
     private void init() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(multiItemAdapter);
+        multiItemAdapter.setOnLoadMoreListener(() -> {
+            if (tagPosition == 0) {
+                mPresenter.getTopicList(String.valueOf(++pageNo), 1);
+            } else {
+                mPresenter.getTopicList(String.valueOf(++pageNo), 1, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+            }
+        });
     }
 
     public static StudyFragment newInstance() {
@@ -171,7 +159,12 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
 
     @Override
     public void onRefresh() {
-        swipeRefreshLayout.setRefreshing(false);
+        pageNo = 1;
+        if (tagPosition == 0) {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1);
+        } else {
+            mPresenter.getTopicList(String.valueOf(pageNo), 1, CampusLabels.LEAN_LABELS[tagPosition - 1]);
+        }
     }
 
     @Override
@@ -260,8 +253,29 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     }
 
     @Override
+    protected CampusDataAdapter campusDataAdapter() {
+        return multiItemAdapter;
+    }
+
+    @Override
+    protected List<DataMultiItem> dataMultiItems() {
+        return dataMultiItems;
+    }
+
+    @Override
+    protected int pageNo() {
+        return pageNo;
+    }
+
+    @Override
     protected SwipeRefreshLayout swipeRefreshLayout() {
         return swipeRefreshLayout;
     }
 
+    @Override
+    public void netError() {
+        toastUtils.showShort("网络错误");
+        swipeRefreshLayout.setRefreshing(false);
+        multiItemAdapter.setEnableLoadMore(false);
+    }
 }

@@ -2,6 +2,8 @@ package com.yan.campusbbs.module.campusbbs.ui.job;
 
 import android.content.Context;
 
+import com.yan.campusbbs.util.AppRetrofit;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -14,8 +16,8 @@ public class JobFragmentModule {
     }
 
     @Provides
-    JobPresenter getJobPresenter(Context context) {
-        return new JobPresenter(context, view);
+    JobPresenter getJobPresenter(Context context, AppRetrofit appRetrofit) {
+        return new JobPresenter(context, view,appRetrofit);
     }
 
 }

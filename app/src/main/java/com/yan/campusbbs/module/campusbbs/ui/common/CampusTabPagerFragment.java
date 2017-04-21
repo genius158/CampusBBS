@@ -12,7 +12,13 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.yan.campusbbs.base.BaseRefreshFragment;
+import com.yan.campusbbs.module.campusbbs.adapter.CampusDataAdapter;
 import com.yan.campusbbs.module.campusbbs.adapter.CampusPagerTabAdapter;
+import com.yan.campusbbs.module.campusbbs.data.BannerImgs;
+import com.yan.campusbbs.module.campusbbs.data.PostAll;
+import com.yan.campusbbs.module.campusbbs.data.PostTag;
+import com.yan.campusbbs.module.campusbbs.data.TopicData;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
@@ -20,6 +26,7 @@ import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SizeUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -60,7 +67,6 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         pagerBarRecycler().setLayoutManager(linearLayoutManager);
         pagerBarRecycler().setAdapter(campusPagerTabAdapter());
         recyclerView().addOnScrollListener(onScrollListener);
-
         campusPagerTabAdapter().setOnItemClickListener(onItemClickListener);
         campusPagerTabMoreAdapter().setOnItemClickListener(onItemClickListener);
         campusAppHelperAdd.appHelperAdd(appBar());
@@ -101,7 +107,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         @Override
         public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
             tabSelectPosition = position;
-             for (int i = 0; i < pagerTabItems().size(); i++) {
+            for (int i = 0; i < pagerTabItems().size(); i++) {
                 if (i == position) {
                     pagerTabItems().get(i).isSelect = true;
                 } else {
@@ -261,34 +267,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
 
     protected ChipsLayoutManager getLayoutManager() {
         return ChipsLayoutManager.newBuilder(getContext())
-//              //set vertical gravity for all items in a row. Default = Gravity.CENTER_VERTICAL
-//              .setChildGravity(Gravity.TOP)
-//              //whether RecyclerView can scroll. TRUE by default
                 .setScrollingEnabled(true)
-//              //set maximum views count in a particular row
-//              .setMaxViewsInRow(2)
-//              //set gravity resolver where you can determine gravity for item in position.
-//              //This method have priority over previous one
-//              .setGravityResolver(new IChildGravityResolver() {
-//                  @Override
-//                  public int getItemGravity(int position) {
-//                      return Gravity.CENTER;
-//                  }
-//              })
-//              //you are able to break row due to your conditions. Row breaker should return true for that views
-//              .setRowBreaker(new IRowBreaker() {
-//                  @Override
-//                  public boolean isItemBreakRow(@IntRange(from = 0) int position) {
-//                      return position == 6 || position == 11 || position == 2;
-//                  }
-//              })
-//              //a layoutOrientation of layout manager, could be VERTICAL OR HORIZONTAL. HORIZONTAL by default
-//              .setOrientation(ChipsLayoutManager.HORIZONTAL)
-//              // row strategy for views in completed row, could be STRATEGY_DEFAULT, STRATEGY_FILL_VIEW,
-//              //STRATEGY_FILL_SPACE or STRATEGY_CENTER
-//              .setRowStrategy(ChipsLayoutManager.STRATEGY_FILL_SPACE)
-//              // whether strategy is applied to last row. FALSE by default
-//              .withLastRow(true)
                 .build();
     }
 
@@ -331,6 +310,85 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         return 0;
     }
 
+    public void setTopicData(TopicData topicData) {
+        if (topicData.getData() == null
+                || topicData.getData().getTopicInfoList() == null
+                || topicData.getData().getTopicInfoList().getTopicList() == null
+                ) {
+            return;
+        }
+        if (pageNo() == 1) {
+            dataMultiItems().clear();
+            swipeRefreshLayout().setRefreshing(false);
+            List<TopicData.DataBean.TopicInfoListBean.TopicListBean> bannerImgs = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                if (topicData.getData().getTopicInfoList().getTopicList().size() > i) {
+                    bannerImgs.add(topicData.getData().getTopicInfoList().getTopicList().get(i));
+                }
+            }
+            dataMultiItems().add(new BannerImgs(bannerImgs));
+            for (int i = 0; i < topicData.getData().getTopicInfoList().getTopicList().size(); i++) {
+                dataMultiItems().add(new PostAll(topicData.getData().getTopicInfoList().getTopicList().get(i)));
+            }
+            campusDataAdapter().notifyDataSetChanged();
+            if (dataMultiItems().size() >= 4) {
+                campusDataAdapter().setEnableLoadMore(true);
+            } else {
+                campusDataAdapter().setEnableLoadMore(false);
+            }
+        } else {
+            for (int i = 0; i < topicData.getData().getTopicInfoList().getTopicList().size(); i++) {
+                dataMultiItems().add(new PostAll(topicData.getData().getTopicInfoList().getTopicList().get(i)));
+            }
+            campusDataAdapter().loadMoreComplete();
+            campusDataAdapter().notifyDataSetChanged();
+
+            if (topicData.getData().getTopicInfoList().getTopicList().isEmpty()) {
+                campusDataAdapter().setEnableLoadMore(false);
+            }
+        }
+    }
+
+    public void setTopicTagData(TopicData topicData) {
+        if (topicData.getData() == null
+                || topicData.getData().getTopicInfoList() == null
+                || topicData.getData().getTopicInfoList().getTopicList() == null
+                ) {
+            return;
+        }
+        if (pageNo() == 1) {
+            dataMultiItems().clear();
+            swipeRefreshLayout().setRefreshing(false);
+            List<TopicData.DataBean.TopicInfoListBean.TopicListBean> bannerImgs = new ArrayList<>();
+            for (int i = 0; i < 3; i++) {
+                if (topicData.getData().getTopicInfoList().getTopicList().size() > i) {
+                    bannerImgs.add(topicData.getData().getTopicInfoList().getTopicList().get(i));
+                }
+            }
+            dataMultiItems().add(new BannerImgs(bannerImgs));
+            for (int i = 0; i < topicData.getData().getTopicInfoList().getTopicList().size(); i++) {
+                dataMultiItems().add(new PostTag(topicData.getData().getTopicInfoList().getTopicList().get(i)));
+            }
+            campusDataAdapter().notifyDataSetChanged();
+            if (dataMultiItems().size() >= 4) {
+                campusDataAdapter().setEnableLoadMore(true);
+            } else {
+                campusDataAdapter().setEnableLoadMore(false);
+            }
+        } else {
+            for (int i = 0; i < topicData.getData().getTopicInfoList().getTopicList().size(); i++) {
+                dataMultiItems().add(new PostTag(topicData.getData().getTopicInfoList().getTopicList().get(i)));
+            }
+            campusDataAdapter().loadMoreComplete();
+            campusDataAdapter().notifyDataSetChanged();
+
+            if (topicData.getData().getTopicInfoList().getTopicList().isEmpty()) {
+                campusDataAdapter().setEnableLoadMore(false);
+            }
+        }
+    }
+
+
     protected abstract AnimationUtils animationHelper();
 
     protected abstract RecyclerView pagerBarMoreRecycler();
@@ -354,5 +412,9 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     protected abstract View appBar();
 
     protected abstract RecyclerView recyclerView();
+
+    protected abstract CampusDataAdapter campusDataAdapter();
+    protected abstract List<DataMultiItem> dataMultiItems();
+    protected abstract int pageNo();
 
 }

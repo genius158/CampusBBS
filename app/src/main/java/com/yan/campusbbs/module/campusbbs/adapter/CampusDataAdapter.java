@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.SizeUtils;
 import com.yan.campusbbs.widget.banner.Banner;
@@ -53,8 +54,12 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
                     }
 
                     @Override
-                    public void initImgData(ImageView imageView, Object imgPath) {
-                        ((SimpleDraweeView) imageView).setImageURI((String) imgPath);
+                    public void initImgData(ImageView imageView, Object data) {
+                        if (data instanceof TopicData.DataBean.TopicInfoListBean.TopicListBean) {
+                            ((SimpleDraweeView) imageView).setImageURI(
+                                    ((TopicData.DataBean.TopicInfoListBean.TopicListBean) data)
+                                            .getUserHeadImg());
+                        }
                     }
                 });
                 bannerIndicator.setIndicatorSource(
@@ -71,11 +76,24 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
             case ITEM_TYPE_POST_ALL:
                 SimpleDraweeView img = holder.getView(R.id.img);
                 img.setImageURI("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg");
+                if (multiItem.data instanceof TopicData.DataBean.TopicInfoListBean.TopicListBean) {
+                    TopicData.DataBean.TopicInfoListBean.TopicListBean topic = (TopicData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
+                    holder.setText(R.id.tv_title, topic.getTopicTitle());
+                    holder.setText(R.id.tv_content, topic.getTopicContent());
+                    img.setImageURI(topic.getUserHeadImg());
+                }
                 break;
 
             case ITEM_TYPE_POST_TAG:
                 SimpleDraweeView head = holder.getView(R.id.head);
                 head.setImageURI("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg");
+                if (multiItem.data instanceof TopicData.DataBean.TopicInfoListBean.TopicListBean) {
+                    TopicData.DataBean.TopicInfoListBean.TopicListBean topic = (TopicData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
+                    holder.setText(R.id.tv_user_name, (topic.getUserNickname() == null ? topic.getUserAccount()
+                            : topic.getUserNickname()));
+                    holder.setText(R.id.tv_title, topic.getTopicTitle());
+                    head.setImageURI(topic.getUserHeadImg());
+                }
                 break;
         }
     }

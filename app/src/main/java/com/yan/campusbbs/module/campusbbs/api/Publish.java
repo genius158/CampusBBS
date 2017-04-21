@@ -19,6 +19,7 @@ public interface Publish {
             @Query("topicTitle") String topicTitle,
             @Query("topicContent") String topicContent,
             @Query("typeDiv") String typeDiv,
+            @Query("topicLabel") String topicLabel,
             @Query("contentDiv") String contentDiv
     );
 

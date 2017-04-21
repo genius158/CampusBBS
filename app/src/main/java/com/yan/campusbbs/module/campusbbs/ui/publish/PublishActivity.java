@@ -21,6 +21,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.config.CampusLabels;
 import com.yan.campusbbs.module.campusbbs.ui.publish.pic.MultiImageSelector;
 import com.yan.campusbbs.module.campusbbs.ui.publish.pic.PicActivity;
 import com.yan.campusbbs.module.setting.ImageControl;
@@ -78,7 +79,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
     private String subTitle;
     List<String> spDatas = new ArrayList<>();
 
-    private int mode = 0;
+    private int mode = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,26 +103,24 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
         subTitle = getIntent().getStringExtra(SUB_TITLE);
         switch (subTitle) {
             case "学习":
-                mode = 0;
-                break;
-            case "生活":
                 mode = 1;
                 break;
-            case "工作":
+            case "生活":
                 mode = 2;
+                break;
+            case "工作":
+                mode = 3;
                 break;
             default:
                 break;
         }
-
-        spDatas.add("高考冲刺");
-        spDatas.add("四级");
-        spDatas.add("计算机");
+        for (int i = 0; i < CampusLabels.LEAN_LABELS.length; i++) {
+            spDatas.add(CampusLabels.LEAN_LABELS[i]);
+        }
         spTypes.setAdapter(new ArrayAdapter<>(getBaseContext()
                 , android.R.layout.simple_list_item_1
                 , android.R.id.text1
                 , spDatas));
-
     }
 
     @Override
@@ -192,21 +191,13 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
             return;
         }
 
-        String title = null;
-        String content = null;
-//        try {
-//            title = URLEncoder.encode(etTitle.getText().toString(), "UTF-8");
-//            content = URLEncoder.encode(etContent.getText().toString(), "UTF-8");
-
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-        title = etTitle.getText().toString();
-        content = etContent.getText().toString();
+        String title = etTitle.getText().toString();
+        String content = etContent.getText().toString();
         presenter.publish(title
                 , content
                 , String.valueOf(mode)
-                , String.valueOf(spTypes.getSelectedItemPosition())
+                , spDatas.get(spTypes.getSelectedItemPosition())
+                , String.valueOf(1)
         );
     }
 
