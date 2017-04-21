@@ -339,11 +339,12 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
                 campusDataAdapter().setEnableLoadMore(false);
             }
         } else {
+            int tempSize = dataMultiItems().size();
             for (int i = 0; i < topicData.getData().getTopicInfoList().getTopicList().size(); i++) {
                 dataMultiItems().add(new PostAll(topicData.getData().getTopicInfoList().getTopicList().get(i)));
             }
             campusDataAdapter().loadMoreComplete();
-            campusDataAdapter().notifyDataSetChanged();
+            campusDataAdapter().notifyItemRangeInserted(tempSize, dataMultiItems().size() - tempSize);
 
             if (topicData.getData().getTopicInfoList().getTopicList().isEmpty()) {
                 campusDataAdapter().setEnableLoadMore(false);
@@ -373,11 +374,12 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
                 campusDataAdapter().setEnableLoadMore(false);
             }
         } else {
+            int tempSize = dataMultiItems().size();
             for (int i = 0; i < topicData.getData().getTopicInfoList().getTopicList().size(); i++) {
                 dataMultiItems().add(new PostTag(topicData.getData().getTopicInfoList().getTopicList().get(i)));
             }
             campusDataAdapter().loadMoreComplete();
-            campusDataAdapter().notifyDataSetChanged();
+            campusDataAdapter().notifyItemRangeInserted(tempSize, dataMultiItems().size() - tempSize);
 
             if (topicData.getData().getTopicInfoList().getTopicList().isEmpty()) {
                 campusDataAdapter().setEnableLoadMore(false);
@@ -411,7 +413,9 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     protected abstract RecyclerView recyclerView();
 
     protected abstract CampusDataAdapter campusDataAdapter();
+
     protected abstract List<DataMultiItem> dataMultiItems();
+
     protected abstract int pageNo();
 
 }
