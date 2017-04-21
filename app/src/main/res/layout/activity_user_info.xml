@@ -56,7 +56,10 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:gravity="center"
+            android:lines="1"
             android:text="text"
             android:textColor="@color/crFFFFFF"
             android:textSize="@dimen/size_sp_16" />

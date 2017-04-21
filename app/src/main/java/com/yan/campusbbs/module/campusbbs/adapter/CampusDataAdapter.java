@@ -1,6 +1,7 @@
 package com.yan.campusbbs.module.campusbbs.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.data.TopicData;
+import com.yan.campusbbs.module.campusbbs.ui.common.topicdetail.TopicDetailActivity;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.SizeUtils;
 import com.yan.campusbbs.widget.banner.Banner;
@@ -56,15 +58,22 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
                     @Override
                     public void initImgData(ImageView imageView, Object data) {
                         if (data instanceof TopicData.DataBean.TopicInfoListBean.TopicListBean) {
-                            ((SimpleDraweeView) imageView).setImageURI(
-                                    ((TopicData.DataBean.TopicInfoListBean.TopicListBean) data)
-                                            .getUserHeadImg());
+                            TopicData.DataBean.TopicInfoListBean.TopicListBean topic =
+                                    (TopicData.DataBean.TopicInfoListBean.TopicListBean) data;
+
+                            ((SimpleDraweeView) imageView).setImageURI(topic.getUserHeadImg());
+                            imageView.setOnClickListener(v -> {
+                                context.startActivity(new Intent(context, TopicDetailActivity.class)
+                                        .putExtra("title", topic.getTopicTitle())
+                                        .putExtra("topicId", topic.getTopicId())
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                            });
                         }
                     }
                 });
                 bannerIndicator.setIndicatorSource(
-                        ContextCompat.getDrawable(context, R.drawable.banner_indicator_select),//select
-                        ContextCompat.getDrawable(context, R.drawable.banner_indicator_unselect),//unselect
+                        ContextCompat.getDrawable(context, R.drawable.banner_indicator_select),
+                        ContextCompat.getDrawable(context, R.drawable.banner_indicator_unselect),
                         SizeUtils.dp2px(context, 8)//widthAndHeight
                 );
                 banner.setOnBannerItemClickListener(position ->
@@ -75,24 +84,36 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
                 break;
             case ITEM_TYPE_POST_ALL:
                 SimpleDraweeView img = holder.getView(R.id.img);
-                img.setImageURI("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg");
                 if (multiItem.data instanceof TopicData.DataBean.TopicInfoListBean.TopicListBean) {
                     TopicData.DataBean.TopicInfoListBean.TopicListBean topic = (TopicData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
                     holder.setText(R.id.tv_title, topic.getTopicTitle());
                     holder.setText(R.id.tv_content, topic.getTopicContent());
                     img.setImageURI(topic.getUserHeadImg());
+                    holder.getView(R.id.container).setOnClickListener(v -> {
+                        context.startActivity(new Intent(context, TopicDetailActivity.class)
+                                .putExtra("title", topic.getTopicTitle())
+                                .putExtra("topicId", topic.getTopicId())
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        );
+                    });
                 }
                 break;
 
             case ITEM_TYPE_POST_TAG:
                 SimpleDraweeView head = holder.getView(R.id.head);
-                head.setImageURI("http://2t.5068.com/uploads/allimg/151104/57-151104141236.jpg");
                 if (multiItem.data instanceof TopicData.DataBean.TopicInfoListBean.TopicListBean) {
                     TopicData.DataBean.TopicInfoListBean.TopicListBean topic = (TopicData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
                     holder.setText(R.id.tv_user_name, (topic.getUserNickname() == null ? topic.getUserAccount()
                             : topic.getUserNickname()));
                     holder.setText(R.id.tv_title, topic.getTopicTitle());
                     head.setImageURI(topic.getUserHeadImg());
+                    holder.getView(R.id.container).setOnClickListener(v -> {
+                        context.startActivity(new Intent(context, TopicDetailActivity.class)
+                                .putExtra("title", topic.getTopicTitle())
+                                .putExtra("topicId", topic.getTopicId())
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        );
+                    });
                 }
                 break;
         }

@@ -16,4 +16,5 @@ public class DataAddress {
     public static final String URL_GET_PUBLISH_MORE = "CompusBBS/app/topic/user/for/more";
     public static final String URL_USER_EDIT = "CompusBBS/app/user/edit";
     public static final String URL_TOPIC_BBS = "CompusBBS/app/topic/bbs";
+    public static final String URL_TOPIC_DETAIL = "CompusBBS/app/topic/detail";
 }

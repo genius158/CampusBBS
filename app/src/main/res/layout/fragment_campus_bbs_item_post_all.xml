@@ -6,6 +6,7 @@
     android:layout_marginTop="8dp"
     android:padding="8dp"
     android:background="@color/crFFFFFF"
+    android:foreground="?selectableItemBackground"
     android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -25,6 +26,8 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="end"
             android:text="test测试"
             android:textColor="@color/cr3C3B41"
             android:textSize="@dimen/size_sp_16" />
@@ -34,6 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:text="test测试"
             android:textColor="@color/cr777777"
             android:textSize="@dimen/size_sp_14" />

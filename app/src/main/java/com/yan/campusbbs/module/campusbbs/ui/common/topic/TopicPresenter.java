@@ -5,6 +5,8 @@ import android.content.Context;
 import com.yan.campusbbs.module.campusbbs.api.Topic;
 import com.yan.campusbbs.util.AppRetrofit;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -13,6 +15,7 @@ public class TopicPresenter implements TopicContract.Presenter {
     private Context context;
     private AppRetrofit appRetrofit;
 
+    @Inject
     public TopicPresenter(Context context, TopicContract.View view, AppRetrofit appRetrofit) {
         this.view = view;
         this.appRetrofit = appRetrofit;
