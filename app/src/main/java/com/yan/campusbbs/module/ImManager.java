@@ -45,7 +45,6 @@ import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.NotifyChatActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend.FriendsActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.message.MessageActivity;
-import com.yan.campusbbs.module.common.LoadingDialog;
 import com.yan.campusbbs.module.common.data.UserProfile;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.util.ACache;
@@ -122,6 +121,9 @@ public class ImManager {
             @Override
             public void onError(int code, String desc) {
                 Log.e(TAG, "send message failed. code: " + code + " errmsg: " + desc);
+                if (code == 6011) {
+                    toastUtils.showUIShort("对方的账号存在问题，发送失败");
+                }
             }
 
             @Override
@@ -902,6 +904,11 @@ public class ImManager {
     }
 
     public void addFriend(String identifier) {
+        if (TextUtils.isEmpty(getTIM().getLoginUser())) {
+            toastUtils.showUIShort("即时通讯部署出错,请重新登陆");
+            return;
+        }
+
         //创建请求列表
         List<TIMAddFriendRequest> reqList = new ArrayList<TIMAddFriendRequest>();
 
@@ -918,7 +925,10 @@ public class ImManager {
         TIMFriendshipManager.getInstance().addFriend(reqList, new TIMValueCallBack<List<TIMFriendResult>>() {
             @Override
             public void onError(int code, String desc) {
-                Log.e(TAG, "addFriend failed: " + code + " desc");
+                Log.e(TAG, "addFriend failed: " + code + desc);
+                if (code == 6011) {
+                    toastUtils.showUIShort("对方的账号存在问题，添加好友失败");
+                }
             }
 
             @Override

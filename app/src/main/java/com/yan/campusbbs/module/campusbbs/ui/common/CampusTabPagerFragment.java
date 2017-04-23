@@ -25,6 +25,7 @@ import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.util.AnimationUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SizeUtils;
+import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -359,6 +360,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
                 ) {
             swipeRefreshLayout().setRefreshing(false);
             campusDataAdapter().setEnableLoadMore(false);
+            toastUtils().showUIShort(topicData.getMessage());
             return;
         }
         if (pageNo() == 1) {
@@ -417,5 +419,6 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     protected abstract List<DataMultiItem> dataMultiItems();
 
     protected abstract int pageNo();
+    protected abstract ToastUtils toastUtils();
 
 }

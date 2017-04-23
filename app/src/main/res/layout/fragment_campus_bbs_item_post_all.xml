@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
-    android:padding="8dp"
     android:background="@color/crFFFFFF"
     android:foreground="?selectableItemBackground"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="100dp"
         android:id="@+id/img"
+        android:layout_width="100dp"
         android:layout_height="100dp" />
 
     <LinearLayout
@@ -26,8 +26,8 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lines="1"
             android:ellipsize="end"
+            android:lines="1"
             android:text="test测试"
             android:textColor="@color/cr3C3B41"
             android:textSize="@dimen/size_sp_16" />
@@ -36,9 +36,10 @@
             android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:maxLines="2"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
+            android:lineSpacingExtra="3dp"
+            android:maxLines="2"
             android:text="test测试"
             android:textColor="@color/cr777777"
             android:textSize="@dimen/size_sp_14" />

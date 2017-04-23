@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,7 +16,6 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.ImManager;
-import com.yan.campusbbs.module.common.LoadingDialog;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.selfcenter.data.PublishData;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.DaggerSelfCenterOtherComponent;
@@ -75,7 +75,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
     @Inject
     SelfCenterMultiItemAdapter adapter;
 
-
+    private String nickName;
     private PublishData.DataBean.TopicInfoListBean.TopicListBean topicListBean;
     private String userId;
     int pageNo = 1;
@@ -104,7 +104,6 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(addFriend -> {
                     mPresenter.getFriendData(1, userId);
-                    LoadingDialog.getInstance(getBaseContext()).hide();
                     toastUtils.showShort("添加好友成功");
                 }));
     }
@@ -127,6 +126,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
 
     private void dataInit() {
         userId = getIntent().getStringExtra("userId");
+        nickName = getIntent().getStringExtra("nickName");
         topicListBean = (PublishData.DataBean.TopicInfoListBean.TopicListBean) getIntent()
                 .getSerializableExtra("otherBean");
         mPresenter.getFriendData(pageNo, userId);
@@ -147,7 +147,11 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
     @Override
     public void changeSkin(ActionChangeSkin actionChangeSkin) {
         super.changeSkin(actionChangeSkin);
-        title.setText(topicListBean.getUserNickname() + "的个人主页");
+        if (!TextUtils.isEmpty(nickName)) {
+            title.setText(String.valueOf(nickName + "的个人主页"));
+        } else {
+            title.setText(String.valueOf(topicListBean.getUserNickname() + "的个人主页"));
+        }
         commonAppBar.setCardBackgroundColor(
                 ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
         );

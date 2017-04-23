@@ -1,6 +1,7 @@
 package com.yan.campusbbs.module.campusbbs.api;
 
 import com.yan.campusbbs.module.campusbbs.data.TopicData;
+import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
 import com.yan.campusbbs.repository.DataAddress;
 
 import io.reactivex.Observable;
@@ -27,7 +28,7 @@ public interface Topic {
     );
 
     @GET(DataAddress.URL_TOPIC_DETAIL)
-    Observable<TopicData> getTopicDetail(
+    Observable<TopicDetailData> getTopicDetail(
             @Query("topicId") String topicId
     );
 }

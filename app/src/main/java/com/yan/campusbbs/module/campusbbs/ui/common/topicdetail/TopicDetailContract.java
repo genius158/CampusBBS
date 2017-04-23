@@ -18,6 +18,7 @@ package com.yan.campusbbs.module.campusbbs.ui.common.topicdetail;
 
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -26,11 +27,10 @@ public interface TopicDetailContract {
 
     interface View extends BaseView<Presenter> {
         void netError();
+        void setTopicDetail(TopicDetailData topicDetail);
     }
 
     interface Presenter extends BasePresenter {
-
         void getTopicDetail(String topicId);
-
     }
 }

@@ -16,9 +16,9 @@ import com.tencent.TIMUserProfile;
 import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.ImManager;
+import com.yan.campusbbs.module.campusbbs.ui.common.topicdetail.TopicDetailActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.SelfCenterActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.ChatActivity;
-import com.yan.campusbbs.module.common.LoadingDialog;
 import com.yan.campusbbs.module.common.pop.PopPhotoView;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.PublishData;
@@ -196,16 +196,12 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     });
                     holder.getView(R.id.iv_btn_add_friend)
                             .setOnClickListener(v -> {
-                                LoadingDialog.getInstance(context).show();
                                 ImManager.getImManager().addFriend(finalIdentifier);
                             });
                     holder.getView(R.id.tv_btn_add_friend)
                             .setOnClickListener(v -> {
-                                LoadingDialog.getInstance(context).show();
                                 ImManager.getImManager().addFriend(finalIdentifier);
                             });
-
-
                 }
                 otherSDV.setOnClickListener(v -> {
                     if (popPhotoView != null) {
@@ -228,6 +224,14 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 holder.setText(R.id.self_dynamic, selfBean.getTopicContent());
                 holder.setText(R.id.tv_brown_count, "浏览(" + selfBean.getCmtCount() + ")");
                 FrescoUtils.adjustViewOnImage(context, selfSimpleDrawee, selfBean.getUserHeadImg());
+                holder.getView(R.id.container).setOnClickListener(v -> {
+                    context.startActivity(new Intent(context, TopicDetailActivity.class)
+                            .putExtra("title", selfBean.getTopicTitle())
+                            .putExtra("topicId",  selfBean.getTopicId())
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    );
+                });
+
                 selfSimpleDrawee.setOnClickListener(v -> {
                     if (popPhotoView != null) {
                         popPhotoView.show();
@@ -255,6 +259,13 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 holder.setText(R.id.self_dynamic, otherBean.getTopicTitle());
                 holder.setText(R.id.tv_brown_count, "浏览(" + otherBean.getCmtCount() + ")");
                 FrescoUtils.adjustViewOnImage(context, simpleDrawee, otherBean.getUserHeadImg());
+                holder.getView(R.id.container).setOnClickListener(v -> {
+                    context.startActivity(new Intent(context, TopicDetailActivity.class)
+                            .putExtra("title", otherBean.getTopicTitle())
+                            .putExtra("topicId",  otherBean.getTopicId())
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    );
+                });
                 simpleDrawee.setOnClickListener(v -> {
                     if (popPhotoView != null) {
                         popPhotoView.show();

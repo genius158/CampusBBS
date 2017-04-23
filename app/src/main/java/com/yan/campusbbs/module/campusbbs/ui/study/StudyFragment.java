@@ -268,6 +268,11 @@ public class StudyFragment extends CampusTabPagerFragment implements StudyContra
     }
 
     @Override
+    protected ToastUtils toastUtils() {
+        return toastUtils;
+    }
+
+    @Override
     protected SwipeRefreshLayout swipeRefreshLayout() {
         return swipeRefreshLayout;
     }

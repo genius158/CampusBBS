@@ -2,10 +2,8 @@ package com.yan.campusbbs.module.campusbbs.ui.common.topicdetail;
 
 import android.content.Context;
 
-import com.yan.campusbbs.module.campusbbs.api.Publish;
+import com.yan.campusbbs.module.campusbbs.api.Topic;
 import com.yan.campusbbs.util.AppRetrofit;
-
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 
@@ -31,6 +29,16 @@ public class TopicDetailPresenter implements TopicDetailContract.Presenter {
 
     @Override
     public void getTopicDetail(String topicId) {
-
+        Topic topic = appRetrofit.retrofit().create(Topic.class);
+        view.addDisposable(topic.getTopicDetail(topicId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(topicDetailData -> {
+                    view.setTopicDetail(topicDetailData);
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    view.netError();
+                })
+        );
     }
 }

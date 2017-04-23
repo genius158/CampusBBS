@@ -220,6 +220,11 @@ public class JobFragment extends CampusTabPagerFragment implements JobContract.V
     }
 
     @Override
+    protected ToastUtils toastUtils() {
+        return toastUtils;
+    }
+
+    @Override
     protected CampusPagerTabAdapter campusPagerTabAdapter() {
         return campusPagerTabAdapter;
     }

@@ -123,6 +123,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.campusbbs.ui.common.topicdetail.TopicDetailActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.search.SearchActivity"

@@ -151,6 +151,10 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
         DiffUtil.DiffResult diffResult = DiffUtil
                 .calculateDiff(new SelfCenterFriendDiffCallBack(oldDatas, friendDatas), true);
         diffResult.dispatchUpdatesTo(friendAdapter);
+
+        if (friendDatas.size() >= 1) {
+            recyclerView.scrollToPosition(0);
+        }
     }
 
     @Override
@@ -173,6 +177,9 @@ public class FriendsActivity extends BaseActivity implements FriendContract.View
         DiffUtil.DiffResult diffResult = DiffUtil
                 .calculateDiff(new SelfCenterFriendDiffCallBack(oldDatas, friendDatas), true);
         diffResult.dispatchUpdatesTo(friendAdapter);
+        if (friendDatas.size() >= 1) {
+            recyclerView.scrollToPosition(0);
+        }
     }
 
     @Override

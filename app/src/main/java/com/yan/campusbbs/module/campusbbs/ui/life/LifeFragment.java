@@ -234,6 +234,11 @@ public class LifeFragment extends CampusTabPagerFragment implements LifeContract
     }
 
     @Override
+    protected ToastUtils toastUtils() {
+        return toastUtils;
+    }
+
+    @Override
     protected View pagerBarMoreArrow() {
         return pagerBarMoreArrow;
     }
