@@ -169,17 +169,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/crFFFFFF"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:background="@color/crFFFFFF">
 
         <EditText
             android:id="@+id/et_reply"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@color/crFFFFFF"
             android:hint="发表评论 : "
             android:lineSpacingExtra="3dp"
-            android:background="@color/crFFFFFF"
             android:padding="10dp"
             android:textColor="@color/cr3C3B41"
             android:textSize="15sp" />
@@ -188,6 +188,7 @@
             android:id="@+id/tv_reply_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:background="@drawable/round_fd8000_radius_4"
             android:foreground="?selectableItemBackground"
             android:paddingBottom="5dp"
