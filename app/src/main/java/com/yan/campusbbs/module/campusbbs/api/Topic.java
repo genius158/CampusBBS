@@ -1,7 +1,9 @@
 package com.yan.campusbbs.module.campusbbs.api;
 
+import com.yan.campusbbs.module.campusbbs.data.ReplyCommentData;
 import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
+import com.yan.campusbbs.module.campusbbs.data.TopicLikeData;
 import com.yan.campusbbs.repository.DataAddress;
 
 import io.reactivex.Observable;
@@ -30,5 +32,21 @@ public interface Topic {
     @GET(DataAddress.URL_TOPIC_DETAIL)
     Observable<TopicDetailData> getTopicDetail(
             @Query("topicId") String topicId
+    );
+
+    @GET(DataAddress.URL_TOPIC_REPLY_LIST)
+    Observable<ResponseBody> getReplyList(
+            @Query("topicId") String topicId
+            , @Query("pageNum") String pageNum
+    );
+    @GET(DataAddress.URL_TOPIC_REPLY_COMMENT)
+    Observable<ReplyCommentData> replyComment(
+            @Query("topicId") String topicId
+            , @Query("cmtContent") String content
+    );
+    @GET(DataAddress.URL_TOPIC_LIKE)
+    Observable<TopicLikeData> topicLike(
+            @Query("topicId") String topicId
+            , @Query("likeCount") String likeCount
     );
 }

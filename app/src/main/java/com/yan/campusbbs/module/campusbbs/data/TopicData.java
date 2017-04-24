@@ -83,8 +83,17 @@ public class TopicData {
             private int pageNum;
             private boolean previous;
             private boolean next;
+            private int browseCount;
             private Object pageList;
             private List<TopicListBean> topicList;
+
+            public int getBrowseCount() {
+                return browseCount;
+            }
+
+            public void setBrowseCount(int browseCount) {
+                this.browseCount = browseCount;
+            }
 
             public int getTotalCount() {
                 return totalCount;
@@ -166,12 +175,21 @@ public class TopicData {
                 private String topicId;
                 private String topicTitle;
                 private String topicContent;
+                private int browseCount;
                 private int typeDiv;
                 private Object topicLabel;
                 private int contentDiv;
                 private Object likeCount;
                 private Object cmtCount;
                 private String topicReleaseTime;
+
+                public int getBrowseCount() {
+                    return browseCount;
+                }
+
+                public void setBrowseCount(int browseCount) {
+                    this.browseCount = browseCount;
+                }
 
                 public String getUserId() {
                     return userId;

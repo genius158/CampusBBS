@@ -121,7 +121,16 @@ public class TopicDetailData {
                 private int contentDiv;
                 private Object likeCount;
                 private Object cmtCount;
+                private int browseCount;
                 private String topicReleaseTime;
+
+                public int getBrowseCount() {
+                    return browseCount;
+                }
+
+                public void setBrowseCount(int browseCount) {
+                    this.browseCount = browseCount;
+                }
 
                 public String getUserId() {
                     return userId;

@@ -14,6 +14,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.module.campusbbs.ui.common.topicdetail.TopicDetailActivity;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.util.EmptyUtil;
 import com.yan.campusbbs.util.SizeUtils;
 import com.yan.campusbbs.widget.banner.Banner;
 import com.yan.campusbbs.widget.banner.BannerIndicator;
@@ -106,6 +107,9 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
                     holder.setText(R.id.tv_user_name, (topic.getUserNickname() == null ? topic.getUserAccount()
                             : topic.getUserNickname()));
                     holder.setText(R.id.tv_title, topic.getTopicTitle());
+                    holder.setText(R.id.tv_like_num, String.valueOf("点赞(" + EmptyUtil.numObjectEmpty(topic.getLikeCount()) + ")"));
+                    holder.setText(R.id.tv_reply_num, String.valueOf("回复(" + EmptyUtil.numObjectEmpty(topic.getCmtCount()) + ")"));
+                    holder.setText(R.id.tv_brown_count, String.valueOf("浏览(" + EmptyUtil.numObjectEmpty(topic.getBrowseCount()) + ")"));
                     head.setImageURI(topic.getUserHeadImg());
                     holder.getView(R.id.container).setOnClickListener(v -> {
                         context.startActivity(new Intent(context, TopicDetailActivity.class)

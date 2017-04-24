@@ -25,6 +25,7 @@ import com.yan.campusbbs.module.selfcenter.data.PublishData;
 import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.util.EmptyUtil;
 import com.yan.campusbbs.util.FrescoUtils;
 import com.yan.campusbbs.util.RegExpUtils;
 import com.yan.campusbbs.util.RxBus;
@@ -222,7 +223,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 SimpleDraweeView selfSimpleDrawee = holder.getView(R.id.self_part_one_img);
                 holder.setText(R.id.message_detail, selfBean.getTopicTitle());
                 holder.setText(R.id.self_dynamic, selfBean.getTopicContent());
-                holder.setText(R.id.tv_brown_count, "浏览(" + selfBean.getCmtCount() + ")");
+                holder.setText(R.id.tv_brown_count, "浏览(" +  EmptyUtil.numObjectEmpty(selfBean.getBrowseCount()) + ")");
                 FrescoUtils.adjustViewOnImage(context, selfSimpleDrawee, selfBean.getUserHeadImg());
                 holder.getView(R.id.container).setOnClickListener(v -> {
                     context.startActivity(new Intent(context, TopicDetailActivity.class)
@@ -257,7 +258,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 });
                 holder.setText(R.id.user_name, otherBean.getUserNickname());
                 holder.setText(R.id.self_dynamic, otherBean.getTopicTitle());
-                holder.setText(R.id.tv_brown_count, "浏览(" + otherBean.getCmtCount() + ")");
+                holder.setText(R.id.tv_brown_count, "浏览(" + EmptyUtil.numObjectEmpty(otherBean.getBrowseCount()) + ")");
                 FrescoUtils.adjustViewOnImage(context, simpleDrawee, otherBean.getUserHeadImg());
                 holder.getView(R.id.container).setOnClickListener(v -> {
                     context.startActivity(new Intent(context, TopicDetailActivity.class)

@@ -41,4 +41,49 @@ public class TopicDetailPresenter implements TopicDetailContract.Presenter {
                 })
         );
     }
+
+    @Override
+    public void getReplyList(String topicId, String pageNum) {
+        Topic topic = appRetrofit.retrofit().create(Topic.class);
+        view.addDisposable(topic.getReplyList(topicId, pageNum)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(topicDetailData -> {
+                    view.setReplyList(topicDetailData);
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    view.netError();
+                })
+        );
+    }
+
+    @Override
+    public void topicLike(String topicId, String likeCount) {
+        Topic topic = appRetrofit.retrofit().create(Topic.class);
+        view.addDisposable(topic.topicLike(topicId, likeCount)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(topicLikeData -> {
+                    view.topicLike(topicLikeData);
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    view.netError();
+                })
+        );
+    }
+
+    @Override
+    public void replyComment(String topicId, String content) {
+        Topic topic = appRetrofit.retrofit().create(Topic.class);
+        view.addDisposable(topic.replyComment(topicId, content)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(replyCommentData -> {
+                    view.reply(replyCommentData);
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    view.netError();
+                })
+        );
+    }
 }

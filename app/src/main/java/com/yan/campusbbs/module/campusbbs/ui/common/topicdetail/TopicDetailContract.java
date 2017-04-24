@@ -18,7 +18,12 @@ package com.yan.campusbbs.module.campusbbs.ui.common.topicdetail;
 
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.module.campusbbs.data.ReplyCommentData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
+import com.yan.campusbbs.module.campusbbs.data.TopicLikeData;
+
+import okhttp3.ResponseBody;
+import retrofit2.http.Query;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -27,10 +32,29 @@ public interface TopicDetailContract {
 
     interface View extends BaseView<Presenter> {
         void netError();
+
         void setTopicDetail(TopicDetailData topicDetail);
+
+        void setReplyList(ResponseBody replyList);
+
+        void reply(ReplyCommentData replyCommentData);
+        void topicLike(TopicLikeData topicLikeData);
     }
 
     interface Presenter extends BasePresenter {
         void getTopicDetail(String topicId);
+
+        void getReplyList(String topicId
+                , String pageNum);
+
+        void topicLike(
+                String topicId
+                , String likeCount
+        );
+
+        void replyComment(
+                String topicId
+                , String content
+        );
     }
 }

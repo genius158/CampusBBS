@@ -16,12 +16,15 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.module.campusbbs.data.ReplyCommentData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
+import com.yan.campusbbs.module.campusbbs.data.TopicLikeData;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.EmptyUtil;
 import com.yan.campusbbs.util.FrescoUtils;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -31,6 +34,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 
 /**
  * Created by yan on 2017/4/21.
@@ -104,6 +108,7 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
         title = getIntent().getStringExtra("title");
         topicId = getIntent().getStringExtra("topicId");
         presenter.getTopicDetail(topicId);
+        presenter.getReplyList(topicId, "1");
     }
 
     @Override
@@ -146,8 +151,8 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
                     : detailData.getUserNickname());
             tvTime.setText(String.valueOf("发表于 : " + detailData.getTopicReleaseTime()));
             FrescoUtils.adjustViewOnImage(getBaseContext(), sdvImg, detailData.getUserHeadImg());
-            tvLikeNum.setText(String.valueOf(detailData.getLikeCount()));
-            tvReCommitNum.setText(String.valueOf(detailData.getCmtCount()));
+            tvLikeNum.setText(String.valueOf("(" + EmptyUtil.numObjectEmpty(detailData.getLikeCount()) + ")"));
+            tvReCommitNum.setText(String.valueOf("(" + EmptyUtil.numObjectEmpty(detailData.getCmtCount()) + ")"));
             etContent.setText(detailData.getTopicContent());
             tvTopicTitle.setText(detailData.getTopicTitle());
             tvReplyContent.setText("阿傻 : 傻里傻气"
@@ -159,13 +164,30 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
         }
     }
 
-    @OnClick({R.id.arrow_back, R.id.iv_like, R.id.iv_reply, R.id.iv_re_commit, R.id.sdv_head, R.id.tv_nick_name})
+    @Override
+    public void setReplyList(ResponseBody replyList) {
+
+    }
+
+    @Override
+    public void reply(ReplyCommentData replyCommentData) {
+        toastUtils.showShort(replyCommentData.getMessage());
+    }
+
+    @Override
+    public void topicLike(TopicLikeData topicLikeData) {
+        toastUtils.showShort(topicLikeData.getMessage());
+        presenter.getTopicDetail(topicId);
+    }
+
+    @OnClick({R.id.arrow_back, R.id.iv_like, R.id.iv_reply, R.id.iv_re_commit, R.id.sdv_head, R.id.tv_nick_name, R.id.tv_reply_comment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.arrow_back:
                 finish();
                 break;
             case R.id.iv_like:
+                presenter.topicLike(topicId, "1");
                 break;
             case R.id.iv_reply:
                 etReply.requestFocus();
@@ -185,7 +207,12 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
                             .putExtra("nickName", tvNickName.getText().toString())
                     );
                 }
+                break;
 
+            case R.id.tv_reply_comment:
+                if (!TextUtils.isEmpty(etReply.getText())) {
+                    presenter.replyComment(topicId, etReply.getText().toString());
+                }
                 break;
         }
     }

@@ -53,7 +53,7 @@ public class PublishData implements Serializable {
         this.message = message;
     }
 
-    public static class DataBean implements Serializable{
+    public static class DataBean implements Serializable {
         /**
          * topicInfoList : {"totalCount":0,"totalPages":0,"pageNum":0,"previous":false,"next":false,"pageList":null,"topicList":[{"userId":"A1","userNickname":"會飛的青蛙","userHeadImg":"123.jpg","topicId":"T2","topicTitle":"天天向上","topicContent":"好生学习，以后当校长！","typeDiv":1,"contentDiv":0,"likeCount":"0","cmtCount":"0","topicReleaseTime":"2017-02-26 02:27:14"},{"userId":"U1","userNickname":"逃課的中隊長","userHeadImg":"124.jpg","topicId":"T2","topicTitle":"天天向上","topicContent":"好生学习，以后当校长！","typeDiv":1,"contentDiv":0,"likeCount":"0","cmtCount":"0","topicReleaseTime":"2017-02-26 02:27:14"},{"userId":"A1","userNickname":"會飛的青蛙","userHeadImg":"123.jpg","topicId":"T1","topicTitle":"膜蛤大法好","topicContent":"这是一个生气的膜法师世界！","typeDiv":3,"contentDiv":0,"likeCount":"0","cmtCount":"1","topicReleaseTime":"2017-02-26 02:27:12"}]}
          */
@@ -68,7 +68,7 @@ public class PublishData implements Serializable {
             this.topicInfoList = topicInfoList;
         }
 
-        public static class TopicInfoListBean implements Serializable{
+        public static class TopicInfoListBean implements Serializable {
             /**
              * totalCount : 0
              * totalPages : 0
@@ -143,7 +143,7 @@ public class PublishData implements Serializable {
                 this.topicList = topicList;
             }
 
-            public static class TopicListBean implements Serializable{
+            public static class TopicListBean implements Serializable {
                 /**
                  * userId : A1
                  * userNickname : 會飛的青蛙
@@ -164,11 +164,20 @@ public class PublishData implements Serializable {
                 private String topicId;
                 private String topicTitle;
                 private String topicContent;
+                private int browseCount;
                 private int typeDiv;
                 private int contentDiv;
                 private String likeCount;
                 private String cmtCount;
                 private String topicReleaseTime;
+
+                public int getBrowseCount() {
+                    return browseCount;
+                }
+
+                public void setBrowseCount(int browseCount) {
+                    this.browseCount = browseCount;
+                }
 
                 public String getUserId() {
                     return userId;
