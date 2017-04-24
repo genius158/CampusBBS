@@ -16,6 +16,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.module.campusbbs.data.CommentData;
 import com.yan.campusbbs.module.campusbbs.data.ReplyCommentData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
 import com.yan.campusbbs.module.campusbbs.data.TopicLikeData;
@@ -155,23 +156,41 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
             tvReCommitNum.setText(String.valueOf("(" + EmptyUtil.numObjectEmpty(detailData.getCmtCount()) + ")"));
             etContent.setText(detailData.getTopicContent());
             tvTopicTitle.setText(detailData.getTopicTitle());
-            tvReplyContent.setText("阿傻 : 傻里傻气"
-                    + "\n" + "阿三 : 阿傻说的很对"
-
-            );
+//            tvReplyContent.setText("阿傻 : 傻里傻气"
+//                    + "\n" + "阿三 : 阿傻说的很对"
+//
+//            );
         } else {
             toastUtils.showUIShort(topicDetail.getMessage());
         }
     }
 
     @Override
-    public void setReplyList(ResponseBody replyList) {
+    public void setReplyList(CommentData replyList) {
+        if (replyList.getData() != null
+                && replyList.getData().getCommentInfoList() != null
+                && replyList.getData().getCommentInfoList().getCommentList() != null
+                ) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (CommentData.DataBean.CommentInfoListBean.CommentListBean bean :
+                    replyList.getData().getCommentInfoList().getCommentList())
+                stringBuilder.append(bean.getUserNickname() == null ? bean.getUserAccount() : bean.getUserNickname())
+                        .append(" : ")
+                        .append(bean.getCmtContent())
+                        .append("\n");
+            tvReplyContent.setText(stringBuilder.toString());
 
+        }
     }
+
 
     @Override
     public void reply(ReplyCommentData replyCommentData) {
         toastUtils.showShort(replyCommentData.getMessage());
+        presenter.getReplyList(topicId, "1");
+        InputMethodManager methodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        methodManager.hideSoftInputFromWindow(etReply.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+        etReply.setText("");
     }
 
     @Override

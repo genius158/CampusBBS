@@ -18,6 +18,7 @@ package com.yan.campusbbs.module.campusbbs.ui.common.topicdetail;
 
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.module.campusbbs.data.CommentData;
 import com.yan.campusbbs.module.campusbbs.data.ReplyCommentData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
 import com.yan.campusbbs.module.campusbbs.data.TopicLikeData;
@@ -35,7 +36,7 @@ public interface TopicDetailContract {
 
         void setTopicDetail(TopicDetailData topicDetail);
 
-        void setReplyList(ResponseBody replyList);
+        void setReplyList(CommentData replyList);
 
         void reply(ReplyCommentData replyCommentData);
         void topicLike(TopicLikeData topicLikeData);

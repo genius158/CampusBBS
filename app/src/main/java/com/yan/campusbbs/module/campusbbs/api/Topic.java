@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.campusbbs.api;
 
+import com.yan.campusbbs.module.campusbbs.data.CommentData;
 import com.yan.campusbbs.module.campusbbs.data.ReplyCommentData;
 import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
@@ -35,7 +36,7 @@ public interface Topic {
     );
 
     @GET(DataAddress.URL_TOPIC_REPLY_LIST)
-    Observable<ResponseBody> getReplyList(
+    Observable<CommentData> getReplyList(
             @Query("topicId") String topicId
             , @Query("pageNum") String pageNum
     );
