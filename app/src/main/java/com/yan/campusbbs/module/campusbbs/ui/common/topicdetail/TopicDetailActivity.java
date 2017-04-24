@@ -179,10 +179,9 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
                         .append(bean.getCmtContent())
                         .append("\n");
             tvReplyContent.setText(stringBuilder.toString());
-
+            tvReplyNum.setText(String.valueOf(replyList.getData().getCommentInfoList().getTotalCount()));
         }
     }
-
 
     @Override
     public void reply(ReplyCommentData replyCommentData) {
