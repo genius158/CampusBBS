@@ -1,10 +1,12 @@
 package com.yan.campusbbs.module.selfcenter.data;
 
+import java.io.Serializable;
+
 /**
  * Created by yan on 2017/4/14.
  */
 
-public class UserInfoData {
+public class UserInfoData implements Serializable {
 
     /**
      * data : {"userDetailInfo":{"userId":"A1","friendCode":"F1","userAccount":"admin","userNickname":"會飛的青蛙","userRealName":null,"userRank":99,"userHeadImg":"http:                                                                \t\t\t1551863228&fm=23&gp=0.jpg","userMood":null,"userEmail":null,"userCreateTime":"2016-12-24 22:12:03","userAge":0,"userGender":0,"userBirth":null,"userMajor":null,"userSchool":null,"userAddress":null}}
@@ -50,7 +52,7 @@ public class UserInfoData {
         this.message = message;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * userDetailInfo : {"userId":"A1","friendCode":"F1","userAccount":"admin","userNickname":"會飛的青蛙","userRealName":null,"userRank":99,"userHeadImg":"http:                                                                \t\t\t1551863228&fm=23&gp=0.jpg","userMood":null,"userEmail":null,"userCreateTime":"2016-12-24 22:12:03","userAge":0,"userGender":0,"userBirth":null,"userMajor":null,"userSchool":null,"userAddress":null}
          */
@@ -65,7 +67,7 @@ public class UserInfoData {
             this.userDetailInfo = userDetailInfo;
         }
 
-        public static class UserDetailInfoBean {
+        public static class UserDetailInfoBean implements Serializable {
             /**
              * userId : A1
              * friendCode : F1
@@ -228,6 +230,19 @@ public class UserInfoData {
 
             public void setUserAddress(Object userAddress) {
                 this.userAddress = userAddress;
+            }
+
+            @Override
+            public int hashCode() {
+                return userId.hashCode();
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (obj instanceof UserDetailInfoBean) {
+                    return ((UserDetailInfoBean) obj).userId.equals(userId);
+                }
+                return super.equals(obj);
             }
         }
     }

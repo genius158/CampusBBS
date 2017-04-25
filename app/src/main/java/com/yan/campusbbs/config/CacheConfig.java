@@ -12,4 +12,6 @@ public class CacheConfig {
 
     public static final String MESSAGE_INFO = "messageInfo";
     public static final String INTENT_CHAT_DATA = "intentChatData";
+    public static final String RECENTLY_VISITORS = "recentlyVisitors";
+    public static final String TOPIC_CACHE = "topicCache";
 }

@@ -296,7 +296,9 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     context.startActivity(new Intent(context, FriendPageActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             .putExtra("userId", infoBean.getUserId())
-                            .putExtra("otherBean", infoBean)
+                            .putExtra("nickName", TextUtils.isEmpty(infoBean.getUserNickname())
+                                    ?infoBean.getUserAccount()
+                                    :infoBean.getUserNickname())
                     );
                 });
                 holder.setText(R.id.user_name, infoBean.getUserNickname());

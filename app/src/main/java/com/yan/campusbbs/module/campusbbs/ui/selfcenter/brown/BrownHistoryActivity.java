@@ -4,6 +4,7 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
 import com.yan.campusbbs.module.common.data.TopicCacheData;
 import com.yan.campusbbs.module.selfcenter.data.BrownHistroyTopicData;
@@ -13,6 +14,7 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ACache;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,9 +25,9 @@ public class BrownHistoryActivity extends FriendPageActivity {
 
     @Override
     public void dataSuccess(List<DataMultiItem> dataMultiItems) {
-        swipeRefreshLayout.setRefreshing(false);
         this.dataMultiItems.clear();
         this.dataMultiItems.addAll(dataMultiItems);
+        Collections.reverse(this.dataMultiItems);
         adapter.notifyDataSetChanged();
     }
 
@@ -33,7 +35,7 @@ public class BrownHistoryActivity extends FriendPageActivity {
     protected void dataInit() {
         swipeRefreshLayout.setEnabled(false);
 
-        TopicCacheData cacheData = (TopicCacheData) ACache.get(getBaseContext()).getAsObject("topicCache");
+        TopicCacheData cacheData = (TopicCacheData) ACache.get(getBaseContext()).getAsObject(CacheConfig.TOPIC_CACHE);
         if (cacheData != null) {
             List<DataMultiItem> dataMultiItems = new ArrayList<>();
             for (TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean infoBean : cacheData.topicDetailDatas) {

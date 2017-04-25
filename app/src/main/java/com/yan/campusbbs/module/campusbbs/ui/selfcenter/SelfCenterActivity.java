@@ -19,12 +19,15 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterPublishAdapter;
+import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterRecentlyAdapter;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.brown.BrownHistoryActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend.FriendsActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.message.MessageActivity;
 import com.yan.campusbbs.module.campusbbs.ui.userinfo.UserInfoActivity;
+import com.yan.campusbbs.module.common.data.VisitorsCacheData;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.PublishData;
+import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
@@ -66,11 +69,15 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
     SimpleDraweeView head;
     @BindView(R.id.self_hot_post_recycler)
     RecyclerView rvPublishData;
+    @BindView(R.id.recently_visitors)
+    RecyclerView rvRecentlyVisitors;
 
     int pageNo = 1;
 
     private SelfCenterPublishAdapter publishAdapter;
+    private SelfCenterRecentlyAdapter recentlyVisitors;
     private List<PublishData.DataBean.TopicInfoListBean.TopicListBean> selfDynamics;
+    private List<UserInfoData.DataBean.UserDetailInfoBean> userInfoDatas;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,6 +101,12 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
                 presenter.getSelfPublish(pageNo);
             }
         }
+        if (ACache.get(getBaseContext()).getAsObject(CacheConfig.RECENTLY_VISITORS) != null) {
+            VisitorsCacheData visitorsCacheData = (VisitorsCacheData) ACache.get(getBaseContext()).getAsObject(CacheConfig.RECENTLY_VISITORS);
+            userInfoDatas.clear();
+            userInfoDatas.addAll(visitorsCacheData.topicDetailDatas);
+            recentlyVisitors.notifyDataSetChanged();
+        }
     }
 
     private void daggerInject() {
@@ -116,6 +129,13 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
         selfDynamics = new ArrayList<>();
         publishAdapter = new SelfCenterPublishAdapter(getBaseContext(), selfDynamics);
         rvPublishData.setAdapter(publishAdapter);
+
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getBaseContext());
+        layoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rvRecentlyVisitors.setLayoutManager(layoutManager2);
+        userInfoDatas = new ArrayList<>();
+        recentlyVisitors = new SelfCenterRecentlyAdapter(getBaseContext(), userInfoDatas);
+        rvRecentlyVisitors.setAdapter(recentlyVisitors);
     }
 
     private View.OnClickListener onClickListener = v -> {

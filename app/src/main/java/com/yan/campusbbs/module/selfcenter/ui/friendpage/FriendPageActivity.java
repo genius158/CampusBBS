@@ -16,6 +16,8 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.module.ImManager;
+import com.yan.campusbbs.module.common.data.TopicCacheData;
+import com.yan.campusbbs.module.common.data.VisitorsCacheData;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.selfcenter.data.PublishData;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.DaggerSelfCenterOtherComponent;
@@ -27,10 +29,12 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -126,8 +130,10 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
     protected void dataInit() {
         userId = getIntent().getStringExtra("userId");
         nickName = getIntent().getStringExtra("nickName");
-        topicListBean = (PublishData.DataBean.TopicInfoListBean.TopicListBean) getIntent()
-                .getSerializableExtra("otherBean");
+        if (TextUtils.isEmpty(nickName)) {
+            topicListBean = (PublishData.DataBean.TopicInfoListBean.TopicListBean) getIntent()
+                    .getSerializableExtra("otherBean");
+        }
         mPresenter.getFriendData(pageNo, userId);
         swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
     }
@@ -177,6 +183,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
                             mPresenter.getFriendData(++pageNo, userId);
                         });
             }
+
             swipeRefreshLayout.setRefreshing(false);
             this.dataMultiItems.clear();
             this.dataMultiItems.addAll(dataMultiItems);

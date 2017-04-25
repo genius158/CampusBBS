@@ -16,6 +16,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
+import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.campusbbs.data.CommentData;
 import com.yan.campusbbs.module.campusbbs.data.ReplyCommentData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
@@ -34,6 +35,8 @@ import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.TreeSet;
 
 import javax.inject.Inject;
 
@@ -149,12 +152,12 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
                 && topicDetail.getData().getTopicDetailInfo() != null
                 && topicDetail.getData().getTopicDetailInfo().getUserTopicInfo() != null
                 ) {
-            TopicCacheData cacheData = (TopicCacheData) ACache.get(getBaseContext()).getAsObject("topicCache");
+            TopicCacheData cacheData = (TopicCacheData) ACache.get(getBaseContext()).getAsObject(CacheConfig.TOPIC_CACHE);
             if (cacheData == null) {
-                cacheData = new TopicCacheData(new HashSet<>());
+                cacheData = new TopicCacheData(new LinkedHashSet<>());
             }
             cacheData.topicDetailDatas.add(topicDetail.getData().getTopicDetailInfo().getUserTopicInfo());
-            ACache.get(getBaseContext()).put("topicCache", cacheData);
+            ACache.get(getBaseContext()).put(CacheConfig.TOPIC_CACHE, cacheData);
 
             TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean detailData =
                     topicDetail.getData().getTopicDetailInfo().getUserTopicInfo();

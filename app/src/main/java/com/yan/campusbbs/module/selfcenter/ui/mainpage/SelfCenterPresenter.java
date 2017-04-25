@@ -2,6 +2,8 @@ package com.yan.campusbbs.module.selfcenter.ui.mainpage;
 
 import android.content.Context;
 
+import com.yan.campusbbs.config.CacheConfig;
+import com.yan.campusbbs.module.common.data.VisitorsCacheData;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.api.MainPage;
 import com.yan.campusbbs.module.selfcenter.data.FriendDynamic;
@@ -10,12 +12,14 @@ import com.yan.campusbbs.module.selfcenter.data.PublishData;
 import com.yan.campusbbs.module.selfcenter.data.OtherCenterHeader;
 import com.yan.campusbbs.module.selfcenter.data.SelfDynamic;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.AppRetrofit;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -125,6 +129,13 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                     List<DataMultiItem> dataMultiItems = new ArrayList<>();
                     if (1 == pageNo) {
                         dataMultiItems.add(new OtherCenterHeader(userInfoData));
+                        VisitorsCacheData cacheData = (VisitorsCacheData) ACache.get(context).getAsObject(CacheConfig.RECENTLY_VISITORS);
+                        if (cacheData == null) {
+                            cacheData = new VisitorsCacheData(new LinkedHashSet<>());
+                        }
+                        cacheData.topicDetailDatas.add(userInfoData.getData().getUserDetailInfo());
+                        ACache.get(context).put(CacheConfig.RECENTLY_VISITORS, cacheData);
+
                     }
                     if (mainPageData.getData().getTopicInfoList() != null
                             && mainPageData.getData().getTopicInfoList().getTopicList() != null) {
