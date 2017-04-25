@@ -321,6 +321,10 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
     }
 
     private void setSign() {
+        if (!TextUtils.isEmpty(signStr)){
+            tvSign.setText(signStr);
+            return;
+        }
         ImManager.getImManager().getSelfProfile(
                 new TIMValueCallBack<TIMUserProfile>() {
                     @Override
