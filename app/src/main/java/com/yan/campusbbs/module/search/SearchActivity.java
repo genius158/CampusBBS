@@ -192,7 +192,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     private void requestData() {
         pageNum = 1;
         presenter.getTopicList(String.valueOf(pageNum)
-                , etSearch.getText().toString(), 1);
+                , etSearch.getText().toString());
     }
 
     private void showSearchData() {
@@ -262,13 +262,14 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     @Override
     public void setTopic(List<DataMultiItem> dataMultiItems) {
         if (pageNum == 1) {
+            if (dataMultiItems.isEmpty()) return;
             this.dataMultiDisplayItems.clear();
             this.dataMultiDisplayItems.addAll(dataMultiItems);
             searchAdapter.notifyDataSetChanged();
             if (dataMultiDisplayItems.size() > 4) {
                 searchAdapter.setOnLoadMoreListener(() -> {
                     presenter.getTopicList(String.valueOf(++pageNum)
-                            , etSearch.getText().toString(), 1);
+                            , etSearch.getText().toString());
                 });
                 searchAdapter.setEnableLoadMore(true);
             }

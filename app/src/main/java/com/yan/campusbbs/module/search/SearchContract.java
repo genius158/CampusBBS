@@ -47,7 +47,6 @@ public interface SearchContract {
         void getTopicList(
                 String pageNum
                 , String searchKey
-                , int typeDiv
         );
     }
 }

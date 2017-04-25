@@ -27,4 +27,9 @@ public interface Search {
             ,  @Query("searchKey") String searchKey
             ,  @Query("typeDiv") int typeDiv
     );
+  @GET(DataAddress.URL_TOPIC_BBS)
+    Observable<TopicData> getTopicList(
+            @Query("pageNum") String pageNum
+            ,  @Query("searchKey") String searchKey
+    );
 }

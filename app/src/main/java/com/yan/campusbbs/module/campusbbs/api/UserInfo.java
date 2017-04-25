@@ -28,7 +28,6 @@ public interface UserInfo {
 
     @GET(DataAddress.URL_USER_EDIT)
     Observable<ResponseBody> userInfoEdit(
-            @Query("userId") String userId,
             @Query("nickname") String nickname,
             @Query("realName") String realName,
             @Query("headImg") String headImg,

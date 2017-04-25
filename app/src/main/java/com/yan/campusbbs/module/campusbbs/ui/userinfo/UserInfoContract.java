@@ -34,7 +34,6 @@ public interface UserInfoContract {
 
     interface Presenter extends BasePresenter {
         void modify(
-                String userId,
                 String nickname,
                 String realName,
                 String headImg,

@@ -15,6 +15,7 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.config.CacheConfig;
+import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -126,7 +127,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
 
     @Override
     public void stateSuccess() {
-
+        ImManager.getImManager().setNikeName(etNikeName.getText().toString());
     }
 
     @Override
@@ -154,8 +155,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     }
 
     private void modify() {
-        presenter.modify(etPhone.getText().toString()
-                , etNikeName.getText().toString()
+        presenter.modify(etNikeName.getText().toString()
                 , ""
                 , ""
                 , ""

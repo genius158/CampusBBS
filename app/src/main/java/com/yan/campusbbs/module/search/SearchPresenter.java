@@ -58,12 +58,12 @@ public final class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
-    public void getTopicList(String pageNum, String searchKey, int typeDiv) {
+    public void getTopicList(String pageNum, String searchKey ) {
         Search search = appRetrofit.retrofit().create(Search.class);
-        view.addDisposable(search.getTopicList(pageNum, searchKey, typeDiv)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(topicData -> {
+        view.addDisposable(Observable.zip(search.getTopicList(pageNum, searchKey, 1),
+                search.getTopicList(pageNum, searchKey, 2)
+                , search.getTopicList(pageNum, searchKey, 3)
+                , (topicData, topicData2, topicData3) -> {
                     List<DataMultiItem> dataMultiItems = new ArrayList<>();
                     if (topicData.getData().getTopicInfoList() != null
                             && topicData.getData().getTopicInfoList().getTopicList() != null) {
@@ -71,11 +71,29 @@ public final class SearchPresenter implements SearchContract.Presenter {
                             dataMultiItems.add(new PostTag(bean));
                         }
                     }
-                    view.setTopic(dataMultiItems);
-                }, throwable -> {
-                    view.netError();
-                    throwable.printStackTrace();
+                     if (topicData2.getData().getTopicInfoList() != null
+                            && topicData2.getData().getTopicInfoList().getTopicList() != null) {
+                        for (TopicData.DataBean.TopicInfoListBean.TopicListBean bean : topicData2.getData().getTopicInfoList().getTopicList()) {
+                            dataMultiItems.add(new PostTag(bean));
+                        }
+                    }
+                     if (topicData3.getData().getTopicInfoList() != null
+                            && topicData3.getData().getTopicInfoList().getTopicList() != null) {
+                        for (TopicData.DataBean.TopicInfoListBean.TopicListBean bean : topicData3.getData().getTopicInfoList().getTopicList()) {
+                            dataMultiItems.add(new PostTag(bean));
+                        }
+                    }
+                    return dataMultiItems;
                 })
-        );
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(dataMultiItems -> {
+                            view.setTopic(dataMultiItems);
+                        }
+                        , throwable -> {
+                            throwable.printStackTrace();
+                            view.netError();
+                        }));
+
     }
 }
