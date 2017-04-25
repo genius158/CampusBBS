@@ -7,9 +7,7 @@ import com.yan.campusbbs.util.AppRetrofit;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function4;
 import io.reactivex.schedulers.Schedulers;
 
 public class TopicDetailPresenter implements TopicDetailContract.Presenter {

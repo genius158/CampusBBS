@@ -26,4 +26,9 @@ public interface MainPage {
     Observable<UserInfoData> getUserInfo(
             @Query("userId") String userId
     );
+
+    @GET(DataAddress.URL_SELF_TOPIC_MORE)
+    Observable<PublishData> getSelfTopicMore(
+            @Query("pageNum") String pageNum
+    );
 }

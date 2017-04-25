@@ -143,4 +143,28 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
                 }));
 
     }
+
+    @Override
+    public void getSelfTopicMore(int pageNo) {
+        MainPage mainPage = appRetrofit.retrofit().create(MainPage.class);
+
+        view.addDisposable(mainPage.getSelfTopicMore(String.valueOf(pageNo))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(publishData -> {
+                            List<DataMultiItem> dataMultiItems = new ArrayList<>();
+                            if (publishData.getData().getTopicInfoList() != null
+                                    && publishData.getData().getTopicInfoList().getTopicList() != null) {
+                                for (PublishData.DataBean.TopicInfoListBean.TopicListBean bean : publishData.getData().getTopicInfoList().getTopicList()) {
+                                    dataMultiItems.add(new SelfDynamic(bean));
+                                }
+                            }
+                            view.dataSuccess(dataMultiItems);
+                        }
+                        , throwable -> {
+                            view.dataError();
+                            throwable.printStackTrace();
+                        })
+        );
+    }
 }

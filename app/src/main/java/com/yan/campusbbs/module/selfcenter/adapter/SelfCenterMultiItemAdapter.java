@@ -16,6 +16,7 @@ import com.tencent.TIMUserProfile;
 import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.ImManager;
+import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
 import com.yan.campusbbs.module.campusbbs.ui.common.topicdetail.TopicDetailActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.SelfCenterActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.ChatActivity;
@@ -24,6 +25,7 @@ import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.PublishData;
 import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
+import com.yan.campusbbs.module.selfcenter.ui.selfmore.SelfMainPageMoreActivity;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.EmptyUtil;
 import com.yan.campusbbs.util.FrescoUtils;
@@ -49,6 +51,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
     public static final int ITEM_TYPE_FRIEND_DYNAMIC = 4;
 
     public static final int ITEM_TYPE_OTHER_HEADER = 5;
+    public static final int ITEM_TYPE_DETAIL_TOPIC = 6;
 
     private Context context;
 
@@ -72,6 +75,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
         addItemType(ITEM_TYPE_SELF_DYNAMIC, R.layout.fragment_self_center_self_dynamic_item);
         addItemType(ITEM_TYPE_FRIEND_TITLE, R.layout.fragment_self_center_friend_dynamic_title);
         addItemType(ITEM_TYPE_FRIEND_DYNAMIC, R.layout.fragment_self_center_friend_dynamic_item);
+        addItemType(ITEM_TYPE_DETAIL_TOPIC, R.layout.fragment_self_center_friend_dynamic_item);
         this.context = context;
         this.rxBus = rxBus;
         this.compositeDisposable = compositeDisposable;
@@ -119,6 +123,11 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 holder.getView(R.id.self_part_one_header)
                         .setOnClickListener(v -> {
                             context.startActivity(new Intent(context, SelfCenterActivity.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                        });
+                holder.getView(R.id.tv_more)
+                        .setOnClickListener(v -> {
+                            context.startActivity(new Intent(context, SelfMainPageMoreActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                         });
 
@@ -223,12 +232,12 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 SimpleDraweeView selfSimpleDrawee = holder.getView(R.id.self_part_one_img);
                 holder.setText(R.id.message_detail, selfBean.getTopicTitle());
                 holder.setText(R.id.self_dynamic, selfBean.getTopicContent());
-                holder.setText(R.id.tv_brown_count, "浏览(" +  EmptyUtil.numObjectEmpty(selfBean.getBrowseCount()) + ")");
+                holder.setText(R.id.tv_brown_count, "浏览(" + EmptyUtil.numObjectEmpty(selfBean.getBrowseCount()) + ")");
                 FrescoUtils.adjustViewOnImage(context, selfSimpleDrawee, selfBean.getUserHeadImg());
                 holder.getView(R.id.container).setOnClickListener(v -> {
                     context.startActivity(new Intent(context, TopicDetailActivity.class)
                             .putExtra("title", selfBean.getTopicTitle())
-                            .putExtra("topicId",  selfBean.getTopicId())
+                            .putExtra("topicId", selfBean.getTopicId())
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     );
                 });
@@ -263,7 +272,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 holder.getView(R.id.container).setOnClickListener(v -> {
                     context.startActivity(new Intent(context, TopicDetailActivity.class)
                             .putExtra("title", otherBean.getTopicTitle())
-                            .putExtra("topicId",  otherBean.getTopicId())
+                            .putExtra("topicId", otherBean.getTopicId())
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     );
                 });
@@ -271,6 +280,38 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     if (popPhotoView != null) {
                         popPhotoView.show();
                         popPhotoView.setImageUrl(otherBean.getUserHeadImg());
+                    }
+                });
+                break;
+       case ITEM_TYPE_DETAIL_TOPIC:
+                TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean infoBean =
+                        (TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean) multiItem.data;
+
+                SimpleDraweeView simpleDrawee2 = holder.getView(R.id.self_part_one_img);
+                SimpleDraweeView head2 = holder.getView(R.id.sdv_head);
+                head2.setImageURI(String.valueOf(infoBean.getUserHeadImg()));
+                head2.setOnClickListener(v -> {
+                    context.startActivity(new Intent(context, FriendPageActivity.class)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            .putExtra("userId", infoBean.getUserId())
+                            .putExtra("otherBean", infoBean)
+                    );
+                });
+                holder.setText(R.id.user_name, infoBean.getUserNickname());
+                holder.setText(R.id.self_dynamic, infoBean.getTopicTitle());
+                holder.setText(R.id.tv_brown_count, "浏览(" + EmptyUtil.numObjectEmpty(infoBean.getBrowseCount()) + ")");
+                FrescoUtils.adjustViewOnImage(context, simpleDrawee2, infoBean.getUserHeadImg());
+                holder.getView(R.id.container).setOnClickListener(v -> {
+                    context.startActivity(new Intent(context, TopicDetailActivity.class)
+                            .putExtra("title", infoBean.getTopicTitle())
+                            .putExtra("topicId", infoBean.getTopicId())
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    );
+                });
+                simpleDrawee2.setOnClickListener(v -> {
+                    if (popPhotoView != null) {
+                        popPhotoView.show();
+                        popPhotoView.setImageUrl(infoBean.getUserHeadImg());
                     }
                 });
                 break;

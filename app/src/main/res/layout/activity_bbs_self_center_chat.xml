@@ -25,6 +25,7 @@
             android:layout_height="50dp"
             android:layout_margin="15dp"
             android:background="@drawable/round_line_595959"
+            android:lineSpacingExtra="4dp"
             android:padding="8dp"
             android:textSize="@dimen/size_sp_14" />
 

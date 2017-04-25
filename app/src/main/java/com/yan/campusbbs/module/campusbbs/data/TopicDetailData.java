@@ -1,12 +1,13 @@
 package com.yan.campusbbs.module.campusbbs.data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/4/22 0022.
  */
 
-public class TopicDetailData {
+public class TopicDetailData implements Serializable {
 
     /**
      * data : {"topicDetailInfo":{"userTopicInfo":{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B8F32ABFEJEE9H","topicTitle":"扣扣拉库里","topicContent":"送礼物","typeDiv":1,"topicLabel":"高考冲刺","contentDiv":1,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-21 22:28:34"},"fileList":[]}}
@@ -52,7 +53,7 @@ public class TopicDetailData {
         this.message = message;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * topicDetailInfo : {"userTopicInfo":{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B8F32ABFEJEE9H","topicTitle":"扣扣拉库里","topicContent":"送礼物","typeDiv":1,"topicLabel":"高考冲刺","contentDiv":1,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-21 22:28:34"},"fileList":[]}
          */
@@ -67,7 +68,7 @@ public class TopicDetailData {
             this.topicDetailInfo = topicDetailInfo;
         }
 
-        public static class TopicDetailInfoBean {
+        public static class TopicDetailInfoBean implements Serializable {
             /**
              * userTopicInfo : {"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B8F32ABFEJEE9H","topicTitle":"扣扣拉库里","topicContent":"送礼物","typeDiv":1,"topicLabel":"高考冲刺","contentDiv":1,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-21 22:28:34"}
              * fileList : []
@@ -92,7 +93,7 @@ public class TopicDetailData {
                 this.fileList = fileList;
             }
 
-            public static class UserTopicInfoBean {
+            public static class UserTopicInfoBean implements Serializable {
                 /**
                  * userId : U15B524C6A3DU01AH
                  * userAccount : 17780701147
@@ -234,6 +235,20 @@ public class TopicDetailData {
 
                 public void setTopicReleaseTime(String topicReleaseTime) {
                     this.topicReleaseTime = topicReleaseTime;
+                }
+
+                @Override
+                public int hashCode() {
+                    return topicId.hashCode();
+                }
+
+                @Override
+                public boolean equals(Object obj) {
+                    if (obj instanceof UserTopicInfoBean) {
+                        UserTopicInfoBean topicInfoBean = (UserTopicInfoBean) obj;
+                        return topicInfoBean.topicId.equals(topicId);
+                    }
+                    return super.equals(obj);
                 }
             }
         }

@@ -20,12 +20,11 @@ public class EmptyUtil {
 
     public static Object numObjectEmpty(Object obj) {
         if (obj != null) {
-            return obj;
+            return Float.valueOf(String.valueOf(obj)).intValue();
         } else {
             return "0";
         }
     }
-
     public static Float floatEmpty(String str) {
         if (!TextUtils.isEmpty(str)) {
             try {

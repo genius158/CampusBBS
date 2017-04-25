@@ -27,7 +27,6 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.rxbusaction.ActionSelfSearchControl;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
@@ -48,37 +47,37 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SelfCenterContract.View {
 
     @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    protected RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
-    SwipeRefreshLayout swipeRefreshLayout;
+    protected SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.fl_container)
-    View container;
+    protected View container;
     @BindView(R.id.common_app_bar)
-    CardView commonAppBar;
+    protected CardView commonAppBar;
     @BindView(R.id.title)
-    TextView title;
+    protected TextView title;
 
     @Inject
-    List<DataMultiItem> dataMultiItems;
+    protected List<DataMultiItem> dataMultiItems;
     @Inject
-    SettingHelper changeSkinHelper;
+    protected SettingHelper changeSkinHelper;
     @Inject
-    RxBus rxBus;
+    protected RxBus rxBus;
     @Inject
-    AdapterImageControl adapterImageControl;
+    protected AdapterImageControl adapterImageControl;
     @Inject
-    SPUtils spUtils;
+    protected SPUtils spUtils;
     @Inject
-    ToastUtils toastUtils;
+    protected ToastUtils toastUtils;
     @Inject
-    SelfCenterPresenter mPresenter;
+    protected SelfCenterPresenter mPresenter;
     @Inject
-    SelfCenterMultiItemAdapter adapter;
+    protected SelfCenterMultiItemAdapter adapter;
 
-    private String nickName;
-    private PublishData.DataBean.TopicInfoListBean.TopicListBean topicListBean;
-    private String userId;
-    int pageNo = 1;
+    protected String nickName;
+    protected PublishData.DataBean.TopicInfoListBean.TopicListBean topicListBean;
+    protected String userId;
+    protected int pageNo = 1;
 
     @Override
     public void onResume() {
@@ -98,7 +97,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
         dataInit();
     }
 
-    private void initRxAction() {
+    protected void initRxAction() {
 
         addDisposable(rxBus.getEvent(ImManager.Action.AddFriend.class)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -108,7 +107,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
                 }));
     }
 
-    private void daggerInject() {
+    protected void daggerInject() {
         DaggerSelfCenterOtherComponent.builder()
                 .applicationComponent(((ApplicationCampusBBS) getApplication()).getApplicationComponent())
                 .settingModule(new SettingModule(this, compositeDisposable))
@@ -116,7 +115,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
                 .build().inject(this);
     }
 
-    private void init() {
+    protected void init() {
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(adapter);
@@ -124,7 +123,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
         adapterImageControl.attachRecyclerView(recyclerView);
     }
 
-    private void dataInit() {
+    protected void dataInit() {
         userId = getIntent().getStringExtra("userId");
         nickName = getIntent().getStringExtra("nickName");
         topicListBean = (PublishData.DataBean.TopicInfoListBean.TopicListBean) getIntent()

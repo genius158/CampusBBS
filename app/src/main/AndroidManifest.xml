@@ -129,6 +129,12 @@
             android:name=".module.search.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.selfcenter.ui.selfmore.SelfMainPageMoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.campusbbs.ui.selfcenter.brown.BrownHistoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.campusbbs.ui.selfcenter.message.MessageActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -96,31 +96,6 @@
                         android:textSize="@dimen/size_sp_12" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_weight="1"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:src="@drawable/icon_save" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-
-                        android:lines="1"
-                        android:text="收藏"
-                        android:textColor="@color/cr3C3B41"
-                        android:textSize="@dimen/size_sp_12" />
-                </LinearLayout>
 
 
                 <LinearLayout
@@ -174,6 +149,32 @@
                         android:textSize="@dimen/size_sp_12" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:visibility="invisible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_weight="1"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:src="@drawable/icon_save" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+
+                        android:lines="1"
+                        android:text="收藏"
+                        android:textColor="@color/cr3C3B41"
+                        android:textSize="@dimen/size_sp_12" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

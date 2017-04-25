@@ -29,13 +29,16 @@ public interface SelfCenterContract {
 
     interface View extends BaseView<Presenter> {
         void dataSuccess(List<DataMultiItem> dataMultiItems);
+
         void dataError();
     }
 
     interface Presenter extends BasePresenter {
 
         void getMainPageData(int pageNo);
-        void getFriendData(int pageNo,String userId);
 
+        void getFriendData(int pageNo, String userId);
+
+        void getSelfTopicMore(int pageNo);
     }
 }

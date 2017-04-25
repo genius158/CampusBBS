@@ -20,15 +20,20 @@ import com.yan.campusbbs.module.campusbbs.data.CommentData;
 import com.yan.campusbbs.module.campusbbs.data.ReplyCommentData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
 import com.yan.campusbbs.module.campusbbs.data.TopicLikeData;
+import com.yan.campusbbs.module.common.data.TopicCacheData;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.EmptyUtil;
 import com.yan.campusbbs.util.FrescoUtils;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.inject.Inject;
 
@@ -144,6 +149,13 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
                 && topicDetail.getData().getTopicDetailInfo() != null
                 && topicDetail.getData().getTopicDetailInfo().getUserTopicInfo() != null
                 ) {
+            TopicCacheData cacheData = (TopicCacheData) ACache.get(getBaseContext()).getAsObject("topicCache");
+            if (cacheData == null) {
+                cacheData = new TopicCacheData(new HashSet<>());
+            }
+            cacheData.topicDetailDatas.add(topicDetail.getData().getTopicDetailInfo().getUserTopicInfo());
+            ACache.get(getBaseContext()).put("topicCache", cacheData);
+
             TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean detailData =
                     topicDetail.getData().getTopicDetailInfo().getUserTopicInfo();
             sdvHead.setImageURI(detailData.getUserHeadImg());
@@ -171,6 +183,7 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
                 && replyList.getData().getCommentInfoList() != null
                 && replyList.getData().getCommentInfoList().getCommentList() != null
                 ) {
+
             StringBuilder stringBuilder = new StringBuilder();
             for (CommentData.DataBean.CommentInfoListBean.CommentListBean bean :
                     replyList.getData().getCommentInfoList().getCommentList())

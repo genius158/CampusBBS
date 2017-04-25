@@ -4,6 +4,7 @@
     android:layout_width="100dp"
     android:layout_height="match_parent"
     android:paddingLeft="2dp"
+    android:id="@+id/container"
     android:paddingRight="2dp"
     android:background="@color/crE9E9E9"
     android:fitsSystemWindows="true"

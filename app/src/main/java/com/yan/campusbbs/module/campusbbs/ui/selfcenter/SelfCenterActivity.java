@@ -19,6 +19,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterPublishAdapter;
+import com.yan.campusbbs.module.campusbbs.ui.selfcenter.brown.BrownHistoryActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend.FriendsActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.message.MessageActivity;
 import com.yan.campusbbs.module.campusbbs.ui.userinfo.UserInfoActivity;
@@ -124,11 +125,12 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
                 startActivity(new Intent(getBaseContext(), FriendsActivity.class));
                 break;
             case 1:
+                startActivity(new Intent(getBaseContext(), BrownHistoryActivity.class));
                 break;
             case 2:
+                startActivity(new Intent(getBaseContext(), MessageActivity.class));
                 break;
             case 3:
-                startActivity(new Intent(getBaseContext(), MessageActivity.class));
                 break;
             case 4:
                 break;

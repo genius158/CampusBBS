@@ -71,6 +71,7 @@
                 android:textSize="@dimen/size_sp_12" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_reply_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
