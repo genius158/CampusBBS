@@ -12,6 +12,7 @@ import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * This is a Dagger module. We use this to pass in the View dependency to the
@@ -23,14 +24,14 @@ public class SearchModule {
     private final SearchContract.View mView;
     List<DataMultiItem> dataMultiItems;
 
-    public SearchModule(SearchContract.View view) {
+    public SearchModule(SearchContract.View view ) {
         mView = view;
         dataMultiItems = new ArrayList<>();
     }
 
     @Provides
     SearchPresenter provideSearchPresenter(Context context, AppRetrofit appRetrofit) {
-        return new SearchPresenter(context, mView,appRetrofit);
+        return new SearchPresenter(context, mView, appRetrofit);
     }
 
     @Provides

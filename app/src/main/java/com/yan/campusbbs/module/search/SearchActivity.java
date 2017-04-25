@@ -25,6 +25,7 @@ import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.search.action.ActionChangeSearchText;
 import com.yan.campusbbs.module.search.adapter.SearchAdapter;
 import com.yan.campusbbs.module.search.data.SearchData;
+import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -32,6 +33,7 @@ import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,6 +61,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     @Inject
     RxBus rxBus;
     @Inject
+    ToastUtils toastUtils;
+    @Inject
     SPUtils spUtils;
     @Inject
     ImageControl imageControl;
@@ -78,7 +82,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     @BindView(R.id.et_search)
     EditText etSearch;
 
-    private List<DataMultiItem> dataMultiItems;
     private List<SearchData> searchItems;
 
     private int pageNum = 1;
@@ -103,7 +106,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     }
 
     private void init() {
-        dataMultiItems = new ArrayList<>();
         searchItems = new ArrayList<>();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
@@ -151,9 +153,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
             }
             requestData();
             saveSearchData();
-        } else {
-            presenter.getTopicList(String.valueOf(pageNum)
-                    , etSearch.getText().toString(), 1);
         }
     }
 
@@ -191,6 +190,9 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     };
 
     private void requestData() {
+        pageNum = 1;
+        presenter.getTopicList(String.valueOf(pageNum)
+                , etSearch.getText().toString(), 1);
     }
 
     private void showSearchData() {
@@ -250,5 +252,36 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
                     ContextCompat.getColor(this, actionChangeSkin.getColorPrimaryId())
             );
         }
+    }
+
+    @Override
+    public void netError() {
+        toastUtils.showShort("网络错误");
+    }
+
+    @Override
+    public void setTopic(List<DataMultiItem> dataMultiItems) {
+        if (pageNum == 1) {
+            this.dataMultiDisplayItems.clear();
+            this.dataMultiDisplayItems.addAll(dataMultiItems);
+            searchAdapter.notifyDataSetChanged();
+            if (dataMultiDisplayItems.size() > 4) {
+                searchAdapter.setOnLoadMoreListener(() -> {
+                    presenter.getTopicList(String.valueOf(++pageNum)
+                            , etSearch.getText().toString(), 1);
+                });
+                searchAdapter.setEnableLoadMore(true);
+            }
+        } else {
+            int tempSize = this.dataMultiDisplayItems.size();
+            this.dataMultiDisplayItems.addAll(dataMultiItems);
+            searchAdapter.notifyItemRangeInserted(tempSize, this.dataMultiDisplayItems.size() - tempSize);
+            searchAdapter.loadMoreComplete();
+        }
+    }
+
+    @Override
+    public void error(String msg) {
+
     }
 }

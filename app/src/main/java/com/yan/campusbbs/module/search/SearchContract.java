@@ -18,6 +18,9 @@ package com.yan.campusbbs.module.search;
 
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
+
+import java.util.List;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -25,9 +28,11 @@ import com.yan.campusbbs.base.BaseView;
 public interface SearchContract {
 
     interface View extends BaseView<Presenter> {
-//        void netError();
-//
-//        void error(String msg);
+        void netError();
+
+        void setTopic(List<DataMultiItem> dataMultiItems);
+
+        void error(String msg);
 
     }
 

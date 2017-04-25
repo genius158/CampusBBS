@@ -16,6 +16,7 @@ import com.tencent.TIMUserProfile;
 import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.ImManager;
+import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
 import com.yan.campusbbs.module.campusbbs.ui.common.topicdetail.TopicDetailActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.SelfCenterActivity;
@@ -254,36 +255,70 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
                 break;
             case ITEM_TYPE_FRIEND_DYNAMIC:
-                PublishData.DataBean.TopicInfoListBean.TopicListBean otherBean =
-                        (PublishData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
+                if (multiItem.data instanceof PublishData.DataBean.TopicInfoListBean.TopicListBean) {
+                    PublishData.DataBean.TopicInfoListBean.TopicListBean otherBean =
+                            (PublishData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
+                    SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
+                    SimpleDraweeView head = holder.getView(R.id.sdv_head);
+                    head.setImageURI(String.valueOf(otherBean.getUserHeadImg()));
+                    head.setOnClickListener(v -> {
+                        context.startActivity(new Intent(context, FriendPageActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                .putExtra("userId", otherBean.getUserId())
+                                .putExtra("otherBean", otherBean)
+                        );
+                    });
+                    holder.setText(R.id.user_name, otherBean.getUserNickname());
+                    holder.setText(R.id.self_dynamic, otherBean.getTopicTitle());
+                    holder.setText(R.id.tv_brown_count, "浏览(" + EmptyUtil.numObjectEmpty(otherBean.getBrowseCount()) + ")");
+                    FrescoUtils.adjustViewOnImage(context, simpleDrawee, otherBean.getUserHeadImg());
+                    holder.getView(R.id.container).setOnClickListener(v -> {
+                        context.startActivity(new Intent(context, TopicDetailActivity.class)
+                                .putExtra("title", otherBean.getTopicTitle())
+                                .putExtra("topicId", otherBean.getTopicId())
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        );
+                    });
+                    simpleDrawee.setOnClickListener(v -> {
+                        if (popPhotoView != null) {
+                            popPhotoView.show();
+                            popPhotoView.setImageUrl(otherBean.getUserHeadImg());
+                        }
+                    });
+                } else {
+                    TopicData.DataBean.TopicInfoListBean.TopicListBean otherBean =
+                            (TopicData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
+                    SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
+                    SimpleDraweeView head = holder.getView(R.id.sdv_head);
+                    head.setImageURI(String.valueOf(otherBean.getUserHeadImg()));
+                    head.setOnClickListener(v -> {
+                        context.startActivity(new Intent(context, FriendPageActivity.class)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                .putExtra("userId", otherBean.getUserId())
+                                .putExtra("nickName", TextUtils.isEmpty(otherBean.getUserNickname())
+                                        ? otherBean.getUserAccount()
+                                        : otherBean.getUserNickname())
+                        );
+                    });
+                    holder.setText(R.id.user_name, otherBean.getUserNickname());
+                    holder.setText(R.id.self_dynamic, otherBean.getTopicTitle());
+                    holder.setText(R.id.tv_brown_count, "浏览(" + EmptyUtil.numObjectEmpty(otherBean.getBrowseCount()) + ")");
+                    FrescoUtils.adjustViewOnImage(context, simpleDrawee, otherBean.getUserHeadImg());
+                    holder.getView(R.id.container).setOnClickListener(v -> {
+                        context.startActivity(new Intent(context, TopicDetailActivity.class)
+                                .putExtra("title", otherBean.getTopicTitle())
+                                .putExtra("topicId", otherBean.getTopicId())
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        );
+                    });
+                    simpleDrawee.setOnClickListener(v -> {
+                        if (popPhotoView != null) {
+                            popPhotoView.show();
+                            popPhotoView.setImageUrl(otherBean.getUserHeadImg());
+                        }
+                    });
+                }
 
-                SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
-                SimpleDraweeView head = holder.getView(R.id.sdv_head);
-                head.setImageURI(String.valueOf(otherBean.getUserHeadImg()));
-                head.setOnClickListener(v -> {
-                    context.startActivity(new Intent(context, FriendPageActivity.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            .putExtra("userId", otherBean.getUserId())
-                            .putExtra("otherBean", otherBean)
-                    );
-                });
-                holder.setText(R.id.user_name, otherBean.getUserNickname());
-                holder.setText(R.id.self_dynamic, otherBean.getTopicTitle());
-                holder.setText(R.id.tv_brown_count, "浏览(" + EmptyUtil.numObjectEmpty(otherBean.getBrowseCount()) + ")");
-                FrescoUtils.adjustViewOnImage(context, simpleDrawee, otherBean.getUserHeadImg());
-                holder.getView(R.id.container).setOnClickListener(v -> {
-                    context.startActivity(new Intent(context, TopicDetailActivity.class)
-                            .putExtra("title", otherBean.getTopicTitle())
-                            .putExtra("topicId", otherBean.getTopicId())
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    );
-                });
-                simpleDrawee.setOnClickListener(v -> {
-                    if (popPhotoView != null) {
-                        popPhotoView.show();
-                        popPhotoView.setImageUrl(otherBean.getUserHeadImg());
-                    }
-                });
                 break;
             case ITEM_TYPE_DETAIL_TOPIC:
                 TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean infoBean =
@@ -297,8 +332,8 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             .putExtra("userId", infoBean.getUserId())
                             .putExtra("nickName", TextUtils.isEmpty(infoBean.getUserNickname())
-                                    ?infoBean.getUserAccount()
-                                    :infoBean.getUserNickname())
+                                    ? infoBean.getUserAccount()
+                                    : infoBean.getUserNickname())
                     );
                 });
                 holder.setText(R.id.user_name, infoBean.getUserNickname());
@@ -323,7 +358,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
     }
 
     private void setSign() {
-        if (!TextUtils.isEmpty(signStr)){
+        if (!TextUtils.isEmpty(signStr)) {
             tvSign.setText(signStr);
             return;
         }

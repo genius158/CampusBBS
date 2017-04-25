@@ -1,12 +1,13 @@
 package com.yan.campusbbs.module.campusbbs.data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by yan on 2017/4/21.
  */
 
-public class TopicData {
+public class TopicData implements Serializable{
 
     /**
      * data : {"topicInfoList":{"totalCount":0,"totalPages":0,"pageNum":0,"previous":false,"next":false,"pageList":null,"topicList":[{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B57E9E956KEZDT","topicTitle":"铁路局","topicContent":"兔兔旅途","typeDiv":1,"topicLabel":null,"contentDiv":0,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-11 04:49:59"},{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B537B483CFE0VV","topicTitle":"睡咯扣女","topicContent":"放松LOL咯","typeDiv":1,"topicLabel":null,"contentDiv":0,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-10 08:10:40"},{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B52CA05DFEUUOU","topicTitle":"近距离咯","topicContent":"李连杰","typeDiv":2,"topicLabel":"健身","contentDiv":0,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-10 04:57:03"},{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B52B7BD94IUGH5","topicTitle":"通景路","topicContent":"T恤拒绝了","typeDiv":1,"topicLabel":"文学","contentDiv":0,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-10 04:37:05"}]}}
@@ -52,7 +53,7 @@ public class TopicData {
         this.message = message;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         /**
          * topicInfoList : {"totalCount":0,"totalPages":0,"pageNum":0,"previous":false,"next":false,"pageList":null,"topicList":[{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B57E9E956KEZDT","topicTitle":"铁路局","topicContent":"兔兔旅途","typeDiv":1,"topicLabel":null,"contentDiv":0,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-11 04:49:59"},{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B537B483CFE0VV","topicTitle":"睡咯扣女","topicContent":"放松LOL咯","typeDiv":1,"topicLabel":null,"contentDiv":0,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-10 08:10:40"},{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B52CA05DFEUUOU","topicTitle":"近距离咯","topicContent":"李连杰","typeDiv":2,"topicLabel":"健身","contentDiv":0,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-10 04:57:03"},{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B52B7BD94IUGH5","topicTitle":"通景路","topicContent":"T恤拒绝了","typeDiv":1,"topicLabel":"文学","contentDiv":0,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-10 04:37:05"}]}
          */
@@ -67,7 +68,7 @@ public class TopicData {
             this.topicInfoList = topicInfoList;
         }
 
-        public static class TopicInfoListBean {
+        public static class TopicInfoListBean implements Serializable{
             /**
              * totalCount : 0
              * totalPages : 0
@@ -151,7 +152,7 @@ public class TopicData {
                 this.topicList = topicList;
             }
 
-            public static class TopicListBean {
+            public static class TopicListBean implements Serializable{
                 /**
                  * userId : U15B524C6A3DU01AH
                  * userAccount : 17780701147
