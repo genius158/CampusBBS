@@ -121,6 +121,17 @@
                     android:text="(20)"
                     android:textColor="@color/cr777777"
                     android:textSize="@dimen/size_sp_12" />
+
+                <TextView
+                    android:id="@+id/tv_brown_count"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center_vertical|right"
+                    android:text="(20)"
+                    android:textColor="@color/cr777777"
+                    android:textSize="@dimen/size_sp_12" />
             </LinearLayout>
 
             <FrameLayout

@@ -83,6 +83,8 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
     TextView tvReplyNum;
     @BindView(R.id.tv_re_commit_num)
     TextView tvReCommitNum;
+    @BindView(R.id.tv_brown_count)
+    TextView tvBrownCount;
     @BindView(R.id.sdv_img)
     SimpleDraweeView sdvImg;
     @BindView(R.id.et_content)
@@ -169,6 +171,7 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
             FrescoUtils.adjustViewOnImage(getBaseContext(), sdvImg, detailData.getUserHeadImg());
             tvLikeNum.setText(String.valueOf("(" + EmptyUtil.numObjectEmpty(detailData.getLikeCount()) + ")"));
             tvReCommitNum.setText(String.valueOf("(" + EmptyUtil.numObjectEmpty(detailData.getCmtCount()) + ")"));
+            tvBrownCount.setText(String.valueOf("浏览(" + EmptyUtil.numObjectEmpty(detailData.getBrowseCount()) + ")"));
             etContent.setText(detailData.getTopicContent());
             tvTopicTitle.setText(detailData.getTopicTitle());
 //            tvReplyContent.setText("阿傻 : 傻里傻气"
@@ -195,7 +198,7 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
                         .append(bean.getCmtContent())
                         .append("\n");
             tvReplyContent.setText(stringBuilder.toString());
-            tvReplyNum.setText(String.valueOf(replyList.getData().getCommentInfoList().getTotalCount()));
+            tvReplyNum.setText(String.valueOf("(" + replyList.getData().getCommentInfoList().getTotalCount() + ")"));
         }
     }
 

@@ -44,7 +44,6 @@
             style="@style/ImageBase.Circle.Border"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginBottom="15dp"
             android:background="?selectableItemBackgroundBorderless"
             android:clickable="true" />
 
@@ -52,7 +51,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="65dp"
             android:orientation="vertical">
 
