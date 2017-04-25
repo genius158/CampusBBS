@@ -5,8 +5,8 @@
     android:layout_width="100dp"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:paddingLeft="2dp"
     android:orientation="vertical"
+    android:paddingLeft="2dp"
     android:paddingRight="2dp"
     tools:context="com.yan.campusbbs.module.MainActivity">
 
@@ -15,7 +15,7 @@
         style="@style/ImageBase.Circle.Border"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <TextView
         android:id="@+id/tv_user_name"
@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
+        android:maxLines="2"
         android:padding="4dp"
         android:text="@string/test_text"
         android:textColor="@color/cr3C3B41" />
