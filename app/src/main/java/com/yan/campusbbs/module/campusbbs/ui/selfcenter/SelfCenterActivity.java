@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -73,6 +74,10 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
     RecyclerView rvRecentlyVisitors;
 
     int pageNo = 1;
+    @BindView(R.id.tv_nick_name)
+    TextView tvNickName;
+    @BindView(R.id.tv_grader)
+    TextView tvGrader;
 
     private SelfCenterPublishAdapter publishAdapter;
     private SelfCenterRecentlyAdapter recentlyVisitors;
@@ -97,8 +102,13 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
             LoginInfoData loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
             if (loginInfoData.getData() != null
                     && loginInfoData.getData().getUserInfo() != null) {
-                head.setImageURI(loginInfoData.getData().getUserInfo().getUserHeadImg());
+                LoginInfoData.DataBean.UserInfoBean infoData = loginInfoData.getData().getUserInfo();
+                head.setImageURI(infoData.getUserHeadImg());
                 presenter.getSelfPublish(pageNo);
+                tvNickName.setText(TextUtils.isEmpty(infoData.getUserNickname())
+                        ? infoData.getUserAccount()
+                        : infoData.getUserNickname());
+                tvGrader.setText(String.valueOf("等级 : "+infoData.getUserRank()));
             }
         }
         if (ACache.get(getBaseContext()).getAsObject(CacheConfig.RECENTLY_VISITORS) != null) {

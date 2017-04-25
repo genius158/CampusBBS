@@ -102,7 +102,9 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 selfImg.setAspectRatio(1.50f);
                 if (multiItem.data instanceof LoginInfoData) {
                     LoginInfoData loginInfoData = (LoginInfoData) multiItem.data;
-                    holder.setText(R.id.tv_nike_name, loginInfoData.getData().getUserInfo().getUserNickname());
+                    holder.setText(R.id.tv_nike_name, TextUtils.isEmpty(loginInfoData.getData().getUserInfo().getUserNickname())
+                            ? loginInfoData.getData().getUserInfo().getUserAccount()
+                            : loginInfoData.getData().getUserInfo().getUserNickname());
                     holder.setText(R.id.tv_plus, "等级:" + loginInfoData.getData().getUserInfo().getUserRank());
 
                     tvSign = holder.getView(R.id.tv_sign);

@@ -29,7 +29,7 @@ public interface UserInfoContract {
 
         void stateNetError();
 
-        void stateError();
+        void stateError(String msg);
     }
 
     interface Presenter extends BasePresenter {

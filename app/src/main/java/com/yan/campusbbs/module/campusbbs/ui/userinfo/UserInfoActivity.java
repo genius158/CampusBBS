@@ -128,16 +128,20 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     @Override
     public void stateSuccess() {
         ImManager.getImManager().setNikeName(etNikeName.getText().toString());
+        LoginInfoData loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
+        loginInfoData.getData().getUserInfo().setUserNickname(etNikeName.getText().toString());
+        ACache.get(getBaseContext()).put(CacheConfig.USER_INFO, loginInfoData);
+        toastUtils.showUIShort("更改成功");
     }
 
     @Override
     public void stateNetError() {
-
+        toastUtils.showUIShort("网络错误");
     }
 
     @Override
-    public void stateError() {
-
+    public void stateError(String msg) {
+        toastUtils.showUIShort(msg);
     }
 
     @OnClick({R.id.arrow_back, R.id.tv_btn_register})

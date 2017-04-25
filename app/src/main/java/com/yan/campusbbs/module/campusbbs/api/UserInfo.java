@@ -1,5 +1,6 @@
 package com.yan.campusbbs.module.campusbbs.api;
 
+import com.yan.campusbbs.module.campusbbs.data.ModifyData;
 import com.yan.campusbbs.repository.DataAddress;
 
 import io.reactivex.Observable;
@@ -27,7 +28,7 @@ public interface UserInfo {
 //    address：类型String
 
     @GET(DataAddress.URL_USER_EDIT)
-    Observable<ResponseBody> userInfoEdit(
+    Observable<ModifyData> userInfoEdit(
             @Query("nickname") String nickname,
             @Query("realName") String realName,
             @Query("headImg") String headImg,

@@ -35,7 +35,11 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(logInData -> {
-
+if (logInData.getResultCode()==200){
+    view.stateSuccess();
+}else {
+    view.stateError(logInData.getMessage());
+}
                         }, Throwable::printStackTrace)
         );
     }
