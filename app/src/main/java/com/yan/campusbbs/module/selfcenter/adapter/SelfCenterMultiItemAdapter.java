@@ -59,6 +59,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
     private TextView tvSign;
     private String signStr;
+    private String signStrOther;
 
     private CompositeDisposable compositeDisposable;
     private RxBus rxBus;
@@ -212,6 +213,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                             .setOnClickListener(v -> {
                                 ImManager.getImManager().addFriend(finalIdentifier);
                             });
+                    setSignOther(holder.getView(R.id.tv_sign), finalIdentifier);
                 }
                 otherSDV.setOnClickListener(v -> {
                     if (popPhotoView != null) {
@@ -283,7 +285,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     }
                 });
                 break;
-       case ITEM_TYPE_DETAIL_TOPIC:
+            case ITEM_TYPE_DETAIL_TOPIC:
                 TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean infoBean =
                         (TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean) multiItem.data;
 
@@ -358,4 +360,29 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
         }
         return false;
     };
+
+    public void setSignOther(TextView signOther, String finalIdentifier) {
+        if (!TextUtils.isEmpty(signStrOther)) {
+            signOther.setText(signStrOther);
+            return;
+        }
+        ImManager.getImManager().getUsersProfile(
+                new TIMValueCallBack<List<TIMUserProfile>>() {
+                    @Override
+                    public void onError(int code, String s) {
+                        Log.e(TAG, "getSelfProfile failed: " + code + "    " + s);
+                    }
+
+                    @Override
+                    public void onSuccess(List<TIMUserProfile> timUserProfiles) {
+                        for (TIMUserProfile userProfile : timUserProfiles) {
+                            signStrOther = userProfile.getSelfSignature();
+                            signOther.setText(signStrOther);
+                        }
+
+                    }
+                }
+                , finalIdentifier
+        );
+    }
 }
