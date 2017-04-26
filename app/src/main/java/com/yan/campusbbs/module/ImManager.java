@@ -873,12 +873,12 @@ public class ImManager {
         TIMFriendshipManager.getInstance().setSelfSignature(signature, new TIMCallBack() {
             @Override
             public void onError(int i, String s) {
-                Log.e(TAG, "setNickName failed: " + " desc");
+                Log.e(TAG, "setSelfSignature failed: " + " desc");
             }
 
             @Override
             public void onSuccess() {
-                Log.e(TAG, "setNickName success");
+                Log.e(TAG, "setSelfSignature success");
             }
         });
     }
@@ -899,6 +899,21 @@ public class ImManager {
             @Override
             public void onSuccess() {
                 Log.e(TAG, "setNickName success");
+            }
+        });
+    }
+
+    public void setFaceUrl(String faceUrl) {
+        //设置新昵称为cat
+        TIMFriendshipManager.getInstance().setFaceUrl(faceUrl, new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                Log.e(TAG, "setFaceUrl failed: " + code + " desc");
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "setFaceUrl success");
             }
         });
     }
