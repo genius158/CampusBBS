@@ -30,7 +30,7 @@ public interface PublishContract {
 
         void stateNetError();
 
-        void stateError(String message);
+        void stateError(Object message);
 
     }
 

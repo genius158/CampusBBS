@@ -10,13 +10,13 @@ public class PublishBackData {
      * data : null
      * jsessionId : 6D7845E05EF501A53059CAD1AAD6EC67
      * resultCode : 500
-     * message :
+     * message : null
      */
 
     private Object data;
     private String jsessionId;
     private int resultCode;
-    private String message;
+    private Object message;
 
     public Object getData() {
         return data;
@@ -42,11 +42,11 @@ public class PublishBackData {
         this.resultCode = resultCode;
     }
 
-    public String getMessage() {
+    public Object getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(Object message) {
         this.message = message;
     }
 }

@@ -222,7 +222,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
     }
 
     @Override
-    public void stateError(String message) {
-        toastUtils.showUIShort(message);
+    public void stateError(Object message) {
+        toastUtils.showUIShort(message+"");
     }
 }
