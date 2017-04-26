@@ -85,7 +85,7 @@ public class PublishPresenter implements PublishContract.Presenter {
 
         view.addDisposable(Observable.create((ObservableEmitter<String> e) -> {
             Response response = appRetrofit.getClient().newCall(request).execute();
-            e.onNext(response.toString());
+            e.onNext(response.body().string());
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(str -> {
