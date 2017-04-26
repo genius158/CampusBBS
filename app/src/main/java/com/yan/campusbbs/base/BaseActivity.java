@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.ImManager;
@@ -40,6 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity implements SettingC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         compositeDisposable = new CompositeDisposable();
+        Fresco.initialize(getApplicationContext());
 
         onReLoadBundle(savedInstanceState);
     }

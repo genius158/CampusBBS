@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
@@ -90,11 +91,8 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
         setContentView(R.layout.activity_bbs_self_center);
         ButterKnife.bind(this);
         daggerInject();
-        imageControl.frescoInit();
         init();
-
         initData();
-
     }
 
     private void initData() {
@@ -108,7 +106,7 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
                 tvNickName.setText(TextUtils.isEmpty(infoData.getUserNickname())
                         ? infoData.getUserAccount()
                         : infoData.getUserNickname());
-                tvGrader.setText(String.valueOf("等级 : "+infoData.getUserRank()));
+                tvGrader.setText(String.valueOf("等级 : " + infoData.getUserRank()));
             }
         }
         if (ACache.get(getBaseContext()).getAsObject(CacheConfig.RECENTLY_VISITORS) != null) {

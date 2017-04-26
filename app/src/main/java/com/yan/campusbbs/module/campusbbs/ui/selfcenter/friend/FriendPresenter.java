@@ -64,19 +64,20 @@ public class FriendPresenter implements FriendContract.Presenter {
                 } catch (JsonParseException e) {
                     isJson = false;
                 }
+                String selfSignature = "";
                 if (isJson) {
                     try {
                         JSONObject jsonObject = new JSONObject(userProfile.getSelfSignature());
-                        String selfSignature = jsonObject.getString("signature");
-                        selfCenterFriendDatas.add(new SelfCenterFriendData(userProfile, selfSignature, false)
-                                .setTimestamp(0));
+                          selfSignature = jsonObject.getString("signature");
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    selfCenterFriendDatas.add(new SelfCenterFriendData(userProfile, selfSignature, false)
+                            .setTimestamp(0));
                 }
             }
             view.addFriends(selfCenterFriendDatas);
-
             initConversation();
         }
     };
