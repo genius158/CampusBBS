@@ -31,8 +31,6 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,7 +222,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
     }
 
     @Override
-    public void stateError() {
-        toastUtils.showShort("发布失败");
+    public void stateError(String message) {
+        toastUtils.showUIShort(message);
     }
 }

@@ -4,7 +4,10 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.module.campusbbs.api.Publish;
+import com.yan.campusbbs.module.campusbbs.data.PublishBackData;
 import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.util.AppRetrofit;
 
@@ -15,6 +18,9 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Call;
@@ -50,57 +56,51 @@ public class PublishPresenter implements PublishContract.Presenter {
             file = new File(filePath);
         }
         Log.e("publish: ", "publish");
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+
         if (file != null
                 && file.exists()) {
             Log.e("publish: ", "file.exists");
-            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-            builder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/jpg"), file));
-            //添加其它信息
-            builder.addFormDataPart("topicTitle", topicTitle);
-            builder.addFormDataPart("topicContent", topicContent);
-            builder.addFormDataPart("typeDiv", typeDiv);
-            builder.addFormDataPart("topicLabel", topicLabel);
-            builder.addFormDataPart("contentDiv", contentDiv);
-
-            MultipartBody requestBody = builder.build();
-            //构建请求
-            Request request = new Request.Builder()
-                    .url(DataAddress.MAIN_PATH + DataAddress.URL_PUBLISH)//地址
-                    .post(requestBody)//添加请求体
-                    .build();
-            appRetrofit.getClient().newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.e("onFailure: ", "上传失败");
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    Log.e("onResponse: ", "上传照片成功");
-                }
-            });
-        } else {
-            Publish publish = appRetrofit.retrofit().create(Publish.class);
-            view.addDisposable(publish.publish(topicTitle, topicContent, typeDiv, topicLabel, contentDiv)
-                    .subscribeOn(Schedulers.io())
-                    .map(responseBody -> {
-                        JSONObject jsonObject = new JSONObject(responseBody.string());
-                        return jsonObject.getInt("resultCode") == 200;
-                    })
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(aBoolean -> {
-                                if (aBoolean) {
-                                    view.stateSuccess();
-                                } else {
-                                    view.stateError();
-                                }
-                            }
-                            , throwable -> {
-                                throwable.printStackTrace();
-                                view.stateNetError();
-                            })
-            );
+            builder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
         }
+        //添加其它信息
+        builder.addFormDataPart("topicTitle", topicTitle);
+        builder.addFormDataPart("topicContent", topicContent);
+        builder.addFormDataPart("typeDiv", typeDiv);
+        builder.addFormDataPart("topicLabel", topicLabel);
+//        builder.addFormDataPart("contentDiv", contentDiv);
+        builder.addFormDataPart("fileTypeDiv", "1");
+
+        MultipartBody requestBody = builder.build();
+        Request request = new Request.Builder()
+                .url(DataAddress.MAIN_PATH + DataAddress.URL_PUBLISH
+                +"?topicTitle="+topicTitle
+                +"&topicContent="+topicContent
+                +"&typeDiv="+typeDiv
+                +"&topicLabel="+topicLabel
+                +"&fileTypeDiv="+"1"
+                )
+                .post(requestBody)
+                .build();
+
+        view.addDisposable(Observable.create((ObservableEmitter<String> e) -> {
+            Response response = appRetrofit.getClient().newCall(request).execute();
+            e.onNext(response.toString());
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(str -> {
+            Log.e("publish: ", str);
+                    PublishBackData publishBackData=new Gson().fromJson(str,PublishBackData.class);
+                    if (publishBackData.getResultCode()==200){
+                        view.stateSuccess();
+                    }else {
+                        view.stateError(publishBackData.getMessage());
+                    }
+
+        }, throwable -> {
+            throwable.printStackTrace();
+            view.stateNetError();
+        }));
 
     }
 }
