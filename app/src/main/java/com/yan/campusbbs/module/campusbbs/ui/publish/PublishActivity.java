@@ -77,7 +77,8 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
     EditText etContent;
 
     private String subTitle;
-    List<String> spDatas = new ArrayList<>();
+    private List<String> spDatas = new ArrayList<>();
+    private String imgPath;
 
     private int mode = 1;
 
@@ -162,6 +163,7 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
                 Log.e("path", path + "");
                 if (path != null && path.get(0) != null) {
                     Log.e("path2", path + "");
+                    imgPath = path.get(0);
                     sdvImg.setImageURI(Uri.parse("file://" + path.get(0)));
                 }
             }
@@ -205,7 +207,8 @@ public class PublishActivity extends BaseActivity implements PublishContract.Vie
                 , String.valueOf(mode)
                 , spDatas.get(spTypes.getSelectedItemPosition())
                 , String.valueOf(1)
-        );
+                ,imgPath
+                );
     }
 
 

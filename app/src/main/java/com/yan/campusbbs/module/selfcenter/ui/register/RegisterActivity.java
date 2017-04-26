@@ -261,7 +261,11 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
                 && !TextUtils.isEmpty(etPhone.getText())
                 && !TextUtils.isEmpty(etCode.getText())
                 ) {
-            verifyCode();
+            if (etPassword.getText().toString().length() >= 8) {
+                verifyCode();
+            } else {
+                toastUtils.showShort("密码不能小于8位数");
+            }
         } else {
             toastUtils.showShort("电话、密码和验证码不能为空");
         }
@@ -316,7 +320,9 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     @Override
     public void success() {
+        canRegisterUserInfoAble = true;
         canRegisterUserInfoAble = false;
+        toastUtils.showUIShort("注册成功");
         Log.e(TAG, "success: " + "注册成功");
         ImManager.getImManager().pwdCommit(etPassword.getText().toString());
         finish();

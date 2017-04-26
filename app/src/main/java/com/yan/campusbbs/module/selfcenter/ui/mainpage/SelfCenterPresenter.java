@@ -124,7 +124,7 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
     public void getFriendData(int pageNo, String userId) {
         MainPage mainPage = appRetrofit.retrofit().create(MainPage.class);
         view.addDisposable(Observable.zip(mainPage.getUserInfo(userId)
-                , mainPage.getMainPageData(String.valueOf(pageNo))
+                , mainPage.getMainPageData(String.valueOf(pageNo), userId)
                 , (userInfoData, mainPageData) -> {
                     List<DataMultiItem> dataMultiItems = new ArrayList<>();
                     if (1 == pageNo) {

@@ -41,7 +41,8 @@ public interface PublishContract {
                 String topicContent,
                 String typeDiv,
                 String topicLabel,
-                String contentDiv
+                String contentDiv,
+                String filePath
         );
 
     }

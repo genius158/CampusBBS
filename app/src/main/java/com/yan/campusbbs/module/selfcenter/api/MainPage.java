@@ -17,7 +17,6 @@ public interface MainPage {
     Observable<PublishData> getMainPageData(
             @Query("pageNum") String pageNum
     );
-
     @GET(DataAddress.URL_SELF_TOPIC3)
     Observable<PublishData> getMainPageSelfData(
     );
@@ -30,5 +29,11 @@ public interface MainPage {
     @GET(DataAddress.URL_SELF_TOPIC_MORE)
     Observable<PublishData> getSelfTopicMore(
             @Query("pageNum") String pageNum
+    );
+
+    @GET(DataAddress.URL_SELF_TOPIC_MORE)
+    Observable<PublishData> getMainPageData(
+            @Query("pageNum") String pageNum
+            ,   @Query("userId") String userId
     );
 }
