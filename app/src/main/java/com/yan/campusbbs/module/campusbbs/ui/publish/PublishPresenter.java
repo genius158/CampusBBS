@@ -1,6 +1,7 @@
 package com.yan.campusbbs.module.campusbbs.ui.publish;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.yan.campusbbs.module.campusbbs.api.Publish;
@@ -44,13 +45,17 @@ public class PublishPresenter implements PublishContract.Presenter {
 
     @Override
     public void publish(String topicTitle, String topicContent, String typeDiv, String topicLabel, String contentDiv, String filePath) {
-        File file = new File(filePath);
+        File file = null;
+        if (!TextUtils.isEmpty(filePath)) {
+            file = new File(filePath);
+        }
         Log.e("publish: ", "publish");
-        if (file.exists()) {
+        if (file != null
+                && file.exists()) {
             Log.e("publish: ", "file.exists");
             MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
             builder.addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/jpg"), file));
-                    //添加其它信息
+            //添加其它信息
             builder.addFormDataPart("topicTitle", topicTitle);
             builder.addFormDataPart("topicContent", topicContent);
             builder.addFormDataPart("typeDiv", typeDiv);
