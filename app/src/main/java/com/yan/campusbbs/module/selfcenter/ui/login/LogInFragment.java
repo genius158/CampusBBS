@@ -177,12 +177,12 @@ public class LogInFragment extends BaseFragment implements LoginContract.View, S
     @Override
     public void loginSuccess(LoginInfoData loginInfoData) {
         if (loginInfoData.getResultCode() == 200) {
-            rxBus.post(new LogInAction(true));
             ACache.get(getContext()).put(CacheConfig.SESSION_ID,loginInfoData.getJsessionId());
             ACache.get(getContext()).put(CacheConfig.USER_INFO, loginInfoData);
             ACache.get(getContext()).put(CacheConfig.USER_ACCOUNT, tielUserName.getText().toString());
             ACache.get(getContext()).put(CacheConfig.USER_PASSWORD, tielUserPassword.getText().toString());
-
+            ACache.get(getContext()).put(CacheConfig.USER_ID,loginInfoData.getData().getUserInfo().getUserId());
+            rxBus.post(new LogInAction(true));
         } else {
             toastUtils.showShort(loginInfoData.getMessage());
         }

@@ -21,7 +21,6 @@ import com.tencent.TIMUserProfile;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
-import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.action.ActonCloseChatActivity;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterChatAdapter;
@@ -34,18 +33,13 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.RegExpUtils;
 import com.yan.campusbbs.util.RxBus;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import javax.inject.Inject;
 
@@ -159,7 +153,6 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
 
     private void addMessage(List<TIMMessage> data) {
         for (TIMMessage msg : data) {
-            TIMUserProfile senderProfile = msg.getSenderProfile();
             long timestamp = msg.timestamp();
             for (int i = 0; i < msg.getElementCount(); ++i) {
                 TIMElem elem = msg.getElement(i);
@@ -176,7 +169,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                         dataMultiItems.add(new SelfCenterChatOtherData(
                                 new SelfCenterChatData(textElem.getText()
                                         , timestamp * 1000
-                                ).setUserProfile(new UserProfile(senderProfile))));
+                                ).setUserProfile(new UserProfile(presenter.getOtherProfile()))));
                     }
                 }
             }
@@ -266,7 +259,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
 
     @Override
     public void addLatestData(TIMMessage timMessage) {
-        TIMUserProfile senderProfile = timMessage.getSenderProfile();
+        TIMUserProfile senderProfile = presenter.getOtherProfile();
         long timestamp = timMessage.timestamp();
         for (int i = 0; i < timMessage.getElementCount(); ++i) {
             TIMElem elem = timMessage.getElement(i);
@@ -282,7 +275,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
                     dataMultiItems.add(0, new SelfCenterChatOtherData(
                             new SelfCenterChatData(textElem.getText()
                                     , timestamp * 1000
-                            ).setUserProfile(new UserProfile(senderProfile))));
+                            ).setUserProfile(new UserProfile(presenter.getOtherProfile()))));
                 }
                 chatAdapter.notifyItemInserted(0);
                 Observable.timer(100, TimeUnit.MILLISECONDS)

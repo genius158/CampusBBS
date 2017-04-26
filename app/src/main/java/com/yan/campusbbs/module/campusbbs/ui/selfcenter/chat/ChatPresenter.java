@@ -147,7 +147,7 @@ public class ChatPresenter implements ChatContract.Presenter {
     }
 
     @Override
-    public void getOtherProfile() {
-
+    public TIMUserProfile getOtherProfile() {
+        return otherProfile;
     }
 }

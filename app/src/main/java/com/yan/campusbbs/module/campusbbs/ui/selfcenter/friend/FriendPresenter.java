@@ -3,6 +3,8 @@ package com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.tencent.TIMConversation;
 import com.tencent.TIMConversationType;
 import com.tencent.TIMElem;
@@ -14,6 +16,9 @@ import com.tencent.TIMUserProfile;
 import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterFriendData;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +54,26 @@ public class FriendPresenter implements FriendContract.Presenter {
         public void onSuccess(List<TIMUserProfile> timUserProfiles) {
             friendUserProfiles = timUserProfiles;
 
-            List<SelfCenterFriendData> selfCenterFriendDatas=new ArrayList<>();
+            List<SelfCenterFriendData> selfCenterFriendDatas = new ArrayList<>();
             for (TIMUserProfile userProfile : timUserProfiles) {
-                selfCenterFriendDatas.add(new SelfCenterFriendData(userProfile, userProfile.getSelfSignature(), false)
-                        .setTimestamp(0));
+
+                boolean isJson;
+                try {
+                    new JsonParser().parse(userProfile.getSelfSignature());
+                    isJson = true;
+                } catch (JsonParseException e) {
+                    isJson = false;
+                }
+                if (isJson) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(userProfile.getSelfSignature());
+                        String selfSignature = jsonObject.getString("signature");
+                        selfCenterFriendDatas.add(new SelfCenterFriendData(userProfile, selfSignature, false)
+                                .setTimestamp(0));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             view.addFriends(selfCenterFriendDatas);
 

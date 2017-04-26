@@ -53,6 +53,6 @@ public interface ChatContract {
 
         TIMUserProfile getSelfProfile();
 
-        void getOtherProfile();
+        TIMUserProfile getOtherProfile();
     }
 }

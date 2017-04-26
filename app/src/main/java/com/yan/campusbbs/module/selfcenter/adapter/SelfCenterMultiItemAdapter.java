@@ -11,10 +11,13 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.tencent.TIMCallBack;
 import com.tencent.TIMUserProfile;
 import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.R;
+import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
@@ -28,10 +31,14 @@ import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
 import com.yan.campusbbs.module.selfcenter.ui.selfmore.SelfMainPageMoreActivity;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
+import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.EmptyUtil;
 import com.yan.campusbbs.util.FrescoUtils;
 import com.yan.campusbbs.util.RegExpUtils;
 import com.yan.campusbbs.util.RxBus;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -59,7 +66,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
     private PopPhotoView popPhotoView;
 
     private TextView tvSign;
-    private String signStr;
+    private String selfSignature;
     private String signStrOther;
 
     private CompositeDisposable compositeDisposable;
@@ -108,8 +115,8 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     holder.setText(R.id.tv_plus, "等级:" + loginInfoData.getData().getUserInfo().getUserRank());
 
                     tvSign = holder.getView(R.id.tv_sign);
-                    if (!TextUtils.isEmpty(signStr)) {
-                        tvSign.setText(signStr);
+                    if (!TextUtils.isEmpty(selfSignature)) {
+                        tvSign.setText(selfSignature);
                     }
 
                     FrescoUtils.display(holder.getView(R.id.self_part_one_header)
@@ -360,10 +367,6 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
     }
 
     private void setSign() {
-        if (!TextUtils.isEmpty(signStr)) {
-            tvSign.setText(signStr);
-            return;
-        }
         ImManager.getImManager().getSelfProfile(
                 new TIMValueCallBack<TIMUserProfile>() {
                     @Override
@@ -373,9 +376,34 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
                     @Override
                     public void onSuccess(TIMUserProfile result) {
-                        signStr = result.getSelfSignature();
-                        if (tvSign != null) {
-                            tvSign.setText(signStr);
+                        if (TextUtils.isEmpty(result.getSelfSignature())) {
+                            JSONObject jsonObject = new JSONObject();
+                            try {
+                                jsonObject.put("userId", ACache.get(context).getAsString(CacheConfig.USER_ID));
+                                jsonObject.put("signature", "默认签名");
+                                ImManager.getImManager().setSelfSignature(jsonObject.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            return;
+                        }
+                        boolean isJson;
+                        try {
+                            new JsonParser().parse(result.getSelfSignature());
+                            isJson = true;
+                        } catch (JsonParseException e) {
+                            isJson = false;
+                        }
+                        if (isJson) {
+                            if (tvSign != null) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(result.getSelfSignature());
+                                    selfSignature = jsonObject.getString("signature");
+                                    tvSign.setText(selfSignature);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
                     }
                 }
@@ -385,20 +413,28 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
     private TextView.OnEditorActionListener onEditorActionListener = (v, actionId, event) -> {
         if (actionId == EditorInfo.IME_ACTION_DONE) {
             if (!TextUtils.isEmpty(v.getText())) {
-                signStr = v.getText().toString();
-                ImManager.getImManager().setSelfSignature(v.getText().toString(), new TIMCallBack() {
-                    @Override
-                    public void onError(int i, String s) {
-                        Log.e(TAG, "onError: ");
-                    }
-
-                    @Override
-                    public void onSuccess() {
-                        if (tvSign != null) {
-                            tvSign.setText(signStr);
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("userId", ACache.get(context).getAsString(CacheConfig.USER_ID));
+                    jsonObject.put("signature", v.getText().toString());
+                    selfSignature = v.getText().toString();
+                    ImManager.getImManager().setSelfSignature(jsonObject.toString(), new TIMCallBack() {
+                        @Override
+                        public void onError(int i, String s) {
+                            Log.e(TAG, "onError: ");
                         }
-                    }
-                });
+
+                        @Override
+                        public void onSuccess() {
+                            if (tvSign != null) {
+                                tvSign.setText(selfSignature);
+                            }
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         }
         return false;
@@ -419,10 +455,23 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     @Override
                     public void onSuccess(List<TIMUserProfile> timUserProfiles) {
                         for (TIMUserProfile userProfile : timUserProfiles) {
-                            signStrOther = userProfile.getSelfSignature();
-                            signOther.setText(signStrOther);
+                            boolean isJson;
+                            try {
+                                new JsonParser().parse(userProfile.getSelfSignature());
+                                isJson = true;
+                            } catch (JsonParseException e) {
+                                isJson = false;
+                            }
+                            if (isJson) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(userProfile.getSelfSignature());
+                                    signStrOther = jsonObject.getString("signature");
+                                    signOther.setText(signStrOther);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-
                     }
                 }
                 , finalIdentifier

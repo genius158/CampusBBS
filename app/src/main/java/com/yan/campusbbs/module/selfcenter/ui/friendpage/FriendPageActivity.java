@@ -19,7 +19,9 @@ import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.common.data.TopicCacheData;
 import com.yan.campusbbs.module.common.data.VisitorsCacheData;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
+import com.yan.campusbbs.module.selfcenter.data.OtherCenterHeader;
 import com.yan.campusbbs.module.selfcenter.data.PublishData;
+import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.DaggerSelfCenterOtherComponent;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterContract;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterModule;
@@ -130,7 +132,8 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
     protected void dataInit() {
         userId = getIntent().getStringExtra("userId");
         nickName = getIntent().getStringExtra("nickName");
-        if (TextUtils.isEmpty(nickName)) {
+        if (TextUtils.isEmpty(nickName)
+                && getIntent().getSerializableExtra("otherBean") != null) {
             topicListBean = (PublishData.DataBean.TopicInfoListBean.TopicListBean) getIntent()
                     .getSerializableExtra("otherBean");
         }
@@ -154,7 +157,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
         super.changeSkin(actionChangeSkin);
         if (!TextUtils.isEmpty(nickName)) {
             title.setText(String.valueOf(nickName + "的个人主页"));
-        } else {
+        } else if (topicListBean != null) {
             title.setText(String.valueOf(topicListBean.getUserNickname() + "的个人主页"));
         }
         commonAppBar.setCardBackgroundColor(
@@ -182,6 +185,15 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
                         () -> {
                             mPresenter.getFriendData(++pageNo, userId);
                         });
+                if (dataMultiItems.size() > 0
+                        && dataMultiItems.get(0) instanceof OtherCenterHeader
+                        && ((OtherCenterHeader) dataMultiItems.get(0)).data instanceof UserInfoData) {
+                    OtherCenterHeader otherCenterHeader = (OtherCenterHeader) dataMultiItems.get(0).data;
+                    UserInfoData.DataBean.UserDetailInfoBean userInfoData = ((UserInfoData) otherCenterHeader.data).getData().getUserDetailInfo();
+                    title.setText(TextUtils.isEmpty(userInfoData.getUserNickname())
+                            ? userInfoData.getUserAccount()
+                            : userInfoData.getUserNickname());
+                }
             }
 
             swipeRefreshLayout.setRefreshing(false);

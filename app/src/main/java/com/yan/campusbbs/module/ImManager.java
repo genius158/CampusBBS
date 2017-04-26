@@ -645,6 +645,7 @@ public class ImManager {
             public void OnPwdRegCommitSuccess(TLSUserInfo tlsUserInfo) {
                 Log.e(TAG, "OnPwdRegCommitSuccess: " + tlsUserInfo.identifier);
                 rxBus.post(new Action.ActionPWDCommit(tlsUserInfo.identifier, 1));
+
             }
 
             @Override
@@ -796,20 +797,6 @@ public class ImManager {
 //        }
 //    };
 
-    public void setHeader(String headUrl) {
-        TIMFriendshipManager.getInstance().setFaceUrl(headUrl, new TIMCallBack() {
-            @Override
-            public void onError(int code, String desc) {
-                Log.e(TAG, "setFaceUrl failed: " + code + " desc" + desc);
-            }
-
-            @Override
-            public void onSuccess() {
-                Log.e(TAG, "setFaceUrl success");
-            }
-        });
-    }
-
     public void getSelfProfile(TIMValueCallBack<TIMUserProfile> userProfileTIMValueCallBack) {
         //获取自己的资料
         TIMFriendshipManager.getInstance().getSelfProfile(userProfileTIMValueCallBack);
@@ -899,6 +886,20 @@ public class ImManager {
             @Override
             public void onSuccess() {
                 Log.e(TAG, "setNickName success");
+            }
+        });
+    }
+
+    public void setCustomInfo(String userId) {
+        TIMFriendshipManager.getInstance().setLocation(userId, new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                Log.e(TAG, "setCustomInfo failed: " + code + "   " + desc);
+            }
+
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "setCustomInfo success");
             }
         });
     }
