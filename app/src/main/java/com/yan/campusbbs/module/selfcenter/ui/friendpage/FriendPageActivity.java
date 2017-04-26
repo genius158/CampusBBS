@@ -188,7 +188,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
                 if (dataMultiItems.size() > 0
                         && dataMultiItems.get(0) instanceof OtherCenterHeader
                         && ((OtherCenterHeader) dataMultiItems.get(0)).data instanceof UserInfoData) {
-                    OtherCenterHeader otherCenterHeader = (OtherCenterHeader) dataMultiItems.get(0).data;
+                    OtherCenterHeader otherCenterHeader = (OtherCenterHeader) dataMultiItems.get(0);
                     UserInfoData.DataBean.UserDetailInfoBean userInfoData = ((UserInfoData) otherCenterHeader.data).getData().getUserDetailInfo();
                     title.setText(TextUtils.isEmpty(userInfoData.getUserNickname())
                             ? userInfoData.getUserAccount()

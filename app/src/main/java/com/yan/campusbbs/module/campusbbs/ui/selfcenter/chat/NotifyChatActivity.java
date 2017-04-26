@@ -1,8 +1,5 @@
 package com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-
 import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.campusbbs.action.ActonCloseChatActivity;
 import com.yan.campusbbs.util.ACache;

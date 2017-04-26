@@ -170,6 +170,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                             .setOnClickListener(v -> {
                                 context.startActivity(new Intent(context, ChatActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP)
                                         .putExtra("identifier", loginInfoData.getData().getUserDetailInfo().getUserAccount())
                                 );
                             });
@@ -177,6 +178,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                             .setOnClickListener(v -> {
                                 context.startActivity(new Intent(context, ChatActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP)
                                         .putExtra("identifier", loginInfoData.getData().getUserDetailInfo().getUserAccount())
                                 );
                             });

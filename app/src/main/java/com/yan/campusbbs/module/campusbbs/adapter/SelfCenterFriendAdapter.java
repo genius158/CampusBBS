@@ -74,6 +74,7 @@ public class SelfCenterFriendAdapter extends BaseQuickAdapter<SelfCenterFriendDa
         TIMUserProfile userProfile = friendData.timUserProfile;
         context.startActivity(new Intent(context, ChatActivity.class).addFlags(FLAG_ACTIVITY_NEW_TASK)
                 .putExtra("identifier", userProfile.getIdentifier())
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP)
         );
     };
 
