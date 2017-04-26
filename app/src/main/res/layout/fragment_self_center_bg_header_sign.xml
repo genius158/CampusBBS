@@ -91,6 +91,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:singleLine="true"
+        android:inputType="text"
         android:textColor="@color/cr3C3B41"
         android:textSize="@dimen/size_sp_16" />
 
