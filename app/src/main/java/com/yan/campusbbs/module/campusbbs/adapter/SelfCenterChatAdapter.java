@@ -9,10 +9,6 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatData;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.TimeUtils;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,5 +48,4 @@ public class SelfCenterChatAdapter extends BaseMultiItemQuickAdapter<DataMultiIt
                 break;
         }
     }
-
 }

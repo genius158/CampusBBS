@@ -84,7 +84,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="8dp"
                     android:gravity="center"
-                    android:text="(20)"
+                    android:text="(0)"
                     android:textColor="@color/cr777777"
                     android:textSize="@dimen/size_sp_12" />
 
@@ -105,14 +105,13 @@
                     android:textSize="@dimen/size_sp_12" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:id="@+id/iv_re_commit"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/action_recommit" />
+                    android:src="@drawable/action_recommit"
+                    android:visibility="invisible" />
 
                 <TextView
-                    android:visibility="invisible"
                     android:id="@+id/tv_re_commit_num"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -120,16 +119,17 @@
                     android:gravity="center"
                     android:text="(20)"
                     android:textColor="@color/cr777777"
-                    android:textSize="@dimen/size_sp_12" />
+                    android:textSize="@dimen/size_sp_12"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/tv_brown_count"
-                    android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="8dp"
+                    android:layout_weight="1"
                     android:gravity="center_vertical|right"
-                    android:text="(20)"
+                    android:text="浏览(0)"
                     android:textColor="@color/cr777777"
                     android:textSize="@dimen/size_sp_12" />
             </LinearLayout>
