@@ -183,6 +183,33 @@ public class TopicData implements Serializable{
                 private Object likeCount;
                 private Object cmtCount;
                 private String topicReleaseTime;
+                private String fileTypeDiv;
+                private String fileImage;
+                private String fileVideo;
+
+                public String getFileTypeDiv() {
+                    return fileTypeDiv;
+                }
+
+                public void setFileTypeDiv(String fileTypeDiv) {
+                    this.fileTypeDiv = fileTypeDiv;
+                }
+
+                public String getFileImage() {
+                    return fileImage;
+                }
+
+                public void setFileImage(String fileImage) {
+                    this.fileImage = fileImage;
+                }
+
+                public String getFileVideo() {
+                    return fileVideo;
+                }
+
+                public void setFileVideo(String fileVideo) {
+                    this.fileVideo = fileVideo;
+                }
 
                 public int getBrowseCount() {
                     return browseCount;

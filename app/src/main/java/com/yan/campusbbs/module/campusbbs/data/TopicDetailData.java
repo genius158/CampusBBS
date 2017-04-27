@@ -10,8 +10,8 @@ import java.util.List;
 public class TopicDetailData implements Serializable {
 
     /**
-     * data : {"topicDetailInfo":{"userTopicInfo":{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B8F32ABFEJEE9H","topicTitle":"扣扣拉库里","topicContent":"送礼物","typeDiv":1,"topicLabel":"高考冲刺","contentDiv":1,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-21 22:28:34"},"fileList":[]}}
-     * jsessionId : E8AF334015708C4D1BB021FF3DB13B77
+     * data : {"topicDetailInfo":{"userTopicInfo":{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"北纬34点8度","userHeadImg":"https:                                                               \t\t\t\t4291398784&fm=23&gp=0.jpg","topicId":"T15BAD6372BCNRVC8","topicTitle":"近距离咯","topicContent":"吐了就","typeDiv":1,"topicLabel":"高考冲刺","contentDiv":0,"likeCount":null,"browseCount":2,"topicReleaseTime":"2017-04-27 11:10:27"},"fileList":[{"fileId":"f15BAD6372C46FR6K","fileTypeDiv":1,"fileImage":"20170427111026264.png","fileVideo":null,"fileDesc":null}]}}
+     * jsessionId : 19304311105F58BE704E4C9634C0245C
      * resultCode : 200
      * message :
      */
@@ -53,9 +53,9 @@ public class TopicDetailData implements Serializable {
         this.message = message;
     }
 
-    public static class DataBean implements Serializable {
+    public static class DataBean {
         /**
-         * topicDetailInfo : {"userTopicInfo":{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B8F32ABFEJEE9H","topicTitle":"扣扣拉库里","topicContent":"送礼物","typeDiv":1,"topicLabel":"高考冲刺","contentDiv":1,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-21 22:28:34"},"fileList":[]}
+         * topicDetailInfo : {"userTopicInfo":{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"北纬34点8度","userHeadImg":"https:                                                               \t\t\t\t4291398784&fm=23&gp=0.jpg","topicId":"T15BAD6372BCNRVC8","topicTitle":"近距离咯","topicContent":"吐了就","typeDiv":1,"topicLabel":"高考冲刺","contentDiv":0,"likeCount":null,"browseCount":2,"topicReleaseTime":"2017-04-27 11:10:27"},"fileList":[{"fileId":"f15BAD6372C46FR6K","fileTypeDiv":1,"fileImage":"20170427111026264.png","fileVideo":null,"fileDesc":null}]}
          */
 
         private TopicDetailInfoBean topicDetailInfo;
@@ -68,14 +68,14 @@ public class TopicDetailData implements Serializable {
             this.topicDetailInfo = topicDetailInfo;
         }
 
-        public static class TopicDetailInfoBean implements Serializable {
+        public static class TopicDetailInfoBean {
             /**
-             * userTopicInfo : {"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"U17780701147","userHeadImg":"http://www.youlanw.com/static/images/man.jpg","topicId":"T15B8F32ABFEJEE9H","topicTitle":"扣扣拉库里","topicContent":"送礼物","typeDiv":1,"topicLabel":"高考冲刺","contentDiv":1,"likeCount":null,"cmtCount":null,"topicReleaseTime":"2017-04-21 22:28:34"}
-             * fileList : []
+             * userTopicInfo : {"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"北纬34点8度","userHeadImg":"https:                                                               \t\t\t\t4291398784&fm=23&gp=0.jpg","topicId":"T15BAD6372BCNRVC8","topicTitle":"近距离咯","topicContent":"吐了就","typeDiv":1,"topicLabel":"高考冲刺","contentDiv":0,"likeCount":null,"browseCount":2,"topicReleaseTime":"2017-04-27 11:10:27"}
+             * fileList : [{"fileId":"f15BAD6372C46FR6K","fileTypeDiv":1,"fileImage":"20170427111026264.png","fileVideo":null,"fileDesc":null}]
              */
 
             private UserTopicInfoBean userTopicInfo;
-            private List<?> fileList;
+            private List<FileListBean> fileList;
 
             public UserTopicInfoBean getUserTopicInfo() {
                 return userTopicInfo;
@@ -85,29 +85,29 @@ public class TopicDetailData implements Serializable {
                 this.userTopicInfo = userTopicInfo;
             }
 
-            public List<?> getFileList() {
+            public List<FileListBean> getFileList() {
                 return fileList;
             }
 
-            public void setFileList(List<?> fileList) {
+            public void setFileList(List<FileListBean> fileList) {
                 this.fileList = fileList;
             }
 
-            public static class UserTopicInfoBean implements Serializable {
+            public static class UserTopicInfoBean {
                 /**
                  * userId : U15B524C6A3DU01AH
                  * userAccount : 17780701147
-                 * userNickname : U17780701147
-                 * userHeadImg : http://www.youlanw.com/static/images/man.jpg
-                 * topicId : T15B8F32ABFEJEE9H
-                 * topicTitle : 扣扣拉库里
-                 * topicContent : 送礼物
+                 * userNickname : 北纬34点8度
+                 * userHeadImg : https:                                                               				4291398784&fm=23&gp=0.jpg
+                 * topicId : T15BAD6372BCNRVC8
+                 * topicTitle : 近距离咯
+                 * topicContent : 吐了就
                  * typeDiv : 1
                  * topicLabel : 高考冲刺
-                 * contentDiv : 1
+                 * contentDiv : 0
                  * likeCount : null
-                 * cmtCount : null
-                 * topicReleaseTime : 2017-04-21 22:28:34
+                 * browseCount : 2
+                 * topicReleaseTime : 2017-04-27 11:10:27
                  */
 
                 private String userId;
@@ -121,17 +121,8 @@ public class TopicDetailData implements Serializable {
                 private String topicLabel;
                 private int contentDiv;
                 private Object likeCount;
-                private Object cmtCount;
                 private int browseCount;
                 private String topicReleaseTime;
-
-                public int getBrowseCount() {
-                    return browseCount;
-                }
-
-                public void setBrowseCount(int browseCount) {
-                    this.browseCount = browseCount;
-                }
 
                 public String getUserId() {
                     return userId;
@@ -221,12 +212,12 @@ public class TopicDetailData implements Serializable {
                     this.likeCount = likeCount;
                 }
 
-                public Object getCmtCount() {
-                    return cmtCount;
+                public int getBrowseCount() {
+                    return browseCount;
                 }
 
-                public void setCmtCount(Object cmtCount) {
-                    this.cmtCount = cmtCount;
+                public void setBrowseCount(int browseCount) {
+                    this.browseCount = browseCount;
                 }
 
                 public String getTopicReleaseTime() {
@@ -236,19 +227,61 @@ public class TopicDetailData implements Serializable {
                 public void setTopicReleaseTime(String topicReleaseTime) {
                     this.topicReleaseTime = topicReleaseTime;
                 }
+            }
 
-                @Override
-                public int hashCode() {
-                    return topicId.hashCode();
+            public static class FileListBean {
+                /**
+                 * fileId : f15BAD6372C46FR6K
+                 * fileTypeDiv : 1
+                 * fileImage : 20170427111026264.png
+                 * fileVideo : null
+                 * fileDesc : null
+                 */
+
+                private String fileId;
+                private int fileTypeDiv;
+                private String fileImage;
+                private Object fileVideo;
+                private Object fileDesc;
+
+                public String getFileId() {
+                    return fileId;
                 }
 
-                @Override
-                public boolean equals(Object obj) {
-                    if (obj instanceof UserTopicInfoBean) {
-                        UserTopicInfoBean topicInfoBean = (UserTopicInfoBean) obj;
-                        return topicInfoBean.topicId.equals(topicId);
-                    }
-                    return super.equals(obj);
+                public void setFileId(String fileId) {
+                    this.fileId = fileId;
+                }
+
+                public int getFileTypeDiv() {
+                    return fileTypeDiv;
+                }
+
+                public void setFileTypeDiv(int fileTypeDiv) {
+                    this.fileTypeDiv = fileTypeDiv;
+                }
+
+                public String getFileImage() {
+                    return fileImage;
+                }
+
+                public void setFileImage(String fileImage) {
+                    this.fileImage = fileImage;
+                }
+
+                public Object getFileVideo() {
+                    return fileVideo;
+                }
+
+                public void setFileVideo(Object fileVideo) {
+                    this.fileVideo = fileVideo;
+                }
+
+                public Object getFileDesc() {
+                    return fileDesc;
+                }
+
+                public void setFileDesc(Object fileDesc) {
+                    this.fileDesc = fileDesc;
                 }
             }
         }

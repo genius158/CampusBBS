@@ -3,6 +3,7 @@ package com.yan.campusbbs.module.campusbbs.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.module.campusbbs.ui.common.topicdetail.TopicDetailActivity;
+import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.EmptyUtil;
 import com.yan.campusbbs.util.SizeUtils;
@@ -61,8 +63,11 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
                         if (data instanceof TopicData.DataBean.TopicInfoListBean.TopicListBean) {
                             TopicData.DataBean.TopicInfoListBean.TopicListBean topic =
                                     (TopicData.DataBean.TopicInfoListBean.TopicListBean) data;
-
-                            ((SimpleDraweeView) imageView).setImageURI(topic.getUserHeadImg());
+                            if (TextUtils.isEmpty(topic.getFileImage())) {
+                                ((SimpleDraweeView) imageView).setImageURI(topic.getUserHeadImg());
+                            } else {
+                                ((SimpleDraweeView) imageView).setImageURI(DataAddress.URL_GET_FILE + topic.getFileImage());
+                            }
                             imageView.setOnClickListener(v -> {
                                 context.startActivity(new Intent(context, TopicDetailActivity.class)
                                         .putExtra("title", topic.getTopicTitle())
@@ -89,7 +94,11 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
                     TopicData.DataBean.TopicInfoListBean.TopicListBean topic = (TopicData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
                     holder.setText(R.id.tv_title, topic.getTopicTitle());
                     holder.setText(R.id.tv_content, topic.getTopicContent());
-                    img.setImageURI(topic.getUserHeadImg());
+                    if (TextUtils.isEmpty(topic.getFileImage())) {
+                        (img).setImageURI(topic.getUserHeadImg());
+                    } else {
+                        img.setImageURI(DataAddress.URL_GET_FILE + topic.getFileImage());
+                    }
                     holder.getView(R.id.container).setOnClickListener(v -> {
                         context.startActivity(new Intent(context, TopicDetailActivity.class)
                                 .putExtra("title", topic.getTopicTitle())

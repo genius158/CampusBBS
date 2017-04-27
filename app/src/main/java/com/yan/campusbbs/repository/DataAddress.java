@@ -21,4 +21,5 @@ public class DataAddress {
     public static final String URL_TOPIC_REPLY_LIST = "CompusBBS/app/topic/comment/list";
     public static final String URL_TOPIC_REPLY_COMMENT = "CompusBBS/app/topic/comment/release";
     public static final String URL_TOPIC_LIKE = "CompusBBS/app/topic/like";
+    public static final String URL_GET_FILE = "http://compus-bbs.oss-cn-shanghai.aliyuncs.com/";
 }

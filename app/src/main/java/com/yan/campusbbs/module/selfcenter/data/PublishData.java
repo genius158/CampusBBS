@@ -170,6 +170,33 @@ public class PublishData implements Serializable {
                 private String likeCount;
                 private String cmtCount;
                 private String topicReleaseTime;
+                private String fileImage;
+                private String fileTypeDiv;
+                private String fileVideo;
+
+                public String getFileImage() {
+                    return fileImage;
+                }
+
+                public void setFileImage(String fileImage) {
+                    this.fileImage = fileImage;
+                }
+
+                public String getFileTypeDiv() {
+                    return fileTypeDiv;
+                }
+
+                public void setFileTypeDiv(String fileTypeDiv) {
+                    this.fileTypeDiv = fileTypeDiv;
+                }
+
+                public String getFileVideo() {
+                    return fileVideo;
+                }
+
+                public void setFileVideo(String fileVideo) {
+                    this.fileVideo = fileVideo;
+                }
 
                 public int getBrowseCount() {
                     return browseCount;

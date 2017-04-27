@@ -1,14 +1,20 @@
 package com.yan.campusbbs.module.campusbbs.ui.common.topicdetail;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.yan.campusbbs.module.campusbbs.api.Topic;
+import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.util.AppRetrofit;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class TopicDetailPresenter implements TopicDetailContract.Presenter {
     private TopicDetailContract.View view;

@@ -22,10 +22,12 @@ import com.yan.campusbbs.module.campusbbs.data.ReplyCommentData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
 import com.yan.campusbbs.module.campusbbs.data.TopicLikeData;
 import com.yan.campusbbs.module.common.data.TopicCacheData;
+import com.yan.campusbbs.module.common.pop.PopPhotoView;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
+import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.EmptyUtil;
@@ -65,6 +67,8 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
 
     @BindView(R.id.common_app_bar)
     CardView commonAppBar;
+    @BindView(R.id.container)
+    View container;
     @BindView(R.id.title)
     TextView tvTitle;
     @BindView(R.id.sdv_head)
@@ -96,6 +100,7 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
     private String topicId;
 
     private TopicDetailData topicDetail;
+    private PopPhotoView popPhotoView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,6 +125,7 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
         topicId = getIntent().getStringExtra("topicId");
         presenter.getTopicDetail(topicId);
         presenter.getReplyList(topicId, "1");
+        popPhotoView = new PopPhotoView(container, toastUtils);
     }
 
     @Override
@@ -163,14 +169,28 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
 
             TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean detailData =
                     topicDetail.getData().getTopicDetailInfo().getUserTopicInfo();
+            if (topicDetail.getData().getTopicDetailInfo().getFileList() != null
+                    && !topicDetail.getData().getTopicDetailInfo().getFileList().isEmpty()
+                    && !TextUtils.isEmpty(topicDetail.getData().getTopicDetailInfo().getFileList().get(0).getFileImage())
+                    ) {
+                FrescoUtils.adjustViewOnImage(getBaseContext(), sdvImg
+                        , DataAddress.URL_GET_FILE + topicDetail.getData().getTopicDetailInfo().getFileList().get(0).getFileImage());
+
+                sdvImg.setOnClickListener(v -> {
+                    if (popPhotoView != null) {
+                        popPhotoView.show();
+                        popPhotoView.setImageUrl(DataAddress.URL_GET_FILE
+                                + topicDetail.getData().getTopicDetailInfo().getFileList().get(0).getFileImage());
+                    }
+                });
+            }
             sdvHead.setImageURI(detailData.getUserHeadImg());
             tvNickName.setText(TextUtils.isEmpty(detailData.getUserNickname())
                     ? detailData.getUserAccount()
                     : detailData.getUserNickname());
             tvTime.setText(String.valueOf("发表于 : " + detailData.getTopicReleaseTime()));
-            FrescoUtils.adjustViewOnImage(getBaseContext(), sdvImg, detailData.getUserHeadImg());
             tvLikeNum.setText(String.valueOf("(" + EmptyUtil.numObjectEmpty(detailData.getLikeCount()) + ")"));
-            tvReCommitNum.setText(String.valueOf("(" + EmptyUtil.numObjectEmpty(detailData.getCmtCount()) + ")"));
+//            tvReCommitNum.setText(String.valueOf("(" + EmptyUtil.numObjectEmpty(detailData.getCmtCount()) + ")"));
             tvBrownCount.setText(String.valueOf("浏览(" + EmptyUtil.numObjectEmpty(detailData.getBrowseCount()) + ")"));
             etContent.setText(detailData.getTopicContent());
             tvTopicTitle.setText(detailData.getTopicTitle());

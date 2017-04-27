@@ -3,6 +3,7 @@ package com.yan.campusbbs.module.selfcenter.ui.mainpage;
 import android.content.Context;
 
 import com.yan.campusbbs.config.CacheConfig;
+import com.yan.campusbbs.module.common.FileApi;
 import com.yan.campusbbs.module.common.data.VisitorsCacheData;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.api.MainPage;
