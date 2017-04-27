@@ -31,6 +31,7 @@ public class UserProfile implements Serializable {
     }
 
     public UserProfile(TIMUserProfile userProfile) {
+        if (userProfile == null) return;
         this.identifier = userProfile.getIdentifier();
         this.nickName = userProfile.getNickName();
         this.allowType = userProfile.getAllowType().name();

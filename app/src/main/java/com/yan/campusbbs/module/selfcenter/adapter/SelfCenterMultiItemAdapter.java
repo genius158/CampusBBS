@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -249,12 +250,12 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 holder.setText(R.id.self_dynamic, selfBean.getTopicContent());
                 holder.setText(R.id.tv_brown_count, "浏览(" + EmptyUtil.numObjectEmpty(selfBean.getBrowseCount()) + ")");
 
-                if (TextUtils.isEmpty(selfBean.getFileImage())) {
-                    FrescoUtils.adjustViewOnImage(context, selfSimpleDrawee
-                            , selfBean.getUserHeadImg());
-                } else {
+                if (!TextUtils.isEmpty(selfBean.getFileImage())) {
+                    selfSimpleDrawee.setVisibility(View.VISIBLE);
                     FrescoUtils.adjustViewOnImage(context, selfSimpleDrawee
                             , DataAddress.URL_GET_FILE + selfBean.getFileImage());
+                } else {
+                    selfSimpleDrawee.setVisibility(View.GONE);
                 }
 
                 holder.getView(R.id.container).setOnClickListener(v -> {
@@ -283,12 +284,12 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     holder.setText(R.id.self_dynamic, otherBean.getTopicTitle());
                     holder.setText(R.id.tv_brown_count, "浏览(" + EmptyUtil.numObjectEmpty(otherBean.getBrowseCount()) + ")");
 
-                    if (TextUtils.isEmpty(otherBean.getFileImage())) {
-                        FrescoUtils.adjustViewOnImage(context, simpleDrawee
-                                , otherBean.getUserHeadImg());
-                    } else {
+                    if (!TextUtils.isEmpty(otherBean.getFileImage())) {
+                        simpleDrawee.setVisibility(View.VISIBLE);
                         FrescoUtils.adjustViewOnImage(context, simpleDrawee
                                 , DataAddress.URL_GET_FILE + otherBean.getFileImage());
+                    } else {
+                        simpleDrawee.setVisibility(View.GONE);
                     }
 
                     holder.getView(R.id.container).setOnClickListener(v -> {
