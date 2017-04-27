@@ -190,9 +190,9 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
                         && ((OtherCenterHeader) dataMultiItems.get(0)).data instanceof UserInfoData) {
                     OtherCenterHeader otherCenterHeader = (OtherCenterHeader) dataMultiItems.get(0);
                     UserInfoData.DataBean.UserDetailInfoBean userInfoData = ((UserInfoData) otherCenterHeader.data).getData().getUserDetailInfo();
-                    title.setText(TextUtils.isEmpty(userInfoData.getUserNickname())
+                    title.setText((TextUtils.isEmpty(userInfoData.getUserNickname())
                             ? userInfoData.getUserAccount()
-                            : userInfoData.getUserNickname());
+                            : userInfoData.getUserNickname())+ "的个人主页");
                 }
             }
 

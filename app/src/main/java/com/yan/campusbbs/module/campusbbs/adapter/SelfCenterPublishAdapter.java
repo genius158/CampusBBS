@@ -2,6 +2,7 @@ package com.yan.campusbbs.module.campusbbs.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -10,10 +11,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.ui.common.topicdetail.TopicDetailActivity;
 import com.yan.campusbbs.module.selfcenter.data.PublishData;
+import com.yan.campusbbs.repository.DataAddress;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
 /**
  * Created by Administrator on 2017/3/5.
  */
@@ -37,6 +40,11 @@ public class SelfCenterPublishAdapter extends BaseQuickAdapter<PublishData.DataB
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             );
         });
-        ((SimpleDraweeView) holder.getView(R.id.iv_publish_img)).setImageURI(item.getUserHeadImg());
+        if (TextUtils.isEmpty(item.getFileImage())) {
+            ((SimpleDraweeView) holder.getView(R.id.iv_publish_img)).setImageURI(item.getUserHeadImg());
+        } else {
+            ((SimpleDraweeView) holder.getView(R.id.iv_publish_img)).setImageURI(
+                    DataAddress.URL_GET_FILE + item.getFileImage());
+        }
     }
 }

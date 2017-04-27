@@ -53,7 +53,7 @@ public class TopicDetailData implements Serializable {
         this.message = message;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         /**
          * topicDetailInfo : {"userTopicInfo":{"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"北纬34点8度","userHeadImg":"https:                                                               \t\t\t\t4291398784&fm=23&gp=0.jpg","topicId":"T15BAD6372BCNRVC8","topicTitle":"近距离咯","topicContent":"吐了就","typeDiv":1,"topicLabel":"高考冲刺","contentDiv":0,"likeCount":null,"browseCount":2,"topicReleaseTime":"2017-04-27 11:10:27"},"fileList":[{"fileId":"f15BAD6372C46FR6K","fileTypeDiv":1,"fileImage":"20170427111026264.png","fileVideo":null,"fileDesc":null}]}
          */
@@ -68,7 +68,7 @@ public class TopicDetailData implements Serializable {
             this.topicDetailInfo = topicDetailInfo;
         }
 
-        public static class TopicDetailInfoBean {
+        public static class TopicDetailInfoBean implements Serializable{
             /**
              * userTopicInfo : {"userId":"U15B524C6A3DU01AH","userAccount":"17780701147","userNickname":"北纬34点8度","userHeadImg":"https:                                                               \t\t\t\t4291398784&fm=23&gp=0.jpg","topicId":"T15BAD6372BCNRVC8","topicTitle":"近距离咯","topicContent":"吐了就","typeDiv":1,"topicLabel":"高考冲刺","contentDiv":0,"likeCount":null,"browseCount":2,"topicReleaseTime":"2017-04-27 11:10:27"}
              * fileList : [{"fileId":"f15BAD6372C46FR6K","fileTypeDiv":1,"fileImage":"20170427111026264.png","fileVideo":null,"fileDesc":null}]
@@ -93,7 +93,7 @@ public class TopicDetailData implements Serializable {
                 this.fileList = fileList;
             }
 
-            public static class UserTopicInfoBean {
+            public static class UserTopicInfoBean implements Serializable{
                 /**
                  * userId : U15B524C6A3DU01AH
                  * userAccount : 17780701147
@@ -229,7 +229,7 @@ public class TopicDetailData implements Serializable {
                 }
             }
 
-            public static class FileListBean {
+            public static class FileListBean implements Serializable{
                 /**
                  * fileId : f15BAD6372C46FR6K
                  * fileTypeDiv : 1
