@@ -77,6 +77,8 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     EditText etPhone;
     @BindView(R.id.tv_btn_register)
     TextView btnSubmit;
+    @BindView(R.id.img_notice)
+    TextView imgNotice;
     @BindView(R.id.sdv_img)
     SimpleDraweeView sdvImg;
 
@@ -101,6 +103,8 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
         } else {
             presenter.getSelfInfo(userId);
             btnSubmit.setVisibility(View.GONE);
+            sdvImg.setVisibility(View.GONE);
+            imgNotice.setVisibility(View.GONE);
             etPhone.setEnabled(false);
             etNikeName.setEnabled(false);
             etEmail.setEnabled(false);
