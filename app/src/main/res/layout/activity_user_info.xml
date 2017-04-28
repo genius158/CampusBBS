@@ -21,15 +21,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:gravity="center"
                 android:enabled="false"
+                android:gravity="center"
                 android:hint="你的手机号码"
+                android:textColor="@color/cr3C3B41"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:gravity="center"
+                android:hint="点击下图选择头像"
                 android:textColor="@color/cr3C3B41"
                 android:textSize="13sp" />
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sdv_img"
-                style="@style/ImageBase"
+                style="@style/ImageBase.Circle.Border"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"

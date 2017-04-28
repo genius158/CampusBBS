@@ -27,6 +27,7 @@ import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
+import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.EmptyUtil;
@@ -80,6 +81,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     SimpleDraweeView sdvImg;
 
     private String imgPath;
+    String userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,10 +93,11 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     }
 
     private void init() {
-        String userId = getIntent().getStringExtra("userId");
+        userId = getIntent().getStringExtra("userId");
         if (TextUtils.isEmpty(userId)) {
             presenter.getSelfInfo();
             sdvImg.setVisibility(View.VISIBLE);
+            sdvImg.setOnClickListener(v -> selectImg());
         } else {
             presenter.getSelfInfo(userId);
             btnSubmit.setVisibility(View.GONE);
@@ -105,7 +108,6 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
             etSex.setEnabled(false);
             etBirthday.setEnabled(false);
             etCampus.setEnabled(false);
-            sdvImg.setOnClickListener(v -> selectImg());
         }
     }
 
@@ -178,6 +180,10 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
             etBirthday.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserBirth()));
             etSex.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserMood()));
             etCampus.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserSchool()));
+
+            if (TextUtils.isEmpty(userId) && !TextUtils.isEmpty(selfInfo.getData().getUserDetailInfo().getUserHeadImg())) {
+                sdvImg.setImageURI(DataAddress.URL_GET_FILE + selfInfo.getData().getUserDetailInfo().getUserHeadImg());
+            }
         }
     }
 
