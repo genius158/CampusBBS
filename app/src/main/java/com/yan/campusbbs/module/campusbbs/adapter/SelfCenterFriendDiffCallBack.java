@@ -44,6 +44,7 @@ public class SelfCenterFriendDiffCallBack extends DiffCallBack<SelfCenterFriendD
         if (oldBean.isSelf != newBean.isSelf) {
             payload.putBoolean("isSelf", newBean.isSelf);
         }
+
         if (payload.size() == 0) {
             return null;
         }

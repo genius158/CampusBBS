@@ -84,11 +84,10 @@ public class SelfCenterFriendAdapter extends BaseQuickAdapter<SelfCenterFriendDa
             onBindViewHolder(holder, position);
         } else {
             Bundle payload = (Bundle) payloads.get(0);
-            SelfCenterFriendData bean = getData().get(position);
             for (String key : payload.keySet()) {
                 switch (key) {
                     case "isSelf":
-                        if (bean.isSelf) {
+                        if (payload.getBoolean("isSelf")) {
                             holder.setTextColor(R.id.tv_word,
                                     ContextCompat.getColor(context, R.color.crFD8000));
                         } else {
@@ -97,8 +96,9 @@ public class SelfCenterFriendAdapter extends BaseQuickAdapter<SelfCenterFriendDa
                         }
                         break;
                     case "message":
-                        holder.setText(R.id.tv_word, bean.message);
+                        holder.setText(R.id.tv_word,payload.getString("message"));
                         break;
+
                     default:
                         break;
                 }
