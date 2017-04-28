@@ -3,8 +3,8 @@ package com.yan.campusbbs.module.selfcenter.ui.register;
 import android.content.Context;
 
 import com.yan.campusbbs.module.selfcenter.api.Register;
-import com.yan.campusbbs.util.AppRetrofit;
-import com.yan.campusbbs.util.ToastUtils;
+import com.yan.campusbbs.utils.AppRetrofit;
+import com.yan.campusbbs.utils.ToastUtils;
 
 import javax.inject.Inject;
 

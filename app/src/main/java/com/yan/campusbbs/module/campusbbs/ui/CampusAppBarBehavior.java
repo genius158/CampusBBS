@@ -8,7 +8,7 @@ import android.view.View;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.AppBarBehavior;
 import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
-import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.utils.RxBus;
 
 /**
  * Created by yan on 2017/2/8.

@@ -17,8 +17,8 @@ import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.ACache;
-import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.utils.ACache;
+import com.yan.campusbbs.utils.SPUtils;
 import com.yan.campusbbs.module.setting.SettingControl;
 
 import io.reactivex.disposables.CompositeDisposable;

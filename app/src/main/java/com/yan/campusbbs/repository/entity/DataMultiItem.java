@@ -1,7 +1,7 @@
 package com.yan.campusbbs.repository.entity;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.yan.campusbbs.util.sort.Sort;
+import com.yan.campusbbs.utils.sort.Sort;
 
 import java.io.Serializable;
 

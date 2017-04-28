@@ -15,8 +15,8 @@ import com.yan.campusbbs.base.BaseFragment;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.ui.login.LogInFragment;
 import com.yan.campusbbs.module.selfcenter.ui.mainpage.SelfCenterFragment;
-import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.utils.RxBus;
+import com.yan.campusbbs.utils.SPUtils;
 
 import javax.inject.Inject;
 

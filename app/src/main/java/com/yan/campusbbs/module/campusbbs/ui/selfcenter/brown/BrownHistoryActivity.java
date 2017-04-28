@@ -11,7 +11,7 @@ import com.yan.campusbbs.module.selfcenter.data.BrownHistroyTopicData;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.ACache;
+import com.yan.campusbbs.utils.ACache;
 
 import java.util.ArrayList;
 import java.util.Collections;

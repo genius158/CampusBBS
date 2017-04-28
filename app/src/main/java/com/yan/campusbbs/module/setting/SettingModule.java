@@ -1,6 +1,6 @@
 package com.yan.campusbbs.module.setting;
 
-import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.utils.RxBus;
 
 import dagger.Module;
 import dagger.Provides;

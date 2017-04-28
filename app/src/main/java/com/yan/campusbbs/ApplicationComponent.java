@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.yan.campusbbs.module.setting.AdapterImageControl;
 import com.yan.campusbbs.module.setting.ImageControl;
-import com.yan.campusbbs.util.AppRetrofit;
-import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.ToastUtils;
+import com.yan.campusbbs.utils.AppRetrofit;
+import com.yan.campusbbs.utils.RxBus;
+import com.yan.campusbbs.utils.ToastUtils;
 
 import javax.inject.Singleton;
 

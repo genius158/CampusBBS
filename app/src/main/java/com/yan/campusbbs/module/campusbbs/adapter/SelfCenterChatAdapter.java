@@ -14,7 +14,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterChatData;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
-import com.yan.campusbbs.util.TimeUtils;
+import com.yan.campusbbs.utils.TimeUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

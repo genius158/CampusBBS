@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.yan.campusbbs.module.search.adapter.SearchAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
-import com.yan.campusbbs.util.AppRetrofit;
-import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.utils.AppRetrofit;
+import com.yan.campusbbs.utils.RxBus;
 
 import java.util.ArrayList;
 import java.util.List;

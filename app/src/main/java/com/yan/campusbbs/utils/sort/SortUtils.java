@@ -1,4 +1,4 @@
-package com.yan.campusbbs.util.sort;
+package com.yan.campusbbs.utils.sort;
 
 import java.util.Collections;
 import java.util.List;

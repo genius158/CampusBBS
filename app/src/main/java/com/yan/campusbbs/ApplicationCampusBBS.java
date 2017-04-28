@@ -6,10 +6,10 @@ import android.support.multidex.MultiDexApplication;
 import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.module.ImManager;
-import com.yan.campusbbs.util.ACache;
-import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.ToastUtils;
+import com.yan.campusbbs.utils.ACache;
+import com.yan.campusbbs.utils.RxBus;
+import com.yan.campusbbs.utils.SPUtils;
+import com.yan.campusbbs.utils.ToastUtils;
 
 import javax.inject.Inject;
 

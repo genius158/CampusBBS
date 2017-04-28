@@ -3,7 +3,7 @@ package com.yan.campusbbs.module.campusbbs.ui.common.topic;
 import android.content.Context;
 
 import com.yan.campusbbs.module.campusbbs.api.Topic;
-import com.yan.campusbbs.util.AppRetrofit;
+import com.yan.campusbbs.utils.AppRetrofit;
 
 import javax.inject.Inject;
 

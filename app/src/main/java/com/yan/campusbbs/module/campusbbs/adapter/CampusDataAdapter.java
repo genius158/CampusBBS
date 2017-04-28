@@ -16,8 +16,8 @@ import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.module.campusbbs.ui.common.topicdetail.TopicDetailActivity;
 import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
-import com.yan.campusbbs.util.EmptyUtil;
-import com.yan.campusbbs.util.SizeUtils;
+import com.yan.campusbbs.utils.EmptyUtil;
+import com.yan.campusbbs.utils.SizeUtils;
 import com.yan.campusbbs.widget.banner.Banner;
 import com.yan.campusbbs.widget.banner.BannerIndicator;
 

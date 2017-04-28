@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.yan.campusbbs.module.campusbbs.api.Topic;
 import com.yan.campusbbs.repository.DataAddress;
-import com.yan.campusbbs.util.AppRetrofit;
+import com.yan.campusbbs.utils.AppRetrofit;
 
 import javax.inject.Inject;
 

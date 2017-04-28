@@ -22,9 +22,9 @@ import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.ToastUtils;
+import com.yan.campusbbs.utils.RxBus;
+import com.yan.campusbbs.utils.SPUtils;
+import com.yan.campusbbs.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -15,8 +15,8 @@ import com.yan.campusbbs.module.search.action.ActionChangeSearchText;
 import com.yan.campusbbs.module.search.data.SearchData;
 import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
-import com.yan.campusbbs.util.EmptyUtil;
-import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.utils.EmptyUtil;
+import com.yan.campusbbs.utils.RxBus;
 
 import java.util.List;
 

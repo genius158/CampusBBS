@@ -1,4 +1,4 @@
-package com.yan.campusbbs.util;
+package com.yan.campusbbs.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;

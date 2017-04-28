@@ -45,11 +45,11 @@ import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionSelfDataSuccess;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
-import com.yan.campusbbs.util.ACache;
-import com.yan.campusbbs.util.AnimationUtils;
-import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.ToastUtils;
+import com.yan.campusbbs.utils.ACache;
+import com.yan.campusbbs.utils.AnimationUtils;
+import com.yan.campusbbs.utils.RxBus;
+import com.yan.campusbbs.utils.SPUtils;
+import com.yan.campusbbs.utils.ToastUtils;
 import com.yan.campusbbs.widget.FloatingButton;
 
 import java.util.ArrayList;

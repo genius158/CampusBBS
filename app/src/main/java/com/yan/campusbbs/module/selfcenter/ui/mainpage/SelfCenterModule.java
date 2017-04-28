@@ -8,10 +8,10 @@ import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.common.pop.PopPhotoView;
 import com.yan.campusbbs.module.selfcenter.adapter.SelfCenterMultiItemAdapter;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
-import com.yan.campusbbs.util.AppRetrofit;
-import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.ToastUtils;
+import com.yan.campusbbs.utils.AppRetrofit;
+import com.yan.campusbbs.utils.RxBus;
+import com.yan.campusbbs.utils.SPUtils;
+import com.yan.campusbbs.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;

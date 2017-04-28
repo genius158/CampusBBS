@@ -17,7 +17,7 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.module.setting.SkinControl;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.utils.SPUtils;
 
 import java.io.File;
 import java.util.ArrayList;

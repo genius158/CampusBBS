@@ -10,8 +10,8 @@ import android.widget.ImageView;
 
 import com.facebook.common.file.FileUtils;
 import com.yan.campusbbs.R;
-import com.yan.campusbbs.util.SizeUtils;
-import com.yan.campusbbs.util.ToastUtils;
+import com.yan.campusbbs.utils.SizeUtils;
+import com.yan.campusbbs.utils.ToastUtils;
 import com.yan.campusbbs.widget.CommonPopupWindow;
 
 import java.io.File;

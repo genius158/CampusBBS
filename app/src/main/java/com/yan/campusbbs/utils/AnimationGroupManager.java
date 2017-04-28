@@ -1,4 +1,4 @@
-package com.yan.campusbbs.util;
+package com.yan.campusbbs.utils;
 
 import android.view.View;
 import android.view.animation.Interpolator;

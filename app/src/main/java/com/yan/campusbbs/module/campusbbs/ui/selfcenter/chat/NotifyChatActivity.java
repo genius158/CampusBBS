@@ -2,8 +2,8 @@ package com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat;
 
 import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.campusbbs.action.ActonCloseChatActivity;
-import com.yan.campusbbs.util.ACache;
-import com.yan.campusbbs.util.RegExpUtils;
+import com.yan.campusbbs.utils.ACache;
+import com.yan.campusbbs.utils.RegExpUtils;
 
 /**
  * Created by yan on 2017/2/15.

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.yan.campusbbs.module.campusbbs.ui.common.topic.TopicPresenter;
 import com.yan.campusbbs.module.campusbbs.ui.study.StudyContract;
-import com.yan.campusbbs.util.AppRetrofit;
+import com.yan.campusbbs.utils.AppRetrofit;
 
 import javax.inject.Inject;
 

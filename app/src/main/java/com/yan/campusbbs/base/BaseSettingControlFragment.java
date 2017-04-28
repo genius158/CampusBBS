@@ -3,7 +3,7 @@ package com.yan.campusbbs.base;
 import com.yan.campusbbs.config.SharedPreferenceConfig;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.module.setting.SettingControl;
-import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.utils.SPUtils;
 
 import static android.content.Context.MODE_PRIVATE;
 

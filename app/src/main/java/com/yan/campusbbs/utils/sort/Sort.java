@@ -1,4 +1,4 @@
-package com.yan.campusbbs.util.sort;
+package com.yan.campusbbs.utils.sort;
 
 /**
  * Created by yan on 2017/2/9.

@@ -9,7 +9,7 @@ import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.module.campusbbs.api.Publish;
 import com.yan.campusbbs.module.campusbbs.data.PublishBackData;
 import com.yan.campusbbs.repository.DataAddress;
-import com.yan.campusbbs.util.AppRetrofit;
+import com.yan.campusbbs.utils.AppRetrofit;
 
 import org.json.JSONObject;
 

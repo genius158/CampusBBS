@@ -2,7 +2,7 @@ package com.yan.campusbbs.module.campusbbs.ui.job;
 
 import android.content.Context;
 
-import com.yan.campusbbs.util.AppRetrofit;
+import com.yan.campusbbs.utils.AppRetrofit;
 
 import dagger.Module;
 import dagger.Provides;

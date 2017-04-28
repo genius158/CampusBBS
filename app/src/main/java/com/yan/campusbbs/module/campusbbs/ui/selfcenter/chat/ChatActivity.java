@@ -33,10 +33,10 @@ import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.RegExpUtils;
-import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SPUtils;
-import com.yan.campusbbs.util.ToastUtils;
+import com.yan.campusbbs.utils.RegExpUtils;
+import com.yan.campusbbs.utils.RxBus;
+import com.yan.campusbbs.utils.SPUtils;
+import com.yan.campusbbs.utils.ToastUtils;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

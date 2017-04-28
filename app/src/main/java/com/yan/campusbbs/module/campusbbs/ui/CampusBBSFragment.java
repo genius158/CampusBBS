@@ -28,8 +28,8 @@ import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
 import com.yan.campusbbs.rxbusaction.ActionTabShow;
-import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SPUtils;
+import com.yan.campusbbs.utils.RxBus;
+import com.yan.campusbbs.utils.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -13,8 +13,8 @@ import com.yan.campusbbs.module.selfcenter.data.OtherCenterHeader;
 import com.yan.campusbbs.module.selfcenter.data.PublishData;
 import com.yan.campusbbs.module.selfcenter.data.SelfDynamic;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
-import com.yan.campusbbs.util.ACache;
-import com.yan.campusbbs.util.AppRetrofit;
+import com.yan.campusbbs.utils.ACache;
+import com.yan.campusbbs.utils.AppRetrofit;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

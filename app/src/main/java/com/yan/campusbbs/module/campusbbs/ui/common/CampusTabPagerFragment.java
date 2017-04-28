@@ -22,10 +22,10 @@ import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.rxbusaction.ActionFloatingButton;
 import com.yan.campusbbs.rxbusaction.ActionPagerTabClose;
-import com.yan.campusbbs.util.AnimationUtils;
-import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.SizeUtils;
-import com.yan.campusbbs.util.ToastUtils;
+import com.yan.campusbbs.utils.AnimationUtils;
+import com.yan.campusbbs.utils.RxBus;
+import com.yan.campusbbs.utils.SizeUtils;
+import com.yan.campusbbs.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;

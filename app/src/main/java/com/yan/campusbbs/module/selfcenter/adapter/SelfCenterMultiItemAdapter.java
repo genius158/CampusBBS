@@ -34,11 +34,11 @@ import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
 import com.yan.campusbbs.module.selfcenter.ui.selfmore.SelfMainPageMoreActivity;
 import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
-import com.yan.campusbbs.util.ACache;
-import com.yan.campusbbs.util.EmptyUtil;
-import com.yan.campusbbs.util.FrescoUtils;
-import com.yan.campusbbs.util.RegExpUtils;
-import com.yan.campusbbs.util.RxBus;
+import com.yan.campusbbs.utils.ACache;
+import com.yan.campusbbs.utils.EmptyUtil;
+import com.yan.campusbbs.utils.FrescoUtils;
+import com.yan.campusbbs.utils.RegExpUtils;
+import com.yan.campusbbs.utils.RxBus;
 
 import org.json.JSONException;
 import org.json.JSONObject;

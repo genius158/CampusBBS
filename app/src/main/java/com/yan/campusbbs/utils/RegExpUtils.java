@@ -1,4 +1,4 @@
-package com.yan.campusbbs.util;
+package com.yan.campusbbs.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

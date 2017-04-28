@@ -3,7 +3,7 @@ package com.yan.campusbbs.module.selfcenter.ui.login;
 import android.content.Context;
 
 import com.yan.campusbbs.module.selfcenter.api.Login;
-import com.yan.campusbbs.util.AppRetrofit;
+import com.yan.campusbbs.utils.AppRetrofit;
 
 import javax.inject.Inject;
 

@@ -47,10 +47,10 @@ import com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend.FriendsActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.message.MessageActivity;
 import com.yan.campusbbs.module.common.data.UserProfile;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
-import com.yan.campusbbs.util.ACache;
-import com.yan.campusbbs.util.RegExpUtils;
-import com.yan.campusbbs.util.RxBus;
-import com.yan.campusbbs.util.ToastUtils;
+import com.yan.campusbbs.utils.ACache;
+import com.yan.campusbbs.utils.RegExpUtils;
+import com.yan.campusbbs.utils.RxBus;
+import com.yan.campusbbs.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;

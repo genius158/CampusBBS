@@ -9,7 +9,7 @@ import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.campusbbs.data.SelfCenterMessageData;
 import com.yan.campusbbs.module.setting.SkinControl;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
-import com.yan.campusbbs.util.TimeUtils;
+import com.yan.campusbbs.utils.TimeUtils;
 
 import java.util.List;
 
