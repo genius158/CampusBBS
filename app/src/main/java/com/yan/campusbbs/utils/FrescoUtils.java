@@ -37,6 +37,10 @@ public class FrescoUtils {
     }
 
     public static void adjustViewOnImage(Context context, SimpleDraweeView simpleDraweeView, String url) {
+        ViewGroup.LayoutParams simpleDraweeViewLayoutParams = simpleDraweeView.getLayoutParams();
+        simpleDraweeViewLayoutParams.height = 0;
+        simpleDraweeView.setLayoutParams(simpleDraweeViewLayoutParams);
+
         ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
             @Override
             public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo, @Nullable Animatable anim) {
