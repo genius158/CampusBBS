@@ -10,6 +10,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.selfcenter.ui.friendpage.FriendPageActivity;
+import com.yan.campusbbs.repository.DataAddress;
 
 import java.util.List;
 
@@ -42,6 +43,6 @@ public class SelfCenterRecentlyAdapter extends BaseQuickAdapter<UserInfoData.Dat
                             :item.getUserNickname())
             );
         });
-        ((SimpleDraweeView) holder.getView(R.id.iv_user_head)).setImageURI(item.getUserHeadImg());
+        ((SimpleDraweeView) holder.getView(R.id.iv_user_head)).setImageURI(DataAddress.URL_GET_FILE +item.getUserHeadImg());
     }
 }

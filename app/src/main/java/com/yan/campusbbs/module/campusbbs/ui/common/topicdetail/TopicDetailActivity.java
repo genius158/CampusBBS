@@ -184,7 +184,7 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
                     }
                 });
             }
-            sdvHead.setImageURI(detailData.getUserHeadImg());
+            sdvHead.setImageURI(DataAddress.URL_GET_FILE +detailData.getUserHeadImg());
             tvNickName.setText(TextUtils.isEmpty(detailData.getUserNickname())
                     ? detailData.getUserAccount()
                     : detailData.getUserNickname());

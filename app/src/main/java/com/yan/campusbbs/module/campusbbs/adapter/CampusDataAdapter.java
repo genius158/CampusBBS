@@ -64,7 +64,7 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
                             TopicData.DataBean.TopicInfoListBean.TopicListBean topic =
                                     (TopicData.DataBean.TopicInfoListBean.TopicListBean) data;
                             if (TextUtils.isEmpty(topic.getFileImage())) {
-                                ((SimpleDraweeView) imageView).setImageURI(topic.getUserHeadImg());
+                                ((SimpleDraweeView) imageView).setImageURI(DataAddress.URL_GET_FILE +topic.getUserHeadImg());
                             } else {
                                 ((SimpleDraweeView) imageView).setImageURI(DataAddress.URL_GET_FILE + topic.getFileImage());
                             }
@@ -95,7 +95,7 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
                     holder.setText(R.id.tv_title, topic.getTopicTitle());
                     holder.setText(R.id.tv_content, topic.getTopicContent());
                     if (TextUtils.isEmpty(topic.getFileImage())) {
-                        (img).setImageURI(topic.getUserHeadImg());
+                        (img).setImageURI(DataAddress.URL_GET_FILE +topic.getUserHeadImg());
                     } else {
                         img.setImageURI(DataAddress.URL_GET_FILE + topic.getFileImage());
                     }
@@ -119,7 +119,7 @@ public class CampusDataAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, 
                     holder.setText(R.id.tv_like_num, String.valueOf("点赞(" + EmptyUtil.numObjectEmpty(topic.getLikeCount()) + ")"));
                     holder.setText(R.id.tv_reply_num, String.valueOf("回复(" + EmptyUtil.numObjectEmpty(topic.getCmtCount()) + ")"));
                     holder.setText(R.id.tv_brown_count, String.valueOf("浏览(" + EmptyUtil.numObjectEmpty(topic.getBrowseCount()) + ")"));
-                    head.setImageURI(topic.getUserHeadImg());
+                    head.setImageURI(DataAddress.URL_GET_FILE +topic.getUserHeadImg());
                     holder.getView(R.id.container).setOnClickListener(v -> {
                         context.startActivity(new Intent(context, TopicDetailActivity.class)
                                 .putExtra("title", topic.getTopicTitle())

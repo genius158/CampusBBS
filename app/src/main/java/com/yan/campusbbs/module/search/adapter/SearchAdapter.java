@@ -13,6 +13,7 @@ import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.module.campusbbs.ui.common.topicdetail.TopicDetailActivity;
 import com.yan.campusbbs.module.search.action.ActionChangeSearchText;
 import com.yan.campusbbs.module.search.data.SearchData;
+import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.util.EmptyUtil;
 import com.yan.campusbbs.util.RxBus;
@@ -58,7 +59,7 @@ public class SearchAdapter extends BaseMultiItemQuickAdapter<DataMultiItem, Base
                     holder.setText(R.id.tv_like_num, String.valueOf("点赞(" + EmptyUtil.numObjectEmpty(topic.getLikeCount()) + ")"));
                     holder.setText(R.id.tv_reply_num, String.valueOf("回复(" + EmptyUtil.numObjectEmpty(topic.getCmtCount()) + ")"));
                     holder.setText(R.id.tv_brown_count, String.valueOf("浏览(" + EmptyUtil.numObjectEmpty(topic.getBrowseCount()) + ")"));
-                    head.setImageURI(topic.getUserHeadImg());
+                    head.setImageURI(DataAddress.URL_GET_FILE +topic.getUserHeadImg());
                     holder.getView(R.id.container).setOnClickListener(v -> {
                         context.startActivity(new Intent(context, TopicDetailActivity.class)
                                 .putExtra("title", topic.getTopicTitle())

@@ -123,13 +123,14 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     }
 
                     FrescoUtils.display(holder.getView(R.id.self_part_one_header)
-                            , String.valueOf(loginInfoData.getData().getUserInfo().getUserHeadImg()));
+                            , String.valueOf(DataAddress.URL_GET_FILE +loginInfoData.getData().getUserInfo().getUserHeadImg()));
 
-                    FrescoUtils.display(selfImg, loginInfoData.getData().getUserInfo().getUserHeadImg());
+                    FrescoUtils.display(selfImg, DataAddress.URL_GET_FILE +loginInfoData.getData().getUserInfo().getUserHeadImg());
                     selfImg.setOnClickListener(v -> {
                         if (popPhotoView != null) {
                             popPhotoView.show();
-                            popPhotoView.setImageUrl(String.valueOf(loginInfoData.getData().getUserInfo().getUserHeadImg()));
+                            popPhotoView.setImageUrl(
+                                    DataAddress.URL_GET_FILE +String.valueOf(loginInfoData.getData().getUserInfo().getUserHeadImg()));
                         }
                     });
                 }
@@ -161,10 +162,10 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     holder.setText(R.id.tv_plus, "等级:" + otherUserInfo.getData().getUserDetailInfo().getUserRank());
 
                     FrescoUtils.display(holder.getView(R.id.other_part_one_header)
-                            , otherUserInfo.getData().getUserDetailInfo().getUserHeadImg());
+                            ,DataAddress.URL_GET_FILE + otherUserInfo.getData().getUserDetailInfo().getUserHeadImg());
 
                     FrescoUtils.display(otherSDV
-                            , otherUserInfo.getData().getUserDetailInfo().getUserHeadImg());
+                            ,DataAddress.URL_GET_FILE + otherUserInfo.getData().getUserDetailInfo().getUserHeadImg());
 
                     holder.getView(R.id.other_part_one_header).setOnClickListener(v -> {
                         context.startActivity(new Intent(context, UserInfoActivity.class)
@@ -278,7 +279,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                             (PublishData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
                     SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
                     SimpleDraweeView head = holder.getView(R.id.sdv_head);
-                    head.setImageURI(String.valueOf(otherBean.getUserHeadImg()));
+                    head.setImageURI(String.valueOf(DataAddress.URL_GET_FILE +otherBean.getUserHeadImg()));
                     head.setOnClickListener(v -> {
                         context.startActivity(new Intent(context, FriendPageActivity.class)
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -311,7 +312,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                             (TopicData.DataBean.TopicInfoListBean.TopicListBean) multiItem.data;
                     SimpleDraweeView simpleDrawee = holder.getView(R.id.self_part_one_img);
                     SimpleDraweeView head = holder.getView(R.id.sdv_head);
-                    head.setImageURI(String.valueOf(otherBean.getUserHeadImg()));
+                    head.setImageURI(String.valueOf(DataAddress.URL_GET_FILE +otherBean.getUserHeadImg()));
                     head.setOnClickListener(v -> {
                         context.startActivity(new Intent(context, FriendPageActivity.class)
                                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -324,7 +325,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     holder.setText(R.id.user_name, otherBean.getUserNickname());
                     holder.setText(R.id.self_dynamic, otherBean.getTopicTitle());
                     holder.setText(R.id.tv_brown_count, "浏览(" + EmptyUtil.numObjectEmpty(otherBean.getBrowseCount()) + ")");
-                    FrescoUtils.adjustViewOnImage(context, simpleDrawee, otherBean.getUserHeadImg());
+                    FrescoUtils.adjustViewOnImage(context, simpleDrawee,DataAddress.URL_GET_FILE + otherBean.getUserHeadImg());
                     holder.getView(R.id.container).setOnClickListener(v -> {
                         context.startActivity(new Intent(context, TopicDetailActivity.class)
                                 .putExtra("title", otherBean.getTopicTitle())
@@ -341,7 +342,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
                 SimpleDraweeView simpleDrawee2 = holder.getView(R.id.self_part_one_img);
                 SimpleDraweeView head2 = holder.getView(R.id.sdv_head);
-                head2.setImageURI(String.valueOf(infoBean.getUserHeadImg()));
+                head2.setImageURI(String.valueOf(DataAddress.URL_GET_FILE +infoBean.getUserHeadImg()));
                 head2.setOnClickListener(v -> {
                     context.startActivity(new Intent(context, FriendPageActivity.class)
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -354,7 +355,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 holder.setText(R.id.user_name, infoBean.getUserNickname());
                 holder.setText(R.id.self_dynamic, infoBean.getTopicTitle());
                 holder.setText(R.id.tv_brown_count, "浏览(" + EmptyUtil.numObjectEmpty(infoBean.getBrowseCount()) + ")");
-                FrescoUtils.adjustViewOnImage(context, simpleDrawee2, infoBean.getUserHeadImg());
+                FrescoUtils.adjustViewOnImage(context, simpleDrawee2,DataAddress.URL_GET_FILE + infoBean.getUserHeadImg());
                 holder.getView(R.id.container).setOnClickListener(v -> {
                     context.startActivity(new Intent(context, TopicDetailActivity.class)
                             .putExtra("title", infoBean.getTopicTitle())

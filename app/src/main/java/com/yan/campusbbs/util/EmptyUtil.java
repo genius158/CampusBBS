@@ -19,7 +19,7 @@ public class EmptyUtil {
     }
 
     public static String textEmpty(Object str) {
-        if (TextUtils.isEmpty(String.valueOf(str))) {
+        if (str == null || TextUtils.isEmpty(String.valueOf(str).trim())) {
             return "";
         } else {
             return String.valueOf(str);
@@ -33,6 +33,7 @@ public class EmptyUtil {
             return "0";
         }
     }
+
     public static Float floatEmpty(String str) {
         if (!TextUtils.isEmpty(str)) {
             try {

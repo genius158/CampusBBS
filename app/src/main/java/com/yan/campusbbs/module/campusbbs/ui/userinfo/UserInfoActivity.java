@@ -1,6 +1,8 @@
 package com.yan.campusbbs.module.campusbbs.ui.userinfo;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,15 +10,19 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.ImManager;
+import com.yan.campusbbs.module.campusbbs.ui.publish.pic.MultiImageSelector;
+import com.yan.campusbbs.module.campusbbs.ui.publish.pic.PicActivity;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.setting.SettingHelper;
@@ -26,6 +32,8 @@ import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.EmptyUtil;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -38,6 +46,7 @@ import butterknife.OnClick;
  */
 
 public class UserInfoActivity extends BaseActivity implements UserInfoContract.View {
+    private static final int REQUEST_IMAGE = 200;
 
     @Inject
     UserInfoPresenter presenter;
@@ -67,6 +76,10 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     EditText etPhone;
     @BindView(R.id.tv_btn_register)
     TextView btnSubmit;
+    @BindView(R.id.sdv_img)
+    SimpleDraweeView sdvImg;
+
+    private String imgPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +94,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
         String userId = getIntent().getStringExtra("userId");
         if (TextUtils.isEmpty(userId)) {
             presenter.getSelfInfo();
+            sdvImg.setVisibility(View.VISIBLE);
         } else {
             presenter.getSelfInfo(userId);
             btnSubmit.setVisibility(View.GONE);
@@ -91,6 +105,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
             etSex.setEnabled(false);
             etBirthday.setEnabled(false);
             etCampus.setEnabled(false);
+            sdvImg.setOnClickListener(v -> selectImg());
         }
     }
 
@@ -192,5 +207,31 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
                 , etLike.getText().toString()
                 , etCampus.getText().toString()
                 , "");
+
+
+    }
+
+    private void selectImg() {
+        MultiImageSelector.create()
+                .showCamera(false)
+                .single()
+                .start(this, REQUEST_IMAGE);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE) {
+            if (resultCode == RESULT_OK) {
+                List<String> path = data.getStringArrayListExtra(PicActivity.EXTRA_RESULT);
+                Log.e("path", path + "");
+                if (path != null && path.get(0) != null) {
+                    Log.e("path2", path + "");
+                    imgPath = path.get(0);
+                    sdvImg.setImageURI(Uri.parse("file://" + path.get(0)));
+                }
+            }
+        }
     }
 }

@@ -27,6 +27,14 @@
                 android:textColor="@color/cr3C3B41"
                 android:textSize="13sp" />
 
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_img"
+                style="@style/ImageBase"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal"
+                app:placeholderImage="@drawable/upload_user_head" />
+
             <include layout="@layout/view_user_info" />
 
         </LinearLayout>

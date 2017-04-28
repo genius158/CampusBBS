@@ -32,6 +32,7 @@ import com.yan.campusbbs.module.selfcenter.data.PublishData;
 import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingModule;
+import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ACache;
 import com.yan.campusbbs.util.SPUtils;
@@ -101,7 +102,7 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
             if (loginInfoData.getData() != null
                     && loginInfoData.getData().getUserInfo() != null) {
                 LoginInfoData.DataBean.UserInfoBean infoData = loginInfoData.getData().getUserInfo();
-                head.setImageURI(infoData.getUserHeadImg());
+                head.setImageURI(DataAddress.URL_GET_FILE +infoData.getUserHeadImg());
                 presenter.getSelfPublish(pageNo);
                 tvNickName.setText(TextUtils.isEmpty(infoData.getUserNickname())
                         ? infoData.getUserAccount()
