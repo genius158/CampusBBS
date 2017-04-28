@@ -49,5 +49,6 @@ public interface UserInfoContract {
                 String address
         );
         void getSelfInfo();
+        void getSelfInfo(String userId);
     }
 }

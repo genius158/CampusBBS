@@ -152,24 +152,24 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                 SimpleDraweeView otherSDV = holder.getView(R.id.other_part_one_img);
                 otherSDV.setAspectRatio(1.50f);
                 if (multiItem.data instanceof UserInfoData) {
-                    UserInfoData loginInfoData = (UserInfoData) multiItem.data;
+                    UserInfoData otherUserInfo = (UserInfoData) multiItem.data;
 
-                    if (loginInfoData.getData() == null
-                            || loginInfoData.getData().getUserDetailInfo() == null) return;
+                    if (otherUserInfo.getData() == null
+                            || otherUserInfo.getData().getUserDetailInfo() == null) return;
 
-                    holder.setText(R.id.tv_nike_name, loginInfoData.getData().getUserDetailInfo().getUserNickname());
-                    holder.setText(R.id.tv_plus, "等级:" + loginInfoData.getData().getUserDetailInfo().getUserRank());
+                    holder.setText(R.id.tv_nike_name, otherUserInfo.getData().getUserDetailInfo().getUserNickname());
+                    holder.setText(R.id.tv_plus, "等级:" + otherUserInfo.getData().getUserDetailInfo().getUserRank());
 
                     FrescoUtils.display(holder.getView(R.id.other_part_one_header)
-                            , loginInfoData.getData().getUserDetailInfo().getUserHeadImg());
+                            , otherUserInfo.getData().getUserDetailInfo().getUserHeadImg());
 
                     FrescoUtils.display(otherSDV
-                            , loginInfoData.getData().getUserDetailInfo().getUserHeadImg());
+                            , otherUserInfo.getData().getUserDetailInfo().getUserHeadImg());
 
-                    otherSDV.setOnClickListener(v -> {
+                    holder.getView(R.id.other_part_one_header).setOnClickListener(v -> {
                         context.startActivity(new Intent(context, UserInfoActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .putExtra("userId",loginInfoData.getData().getUserDetailInfo().getUserId()));
+                        .putExtra("userId",otherUserInfo.getData().getUserDetailInfo().getUserId()));
                     });
                     /*
                      *聊天
@@ -179,7 +179,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                                 context.startActivity(new Intent(context, ChatActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                                        .putExtra("identifier", loginInfoData.getData().getUserDetailInfo().getUserAccount())
+                                        .putExtra("identifier", otherUserInfo.getData().getUserDetailInfo().getUserAccount())
                                 );
                             });
                     holder.getView(R.id.tv_btn_chat)
@@ -187,14 +187,14 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                                 context.startActivity(new Intent(context, ChatActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                                        .putExtra("identifier", loginInfoData.getData().getUserDetailInfo().getUserAccount())
+                                        .putExtra("identifier", otherUserInfo.getData().getUserDetailInfo().getUserAccount())
                                 );
                             });
 
                     /*
                      *加好友
                      */
-                    String identifier = loginInfoData.getData().getUserDetailInfo().getUserAccount();
+                    String identifier = otherUserInfo.getData().getUserDetailInfo().getUserAccount();
                     if (!identifier.startsWith("86-")) {
                         if (RegExpUtils.isChinaPhoneLegal(identifier)) {
                             identifier = "86-" + identifier;

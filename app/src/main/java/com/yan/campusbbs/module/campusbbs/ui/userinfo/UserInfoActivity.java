@@ -82,8 +82,15 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
         if (TextUtils.isEmpty(userId)) {
             presenter.getSelfInfo();
         } else {
+            presenter.getSelfInfo(userId);
             btnSubmit.setVisibility(View.GONE);
-
+            etPhone.setEnabled(false);
+            etNikeName.setEnabled(false);
+            etEmail.setEnabled(false);
+            etLike.setEnabled(false);
+            etSex.setEnabled(false);
+            etBirthday.setEnabled(false);
+            etCampus.setEnabled(false);
         }
     }
 
@@ -105,7 +112,6 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
         );
         ViewCompat.setBackgroundTintList(etBirthday, colorStateList);
         ViewCompat.setBackgroundTintList(etEmail, colorStateList);
-        ViewCompat.setBackgroundTintList(etLike, colorStateList);
         ViewCompat.setBackgroundTintList(etLike, colorStateList);
         ViewCompat.setBackgroundTintList(etNikeName, colorStateList);
         ViewCompat.setBackgroundTintList(etPhone, colorStateList);
@@ -154,6 +160,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
             etNikeName.setText(selfInfo.getData().getUserDetailInfo().getUserNickname());
             etEmail.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserEmail()));
             etLike.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserMajor()));
+            etBirthday.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserBirth()));
             etSex.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserMood()));
             etCampus.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserSchool()));
         }

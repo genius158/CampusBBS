@@ -28,29 +28,29 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".ApplicationCampusBBS"
         android:allowBackup="true"
         android:icon="@drawable/campus_logo"
-        android:persistent="true"
         android:label="@string/app_name"
+        android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:icon, android:theme">
 
         <activity
-            android:alwaysRetainTaskState="true"
             android:name=".FlashActivity"
+            android:alwaysRetainTaskState="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -68,14 +68,12 @@
         <service
             android:name="com.tencent.qalsdk.service.QalService"
             android:exported="false"
-            android:process=":QALSERVICE" >
-        </service>
+            android:process=":QALSERVICE"></service>
         <!--  消息收发辅助service -->
         <service
             android:name="com.tencent.qalsdk.service.QalAssistService"
             android:exported="false"
-            android:process=":QALSERVICE" >
-        </service>
+            android:process=":QALSERVICE"></service>
         <!--  离线消息广播接收器 -->
         <receiver
             android:name="com.tencent.qalsdk.QALBroadcastReceiver"
@@ -86,7 +84,8 @@
         </receiver>
         <!--  系统消息广播接收器 -->
         <receiver
-            android:name="com.tencent.qalsdk.core.NetConnInfoCenter"  android:process=":QALSERVICE">
+            android:name="com.tencent.qalsdk.core.NetConnInfoCenter"
+            android:process=":QALSERVICE">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -123,8 +122,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.campusbbs.ui.common.topicdetail.TopicDetailActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity
             android:name=".module.search.SearchActivity"
             android:screenOrientation="portrait" />
@@ -145,15 +144,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.filemanager.ui.IjkFullscreenActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name=".module.campusbbs.ui.userinfo.UserInfoActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity
             android:name=".module.selfcenter.ui.friendpage.FriendPageActivity"
             android:screenOrientation="portrait" />
 
-        <service android:name="com.yan.campusbbs.module.CampusBBSService"/>
+        <service android:name="com.yan.campusbbs.module.CampusBBSService" />
     </application>
 
 </manifest>

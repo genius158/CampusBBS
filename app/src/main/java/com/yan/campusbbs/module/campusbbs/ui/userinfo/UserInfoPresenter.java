@@ -63,4 +63,24 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
                         })
         );
     }
+
+    @Override
+    public void getSelfInfo(String userId) {
+        UserInfo userInfo = appRetrofit.retrofit().create(UserInfo.class);
+        view.addDisposable(
+                userInfo.getUserInfo(userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(infoData -> {
+                            if (infoData.getResultCode() == 200) {
+                                view.setSelfInfo(infoData);
+                            } else {
+                                view.stateError(infoData.getMessage());
+                            }
+                        }, throwable -> {
+                            throwable.printStackTrace();
+                            view.stateNetError();
+                        })
+        );
+    }
 }
