@@ -3,7 +3,7 @@ package com.yan.campusbbs.module.selfcenter.ui.mainpage;
 import android.content.Context;
 
 import com.yan.campusbbs.config.CacheConfig;
-import com.yan.campusbbs.module.common.FileApi;
+import com.yan.campusbbs.module.campusbbs.api.UserInfo;
 import com.yan.campusbbs.module.common.data.VisitorsCacheData;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.api.MainPage;
@@ -124,7 +124,8 @@ public final class SelfCenterPresenter implements SelfCenterContract.Presenter {
     @Override
     public void getFriendData(int pageNo, String userId) {
         MainPage mainPage = appRetrofit.retrofit().create(MainPage.class);
-        view.addDisposable(Observable.zip(mainPage.getUserInfo(userId)
+        UserInfo userInfo = appRetrofit.retrofit().create(UserInfo.class);
+        view.addDisposable(Observable.zip(userInfo.getUserInfo(userId)
                 , mainPage.getMainPageData(String.valueOf(pageNo), userId)
                 , (userInfoData, mainPageData) -> {
                     List<DataMultiItem> dataMultiItems = new ArrayList<>();

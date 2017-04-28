@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,10 +18,12 @@ import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.ImManager;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
+import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.util.ACache;
+import com.yan.campusbbs.util.EmptyUtil;
 import com.yan.campusbbs.util.SPUtils;
 import com.yan.campusbbs.util.ToastUtils;
 
@@ -62,6 +65,8 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     EditText etLike;
     @BindView(R.id.et_phone)
     EditText etPhone;
+    @BindView(R.id.tv_btn_register)
+    TextView btnSubmit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,15 +78,12 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
     }
 
     private void init() {
-        if (ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO) == "") {
-            return;
-        }
-        LoginInfoData loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
-        if (loginInfoData.getData() != null
-                && loginInfoData.getData().getUserInfo() != null
-                ) {
-            etPhone.setText(loginInfoData.getData().getUserInfo().getUserId());
-            etNikeName.setText(loginInfoData.getData().getUserInfo().getUserNickname());
+        String userId = getIntent().getStringExtra("userId");
+        if (TextUtils.isEmpty(userId)) {
+            presenter.getSelfInfo();
+        } else {
+            btnSubmit.setVisibility(View.GONE);
+
         }
     }
 
@@ -144,6 +146,19 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
         toastUtils.showUIShort(msg);
     }
 
+    @Override
+    public void setSelfInfo(UserInfoData selfInfo) {
+        if (selfInfo.getData() != null
+                && selfInfo.getData().getUserDetailInfo() != null) {
+            etPhone.setText(selfInfo.getData().getUserDetailInfo().getUserId());
+            etNikeName.setText(selfInfo.getData().getUserDetailInfo().getUserNickname());
+            etEmail.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserEmail()));
+            etLike.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserMajor()));
+            etSex.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserMood()));
+            etCampus.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserSchool()));
+        }
+    }
+
     @OnClick({R.id.arrow_back, R.id.tv_btn_register})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -162,12 +177,12 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
         presenter.modify(etNikeName.getText().toString()
                 , ""
                 , ""
-                , ""
+                , etSex.getText().toString()
                 , etEmail.getText().toString()
                 , ""
                 , ""
                 , etBirthday.getText().toString()
-                , ""
+                , etLike.getText().toString()
                 , etCampus.getText().toString()
                 , "");
     }

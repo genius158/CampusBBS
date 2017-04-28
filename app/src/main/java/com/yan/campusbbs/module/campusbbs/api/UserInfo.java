@@ -1,6 +1,7 @@
 package com.yan.campusbbs.module.campusbbs.api;
 
 import com.yan.campusbbs.module.campusbbs.data.ModifyData;
+import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.repository.DataAddress;
 
 import io.reactivex.Observable;
@@ -42,5 +43,13 @@ public interface UserInfo {
             @Query("address") String address
 
     );
+
+    @GET(DataAddress.URL_USER_DETAIL)
+    Observable<UserInfoData> getUserInfo(
+            @Query("userId") String userId
+    );
+
+    @GET(DataAddress.URL_USER_DETAIL)
+    Observable<UserInfoData> getSelfInfo();
 
 }

@@ -18,6 +18,14 @@ public class EmptyUtil {
         }
     }
 
+    public static String textEmpty(Object str) {
+        if (TextUtils.isEmpty(String.valueOf(str))) {
+            return "";
+        } else {
+            return String.valueOf(str);
+        }
+    }
+
     public static Object numObjectEmpty(Object obj) {
         if (obj != null) {
             return Float.valueOf(String.valueOf(obj)).intValue();

@@ -35,12 +35,32 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(logInData -> {
-if (logInData.getResultCode()==200){
-    view.stateSuccess();
-}else {
-    view.stateError(logInData.getMessage());
-}
+                            if (logInData.getResultCode() == 200) {
+                                view.stateSuccess();
+                            } else {
+                                view.stateError(logInData.getMessage());
+                            }
                         }, Throwable::printStackTrace)
+        );
+    }
+
+    @Override
+    public void getSelfInfo() {
+        UserInfo userInfo = appRetrofit.retrofit().create(UserInfo.class);
+        view.addDisposable(
+                userInfo.getSelfInfo()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(infoData -> {
+                            if (infoData.getResultCode() == 200) {
+                                view.setSelfInfo(infoData);
+                            } else {
+                                view.stateError(infoData.getMessage());
+                            }
+                        }, throwable -> {
+                            throwable.printStackTrace();
+                            view.stateNetError();
+                        })
         );
     }
 }

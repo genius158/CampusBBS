@@ -18,6 +18,7 @@ package com.yan.campusbbs.module.campusbbs.ui.userinfo;
 
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -30,6 +31,7 @@ public interface UserInfoContract {
         void stateNetError();
 
         void stateError(String msg);
+        void setSelfInfo(UserInfoData selfInfo);
     }
 
     interface Presenter extends BasePresenter {
@@ -46,5 +48,6 @@ public interface UserInfoContract {
                 String school,
                 String address
         );
+        void getSelfInfo();
     }
 }

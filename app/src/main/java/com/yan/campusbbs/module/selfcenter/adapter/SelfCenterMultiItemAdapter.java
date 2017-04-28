@@ -25,6 +25,7 @@ import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
 import com.yan.campusbbs.module.campusbbs.ui.common.topicdetail.TopicDetailActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.SelfCenterActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.chat.ChatActivity;
+import com.yan.campusbbs.module.campusbbs.ui.userinfo.UserInfoActivity;
 import com.yan.campusbbs.module.common.pop.PopPhotoView;
 import com.yan.campusbbs.module.selfcenter.data.LoginInfoData;
 import com.yan.campusbbs.module.selfcenter.data.PublishData;
@@ -165,6 +166,11 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                     FrescoUtils.display(otherSDV
                             , loginInfoData.getData().getUserDetailInfo().getUserHeadImg());
 
+                    otherSDV.setOnClickListener(v -> {
+                        context.startActivity(new Intent(context, UserInfoActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .putExtra("userId",loginInfoData.getData().getUserDetailInfo().getUserId()));
+                    });
                     /*
                      *聊天
                      */
