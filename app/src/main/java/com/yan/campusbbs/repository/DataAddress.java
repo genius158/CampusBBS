@@ -21,6 +21,7 @@ public class DataAddress {
     public static final String URL_TOPIC_REPLY_LIST = "CampusBBS/app/topic/comment/list";
     public static final String URL_TOPIC_REPLY_COMMENT = "CampusBBS/app/topic/comment/release";
     public static final String URL_TOPIC_HOT = "CampusBBS/app/topic/hot/bbs";
+    public static final String URL_TOPIC_HOT_USER = "CampusBBS/app/topic/hot/user";
     public static final String URL_TOPIC_LIKE = "CampusBBS/app/topic/like";
     public static final String URL_ADD_FRIEND = "CampusBBS/app/friend/add";
     public static final String URL_GET_FILE = "http://compus-bbs.oss-cn-shanghai.aliyuncs.com/";

@@ -29,6 +29,9 @@ public interface Topic {
             @Query("pageNum") String pageNum
             , @Query("typeDiv") int typeDiv
     );
+    @GET(DataAddress.URL_TOPIC_HOT_USER)
+    Observable<TopicData> getTopicUserHots(
+    );
 
     @GET(DataAddress.URL_TOPIC_DETAIL)
     Observable<TopicDetailData> getTopicDetail(

@@ -22,6 +22,7 @@ import com.yan.campusbbs.base.BaseActivity;
 import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterPublishAdapter;
 import com.yan.campusbbs.module.campusbbs.adapter.SelfCenterRecentlyAdapter;
+import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.brown.BrownHistoryActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.friend.FriendsActivity;
 import com.yan.campusbbs.module.campusbbs.ui.selfcenter.message.MessageActivity;
@@ -83,7 +84,7 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
 
     private SelfCenterPublishAdapter publishAdapter;
     private SelfCenterRecentlyAdapter recentlyVisitors;
-    private List<PublishData.DataBean.TopicInfoListBean.TopicListBean> selfDynamics;
+    private List<TopicData.DataBean.TopicInfoListBean.TopicListBean> selfDynamics;
     private List<UserInfoData.DataBean.UserDetailInfoBean> userInfoDatas;
 
     @Override
@@ -103,7 +104,7 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
                     && loginInfoData.getData().getUserInfo() != null) {
                 LoginInfoData.DataBean.UserInfoBean infoData = loginInfoData.getData().getUserInfo();
                 head.setImageURI(DataAddress.URL_GET_FILE +infoData.getUserHeadImg());
-                presenter.getSelfPublish(pageNo);
+                presenter.getSelfPublish();
                 tvNickName.setText(TextUtils.isEmpty(infoData.getUserNickname())
                         ? infoData.getUserAccount()
                         : infoData.getUserNickname());
@@ -199,7 +200,7 @@ public class SelfCenterActivity extends BaseActivity implements SelfCenterContra
     }
 
     @Override
-    public void stateSuccess(PublishData publishData) {
+    public void stateSuccess(TopicData publishData) {
         if (publishData == null
                 || publishData.getData() == null
                 || publishData.getData().getTopicInfoList() == null

@@ -18,6 +18,8 @@ package com.yan.campusbbs.module.campusbbs.ui.selfcenter;
 
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.module.campusbbs.api.Topic;
+import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.module.selfcenter.data.PublishData;
 
 /**
@@ -26,7 +28,7 @@ import com.yan.campusbbs.module.selfcenter.data.PublishData;
 public interface SelfCenterContract {
 
     interface View extends BaseView<Presenter> {
-        void stateSuccess(PublishData publishData);
+        void stateSuccess(TopicData publishData);
 
         void stateNetError();
 
@@ -34,6 +36,6 @@ public interface SelfCenterContract {
     }
 
     interface Presenter extends BasePresenter {
-        void getSelfPublish(int pageNo);
+        void getSelfPublish();
     }
 }
