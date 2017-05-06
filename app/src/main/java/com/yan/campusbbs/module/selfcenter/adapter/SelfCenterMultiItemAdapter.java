@@ -20,6 +20,7 @@ import com.tencent.TIMValueCallBack;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.config.CacheConfig;
 import com.yan.campusbbs.module.ImManager;
+import com.yan.campusbbs.module.campusbbs.api.UserInfo;
 import com.yan.campusbbs.module.campusbbs.data.TopicData;
 import com.yan.campusbbs.module.campusbbs.data.TopicDetailData;
 import com.yan.campusbbs.module.campusbbs.ui.common.topicdetail.TopicDetailActivity;
@@ -35,6 +36,7 @@ import com.yan.campusbbs.module.selfcenter.ui.selfmore.SelfMainPageMoreActivity;
 import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.utils.ACache;
+import com.yan.campusbbs.utils.AppRetrofit;
 import com.yan.campusbbs.utils.EmptyUtil;
 import com.yan.campusbbs.utils.FrescoUtils;
 import com.yan.campusbbs.utils.RegExpUtils;
@@ -50,6 +52,7 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
 
 /**
  * Created by yan on 2017/2/7.
@@ -74,6 +77,11 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
 
     private CompositeDisposable compositeDisposable;
     private RxBus rxBus;
+    private Retrofit retrofit;
+
+    public void setRetrofit(Retrofit retrofit){
+        this.retrofit=retrofit;
+    }
 
     public void setPopPhotoView(PopPhotoView popPhotoView) {
         this.popPhotoView = popPhotoView;
@@ -202,37 +210,21 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                         }
                     }
                     String finalIdentifier = identifier;
-                    ImManager.getImManager().getFriendList(new TIMValueCallBack<List<TIMUserProfile>>() {
-                        @Override
-                        public void onError(int i, String s) {
-                            Log.e(TAG, "onError: " + s);
-                        }
-
-                        @Override
-                        public void onSuccess(List<TIMUserProfile> timUserProfiles) {
-                            boolean isNeedShow = true;
-                            for (TIMUserProfile userProfile : timUserProfiles) {
-
-                                if (finalIdentifier.equals(userProfile.getIdentifier())) {
-                                    holder.setVisible(R.id.iv_btn_add_friend, false);
-                                    holder.setVisible(R.id.tv_btn_add_friend, false);
-                                    isNeedShow = false;
-                                    break;
-                                }
-                            }
-                            if (isNeedShow) {
-                                holder.setVisible(R.id.iv_btn_add_friend, true);
-                                holder.setVisible(R.id.tv_btn_add_friend, true);
-                            }
-                        }
-                    });
                     holder.getView(R.id.iv_btn_add_friend)
                             .setOnClickListener(v -> {
                                 ImManager.getImManager().addFriend(finalIdentifier);
+                                UserInfo userInfo=retrofit.create(UserInfo.class);
+                                userInfo.addFriend(otherUserInfo.getData().getUserDetailInfo().getUserId())
+                                        .subscribeOn(Schedulers.io())
+                                        .subscribe(userInfoData -> {});
                             });
                     holder.getView(R.id.tv_btn_add_friend)
                             .setOnClickListener(v -> {
                                 ImManager.getImManager().addFriend(finalIdentifier);
+                                UserInfo userInfo=retrofit.create(UserInfo.class);
+                                userInfo.addFriend(otherUserInfo.getData().getUserDetailInfo().getUserId())
+                                     .subscribeOn(Schedulers.io())
+                                        .subscribe(userInfoData -> {});
                             });
                     setSignOther(holder.getView(R.id.tv_sign), finalIdentifier);
                 }

@@ -46,7 +46,8 @@ public interface UserInfoContract {
                 String birth,
                 String major,
                 String school,
-                String address
+                String address,
+                String headerFile
         );
         void getSelfInfo();
         void getSelfInfo(String userId);

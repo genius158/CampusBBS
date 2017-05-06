@@ -5,8 +5,13 @@ import com.yan.campusbbs.module.selfcenter.data.UserInfoData;
 import com.yan.campusbbs.repository.DataAddress;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 /**
@@ -28,21 +33,23 @@ public interface UserInfo {
 //    school：类型String
 //    address：类型String
 
-    @GET(DataAddress.URL_USER_EDIT)
-    Observable<ModifyData> userInfoEdit(
-            @Query("nickname") String nickname,
-            @Query("realName") String realName,
-            @Query("headImg") String headImg,
-            @Query("mood") String mood,
-            @Query("email") String email,
-            @Query("age") String age,
-            @Query("gender") String gender,
-            @Query("birth") String birth,
-            @Query("major") String major,
-            @Query("school") String school,
-            @Query("address") String address
-
-    );
+//    @Multipart
+//    @POST(DataAddress.URL_USER_EDIT)
+//    Observable<ModifyData> userInfoEdit(
+//            @Field("nickname") String nickname,
+//            @Field("realName") String realName,
+//            @Field("headImg") String headImg,
+//            @Field("mood") String mood,
+//            @Field("email") String email,
+//            @Field("age") String age,
+//            @Field("gender") String gender,
+//            @Field("birth") String birth,
+//            @Field("major") String major,
+//            @Field("school") String school,
+//            @Field("address") String address
+//            , @Part MultipartBody.Part headerFile
+//
+//    );
 
     @GET(DataAddress.URL_USER_DETAIL)
     Observable<UserInfoData> getUserInfo(
@@ -51,5 +58,10 @@ public interface UserInfo {
 
     @GET(DataAddress.URL_USER_DETAIL)
     Observable<UserInfoData> getSelfInfo();
+
+    @GET(DataAddress.URL_ADD_FRIEND)
+    Observable<UserInfoData> addFriend(
+            @Query("userId") String userId
+    );
 
 }

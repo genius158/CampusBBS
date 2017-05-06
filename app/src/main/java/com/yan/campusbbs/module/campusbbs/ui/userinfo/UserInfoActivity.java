@@ -156,10 +156,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
 
     @Override
     public void stateSuccess() {
-        ImManager.getImManager().setNikeName(etNikeName.getText().toString());
-        LoginInfoData loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
-        loginInfoData.getData().getUserInfo().setUserNickname(etNikeName.getText().toString());
-        ACache.get(getBaseContext()).put(CacheConfig.USER_INFO, loginInfoData);
+        presenter.getSelfInfo();
         toastUtils.showUIShort("更改成功");
     }
 
@@ -188,6 +185,14 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
             if (TextUtils.isEmpty(userId) && !TextUtils.isEmpty(selfInfo.getData().getUserDetailInfo().getUserHeadImg())) {
                 sdvImg.setImageURI(DataAddress.URL_GET_FILE + selfInfo.getData().getUserDetailInfo().getUserHeadImg());
             }
+
+            ImManager.getImManager().setNikeName(selfInfo.getData().getUserDetailInfo().getUserNickname());
+            ImManager.getImManager().setFaceUrl(DataAddress.URL_GET_FILE + selfInfo.getData().getUserDetailInfo().getUserHeadImg());
+            LoginInfoData loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
+            loginInfoData.getData().getUserInfo().setUserNickname(selfInfo.getData().getUserDetailInfo().getUserNickname());
+            loginInfoData.getData().getUserInfo().setUserHeadImg(selfInfo.getData().getUserDetailInfo().getUserHeadImg());
+            loginInfoData.getData().getUserInfo().setUserEmail(String.valueOf(selfInfo.getData().getUserDetailInfo().getUserEmail()));
+            ACache.get(getBaseContext()).put(CacheConfig.USER_INFO, loginInfoData);
         }
     }
 
@@ -216,7 +221,8 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
                 , etBirthday.getText().toString()
                 , etLike.getText().toString()
                 , etCampus.getText().toString()
-                , "");
+                , ""
+                , imgPath);
 
 
     }

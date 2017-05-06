@@ -32,6 +32,7 @@ import com.yan.campusbbs.module.setting.SettingModule;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.utils.ACache;
+import com.yan.campusbbs.utils.AppRetrofit;
 import com.yan.campusbbs.utils.RxBus;
 import com.yan.campusbbs.utils.SPUtils;
 import com.yan.campusbbs.utils.ToastUtils;
@@ -45,6 +46,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import retrofit2.Retrofit;
 
 /**
  * Created by Administrator on 2017/4/6 0006.
@@ -67,6 +69,8 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
     protected List<DataMultiItem> dataMultiItems;
     @Inject
     protected SettingHelper changeSkinHelper;
+    @Inject
+    protected AppRetrofit appRetrofit;
     @Inject
     protected RxBus rxBus;
     @Inject
@@ -125,6 +129,7 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerView.setAdapter(adapter);
+        adapter.setRetrofit(appRetrofit.retrofit());
         recyclerView.clearOnScrollListeners();
         adapterImageControl.attachRecyclerView(recyclerView);
     }
@@ -185,16 +190,17 @@ public class FriendPageActivity extends BaseActivity implements SwipeRefreshLayo
                         () -> {
                             mPresenter.getFriendData(++pageNo, userId);
                         });
-                if (dataMultiItems.size() > 0
-                        && dataMultiItems.get(0) instanceof OtherCenterHeader
-                        && ((OtherCenterHeader) dataMultiItems.get(0)).data instanceof UserInfoData) {
-                    OtherCenterHeader otherCenterHeader = (OtherCenterHeader) dataMultiItems.get(0);
-                    UserInfoData.DataBean.UserDetailInfoBean userInfoData = ((UserInfoData) otherCenterHeader.data).getData().getUserDetailInfo();
-                    title.setText((TextUtils.isEmpty(userInfoData.getUserNickname())
-                            ? userInfoData.getUserAccount()
-                            : userInfoData.getUserNickname())+ "的个人主页");
-                }
             }
+            if (dataMultiItems.size() > 0
+                    && dataMultiItems.get(0) instanceof OtherCenterHeader
+                    && ((OtherCenterHeader) dataMultiItems.get(0)).data instanceof UserInfoData) {
+                OtherCenterHeader otherCenterHeader = (OtherCenterHeader) dataMultiItems.get(0);
+                UserInfoData.DataBean.UserDetailInfoBean userInfoData = ((UserInfoData) otherCenterHeader.data).getData().getUserDetailInfo();
+                title.setText((TextUtils.isEmpty(userInfoData.getUserNickname())
+                        ? userInfoData.getUserAccount()
+                        : userInfoData.getUserNickname()) + "的个人主页");
+            }
+
 
             swipeRefreshLayout.setRefreshing(false);
             this.dataMultiItems.clear();
