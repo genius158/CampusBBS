@@ -488,8 +488,7 @@ public class MainActivity extends BaseActivity {
                         .putExtra(PublishActivity.SUB_TITLE, getString(R.string.campus_bbs_job)));
                 break;
             case R.id.tv_other:
-                startActivity(new Intent(MainActivity.this, PublishActivity.class)
-                        .putExtra(PublishActivity.SUB_TITLE, ""));
+                toastUtils.showUIShort("功能正在上线");
                 break;
         }
         materialSheetFab.hideSheet();
