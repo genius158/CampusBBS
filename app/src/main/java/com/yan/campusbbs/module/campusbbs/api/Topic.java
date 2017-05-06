@@ -29,6 +29,12 @@ public interface Topic {
             @Query("pageNum") String pageNum
             , @Query("typeDiv") int typeDiv
     );
+
+    @GET(DataAddress.URL_TOPIC_HOT)
+    Observable<TopicData> getTopicHots(
+            @Query("typeDiv") int typeDiv
+    );
+
     @GET(DataAddress.URL_TOPIC_HOT_USER)
     Observable<TopicData> getTopicUserHots(
     );
@@ -43,11 +49,13 @@ public interface Topic {
             @Query("topicId") String topicId
             , @Query("pageNum") String pageNum
     );
+
     @GET(DataAddress.URL_TOPIC_REPLY_COMMENT)
     Observable<ReplyCommentData> replyComment(
             @Query("topicId") String topicId
             , @Query("cmtContent") String content
     );
+
     @GET(DataAddress.URL_TOPIC_LIKE)
     Observable<TopicLikeData> topicLike(
             @Query("topicId") String topicId

@@ -311,28 +311,17 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
         return 0;
     }
 
-    public void setTopicData(TopicData topicData) {
-        if (topicData.getData() == null
-                || topicData.getData().getTopicInfoList() == null
-                || topicData.getData().getTopicInfoList().getTopicList() == null
-                ) {
+    public void setTopicData(List<DataMultiItem> topicData) {
+        if (topicData.isEmpty()) {
             swipeRefreshLayout().setRefreshing(false);
+            campusDataAdapter().loadMoreComplete();
             campusDataAdapter().setEnableLoadMore(false);
             return;
         }
         if (pageNo() == 1) {
             dataMultiItems().clear();
             swipeRefreshLayout().setRefreshing(false);
-            List<TopicData.DataBean.TopicInfoListBean.TopicListBean> bannerImgs = new ArrayList<>();
-            for (int i = 0; i < 3; i++) {
-                if (topicData.getData().getTopicInfoList().getTopicList().size() > i) {
-                    bannerImgs.add(topicData.getData().getTopicInfoList().getTopicList().get(i));
-                }
-            }
-            dataMultiItems().add(new BannerImgs(bannerImgs));
-            for (int i = 0; i < topicData.getData().getTopicInfoList().getTopicList().size(); i++) {
-                dataMultiItems().add(new PostAll(topicData.getData().getTopicInfoList().getTopicList().get(i)));
-            }
+            dataMultiItems().addAll(topicData);
             campusDataAdapter().notifyDataSetChanged();
             if (dataMultiItems().size() >= 4) {
                 campusDataAdapter().setEnableLoadMore(true);
@@ -341,13 +330,11 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
             }
         } else {
             int tempSize = dataMultiItems().size();
-            for (int i = 0; i < topicData.getData().getTopicInfoList().getTopicList().size(); i++) {
-                dataMultiItems().add(new PostAll(topicData.getData().getTopicInfoList().getTopicList().get(i)));
-            }
+            dataMultiItems().addAll(topicData);
             campusDataAdapter().loadMoreComplete();
             campusDataAdapter().notifyItemRangeInserted(tempSize, dataMultiItems().size() - tempSize);
 
-            if (topicData.getData().getTopicInfoList().getTopicList().isEmpty()) {
+            if (topicData.isEmpty()) {
                 campusDataAdapter().setEnableLoadMore(false);
             }
         }
@@ -419,6 +406,7 @@ public abstract class CampusTabPagerFragment extends BaseRefreshFragment {
     protected abstract List<DataMultiItem> dataMultiItems();
 
     protected abstract int pageNo();
+
     protected abstract ToastUtils toastUtils();
 
 }

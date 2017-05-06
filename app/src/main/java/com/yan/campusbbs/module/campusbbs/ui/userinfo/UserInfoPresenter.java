@@ -44,7 +44,7 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
 
     @Override
     public void modify(String nickname, String realName, String headImg, String mood, String email, String age, String gender, String birth, String major, String school, String address, String headerFile) {
-         File file = null;
+        File file = null;
         if (!TextUtils.isEmpty(headerFile)) {
             file = new File(headerFile);
         }

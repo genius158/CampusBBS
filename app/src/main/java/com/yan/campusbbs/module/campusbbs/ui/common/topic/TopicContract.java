@@ -19,6 +19,9 @@ package com.yan.campusbbs.module.campusbbs.ui.common.topic;
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
 import com.yan.campusbbs.module.campusbbs.data.TopicData;
+import com.yan.campusbbs.repository.entity.DataMultiItem;
+
+import java.util.List;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -26,7 +29,7 @@ import com.yan.campusbbs.module.campusbbs.data.TopicData;
 public interface TopicContract {
 
     interface View extends BaseView<Presenter> {
-        void setTopicData(TopicData topicData);
+        void setTopicData(List<DataMultiItem> topicData);
 
         void setTopicTagData(TopicData topicData);
 
