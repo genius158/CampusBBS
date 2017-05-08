@@ -56,7 +56,6 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
 
         builder.addFormDataPart("nickname", nickname);
         builder.addFormDataPart("realName", realName);
-        builder.addFormDataPart("headImg", headImg);
         builder.addFormDataPart("mood", mood);
         builder.addFormDataPart("email", email);
         builder.addFormDataPart("age", age);
@@ -71,7 +70,6 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
                 .url(DataAddress.MAIN_PATH + DataAddress.URL_USER_EDIT
                         + "?nickname=" + nickname
                         + "&realName=" + realName
-                        + "&headImg=" + headImg
                         + "&mood=" + mood
                         + "&email=" + email
                         + "&age=" + age
