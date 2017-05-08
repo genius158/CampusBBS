@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:hint="请输入你的昵称"
+        android:hint="昵称"
         android:textColor="@color/cr3C3B41"
         android:textSize="13sp" />
 
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:hint="请输入你的邮箱"
+        android:hint="邮箱"
         android:textColor="@color/cr3C3B41"
         android:textSize="13sp" />
 
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:hint="请输入你现在所在的学校"
+        android:hint="所在的学校"
         android:textColor="@color/cr3C3B41"
         android:textSize="13sp" />
 
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:hint="请输入你的出生日期（例:2017-02-12）"
+        android:hint="出生日期（例:2017-02-12）"
         android:textColor="@color/cr3C3B41"
         android:textSize="13sp" />
 
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:hint="请输入你的性别（男/女）"
+        android:hint="性别（男/女）"
         android:textColor="@color/cr3C3B41"
         android:textSize="13sp" />
 
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:hint="请输入你的兴趣、爱好"
+        android:hint="兴趣、爱好"
         android:textColor="@color/cr3C3B41"
         android:textSize="13sp" />
 </LinearLayout>

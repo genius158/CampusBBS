@@ -69,7 +69,6 @@ public class PublishPresenter implements PublishContract.Presenter {
         builder.addFormDataPart("typeDiv", typeDiv);
         builder.addFormDataPart("topicLabel", topicLabel);
 //        builder.addFormDataPart("contentDiv", contentDiv);
-        builder.addFormDataPart("fileTypeDiv", "1");
 
         MultipartBody requestBody = builder.build();
         Request request = new Request.Builder()
@@ -78,7 +77,6 @@ public class PublishPresenter implements PublishContract.Presenter {
                 +"&topicContent="+topicContent
                 +"&typeDiv="+typeDiv
                 +"&topicLabel="+topicLabel
-                +"&fileTypeDiv="+"1"
                 )
                 .post(requestBody)
                 .build();

@@ -185,14 +185,15 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
             if (TextUtils.isEmpty(userId) && !TextUtils.isEmpty(selfInfo.getData().getUserDetailInfo().getUserHeadImg())) {
                 sdvImg.setImageURI(DataAddress.URL_GET_FILE + selfInfo.getData().getUserDetailInfo().getUserHeadImg());
             }
-
-            ImManager.getImManager().setNikeName(selfInfo.getData().getUserDetailInfo().getUserNickname());
-            ImManager.getImManager().setFaceUrl(DataAddress.URL_GET_FILE + selfInfo.getData().getUserDetailInfo().getUserHeadImg());
-            LoginInfoData loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
-            loginInfoData.getData().getUserInfo().setUserNickname(selfInfo.getData().getUserDetailInfo().getUserNickname());
-            loginInfoData.getData().getUserInfo().setUserHeadImg(selfInfo.getData().getUserDetailInfo().getUserHeadImg());
-            loginInfoData.getData().getUserInfo().setUserEmail(String.valueOf(selfInfo.getData().getUserDetailInfo().getUserEmail()));
-            ACache.get(getBaseContext()).put(CacheConfig.USER_INFO, loginInfoData);
+            if (TextUtils.isEmpty(userId)) {
+                ImManager.getImManager().setNikeName(selfInfo.getData().getUserDetailInfo().getUserNickname());
+                ImManager.getImManager().setFaceUrl(DataAddress.URL_GET_FILE + selfInfo.getData().getUserDetailInfo().getUserHeadImg());
+                LoginInfoData loginInfoData = (LoginInfoData) ACache.get(getBaseContext()).getAsObject(CacheConfig.USER_INFO);
+                loginInfoData.getData().getUserInfo().setUserNickname(selfInfo.getData().getUserDetailInfo().getUserNickname());
+                loginInfoData.getData().getUserInfo().setUserHeadImg(selfInfo.getData().getUserDetailInfo().getUserHeadImg());
+                loginInfoData.getData().getUserInfo().setUserEmail(String.valueOf(selfInfo.getData().getUserDetailInfo().getUserEmail()));
+                ACache.get(getBaseContext()).put(CacheConfig.USER_INFO, loginInfoData);
+            }
         }
     }
 

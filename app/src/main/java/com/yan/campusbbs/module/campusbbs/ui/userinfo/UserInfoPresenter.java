@@ -63,22 +63,20 @@ public class UserInfoPresenter implements UserInfoContract.Presenter {
         builder.addFormDataPart("birth", birth);
         builder.addFormDataPart("school", school);
         builder.addFormDataPart("address", address);
-        builder.addFormDataPart("fileTypeDiv", "1");
 
         MultipartBody requestBody = builder.build();
         Request request = new Request.Builder()
                 .url(DataAddress.MAIN_PATH + DataAddress.URL_USER_EDIT
-                        + "?nickname=" + nickname
-                        + "&realName=" + realName
-                        + "&mood=" + mood
-                        + "&email=" + email
-                        + "&age=" + age
-                        + "&mood=" + mood
-                        + "&gender=" + gender
-                        + "&birth=" + birth
-                        + "&school=" + school
-                        + "&address=" + address
-                        + "&fileTypeDiv=" + "1"
+//                        + "?nickname=" + nickname
+//                        + "&realName=" + realName
+//                        + "&mood=" + mood
+//                        + "&email=" + email
+//                        + "&age=" + age
+//                        + "&mood=" + mood
+//                        + "&gender=" + gender
+//                        + "&birth=" + birth
+//                        + "&school=" + school
+//                        + "&address=" + address
                 )
                 .post(requestBody)
                 .build();

@@ -23,7 +23,7 @@
                 android:layout_margin="10dp"
                 android:enabled="false"
                 android:gravity="center"
-                android:hint="你的手机号码"
+                android:hint="手机号码"
                 android:textColor="@color/cr3C3B41"
                 android:textSize="13sp" />
 
