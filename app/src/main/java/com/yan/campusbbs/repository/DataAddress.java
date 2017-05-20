@@ -24,5 +24,7 @@ public class DataAddress {
     public static final String URL_TOPIC_HOT_USER = "CampusBBS/app/topic/hot/user";
     public static final String URL_TOPIC_LIKE = "CampusBBS/app/topic/like";
     public static final String URL_ADD_FRIEND = "CampusBBS/app/friend/add";
+    public static final String URL_IMAGE_FILE = "CampusBBS/app/file/image";
+    public static final String URL_VIDEO_FILE = "CampusBBS/app/file/video";
     public static final String URL_GET_FILE = "http://compus-bbs.oss-cn-shanghai.aliyuncs.com/";
 }

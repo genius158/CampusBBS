@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
+import com.yan.campusbbs.module.filemanager.data.FileData;
 import com.yan.campusbbs.module.filemanager.ui.IjkFullscreenActivity;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.module.setting.SettingHelper;
@@ -31,13 +32,12 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Main UI for the add task screen. Users can enter a task title and description.
  */
 public class FileManagerFragment extends BaseRefreshFragment implements FileManagerContract.View {
-    List<String> strings;
+    List<FileData.DataBean.FileInfoListBean.FileListBean> fileDatas;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -47,7 +47,7 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
 
     @Inject
     FileManagerPresenter mPresenter;
-
+    RecyclerView.Adapter adapter;
     @Inject
     SettingHelper settingHelper;
 
@@ -72,6 +72,9 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     @Override
     protected void onLoadLazy(Bundle reLoadBundle) {
         Log.e("onLoadLazy", "FileManagerLoadLazy:" + reLoadBundle);
+        if (mPresenter != null) {
+            mPresenter.getVideo();
+        }
     }
 
     @Override
@@ -98,35 +101,33 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     }
 
     private void init() {
-        strings = new ArrayList<>();
-        strings.add("文件管理");
-        strings.add("文件管理");
-        strings.add("文件管理");
-        strings.add("文件管理");
-        strings.add("文件管理");
-        strings.add("文件管理");
-        strings.add("文件管理");
+        fileDatas = new ArrayList<>();
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new RecyclerView.Adapter<BaseViewHolder>() {
+        adapter = new RecyclerView.Adapter<BaseViewHolder>() {
             @Override
             public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 return new BaseViewHolder(LayoutInflater.from(getContext())
-                        .inflate(android.R.layout.simple_list_item_1, parent, false));
+                        .inflate(R.layout.fragment_file_manager_item, parent, false));
             }
 
             @Override
             public void onBindViewHolder(BaseViewHolder holder, int position) {
-                holder.setText(android.R.id.text1, strings.get(position));
-                holder.setOnClickListener(android.R.id.text1, v ->
-                        startActivity(new Intent(getContext(), IjkFullscreenActivity.class))
+                holder.setText(R.id.tv_title, fileDatas.get(position).getFileId());
+                holder.setOnClickListener(R.id.container, v ->
+                        startActivity(new Intent(getContext(), IjkFullscreenActivity.class)
+                                .putExtra("url", fileDatas.get(position).getFileVideo())
+                                .putExtra("title", fileDatas.get(position).getFileId())
+                        )
                 );
             }
 
             @Override
             public int getItemCount() {
-                return strings.size();
+                return fileDatas.size();
             }
-        });
+        };
+        recyclerView.setAdapter(adapter);
 
     }
 
@@ -139,6 +140,7 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
 
     @Override
     public void onRefresh() {
+        mPresenter.getVideo();
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -165,4 +167,21 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
         }
     }
 
+    @Override
+    public void error() {
+
+    }
+
+    @Override
+    public void setVideo(FileData video) {
+        if (video.getData() != null
+                && video.getData().getFileInfoList() != null
+                && video.getData().getFileInfoList().getFileList() != null
+                && !video.getData().getFileInfoList().getFileList().isEmpty()) {
+            fileDatas.clear();
+            fileDatas.addAll(video.getData().getFileInfoList().getFileList());
+            adapter.notifyDataSetChanged();
+        }
+
+    }
 }

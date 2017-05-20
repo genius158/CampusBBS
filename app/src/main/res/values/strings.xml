@@ -5,7 +5,7 @@
     <!--mainActivity-->
     <string name="self_main_page">个人主页</string>
     <string name="campus_bbs">学园论坛</string>
-    <string name="file_center">资源中心</string>
+    <string name="file_center">学习资料</string>
     <string name="more_pressed_exit">再按一次退出程序</string>
 
     <!--campusBBSFragment-->

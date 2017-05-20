@@ -2,6 +2,8 @@ package com.yan.campusbbs.module.filemanager;
 
 import android.content.Context;
 
+import com.yan.campusbbs.utils.AppRetrofit;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -19,8 +21,8 @@ public class FileManagerModule {
     }
 
     @Provides
-    FileManagerPresenter provideFileManagerPresenter(Context context) {
-        return new FileManagerPresenter(context, mView);
+    FileManagerPresenter provideFileManagerPresenter(Context context, AppRetrofit appRetrofit) {
+        return new FileManagerPresenter(context, mView,appRetrofit);
     }
 
 }

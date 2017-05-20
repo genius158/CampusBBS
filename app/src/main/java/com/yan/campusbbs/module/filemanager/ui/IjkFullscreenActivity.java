@@ -6,10 +6,9 @@ import android.view.KeyEvent;
 
 import com.dl7.player.media.IjkPlayerView;
 import com.squareup.picasso.Picasso;
+import com.yan.campusbbs.repository.DataAddress;
 
 public class IjkFullscreenActivity extends AppCompatActivity {
-
-    private static final String VIDEO_URL = "http://flv2.bn.netease.com/videolib3/1611/28/nNTov5571/SD/nNTov5571-mobile.mp4";
     private static final String IMAGE_URL = "http://vimg3.ws.126.net/image/snapshot/2016/11/C/T/VC628QHCT.jpg";
     IjkPlayerView mPlayerView;
 
@@ -18,12 +17,12 @@ public class IjkFullscreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mPlayerView = new IjkPlayerView(this);
         setContentView(mPlayerView);
-        Picasso.with(this).load(IMAGE_URL).into(mPlayerView.mPlayerThumb);
+//        Picasso.with(this).load(IMAGE_URL).into(mPlayerView.mPlayerThumb);
         mPlayerView.init()
                 .alwaysFullScreen()
                 .enableOrientation()
-                .setVideoPath(VIDEO_URL)
-                .setTitle("这是个跑马灯TextView，标题要足够长才会跑。-(゜ -゜)つロ 乾杯~")
+                .setVideoPath(DataAddress.URL_GET_FILE + getIntent().getStringExtra("url"))
+                .setTitle(getIntent().getStringExtra("title"))
                 .start();
     }
 

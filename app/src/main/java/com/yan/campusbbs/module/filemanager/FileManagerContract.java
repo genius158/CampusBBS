@@ -18,6 +18,7 @@ package com.yan.campusbbs.module.filemanager;
 
 import com.yan.campusbbs.base.BasePresenter;
 import com.yan.campusbbs.base.BaseView;
+import com.yan.campusbbs.module.filemanager.data.FileData;
 
 /**
  * This specifies the contract between the view and the presenter.
@@ -25,9 +26,11 @@ import com.yan.campusbbs.base.BaseView;
 public interface FileManagerContract {
 
     interface View extends BaseView<Presenter> {
+        void error();
+        void setVideo(FileData video);
     }
 
     interface Presenter extends BasePresenter {
-
+        void getVideo();
     }
 }

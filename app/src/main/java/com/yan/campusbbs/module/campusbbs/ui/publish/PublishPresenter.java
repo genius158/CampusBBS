@@ -69,14 +69,16 @@ public class PublishPresenter implements PublishContract.Presenter {
         builder.addFormDataPart("typeDiv", typeDiv);
         builder.addFormDataPart("topicLabel", topicLabel);
 //        builder.addFormDataPart("contentDiv", contentDiv);
+        builder.addFormDataPart("fileTypeDiv", "1");
 
         MultipartBody requestBody = builder.build();
         Request request = new Request.Builder()
                 .url(DataAddress.MAIN_PATH + DataAddress.URL_PUBLISH
-                +"?topicTitle="+topicTitle
-                +"&topicContent="+topicContent
-                +"&typeDiv="+typeDiv
-                +"&topicLabel="+topicLabel
+                        +"?topicTitle="+topicTitle
+                        +"&topicContent="+topicContent
+                        +"&typeDiv="+typeDiv
+                        +"&topicLabel="+topicLabel
+                        +"&fileTypeDiv="+"1"
                 )
                 .post(requestBody)
                 .build();
@@ -87,7 +89,7 @@ public class PublishPresenter implements PublishContract.Presenter {
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(str -> {
-            Log.e("publish: ", str);
+                    Log.e("publish: ", str);
                     PublishBackData publishBackData=new Gson().fromJson(str,PublishBackData.class);
                     if (publishBackData.getResultCode()==200){
                         view.stateSuccess();
@@ -95,10 +97,10 @@ public class PublishPresenter implements PublishContract.Presenter {
                         view.stateError(publishBackData.getMessage());
                     }
 
-        }, throwable -> {
-            throwable.printStackTrace();
-            view.stateNetError();
-        }));
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    view.stateNetError();
+                }));
 
     }
 }
