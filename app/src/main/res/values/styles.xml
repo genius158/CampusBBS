@@ -53,6 +53,9 @@
     <style name="ImageBase.CenterInside">
         <item name="actualImageScaleType">centerInside</item>
     </style>
+    <style name="ImageBase.FitCenter">
+        <item name="actualImageScaleType">fitCenter</item>
+    </style>
 
     <style name="ImageBase.Circle">
         <item name="actualImageScaleType">focusCrop</item>

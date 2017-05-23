@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/container"
     android:background="@color/crE9E9E9"
     android:orientation="vertical">
 
@@ -44,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/file_center"
+            android:text="精彩图片"
             android:textColor="@color/crFEFEFE"
             android:textSize="@dimen/size_sp_16" />
 

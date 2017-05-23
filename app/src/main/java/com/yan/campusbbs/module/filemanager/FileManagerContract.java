@@ -28,9 +28,11 @@ public interface FileManagerContract {
     interface View extends BaseView<Presenter> {
         void error();
         void setVideo(FileData video);
+        void setImages(FileData video);
     }
 
     interface Presenter extends BasePresenter {
         void getVideo();
+        void getImages();
     }
 }

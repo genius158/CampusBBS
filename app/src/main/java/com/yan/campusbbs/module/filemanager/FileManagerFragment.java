@@ -1,28 +1,45 @@
 package com.yan.campusbbs.module.filemanager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Animatable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.controller.ControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.image.QualityInfo;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
+import com.yan.campusbbs.module.common.pop.PopPhotoView;
 import com.yan.campusbbs.module.filemanager.data.FileData;
 import com.yan.campusbbs.module.filemanager.ui.IjkFullscreenActivity;
+import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.rxbusaction.ActionChangeSkin;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
+import com.yan.campusbbs.utils.FrescoUtils;
 import com.yan.campusbbs.utils.SPUtils;
+import com.yan.campusbbs.utils.SizeUtils;
+import com.yan.campusbbs.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +61,8 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.app_bar_background)
     CardView appBarBackground;
+    @BindView(R.id.container)
+    View container;
 
     @Inject
     FileManagerPresenter mPresenter;
@@ -53,6 +72,10 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
 
     @Inject
     SPUtils spUtils;
+    @Inject
+    ToastUtils toastUtils;
+
+    PopPhotoView popPhotoView;
 
     @Override
     public void onResume() {
@@ -73,7 +96,7 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     protected void onLoadLazy(Bundle reLoadBundle) {
         Log.e("onLoadLazy", "FileManagerLoadLazy:" + reLoadBundle);
         if (mPresenter != null) {
-            mPresenter.getVideo();
+            mPresenter.getImages();
         }
     }
 
@@ -102,23 +125,24 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
 
     private void init() {
         fileDatas = new ArrayList<>();
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        popPhotoView = new PopPhotoView(container, toastUtils);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         adapter = new RecyclerView.Adapter<BaseViewHolder>() {
             @Override
             public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                 return new BaseViewHolder(LayoutInflater.from(getContext())
-                        .inflate(R.layout.fragment_file_manager_item, parent, false));
+                        .inflate(R.layout.fragment_file_manager_img_item, parent, false));
             }
 
             @Override
             public void onBindViewHolder(BaseViewHolder holder, int position) {
-                holder.setText(R.id.tv_title, fileDatas.get(position).getFileId());
-                holder.setOnClickListener(R.id.container, v ->
-                        startActivity(new Intent(getContext(), IjkFullscreenActivity.class)
-                                .putExtra("url", fileDatas.get(position).getFileVideo())
-                                .putExtra("title", fileDatas.get(position).getFileId())
-                        )
+                adjustViewOnImage(holder.getView(R.id.sdv_img),
+                        DataAddress.URL_GET_FILE + fileDatas.get(position).getFileImage());
+                holder.setOnClickListener(R.id.sdv_img, v -> {
+                            popPhotoView.setImageUrl(DataAddress.URL_GET_FILE
+                                    + fileDatas.get(position).getFileImage());
+                            popPhotoView.show();
+                        }
                 );
             }
 
@@ -140,8 +164,7 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
 
     @Override
     public void onRefresh() {
-        mPresenter.getVideo();
-        swipeRefreshLayout.setRefreshing(false);
+        mPresenter.getImages();
     }
 
     @Override
@@ -169,6 +192,7 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
 
     @Override
     public void error() {
+        swipeRefreshLayout.setRefreshing(false);
 
     }
 
@@ -183,5 +207,55 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
             adapter.notifyDataSetChanged();
         }
 
+    }
+
+    @Override
+    public void setImages(FileData video) {
+        swipeRefreshLayout.setRefreshing(false);
+        if (video.getData() != null
+                && video.getData().getFileInfoList() != null
+                && video.getData().getFileInfoList().getFileList() != null
+                && !video.getData().getFileInfoList().getFileList().isEmpty()) {
+            fileDatas.clear();
+            fileDatas.addAll(video.getData().getFileInfoList().getFileList());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    public void adjustViewOnImage(SimpleDraweeView simpleDraweeView, String url) {
+        ViewGroup.LayoutParams simpleDraweeViewLayoutParams = simpleDraweeView.getLayoutParams();
+        simpleDraweeViewLayoutParams.height = 0;
+        simpleDraweeView.setLayoutParams(simpleDraweeViewLayoutParams);
+
+        ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
+            @Override
+            public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo, @Nullable Animatable anim) {
+                if (imageInfo == null) {
+                    return;
+                }
+                QualityInfo qualityInfo = imageInfo.getQualityInfo();
+                if (qualityInfo.isOfGoodEnoughQuality()) {
+                    ViewGroup.LayoutParams layoutParams = simpleDraweeView.getLayoutParams();
+                    layoutParams.height = (int) ((SizeUtils.getFullScreenWidth(getContext()) - SizeUtils.dp2px(getContext(), 40))
+                            * imageInfo.getHeight() / (float) imageInfo.getWidth()/2);
+                    simpleDraweeView.setLayoutParams(layoutParams);
+                }
+            }
+
+            @Override
+            public void onIntermediateImageSet(String id, @Nullable ImageInfo imageInfo) {
+            }
+
+            @Override
+            public void onFailure(String id, Throwable throwable) {
+            }
+        };
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setUri(Uri.parse(url))
+                .setControllerListener(controllerListener)
+                .setTapToRetryEnabled(true)
+                .build();
+
+        simpleDraweeView.setController(controller);
     }
 }

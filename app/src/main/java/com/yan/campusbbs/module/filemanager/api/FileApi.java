@@ -14,4 +14,6 @@ import retrofit2.http.GET;
 public interface FileApi {
     @GET(DataAddress.URL_VIDEO_FILE)
     Observable<FileData> getVideo();
+    @GET(DataAddress.URL_IMAGE_FILE)
+    Observable<FileData> getImages();
 }

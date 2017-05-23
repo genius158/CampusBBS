@@ -38,4 +38,15 @@ public final class FileManagerPresenter implements FileManagerContract.Presenter
         },throwable -> {throwable.printStackTrace();
         view.error();}));
     }
+
+    @Override
+    public void getImages() {
+        FileApi fileApi = appRetrofit.retrofit().create(FileApi.class);
+        view.addDisposable(fileApi.getImages().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(responseBody -> {
+                    view.setImages(responseBody);
+                },throwable -> {throwable.printStackTrace();
+                    view.error();}));
+    }
 }
