@@ -38,7 +38,7 @@ public class BrownHistoryActivity extends FriendPageActivity {
         TopicCacheData cacheData = (TopicCacheData) ACache.get(getBaseContext()).getAsObject(CacheConfig.TOPIC_CACHE);
         if (cacheData != null) {
             List<DataMultiItem> dataMultiItems = new ArrayList<>();
-            for (TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean infoBean : cacheData.topicDetailDatas) {
+            for (TopicDetailData.DataBean.TopicDetailInfoBean infoBean : cacheData.topicDetailDatas) {
                 dataMultiItems.add(new BrownHistroyTopicData(infoBean));
             }
             dataSuccess(dataMultiItems);

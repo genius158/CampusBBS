@@ -13,9 +13,9 @@ import java.util.Set;
  */
 
 public class TopicCacheData implements Serializable {
-    public LinkedHashSet<TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean> topicDetailDatas;
+    public LinkedHashSet<TopicDetailData.DataBean.TopicDetailInfoBean> topicDetailDatas;
 
-    public TopicCacheData(LinkedHashSet<TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean> topicDetailDatas) {
+    public TopicCacheData(LinkedHashSet<TopicDetailData.DataBean.TopicDetailInfoBean> topicDetailDatas) {
         this.topicDetailDatas = topicDetailDatas;
     }
 }

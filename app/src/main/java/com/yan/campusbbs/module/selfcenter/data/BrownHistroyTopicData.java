@@ -10,7 +10,7 @@ import com.yan.campusbbs.repository.entity.DataMultiItem;
  */
 
 public class BrownHistroyTopicData extends DataMultiItem<Object> {
-    public BrownHistroyTopicData(TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean dataObj) {
+    public BrownHistroyTopicData(TopicDetailData.DataBean.TopicDetailInfoBean dataObj) {
         super(SelfCenterMultiItemAdapter.ITEM_TYPE_DETAIL_TOPIC, dataObj);
     }
 

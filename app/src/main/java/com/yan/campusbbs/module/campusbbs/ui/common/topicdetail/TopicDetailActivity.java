@@ -164,7 +164,7 @@ public class TopicDetailActivity extends BaseActivity implements TopicDetailCont
             if (cacheData == null) {
                 cacheData = new TopicCacheData(new LinkedHashSet<>());
             }
-            cacheData.topicDetailDatas.add(topicDetail.getData().getTopicDetailInfo().getUserTopicInfo());
+            cacheData.topicDetailDatas.add(topicDetail.getData().getTopicDetailInfo());
             ACache.get(getBaseContext()).put(CacheConfig.TOPIC_CACHE, cacheData);
 
             TopicDetailData.DataBean.TopicDetailInfoBean.UserTopicInfoBean detailData =
