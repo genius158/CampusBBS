@@ -87,8 +87,8 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_file_manager, container, false);
         ButterKnife.bind(this, view);
-        init();
         daggerInject();
+        init();
         return view;
     }
 
@@ -120,7 +120,6 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
                 .settingModule(new SettingModule(this, compositeDisposable))
                 .fileManagerModule(new FileManagerModule(this))
                 .build().inject(this);
-
     }
 
     private void init() {

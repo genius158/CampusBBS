@@ -14,6 +14,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:paddingTop="@dimen/action_bar_height_with_elevation"
+            android:paddingBottom="@dimen/bottom_navigation_height"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
