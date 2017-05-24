@@ -177,7 +177,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
             etPhone.setText(selfInfo.getData().getUserDetailInfo().getUserId());
             etNikeName.setText(selfInfo.getData().getUserDetailInfo().getUserNickname());
             etEmail.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserEmail()));
-            etLike.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserMajor()));
+            etLike.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserAddress()));
             etBirthday.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserBirth()));
             etSex.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserMood()));
             etCampus.setText(EmptyUtil.textEmpty(selfInfo.getData().getUserDetailInfo().getUserSchool()));
@@ -222,7 +222,7 @@ public class UserInfoActivity extends BaseActivity implements UserInfoContract.V
                 , etBirthday.getText().toString()
                 , etLike.getText().toString()
                 , etCampus.getText().toString()
-                , ""
+                , etLike.getText().toString()
                 , imgPath);
 
 

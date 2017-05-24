@@ -58,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
+        android:visibility="gone"
         android:hint="兴趣、爱好"
         android:textColor="@color/cr3C3B41"
         android:textSize="13sp" />
