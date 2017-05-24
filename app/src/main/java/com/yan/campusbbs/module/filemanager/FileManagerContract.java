@@ -33,6 +33,6 @@ public interface FileManagerContract {
 
     interface Presenter extends BasePresenter {
         void getVideo();
-        void getImages();
+        void getImages(int pageNo);
     }
 }

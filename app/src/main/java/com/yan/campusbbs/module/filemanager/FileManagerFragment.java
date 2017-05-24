@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.controller.BaseControllerListener;
@@ -29,6 +30,7 @@ import com.facebook.imagepipeline.image.QualityInfo;
 import com.yan.campusbbs.ApplicationCampusBBS;
 import com.yan.campusbbs.R;
 import com.yan.campusbbs.base.BaseRefreshFragment;
+import com.yan.campusbbs.module.campusbbs.adapter.OthersAdapter;
 import com.yan.campusbbs.module.common.pop.PopPhotoView;
 import com.yan.campusbbs.module.filemanager.data.FileData;
 import com.yan.campusbbs.module.filemanager.ui.IjkFullscreenActivity;
@@ -54,7 +56,6 @@ import butterknife.ButterKnife;
  * Main UI for the add task screen. Users can enter a task title and description.
  */
 public class FileManagerFragment extends BaseRefreshFragment implements FileManagerContract.View {
-    List<FileData.DataBean.FileInfoListBean.FileListBean> fileDatas;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     @BindView(R.id.store_house_ptr_frame)
@@ -66,7 +67,6 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
 
     @Inject
     FileManagerPresenter mPresenter;
-    RecyclerView.Adapter adapter;
     @Inject
     SettingHelper settingHelper;
 
@@ -76,6 +76,11 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     ToastUtils toastUtils;
 
     PopPhotoView popPhotoView;
+
+    List<FileData.DataBean.FileInfoListBean.FileListBean> fileDatas;
+    FileAdapter adapter;
+
+    private int pageNo=1;
 
     @Override
     public void onResume() {
@@ -96,7 +101,7 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     protected void onLoadLazy(Bundle reLoadBundle) {
         Log.e("onLoadLazy", "FileManagerLoadLazy:" + reLoadBundle);
         if (mPresenter != null) {
-            mPresenter.getImages();
+            mPresenter.getImages(pageNo);
         }
     }
 
@@ -126,30 +131,11 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
         fileDatas = new ArrayList<>();
         popPhotoView = new PopPhotoView(container, toastUtils);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        adapter = new RecyclerView.Adapter<BaseViewHolder>() {
-            @Override
-            public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new BaseViewHolder(LayoutInflater.from(getContext())
-                        .inflate(R.layout.fragment_file_manager_img_item, parent, false));
-            }
-
-            @Override
-            public void onBindViewHolder(BaseViewHolder holder, int position) {
-                adjustViewOnImage(holder.getView(R.id.sdv_img),
-                        DataAddress.URL_GET_FILE + fileDatas.get(position).getFileImage());
-                holder.setOnClickListener(R.id.sdv_img, v -> {
-                            popPhotoView.setImageUrl(DataAddress.URL_GET_FILE
-                                    + fileDatas.get(position).getFileImage());
-                            popPhotoView.show();
-                        }
-                );
-            }
-
-            @Override
-            public int getItemCount() {
-                return fileDatas.size();
-            }
-        };
+        adapter = new FileAdapter(fileDatas,getContext());
+        adapter.setOnLoadMoreListener(() -> {
+            pageNo++;
+            mPresenter.getImages(pageNo);
+        });
         recyclerView.setAdapter(adapter);
 
     }
@@ -163,7 +149,8 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
 
     @Override
     public void onRefresh() {
-        mPresenter.getImages();
+        pageNo=1;
+        mPresenter.getImages(pageNo);
     }
 
     @Override
@@ -192,6 +179,7 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
     @Override
     public void error() {
         swipeRefreshLayout.setRefreshing(false);
+        adapter.loadMoreFail();
 
     }
 
@@ -201,23 +189,31 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
                 && video.getData().getFileInfoList() != null
                 && video.getData().getFileInfoList().getFileList() != null
                 && !video.getData().getFileInfoList().getFileList().isEmpty()) {
-            fileDatas.clear();
+            adapter.loadMoreComplete();
+            if (pageNo==1) {
+                fileDatas.clear();
+            }
             fileDatas.addAll(video.getData().getFileInfoList().getFileList());
             adapter.notifyDataSetChanged();
         }
-
     }
 
     @Override
     public void setImages(FileData video) {
         swipeRefreshLayout.setRefreshing(false);
+        adapter.loadMoreComplete();
         if (video.getData() != null
                 && video.getData().getFileInfoList() != null
                 && video.getData().getFileInfoList().getFileList() != null
                 && !video.getData().getFileInfoList().getFileList().isEmpty()) {
-            fileDatas.clear();
+            adapter.setEnableLoadMore(true);
+if (pageNo==1) {
+    fileDatas.clear();
+}
             fileDatas.addAll(video.getData().getFileInfoList().getFileList());
             adapter.notifyDataSetChanged();
+        }else {
+            adapter.setEnableLoadMore(false);
         }
     }
 
@@ -257,4 +253,27 @@ public class FileManagerFragment extends BaseRefreshFragment implements FileMana
 
         simpleDraweeView.setController(controller);
     }
+
+
+    public class FileAdapter extends BaseQuickAdapter<FileData.DataBean.FileInfoListBean.FileListBean, BaseViewHolder> {
+        private Context context;
+
+        public FileAdapter(List<FileData.DataBean.FileInfoListBean.FileListBean> data, Context context) {
+            super(R.layout.fragment_file_manager_img_item, data);
+            this.context = context;
+        }
+
+        @Override
+        protected void convert(BaseViewHolder holder, FileData.DataBean.FileInfoListBean.FileListBean othersItem) {
+            adjustViewOnImage(holder.getView(R.id.sdv_img),
+                    DataAddress.URL_GET_FILE + othersItem.getFileImage());
+            holder.setOnClickListener(R.id.sdv_img, v -> {
+                        popPhotoView.setImageUrl(DataAddress.URL_GET_FILE
+                                + othersItem.getFileImage());
+                        popPhotoView.show();
+                    }
+            );
+        }
+    }
+
 }

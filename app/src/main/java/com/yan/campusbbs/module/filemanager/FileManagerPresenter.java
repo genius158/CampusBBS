@@ -40,9 +40,9 @@ public final class FileManagerPresenter implements FileManagerContract.Presenter
     }
 
     @Override
-    public void getImages() {
+    public void getImages(int pageNo) {
         FileApi fileApi = appRetrofit.retrofit().create(FileApi.class);
-        view.addDisposable(fileApi.getImages().subscribeOn(Schedulers.io())
+        view.addDisposable(fileApi.getImages(pageNo).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(responseBody -> {
                     view.setImages(responseBody);
