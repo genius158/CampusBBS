@@ -21,7 +21,7 @@ public class NotifyChatActivity extends ChatActivity {
         identifier = ACache.get(getBaseContext()).getAsString(CacheConfig.INTENT_CHAT_DATA);
 
         if (!identifier.startsWith("86-")) {
-            if (RegExpUtils.isChinaPhoneLegal(identifier)) {
+            if (RegExpUtils.isPhoneLegal(identifier)) {
                 identifier = "86-" + identifier;
             }
         }

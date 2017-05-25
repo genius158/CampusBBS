@@ -37,6 +37,7 @@ import com.yan.campusbbs.module.filemanager.FileManagerFragment;
 import com.yan.campusbbs.module.search.SearchActivity;
 import com.yan.campusbbs.module.selfcenter.action.LogInAction;
 import com.yan.campusbbs.module.selfcenter.ui.MainPageFragment;
+import com.yan.campusbbs.module.selfcenter.ui.register.RegisterActivity;
 import com.yan.campusbbs.module.setting.ImageControl;
 import com.yan.campusbbs.module.setting.SettingHelper;
 import com.yan.campusbbs.module.setting.SettingModule;
@@ -164,7 +165,7 @@ public class MainActivity extends BaseActivity {
                     if (aBoolean) {
                     } else {
                     }
-                    Log.e(TAG, "permissionInit: "+aBoolean );
+                    Log.e(TAG, "permissionInit: " + aBoolean);
                 }, Throwable::printStackTrace);
     }
 
@@ -233,6 +234,16 @@ public class MainActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(logInAction -> {
                     ImManager.getImManager().getSin();
+
+                }, Throwable::printStackTrace));
+
+        addDisposable(rxBus.getEvent(ImManager.Action.LogInNeedRegister.class)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(logInAction -> {
+//                    toastUtils.showShort("即时通讯需要登录验证，否则将无法使用");
+//                    startActivity(new Intent(getBaseContext(), RegisterActivity.class)
+//                            .putExtra("isJustRegister", true));
 
                 }, Throwable::printStackTrace));
 
@@ -493,5 +504,6 @@ public class MainActivity extends BaseActivity {
         }
         materialSheetFab.hideSheet();
     }
+
 
 }

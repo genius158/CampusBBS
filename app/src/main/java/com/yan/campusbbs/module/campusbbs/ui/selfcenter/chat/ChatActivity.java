@@ -103,7 +103,7 @@ public class ChatActivity extends BaseActivity implements ChatContract.View {
         identifier = getIntent().getStringExtra("identifier");
 
         if (!identifier.startsWith("86-")) {
-            if (RegExpUtils.isChinaPhoneLegal(identifier)) {
+            if (RegExpUtils.isPhoneLegal(identifier)) {
                 identifier = "86-" + identifier;
             }
         }

@@ -91,6 +91,7 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
 
     private boolean canRegisterUserInfoAble = true;
 
+    private boolean isJustRegister;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,6 +116,8 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     }
 
     private void init() {
+        isJustRegister = getIntent().getBooleanExtra("isJustRegister", false);
+
         addDisposable(rxBus.getEvent(ImManager.Action.ActionStateGetMessage.class)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -272,6 +275,10 @@ public class RegisterActivity extends BaseActivity implements RegisterContract.V
     }
 
     private void registerUserInfo() {
+        if (isJustRegister) {
+            ImManager.getImManager().pwdCommit(etPassword.getText().toString());
+            return;
+        }
         registerPresenter.register(etPhone.getText().toString()
                 , etPassword.getText().toString()
                 , etNikeName.getText().toString()

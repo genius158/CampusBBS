@@ -36,7 +36,6 @@ import com.yan.campusbbs.module.selfcenter.ui.selfmore.SelfMainPageMoreActivity;
 import com.yan.campusbbs.repository.DataAddress;
 import com.yan.campusbbs.repository.entity.DataMultiItem;
 import com.yan.campusbbs.utils.ACache;
-import com.yan.campusbbs.utils.AppRetrofit;
 import com.yan.campusbbs.utils.EmptyUtil;
 import com.yan.campusbbs.utils.FrescoUtils;
 import com.yan.campusbbs.utils.RegExpUtils;
@@ -205,7 +204,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                      */
                     String identifier = otherUserInfo.getData().getUserDetailInfo().getUserAccount();
                     if (!identifier.startsWith("86-")) {
-                        if (RegExpUtils.isChinaPhoneLegal(identifier)) {
+                        if (RegExpUtils.isPhoneLegal(identifier)) {
                             identifier = "86-" + identifier;
                         }
                     }
@@ -219,15 +218,7 @@ public class SelfCenterMultiItemAdapter extends BaseMultiItemQuickAdapter<DataMu
                                         .subscribe(userInfoData -> {
                                         });
                             });
-                    holder.getView(R.id.tv_btn_add_friend)
-                            .setOnClickListener(v -> {
-                                ImManager.getImManager().addFriend(finalIdentifier);
-                                UserInfo userInfo = retrofit.create(UserInfo.class);
-                                userInfo.addFriend(otherUserInfo.getData().getUserDetailInfo().getUserId())
-                                        .subscribeOn(Schedulers.io())
-                                        .subscribe(userInfoData -> {
-                                        });
-                            });
+
                     setSignOther(holder.getView(R.id.tv_sign), finalIdentifier);
                 }
                 otherSDV.setOnClickListener(v -> {

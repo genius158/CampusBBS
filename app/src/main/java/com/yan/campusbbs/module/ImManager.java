@@ -402,7 +402,7 @@ public class ImManager {
                         messageCacheData = new SelfCenterMessageCacheData(new ArrayList<>());
                     } else {
                         messageCacheData = (SelfCenterMessageCacheData) ACache.get(context)
-                                .getAsObject(CacheConfig.MESSAGE_INFO +  ImManager.this.identifier);
+                                .getAsObject(CacheConfig.MESSAGE_INFO + ImManager.this.identifier);
                     }
                     String messageName;
                     if (!TextUtils.isEmpty(userProfile.getNickName())) {
@@ -414,7 +414,7 @@ public class ImManager {
                             .add(new SelfCenterMessageData("新朋友", messageName + " 添加你为好友")
                                     .setUserProfile(new UserProfile(userProfile))
                                     .setTime(timestamp * 1000));
-                    ACache.get(context).put(CacheConfig.MESSAGE_INFO +  ImManager.this.identifier, messageCacheData);
+                    ACache.get(context).put(CacheConfig.MESSAGE_INFO + ImManager.this.identifier, messageCacheData);
                     rxBus.post(new Action.ActionGetMessage());
 
                     notifyMessage("新朋友", messageName + "添加你为好友", 0, null);
@@ -736,7 +736,7 @@ public class ImManager {
         String password = ACache.get(context).getAsString(CacheConfig.USER_PASSWORD);
 
         if (!userPhone.startsWith("86-")) {
-            if (RegExpUtils.isChinaPhoneLegal(userPhone)) {
+            if (RegExpUtils.isPhoneLegal(userPhone)) {
                 userPhone = "86-" + userPhone;
             }
         }
@@ -762,7 +762,8 @@ public class ImManager {
 
             @Override
             public void OnPwdLoginFail(TLSErrInfo tlsErrInfo) {
-                Log.e(TAG, "OnPwdLoginFail: " + tlsErrInfo.Msg);
+                Log.e(TAG, "OnPwdLoginFail: " + tlsErrInfo.ErrCode + "   " + tlsErrInfo.Title + "   " + tlsErrInfo.Msg + "   " + tlsErrInfo.ExtraMsg);
+                rxBus.post(new Action.LogInNeedRegister());
             }
 
             @Override
@@ -1077,6 +1078,10 @@ public class ImManager {
             public AddFriend(String identifer) {
                 this.identifer = identifer;
             }
+        }
+
+        public static class LogInNeedRegister {
+
         }
     }
 
